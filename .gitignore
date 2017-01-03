@@ -30,6 +30,8 @@ build/
 local.properties
 *.iml
 
+src/reactcommon
+
 # node.js
 #
 node_modules/
