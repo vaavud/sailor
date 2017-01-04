@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Welcome from './welcome'
+import Map from './map'
 
-export default Welcome 
+export default Map

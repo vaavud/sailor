@@ -1,6 +1,7 @@
 package com.sailing;
 
 import com.facebook.react.ReactActivity;
+import it.innove.BleManagerPackage;
 
 public class MainActivity extends ReactActivity {
 

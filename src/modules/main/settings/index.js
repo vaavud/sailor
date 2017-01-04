@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Welcome from './welcome'
+import Settings from './settings'
 
-export default Welcome 
+export default Settings

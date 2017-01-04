@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Welcome from './welcome'
+import Newsfeed from './newsfeed'
 
-export default Welcome 
+export default Newsfeed

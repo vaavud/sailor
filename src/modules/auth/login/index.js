@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Welcome from './welcome'
+import Login from './login'
 
-export default Welcome 
+export default Login 

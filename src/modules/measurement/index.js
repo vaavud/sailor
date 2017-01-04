@@ -1,6 +1,16 @@
-import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager'
+
+'use strict'
+
+/**
+* exporting components specific to history
+*/
+
+import Measurement from './measurement'
+
+export default Measurement
 
 
+// import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager'
 // render() {
 //   return (
 //     <View style={{flex:1}}>

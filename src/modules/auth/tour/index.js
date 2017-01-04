@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Welcome from './welcome'
+import Tour from './tour'
 
-export default Welcome 
+export default Tour

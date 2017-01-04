@@ -15,10 +15,10 @@ import {
 import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 
-import Login from '../login'
-import SignUp from '../signup'
-import Forgot from '../forgot'
-import Tour from '../tour'
+import History from './login'
+import Settings from '../signup'
+import Map from '../forgot'
+import Newsfeed from '../tour'
 
 import {connect} from 'react-redux'
 // import Button from '../../reactcommon/components/button'
@@ -31,7 +31,7 @@ const {
 const NavReducer = createReducer({
   index: 0,
   key: 'App',
-  routes: [{key: 'root',showBackButton:false}],
+  routes: [{key: 'login',showBackButton:false}],
 })
 
 function createReducer(initialState) {
@@ -48,7 +48,7 @@ function createReducer(initialState) {
 }
 
 
-class Welcome extends Component {
+class Main extends Component {
 
   constructor(props){
     super(props)
@@ -94,9 +94,9 @@ class Welcome extends Component {
   render () {
     return (
       <NavigationCardStack
-        navigationState={this.state.navState}
-        onNavigate={this._handleAction.bind(this)}
-        renderScene={this._renderScene.bind(this)} />
+      navigationState={this.state.navState}
+      onNavigate={this._handleAction.bind(this)}
+      renderScene={this._renderScene.bind(this)} />
     )
   }
 
@@ -136,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(Welcome)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(Main)

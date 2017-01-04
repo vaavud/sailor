@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {connect} from 'react-redux'
 
-import Welcome from './modules/welcome/welcome'
-
+import Welcome from './modules/auth/welcome'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 class SailorMain extends Component {
 
@@ -14,7 +14,9 @@ class SailorMain extends Component {
   }
 
   render() {
-    return(<Welcome />)
+    return(
+      <Welcome />
+    )
   }
 }
 
