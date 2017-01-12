@@ -26,7 +26,7 @@ class Login extends Component {
 
 
   render () {
-    return(<View/>)
+    return(<View style={{flex:1, backgroundColor:'pink'}}/>)
   }
 
 }
