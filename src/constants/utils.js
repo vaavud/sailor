@@ -1,0 +1,1 @@
+export const DISPLAY_ERROR = 'DISPLAY_ERROR'

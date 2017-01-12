@@ -27,7 +27,7 @@ class SailorMain extends Component {
       case SETUP:
         return(<View style={{backgroundColor:'gray',flex:1}} />)
       case LOADING:
-        return(<View style={{backgroundColor:'red',flex:1}} />)
+        return(<View style={{backgroundColor:'purple',flex:1}} />)
       default:
         return(<Welcome />)
     }

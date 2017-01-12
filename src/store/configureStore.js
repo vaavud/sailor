@@ -15,8 +15,7 @@ import {CHECK_AUTH} from '../constants/auth'
 
 //sagas
 import {verifyAuth} from '../sagas/auth'
-
-
+import {error} from '../sagas/utils'
 
 
 const loggerMiddleware = createLogger()
@@ -24,7 +23,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(
-    loggerMiddleware,
+    // loggerMiddleware,
     sagaMiddleware,
     thunkMiddleware,
   )
@@ -33,8 +32,12 @@ const createStoreWithMiddleware = compose(
 export const store = createStore(combineReducers,createStoreWithMiddleware)
 
 sagaMiddleware.run(verifyAuth)
+sagaMiddleware.run(error)
+
 
 createPersist()
+
+// firebase.auth().signOut()
 
 firebase.auth().onAuthStateChanged(authData => {
   if (authData) {
@@ -43,11 +46,4 @@ firebase.auth().onAuthStateChanged(authData => {
   else {
     store.dispatch({type: CHECK_AUTH,isAuth:false})
   }
-})
-
-firebase.database().ref('.info/connected').on('value', snap => {
-  var isConnected = snap.val()
-
-  console.log("isConnected",isConnected)
-
 })

@@ -105,7 +105,7 @@ class Welcome extends Component {
 
     switch (key) {
       case 'login':
-      return (<Login/>)
+      return (<Login SignUp={() => this._handleAction({ type: 'push', key: 'signUp', title:'Sign Up' })}/>)
       case 'singup':
       return(<SignUp/>)
       case 'forgot':

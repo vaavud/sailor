@@ -1,6 +1,6 @@
 
-import { put, select,call} from 'redux-saga/effects'
-import { delay,takeEvery } from 'redux-saga'
+import { put, select,call, takeEvery} from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 
 import {IS_AUTH,CHECK_AUTH,NEEDS_AUTH} from '../constants/auth'
 
@@ -17,5 +17,5 @@ function* verifyAuthHandler(action) {
 }
 
 export function* verifyAuth() {
-  yield* takeEvery(CHECK_AUTH,verifyAuthHandler)
+  yield takeEvery(CHECK_AUTH,verifyAuthHandler)
 }
