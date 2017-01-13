@@ -20,6 +20,9 @@ import { doSignUp } from '../../../actions/auth'
 
 import Button from '../../../reactcommon/components/button'
 
+
+import { LoginButton, AccessToken } from 'react-native-fbsdk'
+
 class SignUp extends Component {
 
   constructor(props) {
@@ -98,6 +101,25 @@ class SignUp extends Component {
           onChangeText={(password) => {
             this.setState({ password })
           } } />
+
+
+        <LoginButton
+          publishPermissions={['publish_actions']}
+          onLoginFinished={(error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(data => {
+                    console.log(data.accessToken.toString())
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() => alert("logout.")} />
+
 
         <Button title="SignUp" onPress={this._doSignUp} />
         <Button title="Go back" onPress={this.props.pop} />
