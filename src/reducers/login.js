@@ -1,7 +1,7 @@
 
 var initialState = {
   email: undefined,
-  password: undefined,
+  password: undefined
 }
 
 export default function login(state = initialState, action ) {

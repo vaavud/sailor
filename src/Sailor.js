@@ -1,12 +1,12 @@
 'use strict'
 
 import React, { Component } from 'react'
-import {StyleSheet, View, Text} from 'react-native'
+import {View} from 'react-native'
 import {connect} from 'react-redux'
 
 import Welcome from './modules/auth/welcome'
 import Main from './modules/main'
-import Spinner from 'react-native-loading-spinner-overlay'
+// import Spinner from 'react-native-loading-spinner-overlay'
 
 //constants
 import {NEEDS_AUTH,IS_AUTH,SETUP,LOADING} from './constants/auth'
@@ -21,15 +21,15 @@ class SailorMain extends Component {
   render() {
     switch (this.props.app.state) {
       case NEEDS_AUTH:
-        return(<Welcome />)
+        return (<Welcome />)
       case IS_AUTH:
-        return(<Main />)
+        return (<Main />)
       case SETUP:
-        return(<View style={{backgroundColor:'gray',flex:1}} />)
+        return (<View style={{backgroundColor:'gray',flex:1}} />)
       case LOADING:
-        return(<View style={{backgroundColor:'purple',flex:1}} />)
+        return (<View style={{backgroundColor:'purple',flex:1}} />)
       default:
-        return(<Welcome />)
+        return (<Welcome />)
     }
   }
 }

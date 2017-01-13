@@ -2,26 +2,18 @@
 
 import {
   BackAndroid,
-  View,
-  Image,
-  Text,
-  NavigationExperimental,
-  TextInput,
-  Dimensions,
-  TouchableHighlight,
-  Alert
+  NavigationExperimental
 } from 'react-native'
 
 import React, { Component } from 'react'
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 
 import Login from '../login'
 import SignUp from '../signup'
 import Forgot from '../forgot'
 import Tour from '../tour'
 
-import {connect} from 'react-redux'
-// import Button from '../../reactcommon/components/button'
+import { connect } from 'react-redux'
 
 const {
   CardStack: NavigationCardStack,
@@ -31,18 +23,18 @@ const {
 const NavReducer = createReducer({
   index: 0,
   key: 'App',
-  routes: [{key: 'root',showBackButton:false}],
+  routes: [{ key: 'root', showBackButton: false }],
 })
 
 function createReducer(initialState) {
   return (currentState = initialState, action) => {
     switch (action.type) {
       case 'push':
-      return NavigationStateUtils.push(currentState, {key: action.key, title: action.title, showBackButton: action.showBackButton })
+        return NavigationStateUtils.push(currentState, { key: action.key, title: action.title, showBackButton: action.showBackButton })
       case 'pop':
-      return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState
+        return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState
       default:
-      return currentState
+        return currentState
     }
   }
 }
@@ -50,7 +42,7 @@ function createReducer(initialState) {
 
 class Welcome extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -60,12 +52,12 @@ class Welcome extends Component {
         permissions: null,
         index: 0,
         key: 'App',
-        routes: [{key: 'login',showBackButton:false, title:''}]
+        routes: [{ key: 'login', showBackButton: false, title: '' }]
       }
     }
   }
 
-  _handleAction (action) {
+  _handleAction(action) {
     const newState = NavReducer(this.state.navState, action)
     if (newState === this.state.navState) {
       return false
@@ -81,17 +73,15 @@ class Welcome extends Component {
     return this._handleAction({ type: 'pop' })
   }
 
-  componentDidMount () {
-    BackAndroid.addEventListener('hardwareBackPress',
-    () => this.handleBackAction())
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress',() => this.handleBackAction())
   }
 
-  componentWillUnmount () {
-    BackAndroid.removeEventListener('hardwareBackPress',
-    () => this.handleBackAction())
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress',() => this.handleBackAction())
   }
 
-  render () {
+  render() {
     return (
       <NavigationCardStack
         navigationState={this.state.navState}
@@ -100,18 +90,18 @@ class Welcome extends Component {
     )
   }
 
+
   _renderScene(props) {
     const key = props.scene.route.key
-
     switch (key) {
       case 'login':
-      return (<Login SignUp={() => this._handleAction({ type: 'push', key: 'signUp', title:'Sign Up' })}/>)
-      case 'singup':
-      return(<SignUp/>)
+        return (<Login SignUp={() => this._handleAction({ type: 'push', key: 'signUp', title: 'Sign Up' })} />)
+      case 'signUp':
+        return (<SignUp pop={() => this.handleBackAction()}/>)
       case 'forgot':
-      return(<Forgot/>)
+        return (<Forgot />)
       case 'tour':
-      return(<Tour/>)
+        return (<Tour />)
     }
   }
 }
