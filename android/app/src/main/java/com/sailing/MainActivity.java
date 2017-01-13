@@ -1,9 +1,6 @@
 package com.sailing;
 
 import com.facebook.react.ReactActivity;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
-import it.innove.BleManagerPackage;
 
 public class MainActivity extends ReactActivity {
 
