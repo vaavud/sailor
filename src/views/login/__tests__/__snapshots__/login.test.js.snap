@@ -1,0 +1,11 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "blue",
+      "flex": 1,
+    }
+  }>
+  <TextInput />
+</View>
+`;

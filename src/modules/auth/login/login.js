@@ -12,6 +12,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Button from '../../../reactcommon/components/button'
 
+import LoginView from '../../../views/login'
+
 import {doLogin} from '../../../actions/auth'
 import {showError} from '../../../actions/utils'
 
@@ -36,7 +38,7 @@ class Login extends Component {
   }
 
   _doLogin() {
-    if(this.state.email !== '' && this.state.password !== '') {
+    if (this.state.email !== '' && this.state.password !== '') {
       let credential = {
         email: this.state.email,
         password: this.state.password,
@@ -52,27 +54,8 @@ class Login extends Component {
 
 
   render () {
-    return(
-      <View style={{flex:1, backgroundColor:'pink',paddingTop:50}}>
-
-        <TextInput
-          style={{width:300, height:50,backgroundColor:'gray'}}
-          onChangeText={(email) => {
-            this.setState({email})
-          }} />
-
-        <TextInput
-          style={{width:300, height:50,backgroundColor:'gray'}}
-          onChangeText={(password) => {
-            this.setState({password})
-          }} />
-
-        <Button title='Login' onPress={this._doLogin} />
-        <Button title='SignUp' onPress={this.props.SignUp} />
-
-
-      </View>
-
+    return (
+     <LoginView />
     )
   }
 
