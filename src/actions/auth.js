@@ -22,15 +22,31 @@ export function doSignUp(credential) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
-      firebase.auth().createUserWithEmailAndPassword(credential.email, credential.password)
-        .then((user) => {
-          console.log(user.uid)
-          setUserCredential(user.uid, credential)
-          // dispatch({ type: VERIFY_EXISTING_USER, credential, uid: user.uid })
-        })
-        .catch(error => {
-          dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
-        })
+
+      if (credential.type === 'password') {
+        firebase.auth().createUserWithEmailAndPassword(credential.email, credential.password)
+          .then(user => {
+            console.log(user.uid)
+            setUserCredential(user.uid, credential)
+          })
+          .catch(error => {
+            dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
+          })
+      }
+      else if (credential.type === 'facebook') {
+
+        let _cFacebook = firebase.auth.FacebookAuthProvider.credential(credential.token)
+        firebase.auth().signInWithCredential(_cFacebook)
+          .then(user => {
+            dispatch({ type: VERIFY_EXISTING_USER, credential, uid: user.uid })
+          })
+          .catch(err => {
+            dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: 'There was an error with facebook' })
+          })
+      }
+      else {
+        //TODO
+      }
     })
   }
 }
@@ -38,17 +54,26 @@ export function doSignUp(credential) {
 export function setUserCredential(uid, credential) {
   return new Promise((resolve, reject) => {
     delete credential.password
+    delete credential.type
+    delete credential.token
     console.log(uid, credential)
     firebase.database().ref('/user/' + uid).set(credential)
   })
 }
 
 export function getCurrentUser(uid) {
-  return (dispatch, getState) => {
-    return new Promise((resolve, reject) => {
-      firebase.database().ref('user').child(uid).once('value').then(snapshot => {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('user').child(uid).once('value')
+      .then(snapshot => {
+        if (snapshot.val()) {
+          resolve(snapshot.val())
+        }
+        else {
+          console.log('asd')
+          reject()
+        }
 
       })
-    })
-  }
+      .catch(err => { console.log(err); reject() })
+  })
 }

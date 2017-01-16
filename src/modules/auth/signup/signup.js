@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 
 
+import moment from 'moment'
 import ReactNativeI18n from 'react-native-i18n'
 
 import { bindActionCreators } from 'redux'
@@ -20,14 +21,13 @@ import { doSignUp } from '../../../actions/auth'
 
 import Button from '../../../reactcommon/components/button'
 
-
-import { LoginButton, AccessToken } from 'react-native-fbsdk'
+// import { LoginButton, AccessToken } from 'react-native-fbsdk'
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 
 class SignUp extends Component {
 
   constructor(props) {
     super(props)
-
 
     this.state = {
       email: '',
@@ -38,6 +38,7 @@ class SignUp extends Component {
     }
 
     this._doSignUp = this._doSignUp.bind(this)
+    this.responseCallback = this.responseCallback.bind(this)
 
   }
 
@@ -48,6 +49,45 @@ class SignUp extends Component {
   componentWillUnmount() {
 
   }
+
+  responseCallback(error, result) {
+
+    if (error) {
+      this.props.showError({ title: 'Facebook error', msg: 'Problems with facebook server' })
+    }
+    else {
+      AccessToken.getCurrentAccessToken()
+        .then(user => {
+          if (user) {
+            if ('email' in result) {
+
+              let credential = {
+                firstName: result.first_name,
+                lastName: result.last_name,
+                email: result.email,
+                activity: 'sailing',
+                country: 'dk',
+                created: moment().valueOf(),
+                language: ReactNativeI18n.locale,
+                type: 'facebook',
+                token: user.accessToken
+              }
+
+              this.props.doSignUp(credential)
+            }
+            else {
+              this.props.showError({ title: 'Facebook error', msg: 'Please allow email in facebook' })
+            }
+          }
+          else {
+            this.props.showError({ title: 'Facebook error', msg: 'Problems with facebook server' })
+          }
+        })
+        .catch(err => this.props.showError({ title: 'Facebook error', msg: 'Problems with facebook server' }))
+    }
+  }
+
+
 
   _doSignUp() {
 
@@ -66,7 +106,8 @@ class SignUp extends Component {
         email: this.state.email,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
-        password: this.state.password
+        password: this.state.password,
+        type: 'email'
       }
       this.props.doSignUp(credential)
     }
@@ -103,23 +144,26 @@ class SignUp extends Component {
           } } />
 
 
-        <LoginButton
-          publishPermissions={['publish_actions']}
-          onLoginFinished={(error, result) => {
-              if (error) {
-                console.log("login has error: " + result.error);
-              } else if (result.isCancelled) {
-                console.log("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(data => {
-                    console.log(data.accessToken.toString())
-                  }
-                )
+        <Button
+          title="Continue with Facebook"
+          onPress={() => {
+            LoginManager.logInWithReadPermissions(['email', 'public_profile']).then(result => {
+              if (result.isCancelled) {
+                alert('Login cancelled')
               }
-            }
-          }
-          onLogoutFinished={() => alert("logout.")} />
+              else {
 
+                const profileRequest = new GraphRequest('/me?fields=id,first_name,last_name,name,picture.type(large),email,gender',
+                  null,
+                  this.responseCallback,
+                )
+
+                new GraphRequestManager().addRequest(profileRequest).start()
+              }
+            })
+              .catch(err => alert('Login fail with error: ' + err))
+          } }
+          style={{ ...this.props.style, backgroundColor: '#3b5998' }} />
 
         <Button title="SignUp" onPress={this._doSignUp} />
         <Button title="Go back" onPress={this.props.pop} />
