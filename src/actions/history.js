@@ -1,5 +1,8 @@
 
 import firebase from 'firebase'
+// import Realm from 'realm'
+import realm from '../store/realm'
+import { NO_HISTORY, HISTORY_LOADED } from '../constants/history'
 
 export function getSessions() {
   return new Promise(function (resolve, reject) {
@@ -11,13 +14,29 @@ export function getSessions() {
       .equalTo(uid)
       .once('value', snapshot => {
         if (snapshot.numChildren() > 0) {
-          console.log(snapshot.val())
+
+          let historyList = []
+
+          realm.write(() => {
+            let _history = realm.objects('Session')
+            realm.delete(_history)
+
+            snapshot.forEach(snap => {
+              var obj = snap.val()
+              obj.key = snap.key
+              historyList.push(obj)
+              realm.create('Session', obj)
+            })
+          })
+
+          resolve({ type: HISTORY_LOADED, list: historyList })
         }
         else {
-          console.log('nothing to show')
+          resolve({ type: NO_HISTORY })
         }
       }).catch(error => {
         console.log(error)
+        resolve({ type: NO_HISTORY })
       })
   })
 }

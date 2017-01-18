@@ -24,6 +24,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb624217360948538</string>
+        <string>fb624217360948538sailing</string>
 			</array>
 		</dict>
 	</array>
@@ -31,6 +32,8 @@
 	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>624217360948538</string>
+  <key>FacebookUrlSchemeSuffix</key>
+  <string>sailing</string>
 	<key>FacebookDisplayName</key>
 	<string>Sailor</string>
 	<key>LSApplicationQueriesSchemes</key>

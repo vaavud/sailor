@@ -6,5 +6,7 @@
 */
 
 import Newsfeed from './newsfeed'
+import MapHarbor from './mapHarbor'
+import WindHarbor from './windHarbor'
 
-export default Newsfeed
+export { Newsfeed, MapHarbor, WindHarbor }

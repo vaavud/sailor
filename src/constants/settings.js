@@ -1,0 +1,1 @@
+export const SETTINGS_LOADED = 'SETTINGS_LOADED'

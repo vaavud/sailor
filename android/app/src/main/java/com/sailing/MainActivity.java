@@ -1,6 +1,9 @@
 package com.sailing;
 
 import com.facebook.react.ReactActivity;
+import com.horcrux.svg.SvgPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import io.realm.react.RealmReactPackage;
 
 public class MainActivity extends ReactActivity {
 

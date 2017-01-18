@@ -3,123 +3,221 @@
 import {
   BackAndroid,
   View,
-  Image,
-  Text,
-  NavigationExperimental,
-  TextInput,
-  Dimensions,
-  TouchableHighlight,
-  Alert
+  NavigationExperimental
 } from 'react-native'
 
 import React, { Component } from 'react'
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 
-// import Login from '../login'
-// import SignUp from '../signup'
-// import Forgot from '../forgot'
-// import Tour from '../tour'
+import { connect } from 'react-redux'
+import VaavudNavigator from '../../navigator/vaavudNavigator'
 
-import {connect} from 'react-redux'
-// import Button from '../../reactcommon/components/button'
 
 const {
-  CardStack: NavigationCardStack,
   StateUtils: NavigationStateUtils,
 } = NavigationExperimental
 
-const NavReducer = createReducer({
-  index: 0,
-  key: 'App',
-  routes: [{key: 'root',showBackButton:false}],
-})
+let previousKey = 'newsfeed'
 
-function createReducer(initialState) {
-  return (currentState = initialState, action) => {
-    switch (action.type) {
-      case 'push':
-      return NavigationStateUtils.push(currentState, {key: action.key, title: action.title, showBackButton: action.showBackButton })
-      case 'pop':
-      return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState
-      default:
-      return currentState
-    }
+
+function createAppNavigationState() {
+  return {
+    // Three tabs.
+    tabs: {
+      index: 0,
+      routes: [
+        { key: 'newsfeed' },
+        { key: 'map' },
+        { key: 'measure' },
+        { key: 'history' },
+        { key: 'settings' },
+      ],
+    },
+    newsfeed: {
+      index: 0,
+      routes: [{ key: 'newsfeed' }],
+    },
+    map: {
+      index: 0,
+      routes: [{ key: 'map' }],
+    },
+    measure: {
+      index: 0,
+      routes: [{ key: 'measure' }],
+    },
+    history: {
+      index: 0,
+      routes: [{ key: 'history' }],
+    },
+    settings: {
+      index: 0,
+      routes: [{ key: 'settings' }],
+    },
   }
 }
 
 
-class Main extends Component {
+// Next step.
+// Define what app navigation state shall be updated.
+function updateAppNavigationState(state, action) {
+  let {type} = action
+  if (type === 'BackAction' || type === 'back') {
+    type = 'pop'
+  }
 
-  constructor(props){
-    super(props)
+  switch (type) {
+    case 'push': {
+      // Push a route into the scenes stack.
+      try {
+        const route = action.route
+        const {tabs} = state
+        const tabKey = tabs.routes[tabs.index].key
+        const scenes = state[tabKey]
+        const nextScenes = NavigationStateUtils.push(scenes, route)
 
-    this.state = {
-      ...this.props.profile,
-      email: '',
-      navState: {
-        permissions: null,
-        index: 0,
-        key: 'App',
-        routes: [{key: 'login',showBackButton:false, title:''}]
+        if (scenes !== nextScenes) {
+          return {
+            ...state,
+            [tabKey]: nextScenes,
+          }
+        }
+      }
+      catch (err) {
+        return state
+      }
+
+      break
+    }
+
+    case 'popToRoot': {
+
+      // Pops a route from the scenes stack.
+      const {tabs} = state
+      const tabKey = tabs.routes[tabs.index].key
+      if (tabKey !== 'measure') {
+        const scenes = state[tabKey]
+        const nextScenes = NavigationStateUtils.reset(scenes, [scenes.routes[0]], 0)
+
+        if (scenes !== nextScenes) {
+          return {
+            ...state,
+            [tabKey]: nextScenes,
+          }
+        }
+      }
+      else {
+        action.tabKey = previousKey
+      }
+      break
+    }
+    case 'pop': {
+
+      // Pops a route from the scenes stack.
+      const {tabs} = state
+      const tabKey = tabs.routes[tabs.index].key
+      if (tabKey !== 'measure') {
+        const scenes = state[tabKey]
+        const nextScenes = NavigationStateUtils.pop(scenes)
+
+        if (scenes !== nextScenes) {
+          return {
+            ...state,
+            [tabKey]: nextScenes,
+          }
+        }
+      }
+      else {
+        action.tabKey = previousKey
+      }
+      break
+    }
+    case 'selectTab': {
+      // Switches the tab.
+      const tabKey = action.tabKey
+      previousKey = state.tabs.routes[state.tabs.index].key
+      const scenes = state[previousKey]
+      var nextScenes = scenes
+      // console.log('selectTab','previousKey',previousKey);
+      if (previousKey === 'measure') {
+        nextScenes = NavigationStateUtils.pop(scenes)
+        // console.log('selectTab','PopScenes orig:',scenes,' pop: ',nextScenes)
+      }
+      const tabs = NavigationStateUtils.jumpTo(state.tabs, tabKey)
+      if (tabs !== state.tabs) {
+        return {
+          ...state,
+          tabs,
+          [previousKey]: nextScenes,
+        }
       }
     }
   }
+  return state
+}
 
-  _handleAction (action) {
-    const newState = NavReducer(this.state.navState, action)
-    if (newState === this.state.navState) {
-      return false
-    }
-    this.setState({
-      navState: newState
-    })
+class Main extends Component {
 
-    return true
+  constructor(props) {
+    super(props)
+
+    // this.state = {
+    //   ...this.props.profile,
+    //   email: '',
+    //   navState: {
+    //     permissions: null,
+    //     index: 0,
+    //     key: 'App',
+    //     routes: [{ key: 'login', showBackButton: false, title: '' }]
+    //   }
+    this.state = createAppNavigationState()
+    this._navigate = this._navigate.bind(this)
+
   }
+
+  _navigate(action) {
+    if (action.type === 'exit') {
+      // Exits the example. `this.props.onExampleExit` is provided
+      // by the UI Explorer.
+      this.props.onExampleExit && this.props.onExampleExit()
+      return
+    }
+
+    const state = updateAppNavigationState(
+      this.state,
+      action,
+    )
+
+    // `updateAppNavigationState` (which uses NavigationStateUtils) gives you
+    // back the same `state` if nothing has changed. You could use
+    // that to avoid redundant re-rendering.
+    if (this.state !== state) {
+      this.setState(state)
+    }
+  } Î
 
   handleBackAction() {
     return this._handleAction({ type: 'pop' })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress',
-    () => this.handleBackAction())
+      () => this.handleBackAction())
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress',
-    () => this.handleBackAction())
+      () => this.handleBackAction())
   }
 
-  render () {
+  render() {
     return (
-      <View style={{flex:1, backgroundColor:'red'}}  />
+      <VaavudNavigator
+        appNavigationState={this.state}
+        navigate={this._navigate}
+        />
     )
   }
-
-  // _renderScene(props) {
-  //   const key = props.scene.route.key
-  //
-  //   switch (key) {
-  //     case 'login':
-  //     return (<Login/>)
-  //     case 'singup':
-  //     return(<SignUp/>)
-  //     case 'forgot':
-  //     return(<Forgot/>)
-  //     case 'tour':
-  //     return(<Tour/>)
-  //   }
-  // }
 }
-
-
-// <View style={{flex:1,backgroundColor:'red'}}>
-//   <Button title="push" buttonStyle={{marginTop:100,width:100,height:100}}
-//     onPress={() => {
-//       this._handleAction({ type: 'push', key: 'login', title:'Login', showBackButton:true })
-//     }} />
-// </View>
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {

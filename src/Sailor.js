@@ -1,15 +1,16 @@
 'use strict'
 
 import React, { Component } from 'react'
-import {View} from 'react-native'
-import {connect} from 'react-redux'
+import { View } from 'react-native'
+import { connect } from 'react-redux'
 
 import Welcome from './modules/auth/welcome'
 import Main from './modules/main'
+import Intro from './modules/intro'
 // import Spinner from 'react-native-loading-spinner-overlay'
 
 //constants
-import {NEEDS_AUTH,IS_AUTH,SETUP,LOADING} from './constants/auth'
+import { NEEDS_AUTH, IS_AUTH, SETUP, LOADING } from './constants/auth'
 
 
 class SailorMain extends Component {
@@ -25,9 +26,9 @@ class SailorMain extends Component {
       case IS_AUTH:
         return (<Main />)
       case SETUP:
-        return (<View style={{backgroundColor:'gray',flex:1}} />)
+        return (<Intro />)
       case LOADING:
-        return (<View style={{backgroundColor:'purple',flex:1}} />)
+        return (<View style={{ backgroundColor: 'purple', flex: 1 }} />)
       default:
         return (<Welcome />)
     }
@@ -45,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapReduxStoreToProps,mapDispatchToProps)(SailorMain)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(SailorMain)

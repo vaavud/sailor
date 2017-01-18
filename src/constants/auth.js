@@ -5,4 +5,5 @@ export const LOADING = 'LOADING'
 export const CHECK_AUTH = 'CHECK_AUTH'
 export const VERIFY_EXISTING_USER = 'VERIFY_EXISTING_USER'
 export const ONLINE = 'ONLINE'
+export const LOGOUT = 'LOGOUT'
 

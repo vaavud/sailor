@@ -1,0 +1,6 @@
+export const NO_HARBOR = 'NO_HARBOR'
+export const HARBOR_LOADED = 'HARBOR_LOADED'
+export const FORECAST_LOADED = 'FORECAST_LOADED'
+export const NO_FORECAST = 'NO_FORECAST'
+export const NO_PROFILE = 'NO_PROFILE'
+export const PROFILE_LOADED = 'PROFILE_LOADED'

@@ -1,6 +1,6 @@
 
 
-import { IS_AUTH, NEEDS_AUTH, LOADING, ONLINE } from '../constants/auth'
+import { IS_AUTH, NEEDS_AUTH, LOADING, ONLINE, LOGOUT } from '../constants/auth'
 
 var initialState = {
   isOnline: false,
@@ -21,6 +21,8 @@ export default function app(state = initialState, action) {
       return { ...state, isAuth: false, state: action.type }
     case ONLINE:
       return { ...state, online: action.online }
+    case LOGOUT:
+      return { ...state, isAuth: false, state: NEEDS_AUTH, deviceId: undefined }
     default:
       return state
   }
