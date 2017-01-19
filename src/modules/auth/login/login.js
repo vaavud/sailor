@@ -3,14 +3,11 @@
 'use strict'
 
 import React, { Component } from 'react'
-import {
-  View,
-  TextInput
-} from 'react-native'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Button from '../../../reactcommon/components/button'
+
+import LoginView from '../../../views/auth'
 
 import { doLogin } from '../../../actions/auth'
 import { showError } from '../../../actions/utils'
@@ -20,10 +17,6 @@ class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      email: 'asdas@aaa.asd',
-      password: 'asdasaaa'
-    }
     this._doLogin = this._doLogin.bind(this)
   }
 
@@ -35,47 +28,30 @@ class Login extends Component {
 
   }
 
-  _doLogin() {
-    if (this.state.email !== '' && this.state.password !== '') {
-      let credential = {
-        email: this.state.email,
-        password: this.state.password,
+  _doLogin(email, password) {
+    if (email !== '' && password !== '') {
+      const credential = {
+        email: email,
+        password: password,
         _type: 'password'
       }
       this.props.doLogin(credential)
     }
     else {
-      this.props.showError({ title: 'Error', msg: 'Compleate the fields' })
+      this.props.showError({ 
+        title: 'Something went wrong',
+        msg: 'Make sure you are using the right credentials'
+      })
     }
   }
 
-
-
-  render() {
+  render(){
     return (
-      <View style={{ flex: 1, backgroundColor: 'pink', paddingTop: 50 }}>
-
-        <TextInput
-          style={{ width: 300, height: 50, backgroundColor: 'gray' }}
-          onChangeText={(email) => {
-            this.setState({ email })
-          } } />
-
-        <TextInput
-          style={{ width: 300, height: 50, backgroundColor: 'gray' }}
-          onChangeText={(password) => {
-            this.setState({ password })
-          } } />
-
-        <Button title="Login" onPress={this._doLogin} />
-        <Button title="SignUp" onPress={this.props.SignUp} />
-
-
-      </View>
-
+      <LoginView
+      onPressLogin={this._doLogin}
+      onPressSignup={this.props.SignUp} />
     )
   }
-
 }
 
 const mapReduxStoreToProps = (reduxStore) => {

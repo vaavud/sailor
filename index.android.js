@@ -7,3 +7,6 @@
  'use strict'
 
 import './main'
+
+//test renderer
+//import './testRenderer'
