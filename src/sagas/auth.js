@@ -9,7 +9,7 @@ import {
   ONLINE
 } from '../constants/auth'
 import { NO_HISTORY, HISTORY_LOADED } from '../constants/history'
-import { HARBOR_LOADED, PROFILE_LOADED } from '../constants/harbor'
+import { HARBOR_LOADED, PROFILE_LOADED, FORECAST_LOADED } from '../constants/harbor'
 import { SETTINGS_LOADED } from '../constants/settings'
 
 
@@ -63,6 +63,17 @@ function* verifyExistingUserHandler(action) {
           location: harbor[0].location,
           name: harbor[0].name
         })
+
+        //Load forecast in Redux
+        var forecast = realm.objects('Forecast')
+        if (forecast.length > 0) {
+          yield put({
+            type: FORECAST_LOADED,
+            forecast: forecast[0],
+          })
+        }
+
+
       }
 
       yield put({

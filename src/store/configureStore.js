@@ -10,13 +10,13 @@ import { createPersist } from './persist'
 
 
 // constants
-import { CHECK_AUTH, VERIFY_EXISTING_USER } from '../constants/auth'
+import { CHECK_AUTH, VERIFY_EXISTING_USER, TOKEN } from '../constants/auth'
 
 
 //sagas
 import { verifyAuth, verifyExistingUser } from '../sagas/auth'
 import { error } from '../sagas/utils'
-import { historyDaemon } from '../sagas/userdata'
+import { historyDaemon, forecastDeamon } from '../sagas/userdata'
 
 const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
@@ -35,6 +35,7 @@ sagaMiddleware.run(verifyAuth)
 sagaMiddleware.run(verifyExistingUser)
 sagaMiddleware.run(error)
 sagaMiddleware.run(historyDaemon)
+sagaMiddleware.run(forecastDeamon)
 
 
 createPersist()
@@ -43,8 +44,14 @@ createPersist()
 
 firebase.auth().onAuthStateChanged(authData => {
   if (authData) {
-    store.dispatch({ type: VERIFY_EXISTING_USER, uid: authData.uid })
-    store.dispatch({ type: CHECK_AUTH, isAuth: true, authData })
+
+    authData.getToken().then(token => {
+      store.dispatch({ type: TOKEN, uid: authData.uid, token })
+      store.dispatch({ type: VERIFY_EXISTING_USER, uid: authData.uid })
+      store.dispatch({ type: CHECK_AUTH, isAuth: true, authData })
+    })
+
+
   }
   else {
     store.dispatch({ type: CHECK_AUTH, isAuth: false })
