@@ -29,7 +29,27 @@ class Forecast { }
 Forecast.schema = {
   name: 'Forecast',
   properties: {
+    id: { type: 'string' },
+    name: { type: 'string' },
+    directions: { type: 'Direction' },
+    days: { type: 'list', objectType: 'Day' },
+    location: { type: 'Location' },
+    resolution: { type: 'string' },
+    bestResolutionAvailable: { type: 'string' }
+  }
+}
 
+class Day { }
+Day.schema = {
+  name: 'Day',
+  properties: {
+    temperature: { type: 'double' },
+    windSpeed: { type: 'double' },
+    windDirection: { type: 'double' },
+    icon: { type: 'string' },
+    color: { type: 'string' },
+    day: { type: 'string' },
+    date: { type: 'double' }
   }
 }
 
@@ -66,8 +86,8 @@ class Session { }
 Session.schema = {
   name: 'Session', properties: {
     deviceKey: { type: 'string', optional: true },
-    timeEnd: { type: 'float', optional: true },
-    timeStart: { type: 'float', optional: true },
+    timeEnd: { type: 'double', optional: true },
+    timeStart: { type: 'double', optional: true },
     turbulence: { type: 'int', optional: true },
     uid: 'string',
     key: 'string',
@@ -78,14 +98,5 @@ Session.schema = {
     windMeter: { type: 'string', optional: true }
   }
 }
-const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings] })
+const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day] })
 export default realm
-
-// export const realm = new Realm({
-//   schema: [{
-//     name: 'History', properties: {
-
-//     }
-//   }]
-// })
-

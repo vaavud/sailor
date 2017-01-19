@@ -1,8 +1,54 @@
-import firebase from 'firebase'
 
+import firebase from 'firebase'
 import realm from '../store/realm'
 
-import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, PROFILE_LOADED, NO_PROFILE } from '../constants/harbor'
+import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, FORECAST_FAILD, PROFILE_LOADED, NO_PROFILE } from '../constants/harbor'
+
+
+const apiUrl = 'http://10.0.1.152:8083/apps/sailing/'
+
+
+export function getForecast(windMax, windMin, unit, token, subId) {
+  return new Promise((resolve, reject) => {
+
+    let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/${unit}/${subId}`
+
+    var myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+    var request = new Request(finalUrl, {
+      method: 'GET',
+      headers: myHeaders
+    })
+
+    fetch(request)
+      .then(response => response.text())
+      .then(_forecast => {
+        let forecast = JSON.parse(_forecast)
+        if ('id' in forecast[0]) {
+          resolve({ type: FORECAST_LOADED, forecast: forecast[0] })
+
+          //Save forecast in Realm
+          var fore = realm.objects('Forecast')
+          realm.write(() => {
+            realm.delete(fore)
+            realm.create('Forecast', { ...forecast[0] })
+          })
+
+        }
+        else {
+          resolve({ type: FORECAST_FAILD })
+        }
+      })
+      .catch(err => {
+        console.log('_forecast', err)
+        resolve({ type: FORECAST_FAILD })
+        // reject(err)
+      })
+  })
+}
+
+
 
 
 export function getSubscription() {
