@@ -95,7 +95,18 @@ class Welcome extends Component {
     const key = props.scene.route.key
     switch (key) {
       case 'login':
-        return (<Login SignUp={() => this._handleAction({ type: 'push', key: 'signUp', title: 'Sign Up' })} />)
+        return (
+          <Login
+            SignUp={() => this._handleAction({
+              type: 'push',
+              key: 'signUp',
+              title: 'Sign Up'
+            })}
+            forgotPassword={() => this ._handleAction({
+                type: 'push',
+                key: 'forgotPassword',
+                title: 'Forgot password'})} />
+        )
       case 'signUp':
         return (<SignUp pop={() => this.handleBackAction()}/>)
       case 'forgot':

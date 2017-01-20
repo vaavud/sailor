@@ -1,2 +1,6 @@
 import LoginView from './login'
-export default LoginView
+import SignupView from './signup'
+export {
+  LoginView,
+  SignupView
+}

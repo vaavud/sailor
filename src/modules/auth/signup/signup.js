@@ -15,6 +15,8 @@ import ReactNativeI18n from 'react-native-i18n'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import {SignupView} from '../../../views/auth'
+
 import { showError } from '../../../actions/utils'
 import { doSignUp } from '../../../actions/auth'
 
@@ -113,7 +115,13 @@ class SignUp extends Component {
     }
   }
 
-  render() {
+  render(){
+    return (
+      <SignupView />
+    )
+  }
+
+  /*render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'pink', paddingTop: 50 }}>
 
@@ -170,7 +178,7 @@ class SignUp extends Component {
 
       </View>
     )
-  }
+  }*/
 
 }
 
