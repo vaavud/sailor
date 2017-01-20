@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import LoginView from '../../../views/auth'
+import {LoginView} from '../../../views/auth'
 
 import { doLogin } from '../../../actions/auth'
 import { showError } from '../../../actions/utils'
@@ -49,7 +49,8 @@ class Login extends Component {
     return (
       <LoginView
       onPressLogin={this._doLogin}
-      onPressSignup={this.props.SignUp} />
+      onPressSignup={this.props.SignUp}
+      onPressForgotPassword={this.props.forgotPassword} />
     )
   }
 }

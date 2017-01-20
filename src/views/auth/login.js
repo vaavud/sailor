@@ -156,9 +156,9 @@ const style = StyleSheet.create({
     width: width,
     height: height,
     flexDirection: 'column',
-    padding: 30,
-    paddingTop: height * 0.2,
-    backgroundColor: 'cyan'
+    padding: width * 0.1,
+    paddingTop: height * 0.1,
+    backgroundColor: 'grey'
   },
   logo: {
     alignSelf:'center',
@@ -175,6 +175,7 @@ const style = StyleSheet.create({
   },
   input:{
     flex: 1,
+    height: 50,
     backgroundColor: 'transparent'
   },
   buttonContainer:{
@@ -183,7 +184,7 @@ const style = StyleSheet.create({
     justifyContent: 'space-between'
   },
   button: {
-    width : width * 0.4,
+    width : width * 0.35,
     borderWidth: 1,
     borderRadius: 5,
     height: 40,
@@ -191,7 +192,6 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'white',
     backgroundColor: 'white',
-    marginHorizontal: 5,
   },
   buttonText: {
     fontSize: 16,
@@ -201,7 +201,7 @@ const style = StyleSheet.create({
    signupContainer: {
      flexDirection: 'row',
      justifyContent: 'space-between',
-     height: height * 0.5
+     height: height * 0.7
    },
    signupForgotButton: {
     alignSelf: 'center',
