@@ -12,7 +12,6 @@ import {
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Chart from 'react-native-chart'
 
 const styles = StyleSheet.create({
   chart: {
