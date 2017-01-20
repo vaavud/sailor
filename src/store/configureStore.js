@@ -23,7 +23,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(
-    loggerMiddleware,
+    // loggerMiddleware,
     sagaMiddleware,
     thunkMiddleware,
   )

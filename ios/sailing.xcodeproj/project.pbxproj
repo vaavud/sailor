@@ -25,6 +25,8 @@
 		218FB478E52044E5B9684B29 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F69D1AE4AE40858CBCF137 /* libRealmReact.a */; };
 		2B1735E01E2E3CFD003DC5A7 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1735DF1E2E3CFD003DC5A7 /* libstdc++.tbd */; };
 		2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1C6EDB1E2FAECF00AF4A10 /* libART.a */; };
+		2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */; };
+		2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */; };
 		2B436F861E28FE9A00C0E250 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F821E28FE9A00C0E250 /* Bolts.framework */; };
 		2B436F871E28FE9A00C0E250 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */; };
 		2B436F881E28FE9A00C0E250 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */; };
@@ -306,6 +308,9 @@
 		20F69D1AE4AE40858CBCF137 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		2B1735DF1E2E3CFD003DC5A7 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		2B1C6ED51E2FAECF00AF4A10 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sailing-Bridging-Header.h"; sourceTree = "<group>"; };
+		2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaavudBle.swift; sourceTree = "<group>"; };
+		2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VaavudBle.m; sourceTree = "<group>"; };
 		2B436F811E28FE0500C0E250 /* sailing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sailing.entitlements; path = sailing/sailing.entitlements; sourceTree = "<group>"; };
 		2B436F821E28FE9A00C0E250 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -463,6 +468,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */,
+				2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */,
+				2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */,
 			);
 			name = sailing;
 			sourceTree = "<group>";
@@ -678,6 +686,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = X5DMTGX3GW;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -1062,6 +1071,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */,
+				2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -1093,6 +1104,7 @@
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = X5DMTGX3GW;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1120,6 +1132,7 @@
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = X5DMTGX3GW;
@@ -1145,6 +1158,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sailing/sailing.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1159,6 +1173,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vaavud.sailing;
 				PRODUCT_NAME = sailing;
+				SWIFT_OBJC_BRIDGING_HEADER = "sailing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1167,6 +1184,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sailing/sailing.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X5DMTGX3GW;
@@ -1180,6 +1198,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vaavud.sailing;
 				PRODUCT_NAME = sailing;
+				SWIFT_OBJC_BRIDGING_HEADER = "sailing-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

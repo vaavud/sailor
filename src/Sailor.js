@@ -24,7 +24,7 @@ class SailorMain extends Component {
       case NEEDS_AUTH:
         return (<Welcome />)
       case IS_AUTH:
-        return (<Main />)
+        return (<Intro />)
       case SETUP:
         return (<Intro />)
       case LOADING:

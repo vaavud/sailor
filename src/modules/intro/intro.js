@@ -6,6 +6,9 @@ import {
   NavigationExperimental,
 } from 'react-native'
 
+import {  } from 'react-native'
+
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
