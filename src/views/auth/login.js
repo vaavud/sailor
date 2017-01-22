@@ -55,6 +55,10 @@ export default class LoginView extends Component {
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
+  _handleFBLoginPress(){
+
+  }
+
   _renderInputFields(){
     return (
       <View>
@@ -175,7 +179,7 @@ const style = StyleSheet.create({
   },
   input:{
     flex: 1,
-    height: 50,
+    height: 40,
     backgroundColor: 'transparent'
   },
   buttonContainer:{
@@ -199,12 +203,12 @@ const style = StyleSheet.create({
     color: 'black'
    },
    signupContainer: {
+     flex: 1,
      flexDirection: 'row',
      justifyContent: 'space-between',
-     height: height * 0.7
    },
    signupForgotButton: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     justifyContent: 'center',
     marginHorizontal: 5,
   },

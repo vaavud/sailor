@@ -117,7 +117,9 @@ class SignUp extends Component {
 
   render(){
     return (
-      <SignupView />
+      <SignupView
+      onPressBack={this.props.pop}
+      onPressSignup={this._doSignUp} />
     )
   }
 

@@ -12,7 +12,8 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  TouchableOpacity
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
@@ -23,24 +24,37 @@ const loginLogo = require('../../../assets/logo-login.png')
 const loginInputLogo = require('../../../assets/profile.png')
 const emailIcon = require('../../../assets/envelope.png')
 const passwordInputLogo = require('../../../assets/unlock.png')
+const backButtonIcon = require('../../../assets/back.png')
 
 export default class SignupView extends Component {
+
+  static propTypes = {
+    onPressBack: PropTypes.func.isRequired,
+    onPressSignup: PropTypes.func.isRequired,
+    onPressTerms: PropTypes.func.isRequired
+  }
 
   constructor(props){
     super(props)
     this.state = {
-      username: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPW: ''
     }
-    this._handleUsernameInput = this._handleUsernameInput.bind(this)
+    this._handleFirstNameInput = this._handleFirstNameInput.bind(this)
+    this._handleLastNameInput = this._handleLastNameInput.bind(this)    
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
     this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
   }
 
-  _handleUsernameInput(event){
+  _handleFirstNameInput(event){
+    this.setState({username: event})
+  }
+
+  _handleLastNameInput(event){
     this.setState({username: event})
   }
 
@@ -55,12 +69,22 @@ export default class SignupView extends Component {
   _handleConfirmPWInput(event){
     this.setState({confirmPW: event})
   }
-  
+
   _handleSignupPress(){
-    console.log('signup pressed =)', this.state)
+    this.props.onPressSignup()
   }
 
-  _renderUsernameField(){
+  _renderBackButton(){
+    return (
+      <TouchableOpacity style={style.backButtonStyle} 
+      onPress={this.props.onPressBack} >
+      <Image
+      source={backButtonIcon} />
+      </TouchableOpacity>
+    )
+  }
+
+  _renderFirstNameField(){
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
@@ -70,7 +94,31 @@ export default class SignupView extends Component {
         autoFocus={false}
         autoCorrect={false}
         keyboardType="default"
-        placeholder="Your name"
+        placeholder="Your first name"
+        clearButtonMode="while-editing"
+        placeholderTextColor="#fff"
+        underlineColorAndroid="transparent"
+        returnKeyType="next"
+        autoCapitalize="none"
+        onChangeText={this._handleUsernameInput}
+        onSubmitEditing={(event) => {
+          this.refs.SecondInput.focus()
+        }} />
+      </View>
+    )
+  }
+
+  _renderLastNameField(){
+    return (
+      <View style={style.inputContainer}>
+        <Image style={style.inputLogo}
+        source={loginInputLogo}
+        resizeMode={'contain'}/>
+        <TextInput style={style.input}
+        autoFocus={false}
+        autoCorrect={false}
+        keyboardType="default"
+        placeholder="Your last name"
         clearButtonMode="while-editing"
         placeholderTextColor="#fff"
         underlineColorAndroid="transparent"
@@ -152,7 +200,7 @@ export default class SignupView extends Component {
         returnKeyType="next"
         autoCapitalize="none"
         onChangeText={this._handleConfirmPWInput}
-        onSubmitEditing={(event) => this._handleSignupPress()} />
+        onSubmitEditing={() => this._handleSignupPress()} />
       </View>
     )
   }
@@ -160,7 +208,8 @@ export default class SignupView extends Component {
   _renderInputFields(){
     return (
       <View>
-        {this._renderUsernameField()}
+        {this._renderFirstNameField()}
+        {this._renderLastNameField()}
         {this._renderEmailField()}
         {this._renderPasswordField()}
         {this._renderConfirmPwField()}
@@ -173,7 +222,19 @@ export default class SignupView extends Component {
       <View>
         <Button buttonStyle={style.button}
         textStyle={style.buttonText}
+        onPress={() => this._handleSignupPress()}
         title={'Signup'} />
+      </View>
+    )
+  }
+
+  _renderTermsButton(){
+    return (
+      <View style={style.termsContainer} >
+        <Button buttonStyle={style.termsButton}
+        textStyle={style.buttonText}
+        onPress={() => console.log('here be terms func')}
+        title={'Terms and conditions'} />
       </View>
     )
   }
@@ -181,10 +242,12 @@ export default class SignupView extends Component {
   render(){
     return (
       <View style={style.container}>
+        {this._renderBackButton()}
         <Image style={style.logo}
         source={loginLogo}/>
         {this._renderInputFields()}
         {this._renderSignupButtton()}
+        {this._renderTermsButton()}
       </View>
     )
   }
@@ -202,6 +265,11 @@ const style = StyleSheet.create({
     paddingTop: height * 0.1,
     backgroundColor: 'grey'
   },
+  backButtonStyle:{
+    position: 'absolute',
+    top: 20,
+    left: 20,
+  },
   logo: {
     alignSelf:'center',
     marginBottom: 50
@@ -217,7 +285,7 @@ const style = StyleSheet.create({
   },
   input:{
     flex: 1,
-    height: 50,
+    height: 40,
     backgroundColor: 'transparent'
   },
   button: {
@@ -235,5 +303,16 @@ const style = StyleSheet.create({
     fontSize: 16,
     textAlign:'center',
     color: 'black'
+   },
+   termsContainer: {
+     flex: 1,
+     flexDirection: 'row',
+     alignItems: 'center',
+     justifyContent: 'center',
+   },
+   termsButton:{
+     height: 40,
+     alignSelf: 'flex-end',
+     justifyContent: 'center',
    }
 })
