@@ -104,13 +104,13 @@ class Welcome extends Component {
             })}
             forgotPassword={() => this ._handleAction({
                 type: 'push',
-                key: 'forgotPassword',
+                key: 'forgot',
                 title: 'Forgot password'})} />
         )
       case 'signUp':
         return (<SignUp pop={() => this.handleBackAction({ type: 'pop' })}/>)
       case 'forgot':
-        return (<Forgot />)
+        return (<Forgot pop={() => this.handleBackAction({ type: 'pop'})} />)
       case 'tour':
         return (<Tour />)
     }

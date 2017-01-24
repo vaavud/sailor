@@ -5,6 +5,6 @@
 * exporting components specific to history
 */
 
-import Fotgot from './forgot'
+import Forgot from './forgot'
 
-export default Fotgot 
+export default Forgot

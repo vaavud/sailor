@@ -44,7 +44,7 @@ export default class SignupView extends Component {
       confirmPW: ''
     }
     this._handleFirstNameInput = this._handleFirstNameInput.bind(this)
-    this._handleLastNameInput = this._handleLastNameInput.bind(this)    
+    this._handleLastNameInput = this._handleLastNameInput.bind(this)
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
     this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
@@ -76,7 +76,7 @@ export default class SignupView extends Component {
 
   _renderBackButton(){
     return (
-      <TouchableOpacity style={style.backButtonStyle} 
+      <TouchableOpacity style={style.backButtonStyle}
       onPress={this.props.onPressBack} >
       <Image
       source={backButtonIcon} />
@@ -99,8 +99,8 @@ export default class SignupView extends Component {
         placeholderTextColor="#fff"
         underlineColorAndroid="transparent"
         returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleUsernameInput}
+        autoCapitalize="default"
+        onChangeText={this._handleFirstNameInput}
         onSubmitEditing={(event) => {
           this.refs.SecondInput.focus()
         }} />
@@ -117,14 +117,14 @@ export default class SignupView extends Component {
         <TextInput style={style.input}
         autoFocus={false}
         autoCorrect={false}
-        keyboardType="default"
+        keyboardType="sentences"
         placeholder="Your last name"
         clearButtonMode="while-editing"
         placeholderTextColor="#fff"
         underlineColorAndroid="transparent"
         returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleUsernameInput}
+        autoCapitalize="default"
+        onChangeText={this._handleLastNameInput}
         onSubmitEditing={(event) => {
           this.refs.SecondInput.focus()
         }} />
@@ -142,7 +142,7 @@ export default class SignupView extends Component {
         ref="SecondInput"
         autoFocus={false}
         autoCorrect={false}
-        keyboardType="default"
+        keyboardType="email-address"
         placeholder="Enter e-mail"
         clearButtonMode="while-editing"
         placeholderTextColor="#fff"
@@ -174,6 +174,7 @@ export default class SignupView extends Component {
         underlineColorAndroid="transparent"
         returnKeyType="next"
         autoCapitalize="none"
+        secureTextEntry={true}
         onChangeText={this._handlePasswordInput}
         onSubmitEditing={(event) => {
           this.refs.FourthInput.focus()
@@ -199,6 +200,7 @@ export default class SignupView extends Component {
         underlineColorAndroid="transparent"
         returnKeyType="next"
         autoCapitalize="none"
+        secureTextEntry={true}
         onChangeText={this._handleConfirmPWInput}
         onSubmitEditing={() => this._handleSignupPress()} />
       </View>

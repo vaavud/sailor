@@ -3,12 +3,11 @@
 'use strict'
 
 import React, { Component } from 'react'
-import  {
-  View
-} from 'react-native'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+import { ForgotView } from '../../../views/auth'
 
 class Forgot extends Component {
 
@@ -27,9 +26,11 @@ class Forgot extends Component {
 
 
   render () {
-    return(<View/>)
+    return (
+     <ForgotView
+     onPressBack={this.props.pop}/>
+    )
   }
-
 }
 
 const mapReduxStoreToProps = (reduxStore) => {

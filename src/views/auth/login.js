@@ -16,6 +16,9 @@ import {
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
+import Colors from '../../reactcommon/colors'
+
+import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
@@ -30,7 +33,6 @@ export default class LoginView extends Component {
     onPressLogin: PropTypes.func.isRequired,
     onPressFBLogin: PropTypes.func.isRequired,
     onPressForgotPassword: PropTypes.func.isRequired,
-    showError: PropTypes.func.isRequired
   }
 
   constructor(props){
@@ -70,7 +72,7 @@ export default class LoginView extends Component {
           autoFocus={false}
           autoCorrect={false}
           keyboardType="email-address"
-          placeholder="Your email"
+          placeholder={I18n.t('emailInput')}
           clearButtonMode="while-editing"
           placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
@@ -90,7 +92,7 @@ export default class LoginView extends Component {
           autoFocus={false}
           autoCorrect={false}
           keyboardType="default"
-          placeholder="Your password"
+          placeholder={I18n.t('passwordInput')}
           secureTextEntry={true}
           placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
@@ -103,19 +105,16 @@ export default class LoginView extends Component {
   }
 
   _renderButtons(){
-    const {
-      onPressFBLogin
-    } = this.props
     return (
       <View style={style.buttonContainer}>
-        <Button buttonStyle={style.button}
+        <Button buttonStyle={style.loginButton}
         textStyle={style.buttonText}
-        title={'Login'}
+        title={I18n.t('loginButton')}
         onPress={() => this._handleLoginPress()} />
-        <Button buttonStyle={style.button}
+        <Button buttonStyle={style.fbButton}
         textStyle={style.buttonText}
-        title={'Facebook'}
-        onPress={onPressFBLogin} />
+        title={I18n.t('facebookButton')}
+        onPress={() => this.props.onPressFBLogin()} />
       </View>
     )
   }
@@ -129,11 +128,11 @@ export default class LoginView extends Component {
       <View style={style.signupContainer}>
         <Button buttonStyle={style.signupForgotButton}
         textStyle={style.signupButtonText}
-        title={'Signup'}
+        title={I18n.t('signupButton')}
         onPress={onPressSignup} />
         <Button buttonStyle={style.signupForgotButton}
         textStyle={style.forgotButtonText}
-        title={'Forgot password?'}
+        title={I18n.t('forgotPwButton')}
         onPress={onPressForgotPassword} />
       </View>
     )
@@ -184,23 +183,34 @@ const style = StyleSheet.create({
   },
   buttonContainer:{
     marginTop: 30,
-    flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  button: {
-    width : width * 0.35,
+  loginButton: {
+    width : width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
+    margin: 10,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
     borderColor: 'white',
     backgroundColor: 'white',
   },
+  fbButton: {
+    width : width * 0.8 - 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 10,
+    height: 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: '#3B5998',
+    backgroundColor: '#3B5998',
+  },
   buttonText: {
     fontSize: 16,
     textAlign:'center',
-    color: 'black'
+    color: Colors.blue
    },
    signupContainer: {
      flex: 1,

@@ -1,6 +1,4 @@
 <resources>
-
-
-
+    <string name="facebook_app_id">624217360948538</string>
     <string name="app_name">sailing</string>
 </resources>
