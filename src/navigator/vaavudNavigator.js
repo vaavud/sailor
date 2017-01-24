@@ -87,21 +87,26 @@ class VaavudNavigator extends Component {
     const tabKey = tabs.routes[tabs.index].key
     const scenes = appNavigationState[tabKey]
     var _tabs = (key) => {
-      if (key !== 'measure') {
-        if (scenes.routes.length > 1) {
-          return null
-        }
-        else {
-          return (
-            <View style={{ backgroundColor: 'red', flexDirection: 'row' }}>
-              {tabs.routes.map(this._renderTab, this)}
-            </View>
-          )
-        }
-      }
-      else {
-        return null
-      }
+      return (
+        <View style={{ backgroundColor: 'red', flexDirection: 'row' }}>
+          {tabs.routes.map(this._renderTab, this)}
+        </View>
+      )
+      // if (key !== 'measure') {
+      //   if (scenes.routes.length > 1) {
+      //     return null
+      //   }
+      //   else {
+      //     return (
+      //       <View style={{ backgroundColor: 'red', flexDirection: 'row' }}>
+      //         {tabs.routes.map(this._renderTab, this)}
+      //       </View>
+      //     )
+      //   }
+      // }
+      // else {
+      //   return null
+      // }
     }
 
     // var _tabsM = (key) => {

@@ -23,6 +23,8 @@
 RCT_EXTERN_METHOD(initBle)
 RCT_EXTERN_METHOD(onConnect)
 RCT_EXTERN_METHOD(onDisconnect)
+RCT_EXTERN_METHOD(isVaavudBleConnected)
+
 
 @end
 

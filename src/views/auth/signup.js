@@ -26,7 +26,7 @@ const passwordInputLogo = require('../../../assets/unlock.png')
 
 export default class SignupView extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       username: '',
@@ -40,124 +40,124 @@ export default class SignupView extends Component {
     this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
   }
 
-  _handleUsernameInput(event){
-    this.setState({username: event})
+  _handleUsernameInput(event) {
+    this.setState({ username: event })
   }
 
-  _handleEmailInput(event){
-    this.setState({email: event})
+  _handleEmailInput(event) {
+    this.setState({ email: event })
   }
 
-  _handlePasswordInput(event){
-    this.setState({password: event})
+  _handlePasswordInput(event) {
+    this.setState({ password: event })
   }
 
-  _handleConfirmPWInput(event){
-    this.setState({confirmPW: event})
+  _handleConfirmPWInput(event) {
+    this.setState({ confirmPW: event })
   }
-  
-  _handleSignupPress(){
+
+  _handleSignupPress() {
     console.log('signup pressed =)', this.state)
   }
 
-  _renderUsernameField(){
+  _renderUsernameField() {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={loginInputLogo}
-        resizeMode={'contain'}/>
+          source={loginInputLogo}
+          resizeMode={'contain'} />
         <TextInput style={style.input}
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Your name"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleUsernameInput}
-        onSubmitEditing={(event) => {
-          this.refs.SecondInput.focus()
-        }} />
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder="Your name"
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handleUsernameInput}
+          onSubmitEditing={(event) => {
+            this.SecondInput.focus()
+          } } />
       </View>
     )
   }
 
-  _renderEmailField(){
+  _renderEmailField() {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={emailIcon}
-        resizeMode={'contain'}/>
+          source={emailIcon}
+          resizeMode={'contain'} />
         <TextInput style={style.input}
-        ref="SecondInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Enter e-mail"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleEmailInput}
-        onSubmitEditing={(event) => {
-          this.refs.ThirdInput.focus()
-        }} />
+          ref={r => { this.SecondInput = r } }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder="Enter e-mail"
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handleEmailInput}
+          onSubmitEditing={(event) => {
+            this.ThirdInput.focus()
+          } } />
       </View>
     )
   }
 
-  _renderPasswordField(){
+  _renderPasswordField() {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={passwordInputLogo}
-        resizeMode={'contain'}/>
+          source={passwordInputLogo}
+          resizeMode={'contain'} />
         <TextInput style={style.input}
-        ref="ThirdInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Password"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handlePasswordInput}
-        onSubmitEditing={(event) => {
-          this.refs.FourthInput.focus()
-        }} />
+          ref={r => { this.ThirdInput = r } }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder="Password"
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handlePasswordInput}
+          onSubmitEditing={(event) => {
+            this.FourthInput.focus()
+          } } />
       </View>
     )
   }
 
-  _renderConfirmPwField(){
+  _renderConfirmPwField() {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={passwordInputLogo}
-        resizeMode={'contain'}/>
+          source={passwordInputLogo}
+          resizeMode={'contain'} />
         <TextInput style={style.input}
-        ref="FourthInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Confirm password"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleConfirmPWInput}
-        onSubmitEditing={(event) => this._handleSignupPress()} />
+          ref={r => { this.FourthInput = r } }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder="Confirm password"
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handleConfirmPWInput}
+          onSubmitEditing={(event) => this._handleSignupPress()} />
       </View>
     )
   }
 
-  _renderInputFields(){
+  _renderInputFields() {
     return (
       <View>
         {this._renderUsernameField()}
@@ -168,21 +168,21 @@ export default class SignupView extends Component {
     )
   }
 
-  _renderSignupButtton(){
+  _renderSignupButtton() {
     return (
       <View>
         <Button buttonStyle={style.button}
-        textStyle={style.buttonText}
-        title={'Signup'} />
+          textStyle={style.buttonText}
+          title={'Signup'} />
       </View>
     )
   }
 
-  render(){
+  render() {
     return (
       <View style={style.container}>
         <Image style={style.logo}
-        source={loginLogo}/>
+          source={loginLogo} />
         {this._renderInputFields()}
         {this._renderSignupButtton()}
       </View>
@@ -191,7 +191,7 @@ export default class SignupView extends Component {
 }
 
 const style = StyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -203,19 +203,19 @@ const style = StyleSheet.create({
     backgroundColor: 'grey'
   },
   logo: {
-    alignSelf:'center',
+    alignSelf: 'center',
     marginBottom: 50
   },
-  inputLogo:{
+  inputLogo: {
     width: 30
   },
-  inputContainer:{
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
-  input:{
+  input: {
     flex: 1,
     height: 50,
     backgroundColor: 'transparent'
@@ -233,7 +233,7 @@ const style = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    textAlign:'center',
+    textAlign: 'center',
     color: 'black'
-   }
+  }
 })

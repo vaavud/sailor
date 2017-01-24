@@ -61,14 +61,14 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
   
   
   var manager:CBCentralManager!
-  var peripheral:CBPeripheral!
+  var peripheral:CBPeripheral?
   
   let BEAN_NAME = "ULTRA4.0"
   let BEAN_SCRATCH_UUID = CBUUID(string: "00002a39-0000-1000-8000-00805f9b34fb")
   let BEAN_SERVICE_UUID = CBUUID(string: "0000180d-0000-1000-8000-00805f9b34fb")
   
   override func supportedEvents() -> [String]! {
-    return ["onBleConnected","onStateHasChanged","onNewRead","onReadyToWork"]
+    return ["onBleConnected","onStateHasChanged","onNewRead","onReadyToWork","onVaavudBleFound"]
   }
   
   @objc
@@ -77,30 +77,45 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
   }
   
   @objc
-  func onConnect(){
-    manager.connect(peripheral, options: nil)
-    self.sendEvent(withName: "onBleConnected", body: ["connected":true] )
-
+  func isVaavudBleConnected() {
+    guard let _ = peripheral else {
+      self.sendEvent(withName: "onVaavudBleFound", body: ["available":false])
+      return
+    }
+    
+    self.sendEvent(withName: "onVaavudBleFound", body: ["available":true])
+    
+  }
+  
+  
+  
+  @objc
+  func onConnect() {
+    manager.connect(peripheral!, options: nil)
   }
   
   @objc
   func onDisconnect(){
-    manager.cancelPeripheralConnection(peripheral)
-    self.sendEvent(withName: "onBleConnected", body: ["connected":false] )
+    if let p =  peripheral{
+      manager.cancelPeripheralConnection(p)
+    }
+    
+//    self.sendEvent(withName: "onBleConnected", body: ["connected":false] )
   }
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+    
     if let device = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey)as? NSString {
       
+      print(advertisementData as NSDictionary)
+      
       if device.contains(BEAN_NAME) == true {
-        
         
         self.manager.stopScan()
         
         self.peripheral = peripheral
-        self.peripheral.delegate = self
-        
-        //EMIT on devide found
+        self.peripheral!.delegate = self
+        self.sendEvent(withName: "onVaavudBleFound", body: ["available":true])
         
       }
     }
@@ -124,6 +139,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
   
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     peripheral.discoverServices(nil)
+    self.sendEvent(withName: "onBleConnected", body: ["connected":true] )
   }
   
   
@@ -149,7 +165,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
         
         self.sendEvent(withName: "onReadyToWork", body: [] )
 
-        self.peripheral.setNotifyValue(
+        self.peripheral!.setNotifyValue(
           true,
           for: thisCharacteristic
         )
@@ -189,9 +205,9 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
         let h3 = Int(s31.appending(s30), radix: 16)
         print(h3!)
         
-        self.sendEvent(withName: "onNewRead", body: ["windSpeed":h1!, "windDirection": h2!, "battery": h3!] )
-
         
+        //
+        self.sendEvent(withName: "onNewRead", body: ["windSpeed":h1!, "windDirection": h2!, "battery": h3!] )
       }
     }
   }
@@ -199,6 +215,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
   
   func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
     central.scanForPeripherals(withServices: nil, options: nil)
+    self.sendEvent(withName: "onBleConnected", body: ["connected":false] )
   }
   
   
@@ -215,33 +232,5 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
 //    successCallback([resultsDict])
 //  }
 //  
-//  @objc
-//  func deviceStatus(callback successCallback: RCTResponseSenderBlock) {
-//    
-//    let resultsDict = [
-//      "version" : "1.0"
-//    ]
-//    
-//    successCallback([resultsDict])
-//  }
-//  
-//  @objc
-//  func startReading(callback successCallback: RCTResponseSenderBlock) {
-//    
-//    let resultsDict = [
-//      "version" : "1.0"
-//    ]
-//    
-//    successCallback([resultsDict])
-//  }
-//  
-//  @objc
-//  func stopReading(callback successCallback: RCTResponseSenderBlock) {
-//    
-//    let resultsDict = [
-//      "version" : "1.0"
-//    ]
-//    
-//    successCallback([resultsDict])
-//  }
+
 }

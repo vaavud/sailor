@@ -33,10 +33,8 @@
 		2B436F891E28FE9A00C0E250 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */; };
 		2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBE8C0B062A4B57B3A2EBBD /* libAirMaps.a */; };
 		426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3953F755AF4EA595AC4FB6 /* libc++.tbd */; };
-		4515A841C85E4F0399F275E4 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FADD90116B2E4B32A38436EA /* libRNSVG.a */; };
 		46E059A8C586411E8C2CBC14 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E210101A43B45FF90B89D38 /* libRCTFBSDK.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		6E7CA4B3D2734988934F1E4A /* libBleManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 409805BEBC914C28BA01253A /* libBleManager.a */; };
 		6EF7D8F05FB5481FB7ED3257 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DA044BF2D9401DB1A567EA /* libz.tbd */; };
 		78C0B4F6080A467B8711BDD9 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FCE3462AB942F2BA667D88 /* libRNI18n.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -126,20 +124,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
 			remoteInfo = ART;
-		};
-		2B1C6F301E2FC36800AF4A10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FBED5CCC454440C68E472744 /* RNSVG.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
-			remoteInfo = RNSVG;
-		};
-		2B436F5D1E28FDF200C0E250 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F47F3A261B8A491AA0D7DB80 /* BleManager.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = BleManager;
 		};
 		2B436F631E28FDF200C0E250 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -316,7 +300,6 @@
 		2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		409805BEBC914C28BA01253A /* libBleManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBleManager.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -327,9 +310,6 @@
 		BFD83942FC9841D594C64C98 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
 		C69DE47E2FC14BBDB0CBAC3C /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		E64D165978FA43D799915E62 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
-		F47F3A261B8A491AA0D7DB80 /* BleManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BleManager.xcodeproj; path = "../node_modules/react-native-ble-manager/ios/BleManager.xcodeproj"; sourceTree = "<group>"; };
-		FADD90116B2E4B32A38436EA /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
-		FBED5CCC454440C68E472744 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,7 +340,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				6E7CA4B3D2734988934F1E4A /* libBleManager.a in Frameworks */,
 				2B436F891E28FE9A00C0E250 /* FBSDKShareKit.framework in Frameworks */,
 				2B436F871E28FE9A00C0E250 /* FBSDKCoreKit.framework in Frameworks */,
 				78C0B4F6080A467B8711BDD9 /* libRNI18n.a in Frameworks */,
@@ -369,7 +348,6 @@
 				426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */,
 				6EF7D8F05FB5481FB7ED3257 /* libz.tbd in Frameworks */,
 				2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */,
-				4515A841C85E4F0399F275E4 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,22 +492,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2B1C6F0D1E2FC36800AF4A10 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B1C6F311E2FC36800AF4A10 /* libRNSVG.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		2B436F561E28FDF200C0E250 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B436F5E1E28FDF200C0E250 /* libBleManager.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2B436F581E28FDF200C0E250 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,12 +552,10 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				F47F3A261B8A491AA0D7DB80 /* BleManager.xcodeproj */,
 				5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */,
 				C69DE47E2FC14BBDB0CBAC3C /* RCTFBSDK.xcodeproj */,
 				BFD83942FC9841D594C64C98 /* RealmReact.xcodeproj */,
 				E64D165978FA43D799915E62 /* AirMaps.xcodeproj */,
-				FBED5CCC454440C68E472744 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -716,10 +676,6 @@
 					ProjectRef = 2B1C6ED51E2FAECF00AF4A10 /* ART.xcodeproj */;
 				},
 				{
-					ProductGroup = 2B436F561E28FDF200C0E250 /* Products */;
-					ProjectRef = F47F3A261B8A491AA0D7DB80 /* BleManager.xcodeproj */;
-				},
-				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -774,10 +730,6 @@
 				{
 					ProductGroup = 2B436F581E28FDF200C0E250 /* Products */;
 					ProjectRef = 5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */;
-				},
-				{
-					ProductGroup = 2B1C6F0D1E2FC36800AF4A10 /* Products */;
-					ProjectRef = FBED5CCC454440C68E472744 /* RNSVG.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -864,20 +816,6 @@
 			fileType = archive.ar;
 			path = libART.a;
 			remoteRef = 2B1C6EDA1E2FAECF00AF4A10 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B1C6F311E2FC36800AF4A10 /* libRNSVG.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNSVG.a;
-			remoteRef = 2B1C6F301E2FC36800AF4A10 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B436F5E1E28FDF200C0E250 /* libBleManager.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBleManager.a;
-			remoteRef = 2B436F5D1E28FDF200C0E250 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2B436F641E28FDF200C0E250 /* libRCTFBSDK.a */ = {

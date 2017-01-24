@@ -138,10 +138,10 @@ function updateAppNavigationState(state, action) {
       const scenes = state[previousKey]
       var nextScenes = scenes
       // console.log('selectTab','previousKey',previousKey);
-      if (previousKey === 'measure') {
-        nextScenes = NavigationStateUtils.pop(scenes)
-        // console.log('selectTab','PopScenes orig:',scenes,' pop: ',nextScenes)
-      }
+      // if (previousKey === 'measure') {
+      //   nextScenes = NavigationStateUtils.pop(scenes)
+      //   // console.log('selectTab','PopScenes orig:',scenes,' pop: ',nextScenes)
+      // }
       const tabs = NavigationStateUtils.jumpTo(state.tabs, tabKey)
       if (tabs !== state.tabs) {
         return {
