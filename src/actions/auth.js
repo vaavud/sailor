@@ -22,6 +22,7 @@ export function doSignUp(credential) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
+      console.log('credential',credential)
 
       if (credential.type === 'password') {
         firebase.auth().createUserWithEmailAndPassword(credential.email, credential.password)
@@ -34,6 +35,7 @@ export function doSignUp(credential) {
           })
       }
       else if (credential.type === 'facebook') {
+      console.log('credential',credential)
 
         let _cFacebook = firebase.auth.FacebookAuthProvider.credential(credential.token)
         firebase.auth().signInWithCredential(_cFacebook)

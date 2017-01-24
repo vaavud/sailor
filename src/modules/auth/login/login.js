@@ -19,7 +19,7 @@ import {
 
 import {LoginView} from '../../../views/auth'
 
-import { doLogin } from '../../../actions/auth'
+import { doLogin,doSignUp } from '../../../actions/auth'
 import { showError } from '../../../actions/utils'
 
 
@@ -113,6 +113,7 @@ class Login extends Component {
             })
           }
         }).catch(error => {
+          console.log(error)
           this.props.showError({
             title: 'Facebook error',
             msg: 'Problems with facebook server'
@@ -142,6 +143,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     doLogin: bindActionCreators(doLogin, dispatch),
     showError: bindActionCreators(showError, dispatch),
+    doSignUp:bindActionCreators(doSignUp, dispatch),
   }
 }
 
