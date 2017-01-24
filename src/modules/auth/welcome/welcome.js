@@ -108,7 +108,7 @@ class Welcome extends Component {
                 title: 'Forgot password'})} />
         )
       case 'signUp':
-        return (<SignUp pop={() => this.handleBackAction()}/>)
+        return (<SignUp pop={() => this.handleBackAction({ type: 'pop' })}/>)
       case 'forgot':
         return (<Forgot />)
       case 'tour':

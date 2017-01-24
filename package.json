@@ -22,7 +22,7 @@
 		"react-native-maps": "0.13.0",
 		"moment": "2.13.0",
 		"realm": "0.15.4",
-		"react-native-radio-buttons": "0.13.0",
+		"react-native-radio-buttons": "0.13.0"
 	},
 	"devDependencies": {
 		"babel-eslint": "7.1.1",
