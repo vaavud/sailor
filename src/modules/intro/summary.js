@@ -29,14 +29,10 @@ class Summary extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'pink', paddingTop: 100 }} >
-        <Text> Summary </Text>
+        <Text> Everything was correct, enjoy your vaavud ble </Text>
         <Button title="Finish" onPress={() => {
-
+          
         } } />
-        <Button title="Back" onPress={() => {
-          this.props.nav({ type: 'pop' })
-        } } />
-
       </View>
     )
   }

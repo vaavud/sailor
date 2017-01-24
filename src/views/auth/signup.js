@@ -1,5 +1,4 @@
 // @flow
-
 'use strict'
 
 import React, {
@@ -12,28 +11,28 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  Dimensions,
-  TouchableOpacity
+  Dimensions
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
+import Colors from '../../reactcommon/colors'
+import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
 const loginLogo = require('../../../assets/logo-login.png')
 const loginInputLogo = require('../../../assets/profile.png')
-const emailIcon = require('../../../assets/envelope.png')
 const passwordInputLogo = require('../../../assets/unlock.png')
+const emailIcon = require('../../../assets/envelope.png')
 const backButtonIcon = require('../../../assets/back.png')
 
-export default class SignupView extends Component {
-
+export default class LoginView extends Component {
   static propTypes = {
-    onPressBack: PropTypes.func.isRequired,
     onPressSignup: PropTypes.func.isRequired,
-    onPressTerms: PropTypes.func.isRequired
+    onPressLogin: PropTypes.func.isRequired,
+    onPressFBLogin: PropTypes.func.isRequired,
+    onPressForgotPassword: PropTypes.func.isRequired,
   }
-
   constructor(props){
     super(props)
     this.state = {
@@ -47,15 +46,14 @@ export default class SignupView extends Component {
     this._handleLastNameInput = this._handleLastNameInput.bind(this)
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
-    this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
+    this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)    
   }
 
   _handleFirstNameInput(event){
-    this.setState({username: event})
+    this.setState({firstName: event})
   }
-
   _handleLastNameInput(event){
-    this.setState({username: event})
+    this.setState({lastName: event})
   }
 
   _handleEmailInput(event){
@@ -206,6 +204,10 @@ export default class SignupView extends Component {
       </View>
     )
   }
+  
+  _handleLoginPress(){
+    this.props.onPressLogin(this.state.email, this.state.password)
+  }
 
   _renderInputFields(){
     return (
@@ -219,42 +221,16 @@ export default class SignupView extends Component {
     )
   }
 
-  _renderSignupButtton(){
-    return (
-      <View>
-        <Button buttonStyle={style.button}
-        textStyle={style.buttonText}
-        onPress={() => this._handleSignupPress()}
-        title={'Signup'} />
-      </View>
-    )
-  }
-
-  _renderTermsButton(){
-    return (
-      <View style={style.termsContainer} >
-        <Button buttonStyle={style.termsButton}
-        textStyle={style.buttonText}
-        onPress={() => console.log('here be terms func')}
-        title={'Terms and conditions'} />
-      </View>
-    )
-  }
-
   render(){
     return (
       <View style={style.container}>
-        {this._renderBackButton()}
         <Image style={style.logo}
         source={loginLogo}/>
         {this._renderInputFields()}
-        {this._renderSignupButtton()}
-        {this._renderTermsButton()}
       </View>
     )
   }
 }
-
 const style = StyleSheet.create({
   container:{
     position: 'absolute',
@@ -266,11 +242,6 @@ const style = StyleSheet.create({
     padding: width * 0.1,
     paddingTop: height * 0.1,
     backgroundColor: 'grey'
-  },
-  backButtonStyle:{
-    position: 'absolute',
-    top: 20,
-    left: 20,
   },
   logo: {
     alignSelf:'center',
@@ -290,31 +261,54 @@ const style = StyleSheet.create({
     height: 40,
     backgroundColor: 'transparent'
   },
-  button: {
-    width: width * 0.8 - 1,
+  buttonContainer:{
+    marginTop: 30,
+    justifyContent: 'space-between'
+  },
+  loginButton: {
+    width : width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
+    margin: 10,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
     borderColor: 'white',
     backgroundColor: 'white',
-    marginTop: 15,
+  },
+  fbButton: {
+    width : width * 0.8 - 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 10,
+    height: 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: '#3B5998',
+    backgroundColor: '#3B5998',
   },
   buttonText: {
     fontSize: 16,
     textAlign:'center',
-    color: 'black'
+    color: Colors.blue
    },
-   termsContainer: {
+   signupContainer: {
      flex: 1,
      flexDirection: 'row',
-     alignItems: 'center',
-     justifyContent: 'center',
+     justifyContent: 'space-between',
    },
-   termsButton:{
-     height: 40,
-     alignSelf: 'flex-end',
-     justifyContent: 'center',
-   }
+   signupForgotButton: {
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    marginHorizontal: 5,
+  },
+  signupButtonText:{
+    fontSize: 12,
+    color: 'black'
+  },
+  forgotButtonText: {
+    fontSize: 12,
+    textAlign: 'right',
+    color: 'black'
+  }
 })

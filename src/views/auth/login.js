@@ -35,7 +35,7 @@ export default class LoginView extends Component {
     onPressForgotPassword: PropTypes.func.isRequired,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       email: '',
@@ -45,15 +45,15 @@ export default class LoginView extends Component {
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
   }
 
-  _handleEmailInput(event){
-    this.setState({email: event})
+  _handleEmailInput(event) {
+    this.setState({ email: event })
   }
 
-  _handlePasswordInput(event){
-    this.setState({password: event})
+  _handlePasswordInput(event) {
+    this.setState({ password: event })
   }
 
-  _handleLoginPress(){
+  _handleLoginPress() {
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
@@ -66,8 +66,8 @@ export default class LoginView extends Component {
       <View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-          source={loginInputLogo}
-          resizeMode={'contain'}/>
+            source={loginInputLogo}
+            resizeMode={'contain'} />
           <TextInput style={style.input}
           autoFocus={false}
           autoCorrect={false}
@@ -85,8 +85,8 @@ export default class LoginView extends Component {
         </View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-          source={passwordInputLogo}
-          resizeMode={'contain'}/>
+            source={passwordInputLogo}
+            resizeMode={'contain'} />
           <TextInput style={style.input}
           ref="SecondInput"
           autoFocus={false}
@@ -119,7 +119,7 @@ export default class LoginView extends Component {
     )
   }
 
-  _renderSignup(){
+  _renderSignup() {
     const {
       onPressSignup,
       onPressForgotPassword
@@ -138,11 +138,11 @@ export default class LoginView extends Component {
     )
   }
 
-  render(){
+  render() {
     return (
       <View style={style.container}>
         <Image style={style.logo}
-        source={loginLogo}/>
+          source={loginLogo} />
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
@@ -152,7 +152,7 @@ export default class LoginView extends Component {
 }
 
 const style = StyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -164,24 +164,24 @@ const style = StyleSheet.create({
     backgroundColor: 'grey'
   },
   logo: {
-    alignSelf:'center',
+    alignSelf: 'center',
     marginBottom: 50
   },
-  inputLogo:{
+  inputLogo: {
     width: 30
   },
-  inputContainer:{
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
-  input:{
+  input: {
     flex: 1,
     height: 40,
     backgroundColor: 'transparent'
   },
-  buttonContainer:{
+  buttonContainer: {
     marginTop: 30,
     justifyContent: 'space-between'
   },
@@ -222,7 +222,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 5,
   },
-  signupButtonText:{
+  signupButtonText: {
     fontSize: 12,
     color: 'black'
   },

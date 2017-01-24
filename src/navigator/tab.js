@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component,PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import {
   NavigationExperimental,
@@ -30,27 +30,27 @@ class Tab extends Component {
   }
 
   render() {
-    if (this.props.route.key === 'measure') {
-      return (
-        <View style={styles.tab}/>
-      )
+    // if (this.props.route.key === 'measure') {
+    //   return (
+    //     <View style={styles.tab}/>
+    //   )
+    // }
+    // else {
+    const style = [styles.tabText];
+    if (this.props.selected) {
+      style.push(styles.tabSelected);
     }
-    else {
-      const style = [styles.tabText];
-        if (this.props.selected) {
-          style.push(styles.tabSelected);
-        }
-        return (
-          <TouchableOpacity style={styles.tab} onPress={this._onPress}>
-            <Image style={{tintColor:'#fff'}} source={icons[this.props.route.key]} />
-          </TouchableOpacity>
-        )
-    }
+    return (
+      <TouchableOpacity style={styles.tab} onPress={this._onPress}>
+        <Image style={{ tintColor: '#fff' }} source={icons[this.props.route.key]} />
+      </TouchableOpacity>
+    )
+    // }
   }
 
   _onPress() {
     if (this.props.route.key !== 'addSpot') {
-        this.props.navigate({type: 'selectTab', tabKey: this.props.route.key})
+      this.props.navigate({ type: 'selectTab', tabKey: this.props.route.key })
     }
   }
 }

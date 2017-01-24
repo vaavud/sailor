@@ -5,7 +5,7 @@ import realm from '../store/realm'
 import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, FORECAST_FAILD, PROFILE_LOADED, NO_PROFILE } from '../constants/harbor'
 
 
-const apiUrl = 'http://10.0.1.152:8083/apps/sailing/'
+const apiUrl = 'https://api.vaavud.com/apps/sailing/'
 
 
 export function getForecast(windMax, windMin, unit, token, subId) {
