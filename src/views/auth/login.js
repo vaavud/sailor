@@ -57,10 +57,6 @@ export default class LoginView extends Component {
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
-  _handleFBLoginPress(){
-
-  }
-
   _renderInputFields(){
     return (
       <View>
@@ -69,36 +65,36 @@ export default class LoginView extends Component {
             source={loginInputLogo}
             resizeMode={'contain'} />
           <TextInput style={style.input}
-          autoFocus={false}
-          autoCorrect={false}
-          keyboardType="email-address"
-          placeholder={I18n.t('emailInput')}
-          clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
-          underlineColorAndroid="transparent"
-          returnKeyType="next"
-          autoCapitalize="none"
-          onChangeText={this._handleEmailInput}
-          onSubmitEditing={(event) => {
-            this.refs.SecondInput.focus()
-          }} />
+            autoFocus={false}
+            autoCorrect={false}
+            keyboardType="email-address"
+            placeholder={I18n.t('emailInput')}
+            clearButtonMode="while-editing"
+            placeholderTextColor="#fff"
+            underlineColorAndroid="transparent"
+            returnKeyType="next"
+            autoCapitalize="none"
+            onChangeText={this._handleEmailInput}
+            onSubmitEditing={(event) => {
+              this.SecondInput.focus()
+            }} />
         </View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
             source={passwordInputLogo}
             resizeMode={'contain'} />
           <TextInput style={style.input}
-          ref="SecondInput"
-          autoFocus={false}
-          autoCorrect={false}
-          keyboardType="default"
-          placeholder={I18n.t('passwordInput')}
-          secureTextEntry={true}
-          placeholderTextColor="#fff"
-          underlineColorAndroid="transparent"
-          returnKeyType="go"
-          onChangeText={this._handlePasswordInput}
-          onSubmitEditing={() => this._handleLoginPress()} />
+            ref={r => { this.SecondInput = r } }
+            autoFocus={false}
+            autoCorrect={false}
+            keyboardType="default"
+            placeholder={I18n.t('passwordInput')}
+            secureTextEntry={true}
+            placeholderTextColor="#fff"
+            underlineColorAndroid="transparent"
+            returnKeyType="go"
+            onChangeText={this._handlePasswordInput}
+            onSubmitEditing={() => this._handleLoginPress()} />
         </View>
       </View>
     )
@@ -108,13 +104,13 @@ export default class LoginView extends Component {
     return (
       <View style={style.buttonContainer}>
         <Button buttonStyle={style.loginButton}
-        textStyle={style.buttonText}
-        title={I18n.t('loginButton')}
-        onPress={() => this._handleLoginPress()} />
+          textStyle={style.buttonText}
+          title={I18n.t('loginButton')}
+          onPress={() => this._handleLoginPress()} />
         <Button buttonStyle={style.fbButton}
-        textStyle={style.buttonText}
-        title={I18n.t('facebookButton')}
-        onPress={() => this.props.onPressFBLogin()} />
+          textStyle={style.buttonText}
+          title={I18n.t('facebookButton')}
+          onPress={() => this.props.onPressFBLogin()} />
       </View>
     )
   }
@@ -127,13 +123,13 @@ export default class LoginView extends Component {
     return (
       <View style={style.signupContainer}>
         <Button buttonStyle={style.signupForgotButton}
-        textStyle={style.signupButtonText}
-        title={I18n.t('signupButton')}
-        onPress={onPressSignup} />
+          textStyle={style.signupButtonText}
+          title={I18n.t('signupButton')}
+          onPress={onPressSignup} />
         <Button buttonStyle={style.signupForgotButton}
-        textStyle={style.forgotButtonText}
-        title={I18n.t('forgotPwButton')}
-        onPress={onPressForgotPassword} />
+          textStyle={style.forgotButtonText}
+          title={I18n.t('forgotPwButton')}
+          onPress={onPressForgotPassword} />
       </View>
     )
   }

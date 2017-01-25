@@ -17,6 +17,8 @@ import {
   Dimensions
 } from 'react-native'
 
+import I18n from '../../components/i18n'
+
 import Button from '../../reactcommon/components/button'
 import Colors from '../../reactcommon/colors'
 
@@ -52,9 +54,9 @@ export default class ForgotView extends Component{
   _renderBackButton(){
     return (
       <TouchableOpacity style={style.backButtonStyle}
-      onPress={this.props.onPressBack} >
+        onPress={this.props.onPressBack} >
       <Image
-      source={backButtonIcon} />
+        source={backButtonIcon} />
       </TouchableOpacity>
     )
   }
@@ -62,8 +64,12 @@ export default class ForgotView extends Component{
   _renderText(){
     return (
       <View style={style.textContainer} >
-        <Text style={style.text} >{'Did you forget your password?'}</Text>
-        <Text style={style.text}>{'Enter you email and we will send you a link to reset your password'}</Text>
+        <Text style={style.text}>
+          {I18n.t('forgetText')}
+        </Text>
+        <Text style={style.text}>
+          {I18n.t('resetText')}
+        </Text>
       </View>
     )
   }
@@ -72,30 +78,32 @@ export default class ForgotView extends Component{
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={emailIcon}
-        resizeMode={'contain'}/>
+          source={emailIcon}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="email-address"
-        placeholder="Enter e-mail"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleEmailInput}
-        onSubmitEditing={(event) => {
-          this._handlePressSend()
-        }} />
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="email-address"
+          placeholder={I18n.t('emailInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handleEmailInput}
+          onSubmitEditing={(event) => {
+            this._handlePressSend()
+          }} />
       </View>
     )
   }
 
   _renderButton(){
     return (
-      <View style={style.buttonContainer} >
-        <Button buttonStyle={style.button} />
+      <View style={style.buttonContainer}>
+        <Button buttonStyle={style.button}
+          textStyle={style.buttonText}
+          title={I18n.t('sendResetlink')} />
       </View>
     )
   }
@@ -108,6 +116,7 @@ export default class ForgotView extends Component{
         source={loginLogo}/>
         {this._renderText()}
         {this._renderEmailField()}
+        {this._renderButton()}
       </View>
     )
   }
@@ -174,6 +183,6 @@ const style = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     textAlign:'center',
-    color: 'black'
+    color: Colors.blue
    }
 })

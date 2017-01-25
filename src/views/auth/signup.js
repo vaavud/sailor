@@ -11,6 +11,7 @@ import {
   Image,
   TextInput,
   StyleSheet,
+  TouchableOpacity,
   Dimensions
 } from 'react-native'
 
@@ -26,13 +27,15 @@ const passwordInputLogo = require('../../../assets/unlock.png')
 const emailIcon = require('../../../assets/envelope.png')
 const backButtonIcon = require('../../../assets/back.png')
 
-export default class LoginView extends Component {
+export default class SignupView extends Component {
+
   static propTypes = {
     onPressSignup: PropTypes.func.isRequired,
-    onPressLogin: PropTypes.func.isRequired,
-    onPressFBLogin: PropTypes.func.isRequired,
-    onPressForgotPassword: PropTypes.func.isRequired,
+    onPressBack: PropTypes.func.isRequired,
+    onPressTerms: PropTypes.func.isRequired,
+    onPressPrivacy: PropTypes.func.isRequired
   }
+
   constructor(props){
     super(props)
     this.state = {
@@ -46,7 +49,7 @@ export default class LoginView extends Component {
     this._handleLastNameInput = this._handleLastNameInput.bind(this)
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
-    this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)    
+    this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
   }
 
   _handleFirstNameInput(event){
@@ -75,9 +78,9 @@ export default class LoginView extends Component {
   _renderBackButton(){
     return (
       <TouchableOpacity style={style.backButtonStyle}
-      onPress={this.props.onPressBack} >
-      <Image
-      source={backButtonIcon} />
+        onPress={this.props.onPressBack} >
+        <Image
+          source={backButtonIcon} />
       </TouchableOpacity>
     )
   }
@@ -86,22 +89,18 @@ export default class LoginView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={loginInputLogo}
-        resizeMode={'contain'}/>
+          source={loginInputLogo}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Your first name"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="default"
-        onChangeText={this._handleFirstNameInput}
-        onSubmitEditing={(event) => {
-          this.refs.SecondInput.focus()
-        }} />
+          autoFocus={false}
+          autoCorrect={false}
+          placeholder={I18n.t('firstNameInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          onChangeText={this._handleFirstNameInput}
+          onSubmitEditing={() => this.secondInput.focus()}/>
       </View>
     )
   }
@@ -110,22 +109,19 @@ export default class LoginView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={loginInputLogo}
-        resizeMode={'contain'}/>
+          source={loginInputLogo}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="sentences"
-        placeholder="Your last name"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="default"
-        onChangeText={this._handleLastNameInput}
-        onSubmitEditing={(event) => {
-          this.refs.SecondInput.focus()
-        }} />
+          ref={r => { this.secondInput = r } }
+          autoFocus={false}
+          autoCorrect={false}
+          placeholder={I18n.t('lastNameInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          onChangeText={this._handleLastNameInput}
+          onSubmitEditing={() => this.thirdInput.focus()} />
       </View>
     )
   }
@@ -134,23 +130,21 @@ export default class LoginView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={emailIcon}
-        resizeMode={'contain'}/>
+          source={emailIcon}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        ref="SecondInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="email-address"
-        placeholder="Enter e-mail"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        onChangeText={this._handleEmailInput}
-        onSubmitEditing={(event) => {
-          this.refs.ThirdInput.focus()
-        }} />
+          ref={ r => {this.thirdInput = r} }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="email-address"
+          placeholder={I18n.t('emailInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          onChangeText={this._handleEmailInput}
+          onSubmitEditing={() => this.fourthInput.focus()} />
       </View>
     )
   }
@@ -159,24 +153,22 @@ export default class LoginView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={passwordInputLogo}
-        resizeMode={'contain'}/>
+          source={passwordInputLogo}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        ref="ThirdInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Password"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        secureTextEntry={true}
-        onChangeText={this._handlePasswordInput}
-        onSubmitEditing={(event) => {
-          this.refs.FourthInput.focus()
-        }} />
+          ref={ r => {this.fourthInput = r} }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder={I18n.t('passwordInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={this._handlePasswordInput}
+          onSubmitEditing={() => this.fifthInput.focus()} />
       </View>
     )
   }
@@ -185,28 +177,24 @@ export default class LoginView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-        source={passwordInputLogo}
-        resizeMode={'contain'}/>
+          source={passwordInputLogo}
+          resizeMode={'contain'}/>
         <TextInput style={style.input}
-        ref="FourthInput"
-        autoFocus={false}
-        autoCorrect={false}
-        keyboardType="default"
-        placeholder="Confirm password"
-        clearButtonMode="while-editing"
-        placeholderTextColor="#fff"
-        underlineColorAndroid="transparent"
-        returnKeyType="next"
-        autoCapitalize="none"
-        secureTextEntry={true}
-        onChangeText={this._handleConfirmPWInput}
-        onSubmitEditing={() => this._handleSignupPress()} />
+          ref={ r  => {this.fifthInput = r} }
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          placeholder={I18n.t('confirmPwInput')}
+          clearButtonMode="while-editing"
+          placeholderTextColor="#fff"
+          underlineColorAndroid="transparent"
+          returnKeyType="next"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={this._handleConfirmPWInput}
+          onSubmitEditing={() => this._handleSignupPress()} />
       </View>
     )
-  }
-  
-  _handleLoginPress(){
-    this.props.onPressLogin(this.state.email, this.state.password)
   }
 
   _renderInputFields(){
@@ -221,12 +209,45 @@ export default class LoginView extends Component {
     )
   }
 
+  _renderSignupButton(){
+    return (
+      <View style={style.buttonContainer}>
+        <Button buttonStyle={style.loginButton}
+          textStyle={style.buttonText}
+          title={I18n.t('signupButton')}
+          onPress={() => this._handleSignupPress()} />
+      </View>
+    )
+  }
+
+  _renderTermsAndPrivacy(){
+    const {
+      onPressTerms,
+      onPressPrivacy
+    } = this.props
+    return (
+      <View style={style.termsContainer}>
+        <Button buttonStyle={style.termsButton}
+          textStyle={style.termsButtonText}
+          title={I18n.t('termsButton')}
+          onPress={onPressTerms} />
+        <Button buttonStyle={style.termsButton}
+          textStyle={style.termsButtonText}
+          title={I18n.t('privacyButton')}
+          onPress={onPressPrivacy} />
+      </View>
+    )
+  }
+
   render(){
     return (
       <View style={style.container}>
+        {this._renderBackButton()}
         <Image style={style.logo}
-        source={loginLogo}/>
+          source={loginLogo}/>
         {this._renderInputFields()}
+        {this._renderSignupButton()}
+        {this._renderTermsAndPrivacy()}
       </View>
     )
   }
@@ -242,6 +263,11 @@ const style = StyleSheet.create({
     padding: width * 0.1,
     paddingTop: height * 0.1,
     backgroundColor: 'grey'
+  },
+  backButtonStyle:{
+    position: 'absolute',
+    top: 20,
+    left: 20,
   },
   logo: {
     alignSelf:'center',
@@ -276,37 +302,26 @@ const style = StyleSheet.create({
     borderColor: 'white',
     backgroundColor: 'white',
   },
-  fbButton: {
-    width : width * 0.8 - 2,
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 10,
-    height: 40,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderColor: '#3B5998',
-    backgroundColor: '#3B5998',
-  },
   buttonText: {
     fontSize: 16,
     textAlign:'center',
     color: Colors.blue
    },
-   signupContainer: {
+   termsContainer: {
      flex: 1,
      flexDirection: 'row',
      justifyContent: 'space-between',
    },
-   signupForgotButton: {
+   termsButton: {
     alignSelf: 'flex-end',
     justifyContent: 'center',
     marginHorizontal: 5,
   },
-  signupButtonText:{
+  termsText:{
     fontSize: 12,
     color: 'black'
   },
-  forgotButtonText: {
+  termsButtonText: {
     fontSize: 12,
     textAlign: 'right',
     color: 'black'
