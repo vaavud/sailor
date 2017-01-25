@@ -16,7 +16,7 @@ import {
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
-import Colors from '../../reactcommon/colors'
+import Colors from '../../../assets/colorTheme'
 
 import I18n from '../../components/i18n'
 
@@ -157,7 +157,7 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     padding: width * 0.1,
     paddingTop: height * 0.1,
-    backgroundColor: 'grey'
+    backgroundColor: Colors.background
   },
   logo: {
     alignSelf: 'center',
@@ -175,7 +175,8 @@ const style = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    color: Colors.inputTextColor
   },
   buttonContainer: {
     marginTop: 30,
@@ -206,7 +207,7 @@ const style = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     textAlign:'center',
-    color: Colors.blue
+    color: Colors.vaavudBlue
    },
    signupContainer: {
      flex: 1,

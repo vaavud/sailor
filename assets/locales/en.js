@@ -22,7 +22,15 @@ const en = {
    // Forgot password screen
   forgetText:     'Did you forget your password?',
   resetText:      'Enter you email and we will send you a link to reset your password',
-  sendResetlink:  'Send reset link'
+  sendResetlink:  'Send reset link',
+
+  // Settings screen
+  unitText:       'Units',
+  windSpeed:      'Wind speed',
+  direction:      'Direction',
+  temperature:    'Temperature',
+  prefrencesText: 'Wind preferences',
+  showColors:     'Show color explanation in newsfeed'
 }
 
 export default en
