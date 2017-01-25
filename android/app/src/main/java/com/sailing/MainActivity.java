@@ -3,15 +3,6 @@ package com.sailing;
 import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
-import com.horcrux.svg.SvgPackage;
-import io.realm.react.RealmReactPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
-import it.innove.BleManagerPackage;
-import com.horcrux.svg.SvgPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import io.realm.react.RealmReactPackage;
 
 public class MainActivity extends ReactActivity {
 

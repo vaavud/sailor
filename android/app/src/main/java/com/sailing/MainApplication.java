@@ -1,24 +1,22 @@
 package com.sailing;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import io.realm.react.RealmReactPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
-import it.innove.BleManagerPackage;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
+import com.i18n.reactnativei18n.ReactNativeI18n;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.realm.react.RealmReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -36,12 +34,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
+      return Arrays.asList(
           new MainReactPackage(),
             new RealmReactPackage(),
             new FBSDKPackage(mCallbackManager),
-            new ReactNativeI18n(),
-            new BleManagerPackage()
+            new ReactNativeI18n()
       );
     }
   };
