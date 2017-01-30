@@ -5,9 +5,12 @@ const en = {
   // multiple usages
   yes:            'Yes',
   no:             'No',
+  vaavud:         'Vaavud',
   emailInput:     'Your e-mail',
   passwordInput:  'Your password',
   signupButton:   'Sign up',
+  termsButton:    'Terms & conditions',
+  privacyButton:  'Privacy',
 
   // Login screen
   loginButton:    'Login',
@@ -18,8 +21,6 @@ const en = {
   firstNameInput: 'Your first name',
   lastNameInput:  'Your last name',
   confirmPwInput: 'Confirm your password',
-  termsButton:    'Terms & conditions',
-  privacyButton:  'Privacy',
 
    // Forgot password screen
   forgetText:     'Did you forget your password?',
@@ -34,6 +35,9 @@ const en = {
   prefrencesText: 'Wind preferences',
   showColors:     'Show color explanation in newsfeed',
   deviceStatus:   'Ultra Sonic device status',
+  otherSection:   'Other',
+  logout:         'Log out',
+  appGuide:       'Do you need help?'
 }
 
 export default en

@@ -35,7 +35,7 @@ export default class MeasureView extends Component {
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >
           <Image source={compass} />
-          <Image 
+          <Image
           style={
             {
               position: 'absolute',

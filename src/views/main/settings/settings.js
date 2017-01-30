@@ -8,11 +8,9 @@ import React, {
 
 import {
   View,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  Dimensions
 } from 'react-native'
 
 import { SegmentedControls } from 'react-native-radio-buttons'
@@ -21,21 +19,20 @@ import Colors from '../../../../assets/colorTheme'
 
 import I18n from '../../../components/i18n'
 
+import Button from '../../../reactcommon/components/button'
+
 import {
   time_conv, speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
   angle_conv_inverse, temp_conv_inverse
 } from '../../../reactcommon/utils'
 
-const { width, height } = Dimensions.get('window')
-
 export default class SettingsView extends Component{
 
   static propTypes = {
-    updateSettings: PropTypes.func.isRequired
-  }
-
-  constructor(props){
-    super(props)
+    updateSettings: PropTypes.func.isRequired,
+    isBleDeviceConnected: PropTypes.bool.isRequired,
+    deviceSerialNo: PropTypes.string.isRequired,
+    deviceBatteryLevel: PropTypes.number.isRequired,
   }
 
   _renderSectionHeader(text){
@@ -56,7 +53,12 @@ export default class SettingsView extends Component{
   }
 
   _renderLink(text, func){
-    // TODO =)
+    return (
+      <Button
+        textStyle={style.buttonText}
+        title={I18n.t(text)}
+        onPress={func}/>
+    )
   }
 
   _renderWindspeedSelector(){
@@ -144,13 +146,30 @@ export default class SettingsView extends Component{
   }
 
   _renderDeviceStatus(){
+    const {
+      isBleDeviceConnected
+    } = this.props
     return (
       <View style={style.deviceStatusContainer} >
         <View style={style.deviceStatusInnerContainer} >
           {this._renderDeviceText('serialNo', 'TODO get value =)')}
           {this._renderDeviceText('batteryLevel', 'TODO get value =)')}
-          
+          <Button
+            title={isBleDeviceConnected ? 'Disconnect' : 'Connect'}
+            textStyle={style.buttonText} />
         </View>
+      </View>
+    )
+  }
+
+  _renderOthersSection(){
+    return (
+      <View style={style.otherSectionContainer} >
+        {this._renderLink('vaavud', () => console.log('hit vaavud link') )}
+        {this._renderLink('termsButton', () => console.log('hit vaavud link') )}
+        {this._renderLink('privacyButton', () => console.log('hit vaavud link') )}
+        {this._renderLink('logout', () => console.log('hit vaavud link') )}
+        {this._renderLink('appGuide', () => console.log('hit vaavud link') )}        
       </View>
     )
   }
@@ -168,6 +187,8 @@ export default class SettingsView extends Component{
           {this._renderShowColors()}
           {this._renderSectionHeader('deviceStatus')}
           {this._renderDeviceStatus()}
+          {this._renderSectionHeader('otherSection')}
+          {this._renderOthersSection()}
         </ScrollView>
       </View>
     )
@@ -209,5 +230,14 @@ const style = StyleSheet.create({
   deviceText: {
     margin: 5,
     fontSize: 16
+  },
+  buttonText: {
+    margin: 5,
+    fontSize: 16,
+    color: Colors.vaavudBlue
+  },
+  otherSectionContainer: {
+    margin: 30,
+    alignItems: 'center'
   }
 })

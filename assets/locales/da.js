@@ -5,9 +5,12 @@ const da = {
   // multiple usages
   yes:            'Ja',
   no:             'Nej',
+  vaavud:         'Vaavud',
   emailInput:     'Din e-mail',
   passwordInput:  'Dit kodeord',
   signupButton:   'Opret konto',
+  termsButton:    'Vilkår',
+  privacyButton:  'Privatliv',
 
   // Login screen
   loginButton:    'Log ind',
@@ -15,11 +18,9 @@ const da = {
   forgotPwButton: 'Glem dit kodeord?',
 
   // Sign up screen
-  firstNameInput: 'Dit første navn',
-  lastNameInput:  'Dit efter navn',
+  firstNameInput: 'Dit fornavn',
+  lastNameInput:  'Dit efternavn',
   confirmPwInput: 'Bekræft dit kodeord',
-  termsButton:    'Vilkår',
-  privacyButton:  'Privatliv',
 
   // Forgot password screen
   forgetText:     'Har du glemt kodeordet til din konto?',
@@ -32,7 +33,11 @@ const da = {
   direction:      'Vind retning',
   temperature:    'Temperatur',
   prefrencesText: 'Vind indstillinger',
+  showColors:     'Vis farve-forklaring i nyhedsfeed',
   deviceStatus:   'Ultra Sonic enhedens status',
+  otherSection:   'Andet',
+  logout:         'Log ud',
+  appGuide:       'Har du brug for hjælp?'
 }
 
 export default da
