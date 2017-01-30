@@ -46,6 +46,15 @@ export default class SettingsView extends Component{
     )
   }
 
+  _renderDeviceText(description, value){
+    return (
+      <View style={style.deviceTextContainer} >
+        <Text style={style.deviceText}>{description}</Text>
+        <Text style={style.deviceText}>{value}</Text>
+      </View>
+    )
+  }
+
   _renderLink(text, func){
     // TODO =)
   }
@@ -134,6 +143,18 @@ export default class SettingsView extends Component{
     )
   }
 
+  _renderDeviceStatus(){
+    return (
+      <View style={style.deviceStatusContainer} >
+        <View style={style.deviceStatusInnerContainer} >
+          {this._renderDeviceText('serialNo', 'TODO get value =)')}
+          {this._renderDeviceText('batteryLevel', 'TODO get value =)')}
+          
+        </View>
+      </View>
+    )
+  }
+
   render(){
     return (
       <View style={style.container} >
@@ -145,6 +166,8 @@ export default class SettingsView extends Component{
           {this._renderSectionHeader('prefrencesText')}
           {/* TODO find out what goes in this section */}
           {this._renderShowColors()}
+          {this._renderSectionHeader('deviceStatus')}
+          {this._renderDeviceStatus()}
         </ScrollView>
       </View>
     )
@@ -169,5 +192,22 @@ const style = StyleSheet.create({
   segmentedControl: {
     justifyContent:'center',
     height: 40,
+  },
+  deviceStatusContainer: {
+    flex: 1,
+    padding: 15,
+    paddingHorizontal: 20,
+  },
+  deviceStatusInnerContainer: {
+    padding: 10,
+    backgroundColor: 'grey'
+  },
+  deviceTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  deviceText: {
+    margin: 5,
+    fontSize: 16
   }
 })

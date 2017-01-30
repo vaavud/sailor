@@ -3,6 +3,8 @@
 
 const en = {
   // multiple usages
+  yes:            'Yes',
+  no:             'No',
   emailInput:     'Your e-mail',
   passwordInput:  'Your password',
   signupButton:   'Sign up',
@@ -30,7 +32,8 @@ const en = {
   direction:      'Direction',
   temperature:    'Temperature',
   prefrencesText: 'Wind preferences',
-  showColors:     'Show color explanation in newsfeed'
+  showColors:     'Show color explanation in newsfeed',
+  deviceStatus:   'Ultra Sonic device status',
 }
 
 export default en

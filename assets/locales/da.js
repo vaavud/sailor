@@ -3,6 +3,8 @@
 
 const da = {
   // multiple usages
+  yes:            'Ja',
+  no:             'Nej',
   emailInput:     'Din e-mail',
   passwordInput:  'Dit kodeord',
   signupButton:   'Opret konto',
@@ -29,7 +31,8 @@ const da = {
   windSpeed:      'Vind hastighed',
   direction:      'Vind retning',
   temperature:    'Temperatur',
-  prefrencesText: 'Vind indstillinger'
+  prefrencesText: 'Vind indstillinger',
+  deviceStatus:   'Ultra Sonic enhedens status',
 }
 
 export default da
