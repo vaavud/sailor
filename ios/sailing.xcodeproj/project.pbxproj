@@ -24,6 +24,9 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		218FB478E52044E5B9684B29 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F69D1AE4AE40858CBCF137 /* libRealmReact.a */; };
 		2B1735E01E2E3CFD003DC5A7 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1735DF1E2E3CFD003DC5A7 /* libstdc++.tbd */; };
+		2B182FC41E3B7BA100022F99 /* DirectionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B182FC31E3B7BA100022F99 /* DirectionSelector.swift */; };
+		2B182FE81E3B845700022F99 /* DirectionSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B182FE71E3B845700022F99 /* DirectionSelectorView.m */; };
+		2B182FEB1E3B853B00022F99 /* DirectionSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B182FEA1E3B853B00022F99 /* DirectionSelectorView.swift */; };
 		2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1C6EDB1E2FAECF00AF4A10 /* libART.a */; };
 		2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */; };
 		2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */; };
@@ -291,6 +294,10 @@
 		1B3953F755AF4EA595AC4FB6 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		20F69D1AE4AE40858CBCF137 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		2B1735DF1E2E3CFD003DC5A7 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		2B182FC31E3B7BA100022F99 /* DirectionSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionSelector.swift; sourceTree = "<group>"; };
+		2B182FE71E3B845700022F99 /* DirectionSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionSelectorView.m; sourceTree = "<group>"; };
+		2B182FE91E3B849000022F99 /* DirectionSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionSelectorView.h; sourceTree = "<group>"; };
+		2B182FEA1E3B853B00022F99 /* DirectionSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionSelectorView.swift; sourceTree = "<group>"; };
 		2B1C6ED51E2FAECF00AF4A10 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sailing-Bridging-Header.h"; sourceTree = "<group>"; };
 		2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaavudBle.swift; sourceTree = "<group>"; };
@@ -449,6 +456,10 @@
 				2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */,
 				2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */,
 				2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */,
+				2B182FC31E3B7BA100022F99 /* DirectionSelector.swift */,
+				2B182FE71E3B845700022F99 /* DirectionSelectorView.m */,
+				2B182FE91E3B849000022F99 /* DirectionSelectorView.h */,
+				2B182FEA1E3B853B00022F99 /* DirectionSelectorView.swift */,
 			);
 			name = sailing;
 			sourceTree = "<group>";
@@ -1011,8 +1022,11 @@
 			files = (
 				2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */,
 				2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */,
+				2B182FC41E3B7BA100022F99 /* DirectionSelector.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				2B182FEB1E3B853B00022F99 /* DirectionSelectorView.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				2B182FE81E3B845700022F99 /* DirectionSelectorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

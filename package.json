@@ -16,7 +16,7 @@
 		"redux-thunk": "^2.1.0",
 		"rn-viewpager": "1.1.4",
 		"react-native-loading-spinner-overlay": "0.4.1",
-		"firebase": "3.6.5",
+		"firebase": "3.6.7",
 		"react-native-i18n": "0.1.1",
 		"react-native-fbsdk": "0.5.0",
 		"react-native-maps": "0.13.0",

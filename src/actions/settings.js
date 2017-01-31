@@ -4,7 +4,7 @@ import firebase from 'firebase'
 
 import { LOGOUT } from '../constants/auth'
 
-export function updateSettings(key, value) {
+export function updateSettings(key, value) { 
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
 

@@ -16,7 +16,7 @@ import { CHECK_AUTH, VERIFY_EXISTING_USER, TOKEN } from '../constants/auth'
 //sagas
 import { verifyAuth, verifyExistingUser } from '../sagas/auth'
 import { error } from '../sagas/utils'
-import { historyDaemon, forecastDeamon } from '../sagas/userdata'
+import { historyDaemon, forecastDeamon,sessionDeamon } from '../sagas/userdata'
 
 // const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
@@ -36,6 +36,7 @@ sagaMiddleware.run(verifyExistingUser)
 sagaMiddleware.run(error)
 sagaMiddleware.run(historyDaemon)
 sagaMiddleware.run(forecastDeamon)
+sagaMiddleware.run(sessionDeamon)
 
 
 createPersist()

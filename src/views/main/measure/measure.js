@@ -10,7 +10,8 @@ import {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  Button
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
@@ -26,28 +27,29 @@ export default class MeasureView extends Component {
     windSpeed: PropTypes.number.isRequired,
     windSpeedUnit: PropTypes.number.isRequired,
     groundSpeed: PropTypes.number, // optional =) default will be N/A
-    groundSpeedUnit: PropTypes.number.isRequired
+    groundSpeedUnit: PropTypes.number.isRequired,
+    testStop: PropTypes.func.isRequired
   }
 
-  _renderCompass(heading){
+  _renderCompass(heading) {
     // hook up heading
     return (
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >
           <Image source={compass} />
           <Image
-          style={
-            {
-              position: 'absolute',
-              transform: [{'rotate': heading + 'deg'}]
-            }
+            style={
+              {
+                position: 'absolute',
+                transform: [{ 'rotate': heading + 'deg' }]
+              }
             } source={compassHand} />
         </View>
       </View>
     )
   }
 
-  _renderWindText(){
+  _renderWindText() {
     return (
       <View style={style.windTextContainer} >
         <Text style={style.windText} >{'TRUE'}</Text>
@@ -55,30 +57,30 @@ export default class MeasureView extends Component {
     )
   }
 
-  _renderSpeedContainer(){
+  _renderSpeedContainer(groundSpeed, windSpeed) {
     return (
       <View style={style.speedContainer} >
-        {this._renderGroundSpeed()}
-        {this._renderWindSpeed()}
+        {this._renderGroundSpeed(groundSpeed)}
+        {this._renderWindSpeed(windSpeed)}
       </View>
     )
   }
 
-  _renderGroundSpeed(){
+  _renderGroundSpeed(groundSpeed) {
     return (
       <View style={style.groundSpeedContainer} >
         <Text>{'Ground speed'}</Text>
-        <Text style={style.speedText}>{'N/A'}</Text>
+        <Text style={style.speedText}>{groundSpeed}</Text>
         <Text>{'knots'}</Text>
       </View>
     )
   }
 
-  _renderWindSpeed(windSpeed){
+  _renderWindSpeed(windSpeed) {
     return (
       <View style={style.windSpeedContainer} >
         <Text>{'Wind speed'}</Text>
-        <Text style={style.speedText} >{'12'}</Text>
+        <Text style={style.speedText} >{windSpeed}</Text>
         <Text>{'knots'}</Text>
       </View>
     )
@@ -87,9 +89,10 @@ export default class MeasureView extends Component {
   render() {
     return (
       <View style={style.container} >
-        {this._renderCompass('90')/* TODO get heading from container */ }
+        {this._renderCompass(this.props.windHeading)/* TODO get heading from container */}
         {this._renderWindText()}
-        {this._renderSpeedContainer('N/A', 12)}
+        {this._renderSpeedContainer('N/A', this.props.windSpeed)}
+        <Button title="Stop" onPress={this.props.testStop} />
       </View>
     )
   }

@@ -7,4 +7,4 @@
 
 import Login from './login'
 
-export default Login 
+export default Login

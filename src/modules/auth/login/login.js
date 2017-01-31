@@ -17,9 +17,9 @@ import {
   GraphRequestManager
 } from 'react-native-fbsdk'
 
-import {LoginView} from '../../../views/auth'
+import { LoginView } from '../../../views/auth'
 
-import { doLogin,doSignUp } from '../../../actions/auth'
+import { doLogin, doSignUp } from '../../../actions/auth'
 import { showError } from '../../../actions/utils'
 
 
@@ -57,7 +57,7 @@ class Login extends Component {
     }
   }
 
-  _doLoginWithFacebook(){
+  _doLoginWithFacebook() {
     LoginManager.logInWithReadPermissions(['email', 'public_profile']).then(result => {
       if (result.isCancelled) {
         // TODO handle fb login cancelled
@@ -82,54 +82,54 @@ class Login extends Component {
     }
     else {
       AccessToken.getCurrentAccessToken().then(user => {
-          if (user) {
-            if ('email' in result) {
+        if (user) {
+          if ('email' in result) {
 
-              let credential = {
-                firstName: result.first_name,
-                lastName: result.last_name,
-                email: result.email,
-                activity: 'sailing',
-                country: 'dk',
-                created: moment().valueOf(),
-                language: ReactNativeI18n.locale,
-                type: 'facebook',
-                token: user.accessToken
-              }
+            let credential = {
+              firstName: result.first_name,
+              lastName: result.last_name,
+              email: result.email,
+              activity: 'sailing',
+              country: 'dk',
+              created: moment().valueOf(),
+              language: ReactNativeI18n.locale,
+              type: 'facebook',
+              token: user.accessToken
+            }
 
-              this.props.doSignUp(credential)
-            }
-            else {
-              this.props.showError({
-                title: 'Facebook error',
-                msg: 'Please allow email in facebook'
-              })
-            }
+            this.props.doSignUp(credential)
           }
           else {
             this.props.showError({
               title: 'Facebook error',
-              msg: 'Problems with facebook server'
+              msg: 'Please allow email in facebook'
             })
           }
-        }).catch(error => {
-          console.log(error)
+        }
+        else {
           this.props.showError({
             title: 'Facebook error',
             msg: 'Problems with facebook server'
           })
-          //TODO error handling
+        }
+      }).catch(error => {
+        console.log(error)
+        this.props.showError({
+          title: 'Facebook error',
+          msg: 'Problems with facebook server'
         })
+        //TODO error handling
+      })
     }
   }
 
-  render(){
+  render() {
     return (
       <LoginView
-      onPressLogin={this._doLogin}
-      onPressSignup={this.props.SignUp}
-      onPressFBLogin={this._doLoginWithFacebook}
-      onPressForgotPassword={this.props.forgotPassword} />
+        onPressLogin={this._doLogin}
+        onPressSignup={this.props.SignUp}
+        onPressFBLogin={this._doLoginWithFacebook}
+        onPressForgotPassword={this.props.forgotPassword} />
     )
   }
 }
@@ -143,7 +143,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     doLogin: bindActionCreators(doLogin, dispatch),
     showError: bindActionCreators(showError, dispatch),
-    doSignUp:bindActionCreators(doSignUp, dispatch),
+    doSignUp: bindActionCreators(doSignUp, dispatch),
   }
 }
 

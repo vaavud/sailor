@@ -3,7 +3,6 @@
 import { IS_AUTH, NEEDS_AUTH, LOADING, ONLINE, LOGOUT,TOKEN } from '../constants/auth'
 
 var initialState = {
-  isOnline: false,
   uid: undefined,
   deviceId: undefined,
   isLoading: false,

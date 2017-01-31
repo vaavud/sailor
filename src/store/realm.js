@@ -1,17 +1,6 @@
 
 import Realm from 'realm'
 
-
-class Location { }
-Location.schema = {
-  name: 'Location',
-  properties: {
-    name: { type: 'string', optional: true },
-    lat: 'double',
-    lon: 'double',
-  }
-}
-
 class Harbor { }
 Harbor.schema = {
   name: 'Harbor',
@@ -81,6 +70,37 @@ Direction.schema = {
   }
 }
 
+class Location { }
+Location.schema = {
+  name: 'Location',
+  properties: {
+    name: { type: 'string', optional: true },
+    lat: 'double',
+    lon: 'double',
+    time: { type: 'double', optional: true }
+  }
+}
+
+class SessionPoints { }
+SessionPoints.schema = {
+  name: 'SessionPoints',
+  properties: {
+    key: { type: 'string' },
+    sent: { type: 'bool', default: false },
+    points: { type: 'list', objectType: 'Point' }
+  }
+}
+
+class Point { }
+Point.schema = {
+  name: 'Point',
+  properties: {
+    timestamp: { type: 'double' },
+    windSpeed: { type: 'double' },
+    windDirection: { type: 'double' },
+    location: {type:'Location'}
+  }
+}
 
 class Session { }
 Session.schema = {
@@ -91,6 +111,7 @@ Session.schema = {
     turbulence: { type: 'int', optional: true },
     uid: 'string',
     key: 'string',
+    sent: { type: 'bool', default: false },
     location: { type: 'Location', optional: true },
     windDirection: { type: 'double', optional: true },
     windMax: { type: 'double', optional: true },
@@ -98,5 +119,7 @@ Session.schema = {
     windMeter: { type: 'string', optional: true }
   }
 }
-const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day] })
+
+
+const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day,SessionPoints,Point] })
 export default realm

@@ -84,9 +84,8 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
     }
     
     self.sendEvent(withName: "onVaavudBleFound", body: ["available":true])
-    
-  }
   
+  }
   
   
   @objc
@@ -106,8 +105,6 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
     
     if let device = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey)as? NSString {
-      
-      print(advertisementData as NSDictionary)
       
       if device.contains(BEAN_NAME) == true {
         
@@ -186,7 +183,8 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
         
         
         let h1 = Int(s11.appending(s10), radix: 16)
-        print(h1!)
+        let _h1 = Double(h1!) / 100
+//        print(_h1)
         //emit new windSpeed
         
         
@@ -195,7 +193,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
         
         
         let h2 = Int(s21.appending(s20), radix: 16)
-        print(h2!)
+//        print(h2!)
         //emit new direction
         
         
@@ -203,11 +201,11 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate 
         let s31 = val.substring(from: 10, to: 11)
         
         let h3 = Int(s31.appending(s30), radix: 16)
-        print(h3!)
+//        print(h3!)
         
         
         //
-        self.sendEvent(withName: "onNewRead", body: ["windSpeed":h1!, "windDirection": h2!, "battery": h3!] )
+        self.sendEvent(withName: "onNewRead", body: ["windSpeed":_h1, "windDirection": h2!, "battery": h3!] )
       }
     }
   }
