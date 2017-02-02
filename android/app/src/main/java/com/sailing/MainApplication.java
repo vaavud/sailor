@@ -2,6 +2,7 @@ package com.sailing;
 
 import android.app.Application;
 
+import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -34,11 +35,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.asList(
-          new MainReactPackage(),
-            new RealmReactPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new ReactNativeI18n()
+      return Arrays.asList(new MainReactPackage(),
+              new RealmReactPackage(),
+              new FBSDKPackage(mCallbackManager),
+              new ReactNativeI18n(),
+              new MapsPackage()
       );
     }
   };
