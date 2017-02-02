@@ -13,8 +13,12 @@ class SelectorView: RCTViewManager {
   
   override func view() -> UIView! {
     let direction = DirectionSelector()
+    
+    
     return direction
   }
+  
+  
     
 }
 

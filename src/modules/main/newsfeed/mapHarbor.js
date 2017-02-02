@@ -18,6 +18,7 @@ class MapHarbor extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       region: {
         latitude: 37.78825,
@@ -25,9 +26,18 @@ class MapHarbor extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      marker: []
+      marker: props.componentProps.harbor ? { latitude: props.componentProps.harbor.location.lat, longitude: props.componentProps.harbor.location.lon } : undefined,
+      harborName: props.componentProps.harbor.name,
+      harbor: {
+        key: props.componentProps.harbor.key,
+        windMin: props.componentProps.harbor.windMin,
+        windMax: props.componentProps.harbor.windMax,
+        directions: props.componentProps.harbor.directions,
+      }
+
     }
 
+    this._onContinue = this._onContinue.bind(this)
   }
 
   componentDidMount() {
@@ -47,29 +57,28 @@ class MapHarbor extends Component {
 
     this.setState({
       location: e.nativeEvent.coordinate,
-      marker: [{
-        coordinate: e.nativeEvent.coordinate,
-        key: id++,
-      }]
+      marker: {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      }
     })
   }
+
+  _onContinue() {
+    this.props.push({ key: 'windHarbor', props: { marker: this.state.marker, name: this.state.harborName, harbor: this.state.harbor } })
+  }
+
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }} >
         <Text> Map from harbor </Text>
-        <Button title="Continue" onPress={() => {
-          // this.props.pop()
-          this.props.push({ key: 'windHarbor', props: { location: this.state.location, harborName: this.state.harborName } })
-          console.log(this.state.location)
-        } } />
-        <Button title="Cancel" onPress={() => {
-          this.props.pop()
-          // this.props.push({ key: 'windHarbor' })
-        } } />
+        <Button title="Continue" onPress={this._onContinue} />
+        <Button title="Cancel" onPress={this.props.pop} />
         <TextInput
           style={{ width: 300, height: 50, backgroundColor: 'gray' }}
-          onChangeText={(harborName) => {
+          value={this.state.harborName}
+          onChangeText={harborName => {
             this.setState({ harborName })
           } } />
 
@@ -79,14 +88,13 @@ class MapHarbor extends Component {
           onPress={this.onMapPress.bind(this)}
           onRegionChangeComplete={this.onRegionChange.bind(this)}
           >
-          {this.state.marker.map(marker => (
+          {this.state.marker ?
             <MapView.Marker
-              key={marker.key}
-              coordinate={marker.coordinate}
-              onDragEnd={(e) => this.setState({ location: { lat: e.nativeEvent.coordinate.latitude, lon: e.nativeEvent.coordinate.longitude } })}
+              coordinate={this.state.marker}
+              onDragEnd={e => this.setState({ marker: { latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude } })}
               draggable
-              />
-          ))}
+              /> : null
+          }
         </MapView>
 
       </View>

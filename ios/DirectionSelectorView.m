@@ -13,4 +13,5 @@
 
 @interface RCT_EXTERN_MODULE(SelectorViewSwift, RCTViewManager)
 RCT_EXPORT_VIEW_PROPERTY(directions, NSDictionary);
+RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
 @end

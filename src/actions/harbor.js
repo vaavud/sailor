@@ -22,11 +22,12 @@ export function getForecast(windMax, windMin, unit, token, subId) {
     })
 
     fetch(request)
-      .then(response => response.text())
-      .then(_forecast => {
-        let forecast = JSON.parse(_forecast)
+      .then(response => response.json())
+      .then(forecast => {
         if ('id' in forecast[0]) {
           resolve({ type: FORECAST_LOADED, forecast: forecast[0] })
+
+          console.log('forecast[0]', forecast[0])
 
           //Save forecast in Realm
           var fore = realm.objects('Forecast')
@@ -132,7 +133,7 @@ export function getProfile() {
 }
 
 
-export function saveHarbor(payload, profile) {
+export function saveHarbor(payload, profile, key) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
 
@@ -150,34 +151,45 @@ export function saveHarbor(payload, profile) {
       // Dispach profile information
       dispatch({ type: PROFILE_LOADED, windMax: profile.maxSpeed, windMin: profile.minSpeed })
 
-      var ref = firebase.database().ref('subscription').push()
-      console.log(ref.key)
-      ref.set(payload).then(() => {
+      let _key
 
-        // Dispach harbor information
-        dispatch({
-          type: HARBOR_LOADED,
-          key: ref.key,
-          directions: payload.directions,
-          location: payload.location,
-          name: payload.name
-        })
+      if (key) {
+        _key = key
+        firebase.database().ref('subscription').child(key).update(payload)
+      }
+      else {
+        let ref = firebase.database().ref('subscription').push()
+        _key = ref.key
+        ref.set(payload)
+      }
 
-        // Save for offline
-        realm.write(() => {
-          let harbor = realm.objects('Harbor')
-          harbor[0].windMin = profile.minSpeed
-          harbor[0].windMax = profile.maxSpeed
-          harbor[0].key = ref.key
-          harbor[0].directions = payload.directions
-          harbor[0].location = payload.location
-          harbor[0].name = payload.name
-        })
+      console.log(_key)
 
-        // Request Forecast
 
+      // Dispach harbor information
+      dispatch({
+        type: HARBOR_LOADED,
+        key: _key,
+        directions: payload.directions,
+        location: payload.location,
+        name: payload.name
       })
-        .catch(err => console.log(err))
+
+      // Save for offline
+      realm.write(() => {
+        let harbor = realm.objects('Harbor')
+        harbor[0].windMin = profile.minSpeed
+        harbor[0].windMax = profile.maxSpeed
+        harbor[0].key = _key
+        harbor[0].directions = payload.directions
+        harbor[0].location = payload.location
+        harbor[0].name = payload.name
+      })
+
+      resolve()
+
+      // Request Forecast TODO
+
     })
   }
 }

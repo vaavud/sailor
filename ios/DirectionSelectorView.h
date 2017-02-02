@@ -10,4 +10,5 @@
 
 @interface SelectorView : RCTView
 @property (nonatomic, assign) NSDictionary *directions;
+@property (nonatomic, copy) RCTBubblingEventBlock onChange;
 @end

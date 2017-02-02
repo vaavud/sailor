@@ -14,8 +14,8 @@ import { saveSessionFb, sendPoints } from '../actions/measure'
 
 function* historyDaemonHandler(action) {
   if (action.online) {
-    // yield put(yield getProfile())
-    // yield put(yield getSubscription())
+    yield put(yield getProfile())
+    yield put(yield getSubscription())
     // yield put(yield getSessions())
   }
 }
@@ -26,11 +26,11 @@ export function* historyDaemon() {
 
 function* forecastDeamonHandler() {
   if (yield select(online)) {
-    // const _harbor = yield select(harbor)
-    // const _settings = yield select(settings)
-    // const _token = yield select(token)
+    const _harbor = yield select(harbor)
+    const _settings = yield select(settings)
+    const _token = yield select(token)
 
-    // yield put(yield getForecast(_harbor.windMax, _harbor.windMin, _settings.windSpeed, _token, _harbor.key))
+    yield put(yield getForecast(_harbor.windMax, _harbor.windMin, _settings.windSpeed, _token, _harbor.key))
   }
 }
 
@@ -42,18 +42,18 @@ export function* forecastDeamon() {
 function* sessionDeamonHandler() {
   if (yield select(online)) {
 
-    let currentSession = realm.objects('Session').filtered('sent = false')
+    let currentSessions = realm.objects('Session').filtered('sent = false')
 
-    if (currentSession.length > 0) {
 
-      for (var i in currentSession) {
+    if (currentSessions.length > 0) {
 
-        if (!currentSession[i]) { continue }
+      for (let i in currentSessions) {
 
-        let key = currentSession[i].key
+        if (currentSessions[i] === undefined) { continue }
+
+        let key = currentSessions[i].key
+        console.log('key', key)
         let sessionPoints = realm.objects('SessionPoints').filtered(`key = "${key}"`)
-
-        console.log(key)
 
         if (sessionPoints[0].points.length > 0) {
 
@@ -66,13 +66,13 @@ function* sessionDeamonHandler() {
 
           try {
             yield call(sendPoints, key, _points)
-            yield call(saveSessionFb, key, currentSession[i])
+            yield call(saveSessionFb, key, currentSessions[i])
 
             console.log('Saved with key :D', key)
 
-            realm.write(() => {
-              currentSession[i].sent = true
-            })
+            // realm.write(() => {
+            //   currentSessions[i].sent = true
+            // })
 
           }
           catch (e) {
@@ -81,52 +81,14 @@ function* sessionDeamonHandler() {
         }
         else { //just save session
 
+          console.log('no points, just session') // This should never happen
+
           //FIXME
-          realm.write(() => {
-            currentSession[i].sent = true
-          })
+          // realm.write(() => {
+          //   currentSessions[i].sent = true
+          // })
         }
       }
-
-
-
-
-
-
-
-      // let key = currentSession[0].key
-      // console.log('myKey', key)
-
-      // let sessionPoints = realm.objects('SessionPoints').filtered(`key = "${key}"`)
-      // if (sessionPoints.length > 0) {
-      //   console.log('sending to location', sessionPoints[0])
-      //   let points = sessionPoints[0].points
-      //   let _points = []
-
-      //   for (let i in points) {
-      //     _points.push(points[i])
-      //   }
-
-      //   let obj = {}
-      //   obj[key] = _points
-
-      //   fetch('http://10.0.1.129:8083/apps/addMeasurements', {
-      //     method: 'POST',
-      //     body: JSON.stringify([obj])
-      //   })
-      //   .then(response => response.json())
-      //   .then(responseData => {
-
-      //       if ('insetred' in responseData && responseData.insetred > 0) {
-      //         realm.write(() => {
-      //           currentSession[0].sent = true
-      //           sessionPoints[0].sent = true
-      //         })
-      //         console.log('responseData', responseData)
-      //       }
-      //   })
-      //   .catch(err => console.log(err))
-      // }
     }
     else {
       console.log('nothing to send...')

@@ -7,7 +7,8 @@ import {
   View,
   Button,
   Text,
-  requireNativeComponent
+  requireNativeComponent,
+  Dimensions,
 } from 'react-native'
 
 let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
@@ -15,6 +16,19 @@ let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+import MapView from 'react-native-maps'
+const {width, height} = Dimensions.get('window')
+
+import ForecastWeek from '../../../components/forecastWeek'
+
+function getCoordinate(location) {
+  console.log('getCoordinate', location)
+  return {
+    latitude: location.lat,
+    longitude: location.lon
+  }
+}
 
 class Newsfeed extends Component {
 
@@ -33,25 +47,15 @@ class Newsfeed extends Component {
 
   componentDidMount() {
 
-    // navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     var initialPosition = JSON.stringify(position)
-    //     console.log('getCurrentPosition', initialPosition)
-    //     // this.setState({initialPosition});
-    //     this.setState({ newlatlon: initialPosition })
-    //   },
-    //   (error) => console.log(error.message),
-    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    // )
-
-    // this.watchID = navigator.geolocation.watchPosition(position => {
-    //   var lastPosition = JSON.parse(JSON.stringify(position))
-    //   console.log('watchPosition', lastPosition)
-    //   this.setState({ current: lastPosition })
-    // }, error => console.log('error', error),
-    //   { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000, distanceFilter: 10 })
-
   }
+
+  // <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.speed} </Text>
+  //       <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.latitude} </Text>
+  //       <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.longitude} </Text>
+
+  //       <Button title="Summary" onPress={() => {
+  //         this.props.push({ key: 'summary' })
+  //       } } />
 
   componentWillUnmount() {
 
@@ -59,43 +63,52 @@ class Newsfeed extends Component {
 
   render() {
 
-    return (
-      <View style={{ flex: 1, backgroundColor: 'black', alignItems: 'center', }} >
+    if (this.props.harbor.loading) {
+      return (
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> Loading </Text>
+        </View>
+      )
+    }
+    else {
+      console.log(this.props.harbor)
 
-        <SelectorView style={{ width: 200, height: 200, backgroundColor: 'white' }} />
+      return (
+        <View style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: width,
+          height: height,
+          flexDirection: 'column'
+        }} >
 
-        <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.speed} </Text>
-        <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.latitude} </Text>
-        <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.longitude} </Text>
+          <MapView
+            style={{ height: 300, width }}
+            mapType="satellite"
+            >
+            <MapView.Marker
+              key={'TODO'}
+              coordinate={getCoordinate(this.props.harbor.location)}
+              title={'My harbor'}
+              description={''}
+              />
+          </MapView>
 
-        <Button title="Summary" onPress={() => {
-          this.props.push({ key: 'summary' })
-        } } />
+          {this.props.harbor.forecast ?
+            <ForecastWeek
+              resolution={this.props.harbor.forecast.resolution}
+              name={this.props.harbor.name}
+              days={this.props.harbor.forecast.days} /> : null}
 
-      </View>
-    )
-    // )
+          <Button title="Edit" onPress={() => {
+            this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+          } } />
 
-    // if (this.props.harbor.loading) {
-    //   return (
-    //     <View style={{ flex: 1, backgroundColor: 'black' }} >
-    //       <Text style={{ color: 'white', marginTop: 50 }}> Loading... </Text>
-    //     </View>)
-    // }
-    // else if (this.props.harbor.location) {
-    //   return (
-    //     <View style={{ flexGrow: 1, backgroundColor: 'black', flexDirection: 'row' }} >
-    //       <Text style={{ color: 'white', marginTop: 50 }}> all data </Text>
 
-    //     </View>)
-    // }
-    // else {
-    //   return (<View style={{ flex: 1, backgroundColor: 'black' }} >
-    //     <Button title="AddSpot" onPress={() => {
-    //       this.props.push({ key: 'mapHarbor' })
-    //     } } />
-    //   </View>)
-    // }
+        </View>
+      )
+    }
   }
 }
 

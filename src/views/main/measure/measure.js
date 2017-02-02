@@ -11,7 +11,8 @@ import {
   Text,
   Image,
   StyleSheet,
-  Button
+  Button,
+  LayoutAnimation
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
@@ -33,6 +34,7 @@ export default class MeasureView extends Component {
 
   _renderCompass(heading) {
     // hook up heading
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     return (
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >

@@ -47,7 +47,7 @@ export function endSession(points) {
         currentSession[0].windDirection = 12 //TODO get real value
       })
 
-      if (getState().app.online) {
+      if (1 === 2) { //getState().app.online
         sendPoints(key, points)
           .then(() => saveSessionFb(key, currentSession[0]))
           .then(() => {
@@ -131,7 +131,7 @@ export function sendPoints(_key, points) {
 
         console.log('responseData', responseData)
 
-        if ('insetred' in responseData && responseData.insetred > 0) {
+        if ('inserted' in responseData) {
           resolve()
         }
         else {

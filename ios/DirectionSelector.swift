@@ -288,8 +288,13 @@ protocol IDirectionDelegate {
   func onDirectionSelected(tot: Int, current: Directions)
 }
 
+
+
 @objc(DirectionSelector)
 @IBDesignable class DirectionSelector: UIControl {
+  
+  
+  var onChange:RCTBubblingEventBlock? = nil
   
   @IBInspectable var fontSize: CGFloat = 9
   
@@ -298,7 +303,6 @@ protocol IDirectionDelegate {
   @objc(setDirections:)
   func setDirections(directions: [String:Bool]) {
     
-   
     var actualDirections: Directions = []
     
     for dir in Array(directions.keys) {
@@ -319,15 +323,15 @@ protocol IDirectionDelegate {
       actualDirections.insert(direction)
     }
     
-    
+  
     
     self.areas = directions
     self.selection = actualDirections
     self.setNeedsDisplay()
-    self.isUserInteractionEnabled = false
+//    self.isUserInteractionEnabled = false
   }
   
-  
+    
   enum State {
     case Adding, Removing, Default
   }
@@ -356,7 +360,6 @@ protocol IDirectionDelegate {
   
   func updateSelection(direction: Directions) {
     
-    
     if touchState == .Adding {
       selection.insert(direction)
       areas[direction.description] = true
@@ -369,6 +372,8 @@ protocol IDirectionDelegate {
     if let delegate = self.delegate {
       delegate.onDirectionSelected(tot: areas.count,current: direction)
     }
+    
+    onChange?(areas)
     
     setNeedsDisplay()
   }
