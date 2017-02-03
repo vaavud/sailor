@@ -38,11 +38,11 @@ export function* forecastDeamon() {
   yield takeEvery(HARBOR_LOADED, forecastDeamonHandler)
 }
 
-
 function* sessionDeamonHandler() {
   if (yield select(online)) {
 
     let currentSessions = realm.objects('Session').filtered('sent = false')
+    let keySaved = []
 
 
     if (currentSessions.length > 0) {
@@ -67,12 +67,9 @@ function* sessionDeamonHandler() {
           try {
             yield call(sendPoints, key, _points)
             yield call(saveSessionFb, key, currentSessions[i])
+            keySaved.push(key)
 
             console.log('Saved with key :D', key)
-
-            // realm.write(() => {
-            //   currentSessions[i].sent = true
-            // })
 
           }
           catch (e) {
@@ -80,22 +77,24 @@ function* sessionDeamonHandler() {
           }
         }
         else { //just save session
-
           console.log('no points, just session') // This should never happen
-
-          //FIXME
-          // realm.write(() => {
-          //   currentSessions[i].sent = true
-          // })
+          keySaved.push(key)
         }
       }
+
+      for (let index in keySaved) {
+        realm.write(() => {
+          let session = realm.objects('Session').filtered(`key = "${keySaved[index]}"`)
+          session[0].sent = true
+        })
+      }
+      console.log('everythin done...')
     }
     else {
       console.log('nothing to send...')
     }
   }
 }
-
 
 export function* sessionDeamon() {
   yield takeEvery(ONLINE, sessionDeamonHandler)
