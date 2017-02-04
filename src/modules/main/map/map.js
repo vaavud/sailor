@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { getMarkers } from '../../../actions/map'
 
 import MapView from 'react-native-maps'
-
+import MapMarker from '../../../components/mapMarker'
 
 function getCoordinate(location) {
   // console.log('getCoordinate',location)
@@ -59,12 +59,12 @@ class Map extends Component {
   _renderMarker(marker, key) {
     if (!('location' in marker)) { return }
 
-    return (<MapView.Marker
-      key={key}
-      coordinate={getCoordinate(marker.location)}
-      title={marker.title}
-      description={marker.description}
-      />)
+    return (
+      <MapView.Marker
+        key={key}
+        coordinate={getCoordinate(marker.location)}>
+        <MapMarker loading={true} speed={12 || 0} direction={30} />
+      </MapView.Marker>)
 
   }
 
@@ -79,9 +79,9 @@ class Map extends Component {
           initialRegion={this.state.region}
           region={this.state.maxRegion}
           mapType="satellite"
-          >
+        >
           {Object.keys(this.state.markers).map(key => (
-            this._renderMarker(this.state.markers[key],key)
+            this._renderMarker(this.state.markers[key], key)
           ))}
 
         </MapView>

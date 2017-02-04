@@ -29,9 +29,9 @@ const {
 
 const { width, height } = Dimensions.get('window')
 
-const graphHeight = height * 0.33
+const graphHeight = 150
 
-export default class SummaryView extends Component{
+export default class SummaryView extends Component {
 
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
@@ -60,7 +60,7 @@ export default class SummaryView extends Component{
     maxWindSpeed: PropTypes.number.isRequired
   }
 
-   _calculateY(value) {
+  _calculateY(value) {
     return graphHeight - (value * graphHeight) / (this.props.maxWindSpeed + 2)
   }
 
@@ -68,7 +68,7 @@ export default class SummaryView extends Component{
     return i * 4
   }
 
-  _renderHeader(){
+  _renderHeader() {
     return (
       <View style={style.sectionContainer} >
         <Text style={style.dateText}>{moment(this.props.dateTime).format('LLLL')}</Text>
@@ -77,23 +77,23 @@ export default class SummaryView extends Component{
     )
   }
 
-  _renderMapArea(){
+  _renderMapArea() {
     return (
-        <MapView
-          style={style.map}
-          initialRegion={this.props.region} >
-          <MapView.Polyline
-            key={this.props.tripCoordinates.id}
-            coordinates={this.props.tripCoordinates.coordinates}
-            strokeColor="#000"
-            fillColor="rgba(255,0,0,0.5)"
-            strokeWidth={1} />
-        </MapView>
+      <MapView
+        style={style.map}
+        initialRegion={this.props.region} >
+        <MapView.Polyline
+          key={this.props.tripCoordinates.id}
+          coordinates={this.props.tripCoordinates.coordinates}
+          strokeColor="#000"
+          fillColor="rgba(255,0,0,0.5)"
+          strokeWidth={1} />
+      </MapView>
     )
   }
 
-  _renderGraphArea(){
-    if (this.props.paths.length < 3){
+  _renderGraphArea() {
+    if (this.props.paths.length < 3) {
       return null
     }
     let i = 0
@@ -116,11 +116,11 @@ export default class SummaryView extends Component{
         <View style={style.graphContainer}>
           {this._renderWindSpeedPoints()}
           <ScrollView
-            ref={scrollView => { this._scrollView = scrollView; } }
+            ref={scrollView => { this._scrollView = scrollView; }}
             automaticallyAdjustContentInsets={false}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            style={{flex: 1}}>
+            style={{ flex: 1 }}>
 
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
               <Shape d={d} stroke="#000" strokeWidth={2} />
@@ -132,37 +132,42 @@ export default class SummaryView extends Component{
     )
   }
 
-  _renderGraphTimeGrid(){
+  _renderGraphTimeGrid() {
     const max = this.props.paths.length
     let render = []
-    for (let i = max; i > 0; i -= 1){
-      if (i % 20 === 0){
+    for (let i = max; i > 0; i -= 1) {
+      if (i % 20 === 0) {
         render.push(
-        <View style={style.gridContainer} >
-          <View style={style.topGrid}
-            pointerEvents="box-none" />
-          <View style={style.bottomGrid}
-            pointerEvents="box-none" >
-            <Text style={style.graphTimeText} >{moment(this.props.paths[i].time).format('HH:MM')}</Text>
+          <View style={style.gridContainer} >
+            <View style={style.topGrid}
+              pointerEvents="box-none" />
+            <View style={style.bottomGrid}
+              pointerEvents="box-none" >
+              <Text style={style.graphTimeText} >{moment(this.props.paths[i].time).format('HH:MM')}</Text>
+            </View>
           </View>
-        </View>
         )
       }
     }
     return (
-      <View style={{position: 'absolute', flexDirection: 'row'}}>
+      <View style={{ position: 'absolute', flexDirection: 'row' }}>
         {render}
       </View>
     )
   }
 
-  _renderWindSpeedPoints(){
+  _renderWindSpeedPoints() {
     const max = this.props.maxWindSpeed + 2
     let render = []
-    for (let i = max; i >= 0; i -= 1){
-      if (i % 2 === 0){
+    for (let i = max; i >= 0; i -= 1) {
+      if (i % 2 === 0) {
         render.push(
           <Text>{i !== 0 ? i + ' m/s' : '   '}</Text> // i like this one =)
+        )
+      }
+      else {
+        render.push(
+          <Text>{'   '}</Text>
         )
       }
     }
@@ -170,10 +175,10 @@ export default class SummaryView extends Component{
       <View style={style.windSpeedContainer}>
         {render}
       </View>
-      )
+    )
   }
 
-  render(){
+  render() {
     return (
       <ScrollView style={style.container}>
         {this._renderHeader()}
@@ -217,7 +222,7 @@ const style = StyleSheet.create({
     textAlign: 'center'
   },
   windSpeedContainer: {
-    width: 40 ,
+    width: 40,
     height: graphHeight,
     justifyContent: 'space-between'
   },
@@ -226,7 +231,7 @@ const style = StyleSheet.create({
     borderRightWidth: 2,
     borderColor: 'rgba(0,0,0,0.2)',
     width: 80,
-    height: graphHeight / 2 
+    height: graphHeight / 2
   },
   bottomGrid: {
     flex: 2,

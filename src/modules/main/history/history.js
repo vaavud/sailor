@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import {
-  View,Button
+  View, Button
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -29,8 +29,8 @@ class History extends Component {
   render() {
     return (<View style={{ flex: 1, backgroundColor: 'pink' }} >
       <Button title="AddSpot" onPress={() => {
-        this.props.push({ key: 'summary' })
-      } } />
+        this.props.push({ key: 'summary', props: { sessionKey: '-Kc2SNyIdZ6Cq27cuIQK' } })
+      }} />
     </View>)
   }
 

@@ -91,6 +91,8 @@ class Measure extends Component {
     this.state.myModuleEvt.removeAllListeners('onReadyToWork')
     this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
 
+    if (!this.state.readyToWork) return
+
     this.props.endSession(this.state.points).then(res => {
       if (res.success) {
         this.props.push({ key: 'summary', props: { sessionKey: res.key } })
@@ -152,7 +154,6 @@ class Measure extends Component {
       )
     }
   }
-
 }
 
 const mapReduxStoreToProps = (reduxStore) => {

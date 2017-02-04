@@ -47,7 +47,7 @@ export function endSession(points) {
         currentSession[0].windDirection = 12 //TODO get real value
       })
 
-      if (1 === 2) { //getState().app.online
+      if (getState().app.online) {
         sendPoints(key, points)
           .then(() => saveSessionFb(key, currentSession[0]))
           .then(() => {
