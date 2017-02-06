@@ -2,5 +2,9 @@
 'use strict'
 
 import MeasureView from './measure'
+import ConnectingView from './connecting'
 
-export default MeasureView
+export {
+  MeasureView,
+  ConnectingView
+}
