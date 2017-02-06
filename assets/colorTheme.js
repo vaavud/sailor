@@ -6,7 +6,8 @@ const colorTheme = {
   tabbar: '#FFFFFF',
   vaavudRed: '#D12A2f',
   vaavudBlue: '#00A1E1',
-  inputTextColor: '#FFFFFF',
+  textColor: 'black',
+  inputTextColor: 'black',
 }
 
 export default colorTheme

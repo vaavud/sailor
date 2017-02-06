@@ -12,7 +12,8 @@ import {
   Image,
   StyleSheet,
   Button,
-  LayoutAnimation
+  Animated,
+  Easing,
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
@@ -23,7 +24,17 @@ const compassHand = require('../../../../assets/trueWindCompassHand.png')
 
 export default class MeasureView extends Component {
 
+  constructor(props){
+    super(props)
+    this.animatedValue = new Animated.Value(0)
+    this.state = {
+      lastHeading: 0,
+      newHeading: 0
+    }
+  }
+
   static propTypes = {
+    lastWindHeading: PropTypes.number.isRequired,
     windHeading: PropTypes.number.isRequired,
     windSpeed: PropTypes.number.isRequired,
     windSpeedUnit: PropTypes.number.isRequired,
@@ -32,20 +43,33 @@ export default class MeasureView extends Component {
     testStop: PropTypes.func.isRequired
   }
 
-  _renderCompass(heading) {
-    // hook up heading
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+  animateNewHeading(){
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue, {
+        toValue: 1,
+        duration: 250,
+        easing: Easing.linear
+      }
+    ).start()
+  }
+
+  _renderCompass(lastHeading, newHeading) {
+    this.animateNewHeading()
+    const animate = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [lastHeading + 'deg', newHeading + 'deg']
+    })
     return (
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >
           <Image source={compass} />
-          <Image
-            style={
-              {
+          <Animated.Image
+            style={{
                 position: 'absolute',
-                transform: [{ 'rotate': heading + 'deg' }]
-              }
-            } source={compassHand} />
+                transform: [{ 'rotate': animate }]
+            }}
+            source={compassHand} />
         </View>
       </View>
     )
@@ -91,7 +115,7 @@ export default class MeasureView extends Component {
   render() {
     return (
       <View style={style.container} >
-        {this._renderCompass(this.props.windHeading)/* TODO get heading from container */}
+        {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
         {this._renderSpeedContainer('N/A', this.props.windSpeed)}
         <Button title="Stop" onPress={this.props.testStop} />
