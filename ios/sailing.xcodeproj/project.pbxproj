@@ -34,6 +34,7 @@
 		2B436F871E28FE9A00C0E250 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */; };
 		2B436F881E28FE9A00C0E250 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */; };
 		2B436F891E28FE9A00C0E250 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */; };
+		2B651C911E48ADDF003F5994 /* SwiftSimplify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */; };
 		2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBE8C0B062A4B57B3A2EBBD /* libAirMaps.a */; };
 		426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3953F755AF4EA595AC4FB6 /* libc++.tbd */; };
 		46E059A8C586411E8C2CBC14 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E210101A43B45FF90B89D38 /* libRCTFBSDK.a */; };
@@ -307,6 +308,7 @@
 		2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSimplify.swift; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 				2B182FE71E3B845700022F99 /* DirectionSelectorView.m */,
 				2B182FE91E3B849000022F99 /* DirectionSelectorView.h */,
 				2B182FEA1E3B853B00022F99 /* DirectionSelectorView.swift */,
+				2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */,
 			);
 			name = sailing;
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B651C911E48ADDF003F5994 /* SwiftSimplify.swift in Sources */,
 				2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */,
 				2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */,
 				2B182FC41E3B7BA100022F99 /* DirectionSelector.swift in Sources */,

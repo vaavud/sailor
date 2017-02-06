@@ -36,14 +36,13 @@ class Measure extends Component {
       windSpeed: 0,
       windDirection: 0,
       locationReady: false,
-      points: []
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
     this.onReadyToWork = this.onReadyToWork.bind(this)
     this.onNewRead = this.onNewRead.bind(this)
-    this._onLocationError = this._onLocationError.bind(this)
-    this._onNewLocation = this._onNewLocation.bind(this)
+    // this._onLocationError = this._onLocationError.bind(this)
+    this.onLocationWorking = this.onLocationWorking.bind(this)
     this._onStopMeasurement = this._onStopMeasurement.bind(this)
 
   }
@@ -54,94 +53,91 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
     this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
     this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
+    this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
+
 
     NativeModules.VaavudBle.initBle()
 
     //Location setup
-    let locationProperties = { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000, distanceFilter: 1 }
+    // let locationProperties = { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000, distanceFilter: 1 }
 
-    navigator.geolocation.getCurrentPosition(latlon => {
-      this.setState({ latlon: latlon.coords, locationReady: true })
-    }, this._onLocationError, locationProperties)
-    this.positionListener = navigator.geolocation.watchPosition(this._onNewLocation, this._onLocationError, locationProperties) //unsuscribe listener
+    // navigator.geolocation.getCurrentPosition(latlon => {
+    //   this.setState({ latlon: latlon.coords, locationReady: true })
+    // }, this._onLocationError, locationProperties)
+    // this.positionListener = navigator.geolocation.watchPosition(this._onNewLocation, this._onLocationError, locationProperties) //unsuscribe listener
   }
 
-  _onLocationError(error) {
-    console.log('Location error', error)
-  }
 
-  _onNewLocation(position) {
-    if (this.state.readyToWork) {
-      this.setState({ latlon: position.coords })
+  onLocationWorking(location) {
+    if (location.available) {
+      console.log('Location working')
+      this.setState({ locationReady: true })
+    }
+    else {
+      console.log('please eneble your location')
     }
   }
 
   componentWillUnmount() {
-    this._onStopMeasurement()
+    // this._onStopMeasurement()
   }
 
-
   _onStopMeasurement() {
-
-    navigator.geolocation.clearWatch(this.positionListener)
+    // navigator.geolocation.clearWatch(this.positionListener)
     NativeModules.VaavudBle.onDisconnect()
-    // this.state.myModuleEvt.removeAllListeners('onBleConnected')
-    // this.state.myModuleEvt.removeAllListeners('onStateHasChanged')
-    this.state.myModuleEvt.removeAllListeners('onNewRead')
-    this.state.myModuleEvt.removeAllListeners('onReadyToWork')
-    this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
+    // // this.state.myModuleEvt.removeAllListeners('onBleConnected')
+    // // this.state.myModuleEvt.removeAllListeners('onStateHasChanged')
+    // this.state.myModuleEvt.removeAllListeners('onNewRead')
+    // this.state.myModuleEvt.removeAllListeners('onReadyToWork')
+    // this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
 
-    if (!this.state.readyToWork) return
+    // if (!this.state.readyToWork) return
 
-    this.props.endSession(this.state.points).then(res => {
-      if (res.success) {
-        this.props.push({ key: 'summary', props: { sessionKey: res.key } })
+    // this.props.endSession(this.state.points).then(res => {
+    //   if (res.success) {
+    //     this.props.push({ key: 'summary', props: { sessionKey: res.key } })
 
-        console.log('go to summary with key: ', res.key)
-      }
-      else {
-        console.log('go back, there was a problem with the server')
-      }
-    })
+    //     console.log('go to summary with key: ', res.key)
+    //   }
+    //   else {
+    //     console.log('go back, there was a problem with the server')
+    //   }
+    // })
   }
 
   onVaavudBleFound(ble) {
-    NativeModules.VaavudBle.onConnect()
-    this.setState({ isBleConnected: ble.available })
+    if (ble.available) {
+      this.setState({ isBleConnected: true })
+    }
+    else {
+      //TODOs
+    }
   }
 
   onReadyToWork() {
     // this.props.endSession()
-    this.props.initSession().then(() => {
-      this.setState({ readyToWork: true })
-    })
+    // this.props.initSession().then(() => {
+    //   this.setState({ readyToWork: true })
+    // })
+
+    //Dismis view  and start recoding...
   }
 
   onNewRead(point) {
-    if (this.state.locationReady) {
-      let p = {
-        windSpeed: point.windSpeed,
-        windDirection: point.windDirection,
-        location: {
-          lat: this.state.latlon.latitude,
-          lon: this.state.latlon.longitude
-        },
-        timestamp: Date.now()
-      }
-      // this.props.newSessionPoint(p)
-      let points = this.state.points
-      points.push(p)
 
-      this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, points })
-    }
-    else {
+    console.log('direction',point.windDirection)
+    console.log('compass',point.compass)
+    console.log('----------------------------')
+    // console.log('temperature',point.temperature)
+    // console.log('battery',point.battery)
+
+    if (this.state.locationReady)
       this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection })
-    }
   }
 
   render() {
 
-    if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
+    if (this.state.isBleConnected && this.state.locationReady) {
       return (
         <MeasureView windHeading={this.state.windDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
       )
@@ -158,6 +154,7 @@ class Measure extends Component {
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
+
   }
 }
 
@@ -165,7 +162,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     initSession: bindActionCreators(initSession, dispatch),
     endSession: bindActionCreators(endSession, dispatch),
-    // newSessionPoint: bindActionCreators(newSessionPoint, dispatch),
   }
 }
 

@@ -59,7 +59,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is needed to search for nearby peripherals.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Your location is needed to search for nearby peripherals.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
