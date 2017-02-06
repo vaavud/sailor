@@ -12,10 +12,20 @@ import CoreBluetooth
 import CoreLocation
 
 
+struct Speed {
+  let windSpeed: Double
+  let timestamp: UInt64
+}
+
+struct Direction {
+  let windDirection: Int
+  let timestamp: UInt64
+}
+
 
 struct MeasurementPoint {
-  let windSpeed: Double
-  let windDirection: Int
+  let speed: Speed
+  let direction: Direction
   let location: CLLocationCoordinate2D
   let timestamp: UInt64
 }
@@ -153,8 +163,29 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
     peripheral = nil
     locationManager.stopUpdatingLocation()
     
-    let simplified = SwiftSimplify.simplify([], tolerance: 1, highQuality: false)
+    var latlon : [CLLocationCoordinate2D] = []
+    var speeds : [CGPoint] = []
+    var directions : [CGPoint] = []
+    
+    
+    for point in measurementPoints {
+      latlon.insert(point.location, at: 0)
+      speeds.insert(CGPoint(x:Double(point.speed.timestamp) , y: point.speed.windSpeed), at: 0)
+      directions.insert(CGPoint(x: Double(point.speed.timestamp), y:point.speed.windSpeed ), at: 0)
+    }
+    
+    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false)
+    let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 1, highQuality: false)
+    let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 1, highQuality: false)
 
+    print(simplifiedLocations)
+    print(latlon)
+    
+    print(simplifiedSpeed)
+    print(speeds)
+    
+    print(simplifiedDirection)
+    print(directions)
     
   }
   
@@ -270,7 +301,10 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
         
 
         if let _loc = lastLocation {
-          let point = MeasurementPoint(windSpeed: _h1, windDirection: h2, location: _loc, timestamp: Date().ticks)
+          
+          let speed = Speed(windSpeed: _h1, timestamp: Date().ticks)
+          let direction = Direction(windDirection: h2, timestamp: Date().ticks)
+          let point = MeasurementPoint(speed: speed, direction: direction, location: _loc, timestamp: Date().ticks)
           measurementPoints.insert(point, at: 0)
         }
         

@@ -19,7 +19,7 @@ import {
 } from '../../../actions/measure'
 
 
-import MeasureView from '../../../views/main/measure'
+import { MeasureView } from '../../../views/main/measure'
 
 
 class Measure extends Component {
@@ -35,6 +35,7 @@ class Measure extends Component {
       isBleConnected: false,
       windSpeed: 0,
       windDirection: 0,
+      lastWindDirection: 0,
       locationReady: false,
     }
 
@@ -125,21 +126,24 @@ class Measure extends Component {
 
   onNewRead(point) {
 
-    console.log('direction',point.windDirection)
-    console.log('compass',point.compass)
+    console.log('direction', point.windDirection)
+    console.log('compass', point.compass)
     console.log('----------------------------')
     // console.log('temperature',point.temperature)
     // console.log('battery',point.battery)
 
-    if (this.state.locationReady)
-      this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection })
+    if (this.state.locationReady) {
+      let last = this.state.windDirection
+      this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, lastWindDirection: last })
+    }
+
   }
 
   render() {
 
     if (this.state.isBleConnected && this.state.locationReady) {
       return (
-        <MeasureView windHeading={this.state.windDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+        <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
       )
     }
     else {
