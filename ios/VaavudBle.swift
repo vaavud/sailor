@@ -12,28 +12,28 @@ import CoreBluetooth
 import CoreLocation
 
 
-struct Speed {
-  let windSpeed: Double
-  let timestamp: UInt64
-}
-
-struct Direction {
-  let windDirection: Int
-  let timestamp: UInt64
-}
-
-
 struct MeasurementPoint {
-  let speed: Speed
-  let direction: Direction
+  let speed: Double
+  let direction: Int
   let location: CLLocationCoordinate2D
   let timestamp: UInt64
+  
+  
+  var toDic: [String:Any] {
+    return ["speed": speed, "direction": direction, "location": ["latitude":location.latitude, "longitude": location.longitude], "timestamp":timestamp]
+  }
 }
 
 
 extension Date {
   var ticks: UInt64 {
-    return UInt64((self.timeIntervalSince1970 + 62_135_596_800) * 10_000_000)
+    return UInt64(self.timeIntervalSince1970 * 1000)
+  }
+}
+
+extension CGPoint {
+  var toDic: [String:Double] {
+    return ["timestamp": Double(self.x), "value": Double(self.y)]
   }
 }
 
@@ -100,7 +100,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
   
   
   override func supportedEvents() -> [String]! {
-    return ["onBleConnected","onStateHasChanged","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking"]
+    return ["onBleConnected","onStateHasChanged","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking","onFinalData"]
   }
   
   @objc
@@ -170,22 +170,16 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
     
     for point in measurementPoints {
       latlon.insert(point.location, at: 0)
-      speeds.insert(CGPoint(x:Double(point.speed.timestamp) , y: point.speed.windSpeed), at: 0)
-      directions.insert(CGPoint(x: Double(point.speed.timestamp), y:point.speed.windSpeed ), at: 0)
+      speeds.insert(CGPoint(x:Double(point.timestamp) , y: point.speed), at: 0)
+      directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
     
-    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false)
-    let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 1, highQuality: false)
-    let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 1, highQuality: false)
-
-    print(simplifiedLocations)
-    print(latlon)
+    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false).map{["latitude":$0.latitude,"longitude":$0.longitude]}
+    let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toDic}
+    let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDic}
     
-    print(simplifiedSpeed)
-    print(speeds)
     
-    print(simplifiedDirection)
-    print(directions)
+    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection ] )
     
   }
   
@@ -302,9 +296,9 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
 
         if let _loc = lastLocation {
           
-          let speed = Speed(windSpeed: _h1, timestamp: Date().ticks)
-          let direction = Direction(windDirection: h2, timestamp: Date().ticks)
-          let point = MeasurementPoint(speed: speed, direction: direction, location: _loc, timestamp: Date().ticks)
+//          let speed = Speed(windSpeed: _h1, timestamp: Date().ticks)
+//          let direction = Direction(windDirection: h2, timestamp: Date().ticks)
+          let point = MeasurementPoint(speed: _h1, direction: h2, location: _loc, timestamp: Date().ticks)
           measurementPoints.insert(point, at: 0)
         }
         

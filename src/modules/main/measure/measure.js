@@ -42,6 +42,7 @@ class Measure extends Component {
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
     this.onReadyToWork = this.onReadyToWork.bind(this)
     this.onNewRead = this.onNewRead.bind(this)
+    this.onFinalData = this.onFinalData.bind(this)
     // this._onLocationError = this._onLocationError.bind(this)
     this.onLocationWorking = this.onLocationWorking.bind(this)
     this._onStopMeasurement = this._onStopMeasurement.bind(this)
@@ -55,7 +56,7 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
     this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
     this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
-
+    this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
 
     NativeModules.VaavudBle.initBle()
 
@@ -66,6 +67,11 @@ class Measure extends Component {
     //   this.setState({ latlon: latlon.coords, locationReady: true })
     // }, this._onLocationError, locationProperties)
     // this.positionListener = navigator.geolocation.watchPosition(this._onNewLocation, this._onLocationError, locationProperties) //unsuscribe listener
+  }
+
+
+  onFinalData(data) {
+    this.props.push({ key: 'summary', props: { speed: data.speeds } })
   }
 
 
@@ -126,9 +132,9 @@ class Measure extends Component {
 
   onNewRead(point) {
 
-    console.log('direction', point.windDirection)
-    console.log('compass', point.compass)
-    console.log('----------------------------')
+    // console.log('direction', point.windDirection)
+    // console.log('compass', point.compass)
+    // console.log('----------------------------')
     // console.log('temperature',point.temperature)
     // console.log('battery',point.battery)
 

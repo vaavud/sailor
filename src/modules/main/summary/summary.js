@@ -29,8 +29,12 @@ class Summary extends Component {
   constructor(props) {
     super(props)
 
+    var paths = []
+    for (let i in props.componentProps.speed) {
+      paths.push({ 'speed': props.componentProps.speed[i].value, 'time': props.componentProps.speed[i].timestamp })
+    }
+
     this.state = {
-      sessionKey: props.componentProps.sessionKey,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -42,31 +46,31 @@ class Summary extends Component {
         id: 1,
         coordinates: []
       },
-      paths: []
+      paths
     }
 
-    console.log('props', props)
+    console.log('props', props, this.state,paths)
 
   }
 
   componentDidMount() {
-    getSummaryInformation(this.state.sessionKey).then(data => {
-      let paths = []
-      let locations = []
-      let directions = []
+    // getSummaryInformation(this.state.sessionKey).then(data => {
+    //   let paths = []
+    //   let locations = []
+    //   let directions = []
 
-      console.log('init', Date.now())
-      for (let index in data.windSpeeds) {
-        paths.push({ speed: data.windSpeeds[index], time: data.timestamps[index] })
-        locations.push(({ location: data.locations[index], time: data.timestamps[index] }))
-        directions.push(({ direction: data.windDirections[index], time: data.timestamps[index] }))
-      }
-      console.log('end', Date.now())
+    //   console.log('init', Date.now())
+    //   for (let index in data.windSpeeds) {
+    //     paths.push({ speed: data.windSpeeds[index], time: data.timestamps[index] })
+    //     locations.push(({ location: data.locations[index], time: data.timestamps[index] }))
+    //     directions.push(({ direction: data.windDirections[index], time: data.timestamps[index] }))
+    //   }
+    //   console.log('end', Date.now())
 
 
-      this.setState({ paths, locations })
-      console.log('getSummaryInformation', data)
-    })
+    //   this.setState({ paths, locations })
+    //   console.log('getSummaryInformation', data)
+    // })
   }
 
   componentWillUnmount() {
@@ -162,7 +166,7 @@ class Summary extends Component {
           coordinates: null
         }}
         paths={this.state.paths}
-        maxWindSpeed={1} />
+        maxWindSpeed={5} />
     )
   }
 
