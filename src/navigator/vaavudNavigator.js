@@ -27,10 +27,12 @@ import { bindActionCreators } from 'redux'
 import VaavudScene from './vaavudScene'
 import VaavudHeader from './header'
 import Tab from './tab'
+import MeasureButton from '../components/measureButton'
 // import VaavudActionButton from '../reactcommon/components/vaavudActionButton'
 // import {saveSubscription} from '../actions/newsfeed'
 // import {log} from '../actions/amplitude'
 
+import Colors from '../../assets/colorTheme'
 
 
 class VaavudNavigator extends Component {
@@ -87,11 +89,15 @@ class VaavudNavigator extends Component {
     const tabKey = tabs.routes[tabs.index].key
     const scenes = appNavigationState[tabKey]
     var _tabs = (key) => {
-      return (
-        <View style={{ backgroundColor: 'red', flexDirection: 'row' }}>
-          {tabs.routes.map(this._renderTab, this)}
-        </View>
-      )
+      if (key === 'measure'){
+        return null
+      } else {
+        return (
+          <View style={{ backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
+            {tabs.routes.map(this._renderTab, this)}
+          </View>
+        )
+      }
       // if (key !== 'measure') {
       //   if (scenes.routes.length > 1) {
       //     return null
@@ -109,21 +115,30 @@ class VaavudNavigator extends Component {
       // }
     }
 
-    // var _tabsM = (key) => {
-    //   if (key !== 'measure') {
-    //     if (scenes.routes.length > 1) {
-    //       return null
-    //     }
-    //     else {
-    //       return (
-    //         null
-    //       )
-    //     }
-    //   }
-    //   else {
-    //     return null
-    //   }
-    // }
+    var _tabsM = (key) => {
+      if (key !== 'measure') {
+        if (scenes.routes.length > 1){
+          return null
+        }
+        else {
+          return (
+            <MeasureButton
+              onPress={() => {this.props.navigate({type: 'selectTab', tabKey: 'measure'})}}
+              btnText={'+'}
+              buttonColor={Colors.vaavudBlue}
+              btnOutRange={Colors.vaavudRed} />
+          )
+        }
+      }
+      else {
+        return (
+          <MeasureButton
+              onPress={() => {this.props.navigate({type: 'selectTab', tabKey: 'measure'})}}
+              buttonColor={Colors.vaavudBlue}
+              btnOutRange={Colors.vaavudRed} />
+        )
+      }
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -137,10 +152,11 @@ class VaavudNavigator extends Component {
           navigationState={scenes}
           renderHeader={this._renderHeader}
           renderScene={this._renderScene}
-          cardStyle={{ backgroundColor: '#282F36' }}
+          cardStyle={{ backgroundColor: Colors.background }}
 
           />
         {_tabs(tabKey)}
+        {_tabsM(tabKey)}
       </View>
     )
   }

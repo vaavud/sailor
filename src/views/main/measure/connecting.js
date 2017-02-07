@@ -42,6 +42,7 @@ export default class ConnectingView extends Component {
       </View>
     )
   }
+
   _renderStatusIcon(isReady){
     return isReady ?
       (

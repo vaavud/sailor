@@ -66,9 +66,9 @@ export default class SettingsView extends Component{
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('windSpeed')}</Text>
         <SegmentedControls style={style.segmentedControl} //WindSpeed
-          tint={'#f80046'}
-          selectedTint={'white'}
-          backTint={'#1e2126'}
+          tint={Colors.segmSelectedTint}
+          selectedTint={Colors.segmentedTint}
+          backTint={Colors.segmentedTint}
           options={[speed_conv['m/s'].short, speed_conv['km/h'].short, speed_conv.knots.short, speed_conv.mph.short]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getWindSpeedValue(e)}
@@ -87,9 +87,9 @@ export default class SettingsView extends Component{
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('direction')}</Text>
         <SegmentedControls style={style.segmentedControl} //WindSpeed
-          tint={'#f80046'}
-          selectedTint={'white'}
-          backTint={'#1e2126'}
+          tint={Colors.segmSelectedTint}
+          selectedTint={Colors.segmentedTint}
+          backTint={Colors.segmentedTint}
           options={[angle_conv.deg.long, angle_conv.card.long]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getDirectionValue(e)}
@@ -108,9 +108,9 @@ export default class SettingsView extends Component{
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('temperature')}</Text>
         <SegmentedControls //Temperature
-          tint={'#f80046'}
-          selectedTint={'white'}
-          backTint={'#1e2126'}
+          tint={Colors.segmSelectedTint}
+          selectedTint={Colors.segmentedTint}
+          backTint={Colors.segmentedTint}
           options={[temp_conv.cel.short, temp_conv.fahr.short]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getTemperatureValue(e)}
@@ -129,9 +129,9 @@ export default class SettingsView extends Component{
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('showColors')}</Text>
         <SegmentedControls //Temperature
-          tint={'#f80046'}
-          selectedTint={'white'}
-          backTint={'#1e2126'}
+          tint={Colors.segmSelectedTint}
+          selectedTint={Colors.segmentedTint}
+          backTint={Colors.segmentedTint}
           options={['Yes', 'No']}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => console.log('TODO')}

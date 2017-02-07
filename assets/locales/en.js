@@ -37,7 +37,12 @@ const en = {
   deviceStatus:   'Ultra Sonic device status',
   otherSection:   'Other',
   logout:         'Log out',
-  appGuide:       'Do you need help?'
+  appGuide:       'Do you need help?',
+
+  // Newsfeed screens
+  chooseHabour:   'Choose your harbour',
+  letsgoButton:   'Let\'s go!',
+
 }
 
 export default en

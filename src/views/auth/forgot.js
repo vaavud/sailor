@@ -86,12 +86,12 @@ export default class ForgotView extends Component{
           keyboardType="email-address"
           placeholder={I18n.t('emailInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           autoCapitalize="none"
           onChangeText={this._handleEmailInput}
-          onSubmitEditing={(event) => {
+          onSubmitEditing={() => {
             this._handlePressSend()
           }} />
       </View>
@@ -113,7 +113,7 @@ export default class ForgotView extends Component{
       <View style={style.container}>
         {this._renderBackButton()}
         <Image style={style.logo}
-        source={loginLogo}/>
+          source={loginLogo}/>
         {this._renderText()}
         {this._renderEmailField()}
         {this._renderButton()}
@@ -178,12 +178,14 @@ const style = StyleSheet.create({
   },
   text:{
     fontSize: 14,
+    lineHeight: 20,
+    fontWeight: 'bold',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.textColor
   },
   buttonText: {
     fontSize: 16,
-    textAlign:'center',
+    textAlign: 'center',
     color: Colors.vaavudBlue
    }
 })

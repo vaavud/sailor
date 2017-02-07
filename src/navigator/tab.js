@@ -42,7 +42,7 @@ class Tab extends Component {
     }
     return (
       <TouchableOpacity style={styles.tab} onPress={this._onPress}>
-        <Image style={{ tintColor: '#fff' }} source={icons[this.props.route.key]} />
+        <Image style={{ tintColor: '#000' }} source={icons[this.props.route.key]} />
       </TouchableOpacity>
     )
     // }
