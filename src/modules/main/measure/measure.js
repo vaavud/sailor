@@ -19,7 +19,7 @@ import {
 } from '../../../actions/measure'
 
 
-import { MeasureView } from '../../../views/main/measure'
+import { MeasureView, ConnectingView } from '../../../views/main/measure'
 
 
 class Measure extends Component {
@@ -154,9 +154,7 @@ class Measure extends Component {
     }
     else {
       return (
-        <View style={{ backgroundColor: 'orange', flex: 1, marginTop: 100 }} >
-          <Text> "Connection to your Vaavud ble... wait a second." </Text>
-        </View>
+        <ConnectingView isBleReady={this.state.isBleConnected} isLocationReady={this.state.locationReady} />
       )
     }
   }
