@@ -96,7 +96,7 @@ export default class SignupView extends Component {
           autoCorrect={false}
           placeholder={I18n.t('firstNameInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           onChangeText={this._handleFirstNameInput}
@@ -117,7 +117,7 @@ export default class SignupView extends Component {
           autoCorrect={false}
           placeholder={I18n.t('lastNameInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           onChangeText={this._handleLastNameInput}
@@ -139,7 +139,7 @@ export default class SignupView extends Component {
           keyboardType="email-address"
           placeholder={I18n.t('emailInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           autoCapitalize="none"
@@ -162,7 +162,7 @@ export default class SignupView extends Component {
           keyboardType="default"
           placeholder={I18n.t('passwordInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           autoCapitalize="none"
@@ -186,7 +186,7 @@ export default class SignupView extends Component {
           keyboardType="default"
           placeholder={I18n.t('confirmPwInput')}
           clearButtonMode="while-editing"
-          placeholderTextColor="#fff"
+          placeholderTextColor={Colors.inputTextColor}
           underlineColorAndroid="transparent"
           returnKeyType="next"
           autoCapitalize="none"
@@ -290,7 +290,6 @@ const style = StyleSheet.create({
   },
   buttonContainer:{
     marginTop: 30,
-    justifyContent: 'space-between'
   },
   loginButton: {
     width : width * 0.8 - 2,
@@ -320,11 +319,11 @@ const style = StyleSheet.create({
   },
   termsText:{
     fontSize: 12,
-    color: 'black'
+    color: Colors.textColor
   },
   termsButtonText: {
     fontSize: 12,
     textAlign: 'right',
-    color: 'black'
+    color: Colors.textColor
   }
 })

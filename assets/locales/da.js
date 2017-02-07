@@ -37,7 +37,11 @@ const da = {
   deviceStatus:   'Ultra Sonic enhedens status',
   otherSection:   'Andet',
   logout:         'Log ud',
-  appGuide:       'Har du brug for hjælp?'
+  appGuide:       'Har du brug for hjælp?',
+
+  // Newsfeed screens
+  chooseHabour:   'Vælg din havn',
+  letsgoButton:   'Let\'s go!',
 }
 
 export default da

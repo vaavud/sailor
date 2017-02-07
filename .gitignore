@@ -34,6 +34,7 @@ local.properties
 #
 node_modules/
 npm-debug.log
+yarn-error.log
 
 # BUCK
 buck-out/
@@ -52,7 +53,6 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 
-# vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

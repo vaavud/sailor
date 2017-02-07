@@ -70,7 +70,7 @@ export default class LoginView extends Component {
             keyboardType="email-address"
             placeholder={I18n.t('emailInput')}
             clearButtonMode="while-editing"
-            placeholderTextColor="#fff"
+            placeholderTextColor={Colors.inputTextColor}
             underlineColorAndroid="transparent"
             returnKeyType="next"
             autoCapitalize="none"
@@ -90,7 +90,7 @@ export default class LoginView extends Component {
             keyboardType="default"
             placeholder={I18n.t('passwordInput')}
             secureTextEntry={true}
-            placeholderTextColor="#fff"
+            placeholderTextColor={Colors.inputTextColor}
             underlineColorAndroid="transparent"
             returnKeyType="go"
             onChangeText={this._handlePasswordInput}
@@ -221,11 +221,11 @@ const style = StyleSheet.create({
   },
   signupButtonText: {
     fontSize: 12,
-    color: 'black'
+    color: Colors.textColor
   },
   forgotButtonText: {
     fontSize: 12,
     textAlign: 'right',
-    color: 'black'
+    color: Colors.textColor
   }
 })
