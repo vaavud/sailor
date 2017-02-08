@@ -74,7 +74,7 @@ export default class HistoryView extends Component {
   _renderRow() {
     return (
       <TouchableOpacity style={style.row}
-        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: this.props.sessions[291].key } })}>
+        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: this.props.sessions[0].key } })}>
         <View>
           <Text>{'IMA ROW!!'}</Text>
         </View>
