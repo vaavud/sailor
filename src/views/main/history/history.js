@@ -10,7 +10,6 @@ import {
   ListView,
   View,
   Text,
-  TouchableHighlight,
   RefreshControl,
   RecyclerViewBackedScrollView,
   TouchableOpacity,
@@ -31,19 +30,24 @@ export default class HistoryView extends Component {
       rowHasChanged: (a, b) => a !== b,
       sectionHeaderHasChanged: (a, b) => a !== b,
     })
+    var sections = this._sessionsToSections(props.sessions)
+
     this.state = {
-      dataSource: ds.cloneWithRowsAndSections([]),
+      dataSource: ds.cloneWithRowsAndSections(sections),
       refreshing: false
     }
+
+    // dataSource: this.state.dataSource.cloneWithRowsAndSections(sections)
+    // console.log('this.props.sessions',)
   }
 
   componentWillMount() {
-    this.componentWillReceiveProps(this.props)
+    // this.componentWillReceiveProps(this.props)
   }
 
   componentWillReceiveProps(props) {
-    //var sections = this._sessionsToSections(this.props.sessions)
-    //this.setState({dataSource: this.state.dataSource.cloneWithRowsAndSections(sections)})
+    // var sections = this._sessionsToSections(this.props.sessions)
+    // this.setState({  })
   }
 
   _sessionsToSections(sessions) {
@@ -71,30 +75,70 @@ export default class HistoryView extends Component {
     )
   }
 
-  _renderRow() {
+  _renderRow(data) {
     return (
       <TouchableOpacity style={style.row}
-        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: this.props.sessions[0].key } })}>
-        <View>
-          <Text>{'IMA ROW!!'}</Text>
+        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
+        <View style={{ flex: 1, padding: 12 }}>
+          <Text >{moment(data.timeStart).format('HH:mm')}</Text>
+        </View>
+        <View style={{ width: 60, backgroundColor: 'green' }} >
+          <Text>{'max'}</Text>
+        </View>
+        <View style={{ width: 60, backgroundColor: 'cyan' }} >
+          <Text>{'mean'}</Text>
         </View>
       </TouchableOpacity>
     )
   }
 
-  render() {
+  _renderSeparator(sectionId, rowId) {
+    var key = `sep_${sectionId}_${rowId}`
     return (
-      <View style={{ flex: 1, backgroundColor: 'blue' }}>
-        {this._renderRow()}
-      </View>
+      <View key={key} style={style.separator} />
+    )
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: false })
+  }
+
+  render() {
+    console.log('asdasdasdasd')
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)} />}
+        renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
+        renderRow={data => this._renderRow(data, this.props.navigator)}
+        renderSeparator={this._renderSeparator}
+        renderSectionHeader={this._renderSectionHeader}
+        style={style.list}
+      />
     )
   }
 }
 
 const style = StyleSheet.create({
+  list: {
+    flex: 1
+  },
   row: {
     flexDirection: 'row',
     backgroundColor: 'red',
     marginTop: 20,
-  }
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#555',
+  },
+  sectionHeader: {
+    padding: 6,
+  },
+  sectionHeaderText: {
+    fontWeight: 'bold',
+  },
 })

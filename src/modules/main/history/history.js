@@ -7,9 +7,10 @@ import {
   View, Button
 } from 'react-native'
 
+import HistoryView from '../../../views/main/history'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import HistoryView from '../../../views/main/history'
 
 class History extends Component {
 
@@ -28,13 +29,14 @@ class History extends Component {
 
 
   render() {
-
-    return <HistoryView sessions={this.props.sessions} onNextPress={this.props.push} />
-    /*return (<View style={{ flex: 1, backgroundColor: 'pink' }} >
-      <Button title="AddSpot" onPress={() => {
-        this.props.push({ key: 'summary', props: { sessionKey: '-KcO9MzVO9elHpIYvLaC' } })
-      }} />
-    </View>)*/
+    console.log('hmmmm:::::', this.props.isloading,this.props.sessions.length > 0)
+    if (this.props.sessions.length > 0) {
+      return (
+        <HistoryView
+          onNextPress={this.props.push}
+          sessions={this.props.sessions} />
+      )
+    } else { return null }
   }
 
 }
