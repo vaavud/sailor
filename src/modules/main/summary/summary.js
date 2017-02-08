@@ -20,7 +20,7 @@ const LATITUDE_DELTA = 0.0092;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-import { getSummaryInformation } from '../../../actions/summary'
+import { getSummaryInformation, getSummaryFromServer } from '../../../actions/summary'
 
 import TestView from '../../../views/main/summary'
 
@@ -34,10 +34,11 @@ class Summary extends Component {
     //   paths.push({ 'speed': props.componentProps.speed[i].value, 'time': props.componentProps.speed[i].timestamp })
     // }
 
-    console.log('props.componentProps',props.componentProps)
+    console.log('props.componentProps', props.componentProps)
 
     this.state = {
       sessionKey: props.componentProps.sessionKey,
+      sessionFound: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -55,8 +56,21 @@ class Summary extends Component {
   componentDidMount() {
 
     getSummaryInformation(this.state.sessionKey).then(summary => {
-      console.log('summary', summary)
+      if (summary) {
+        this.setState({ sessionFound: true })
+        console.log('summary in cache', summary)
+      }
+      else {
+        getSummaryFromServer(this.state.sessionKey).then(summary => {
+          this.setState({ sessionFound: true })
+          console.log('summary in server', summary)
+        })
+          .catch(() => {
+            console.log('No summary::: Sad face')
+          })
+      }
     })
+
 
     // getSummaryInformation(this.state.sessionKey).then(data => {
     //   let paths = []

@@ -25,10 +25,10 @@ export default class HistoryView extends Component {
     onNextPress: PropTypes.func.isRequired
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     var ds = new ListView.DataSource({
-      rowHasChanged: (a, b) => a !== b ,
+      rowHasChanged: (a, b) => a !== b,
       sectionHeaderHasChanged: (a, b) => a !== b,
     })
     this.state = {
@@ -41,18 +41,18 @@ export default class HistoryView extends Component {
     this.componentWillReceiveProps(this.props)
   }
 
-  componentWillReceiveProps (props) {
+  componentWillReceiveProps(props) {
     //var sections = this._sessionsToSections(this.props.sessions)
     //this.setState({dataSource: this.state.dataSource.cloneWithRowsAndSections(sections)})
   }
 
-  _sessionsToSections (sessions) {
+  _sessionsToSections(sessions) {
     sessions.sort((a, b) => b.timeStart - a.timeStart)
     var sections = [[sessions[0]]]
     for (var i = 1; i < sessions.length; i++) {
       var datePrev = new Date(sessions[i - 1].timeStart)
       var dateCurrent = new Date(sessions[i].timeStart)
-      if (datePrev.toDateString() !== dateCurrent.toDateString()){
+      if (datePrev.toDateString() !== dateCurrent.toDateString()) {
         sections.push([])
       }
       sections[sections.length - 1].push(sessions[i])
@@ -60,7 +60,7 @@ export default class HistoryView extends Component {
     return sections
   }
 
-  renderSectionHeader (sectionData) {
+  renderSectionHeader(sectionData) {
     var rowData = sectionData[0]
     return (
       <View>
@@ -71,10 +71,10 @@ export default class HistoryView extends Component {
     )
   }
 
-  _renderRow(){
+  _renderRow() {
     return (
       <TouchableOpacity style={style.row}
-        onPress={() => this.props.onNextPress}>
+        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: this.props.sessions[291].key } })}>
         <View>
           <Text>{'IMA ROW!!'}</Text>
         </View>
@@ -82,9 +82,9 @@ export default class HistoryView extends Component {
     )
   }
 
-  render(){
+  render() {
     return (
-      <View style={{flex:1,  backgroundColor: 'blue' }}>
+      <View style={{ flex: 1, backgroundColor: 'blue' }}>
         {this._renderRow()}
       </View>
     )

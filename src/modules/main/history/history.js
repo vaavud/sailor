@@ -9,6 +9,7 @@ import {
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import HistoryView from '../../../views/main/history'
 
 class History extends Component {
 
@@ -27,16 +28,19 @@ class History extends Component {
 
 
   render() {
-    return (<View style={{ flex: 1, backgroundColor: 'pink' }} >
+
+    return <HistoryView sessions={this.props.sessions} onNextPress={this.props.push} />
+    /*return (<View style={{ flex: 1, backgroundColor: 'pink' }} >
       <Button title="AddSpot" onPress={() => {
         this.props.push({ key: 'summary', props: { sessionKey: '-KcO9MzVO9elHpIYvLaC' } })
       }} />
-    </View>)
+    </View>)*/
   }
 
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
+  console.log(reduxStore.history.sessions)
   return {
     isloading: reduxStore.history.loading,
     sessions: reduxStore.history.sessions,

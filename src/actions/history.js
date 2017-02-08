@@ -23,12 +23,13 @@ export function getSessions() {
 
             snapshot.forEach(snap => {
               var obj = snap.val()
-              obj.key = snap.key
-              historyList.push(obj)
-              realm.create('Session', obj)
+              if (snap.val().deviceKey === 'UNTRASONIC') {
+                obj.key = snap.key
+                historyList.push(obj)
+                realm.create('Session', obj)
+              }
             })
           })
-
           resolve({ type: HISTORY_LOADED, list: historyList })
         }
         else {
