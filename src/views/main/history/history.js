@@ -76,17 +76,23 @@ export default class HistoryView extends Component {
   }
 
   _renderRow(data) {
+    console.log('because nobody knows:::::', data)
     return (
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
-        <View style={{ flex: 1, padding: 12 }}>
+        <View style={style.locationContainer}>
           <Text >{moment(data.timeStart).format('HH:mm')}</Text>
+          <Text>{'location' in data && 'name' in data.location ? data.location.name : '-'}</Text>
         </View>
-        <View style={{ width: 60, backgroundColor: 'green' }} >
-          <Text>{'max'}</Text>
+        <View style={style.speedContainer} >
+          <Text style={style.smalltext} >{'max'}</Text>
+          <Text style={style.windText} >{data.windMax}</Text>
+          <Text style={style.smalltext}>{'ms'}</Text>
         </View>
-        <View style={{ width: 60, backgroundColor: 'cyan' }} >
-          <Text>{'mean'}</Text>
+        <View style={style.speedContainer} >
+          <Text style={style.smalltext}>{'average'}</Text>
+          <Text style={style.windText} >{data.windMean}</Text>
+          <Text style={style.smalltext}>{'ms'}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -104,7 +110,6 @@ export default class HistoryView extends Component {
   }
 
   render() {
-    console.log('asdasdasdasd')
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -124,12 +129,30 @@ export default class HistoryView extends Component {
 
 const style = StyleSheet.create({
   list: {
-    flex: 1
+    flex: 1,
+    marginTop: 20
   },
   row: {
     flexDirection: 'row',
-    backgroundColor: 'red',
-    marginTop: 20,
+    backgroundColor: 'grey',
+  },
+  locationContainer: {
+    flex: 1,
+    padding: 12,
+  },
+  speedContainer: {
+    width: 60,
+    borderLeftWidth: 1,
+    borderColor: '#555',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  smalltext:{
+    fontSize: 8
+  },
+  windText: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   separator: {
     height: 1,
