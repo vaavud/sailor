@@ -35,7 +35,6 @@ export default class SummaryView extends Component {
 
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
-    sessionKey: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     region: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
@@ -52,9 +51,9 @@ export default class SummaryView extends Component {
       })).isRequired
     }).isRequired,
 
-    chartPaths: PropTypes.arrayOf(PropTypes.shape({
+    paths: PropTypes.arrayOf(PropTypes.shape({
       timeStamp: PropTypes.number.isRequired,
-      windSpeed: PropTypes.number.isRequired,
+      speed: PropTypes.number.isRequired,
     })).isRequired,
 
     maxWindSpeed: PropTypes.number.isRequired
