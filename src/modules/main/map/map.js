@@ -3,20 +3,17 @@
 'use strict'
 
 import React, { Component } from 'react'
-import {
-  View,
-  InteractionManager
-} from 'react-native'
-
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getMarkers } from '../../../actions/map'
+// import { View } from 'react-native'
+// import { bindActionCreators } from 'redux'
+// import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 import MapMarker from '../../../components/mapMarker'
 
+import { getMarkers } from '../../../actions/map'
+
+
 function getCoordinate(location) {
-  // console.log('getCoordinate',location)
   return {
     latitude: location.lat,
     longitude: location.lon
@@ -30,30 +27,17 @@ class Map extends Component {
     this.state = {
       markers: []
     }
-
   }
 
   componentDidMount() {
 
-    this.props.getMarkers()
-      .then(markers => {
-        this.setState({ markers })
-      })
-
+    getMarkers().then(markers => {
+      this.setState({ markers })
+    })
   }
 
   componentWillUnmount() {
 
-  }
-
-
-  _onRegionChangeComplete(region) {
-    InteractionManager.runAfterInteractions(() => {
-      if (region.longitudeDelta < 100) {
-        this.setState({ region: region })
-      }
-    })
-    this.setState({ rendercycle: this.state.rendercycle + 1 })
   }
 
   _renderMarker(marker, key) {
@@ -63,42 +47,34 @@ class Map extends Component {
       <MapView.Marker
         key={key}
         coordinate={getCoordinate(marker.location)}>
-        <MapMarker loading={true} speed={12 || 0} direction={30} />
+        <MapMarker speed={marker.windMean} direction={marker.windDirection} />
       </MapView.Marker>)
-
   }
-
-
 
   render() {
-    console.log(this.state.markers)
     return (
-      <View style={{ flex: 1 }} >
-        <MapView
-          style={{ flex: 1 }}
-          initialRegion={this.state.region}
-          region={this.state.maxRegion}
-          mapType="satellite"
-        >
-          {Object.keys(this.state.markers).map(key => (
-            this._renderMarker(this.state.markers[key], key)
-          ))}
-
-        </MapView>
-      </View>)
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={this.state.region}
+        region={this.state.maxRegion}
+        mapType="satellite" >
+        {Object.keys(this.state.markers).map(key => (
+          this._renderMarker(this.state.markers[key], key)
+        ))}
+      </MapView>)
   }
 
 }
 
-const mapReduxStoreToProps = (reduxStore) => {
-  return {
-  }
-}
+// const mapReduxStoreToProps = (reduxStore) => {
+//   return {
+//   }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getMarkers: bindActionCreators(getMarkers, dispatch)
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//   }
+// }
 
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(Map)
+// export default connect(mapReduxStoreToProps, mapDispatchToProps)(Map)
+export default Map

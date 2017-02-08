@@ -143,7 +143,7 @@ export default class SummaryView extends Component {
               pointerEvents="box-none" />
             <View style={style.bottomGrid}
               pointerEvents="box-none" >
-              <Text style={style.graphTimeText} >{moment(this.props.paths[i].time).format('HH:MM')}</Text>
+              <Text style={style.graphTimeText} >{'---'}</Text>
             </View>
           </View>
         )

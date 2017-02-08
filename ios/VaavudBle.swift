@@ -12,6 +12,34 @@ import CoreBluetooth
 import CoreLocation
 
 
+struct Session {
+  let timeStart: UInt64
+  let windMeter = "sleipnir" //TODO
+  var timeEnd: UInt64?
+  var windMax: Double?
+  var windMean: Double?
+  var windDirection: Int?
+  var location: [String:Double]?
+  
+  
+  
+  var toDic: [String:Any] {
+    var d : [String:Any] = [:]
+    d["timeStart"] = timeStart
+    d["windMeter"] = windMeter
+    d["timeEnd"] = timeEnd
+    d["windMax"] = windMax
+    d["windMean"] = windMean
+    d["windDirection"] = windDirection
+    d["location"] = location
+    
+    return d
+  }
+  
+}
+
+
+
 struct MeasurementPoint {
   let speed: Double
   let direction: Int
@@ -20,7 +48,7 @@ struct MeasurementPoint {
   
   
   var toDic: [String:Any] {
-    return ["speed": speed, "direction": direction, "location": ["latitude":location.latitude, "longitude": location.longitude], "timestamp":timestamp]
+    return ["speed": speed, "direction": direction, "location": ["lat":location.latitude, "lon": location.longitude], "timestamp":timestamp]
   }
 }
 
@@ -97,6 +125,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
   
   
   var measurementPoints: [MeasurementPoint] = []
+  var session: Session!
   
   
   override func supportedEvents() -> [String]! {
@@ -106,7 +135,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
   @objc
   func initBle() {
     manager = CBCentralManager(delegate: self, queue: nil)
-    
+    session = Session(timeStart: Date().ticks, timeEnd: nil, windMax: nil, windMean: nil, windDirection: nil, location: nil)
     
     isAuthorizedtoGetUserLocation()
     if CLLocationManager.locationServicesEnabled() {
@@ -174,13 +203,30 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
       directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
     
-    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false).map{["latitude":$0.latitude,"longitude":$0.longitude]}
+//    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false).map{["latitude":$0.latitude,"longitude":$0.longitude]} //TODO FIXME
     let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toDic}
     let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDic}
     
     
-    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection ] )
+    var avg : Double = 0
+    var max : Double = 0
+    let dir = simplifiedDirection.last?["value"]! ?? 0
+    let _latlon = ["lat":latlon.last!.latitude,"lon":latlon.last!.longitude]
+    for s in simplifiedSpeed {
+      let v = s["value"]!
+      max = max < v ? v : max
+      avg = avg + v
+    }
+    avg = avg / Double(simplifiedSpeed.count)
     
+    session.windDirection = Int(dir)
+    session.windMax = max
+    session.windMean = avg
+    session.location = _latlon
+    session.timeEnd = Date().ticks
+    
+    
+    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":latlon.map{["latitude":$0.latitude,"longitude":$0.longitude]},"speeds":simplifiedSpeed,"directions":simplifiedDirection, "session": session.toDic ] )
   }
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -288,14 +334,12 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
         let s60 = val.substring(from: 14, to: 15)
         let h6 = Int(s60, radix: 16)! - 90
         
-        
         //Compass
         let s70 = val.substring(from: 16, to: 17)
         let h7 = Int(s70, radix: 16)! * 2
-        
+//        print(val)
 
         if let _loc = lastLocation {
-          
 //          let speed = Speed(windSpeed: _h1, timestamp: Date().ticks)
 //          let direction = Direction(windDirection: h2, timestamp: Date().ticks)
           let point = MeasurementPoint(speed: _h1, direction: h2, location: _loc, timestamp: Date().ticks)

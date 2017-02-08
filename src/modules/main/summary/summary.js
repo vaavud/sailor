@@ -29,31 +29,35 @@ class Summary extends Component {
   constructor(props) {
     super(props)
 
-    var paths = []
-    for (let i in props.componentProps.speed) {
-      paths.push({ 'speed': props.componentProps.speed[i].value, 'time': props.componentProps.speed[i].timestamp })
-    }
+    // var paths = []
+    // for (let i in props.componentProps.speed) {
+    //   paths.push({ 'speed': props.componentProps.speed[i].value, 'time': props.componentProps.speed[i].timestamp })
+    // }
+
+    console.log('props.componentProps',props.componentProps)
 
     this.state = {
+      sessionKey: props.componentProps.sessionKey,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      polylines:
-      {
-        id: 1,
-        coordinates: []
-      },
-      paths
+      tripCoordinates: props.componentProps.tripCoordinates,
+      // paths
     }
 
-    console.log('props', props, this.state,paths)
+    // console.log('props', props, this.state, paths)
 
   }
 
   componentDidMount() {
+
+    getSummaryInformation(this.state.sessionKey).then(summary => {
+      console.log('summary', summary)
+    })
+
     // getSummaryInformation(this.state.sessionKey).then(data => {
     //   let paths = []
     //   let locations = []
@@ -150,23 +154,8 @@ class Summary extends Component {
   }*/
 
   render() {
-
     return (
-      <TestView
-        region={{
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }}
-        dateTime={1486053616211}
-        locationName={'Islands brygge'}
-        tripCoordinates={{
-          id: 1,
-          coordinates: null
-        }}
-        paths={this.state.paths}
-        maxWindSpeed={5} />
+      <View />
     )
   }
 

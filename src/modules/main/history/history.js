@@ -29,7 +29,7 @@ class History extends Component {
   render() {
     return (<View style={{ flex: 1, backgroundColor: 'pink' }} >
       <Button title="AddSpot" onPress={() => {
-        this.props.push({ key: 'summary', props: { sessionKey: '-Kc2SNyIdZ6Cq27cuIQK' } })
+        this.props.push({ key: 'summary', props: { sessionKey: '-KcO9MzVO9elHpIYvLaC' } })
       }} />
     </View>)
   }
@@ -37,7 +37,6 @@ class History extends Component {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
-  console.log('reduxStore', reduxStore.history)
   return {
     isloading: reduxStore.history.loading,
     sessions: reduxStore.history.sessions,
