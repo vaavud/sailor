@@ -117,8 +117,8 @@ export default class MeasureView extends Component {
       <View style={style.container} >
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
-        {this._renderSpeedContainer('N/A', this.props.windSpeed)}
         <Button title="Stop" onPress={this.props.testStop} />
+        {this._renderSpeedContainer('N/A', this.props.windSpeed)}
       </View>
     )
   }

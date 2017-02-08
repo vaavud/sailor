@@ -1,6 +1,6 @@
 
 import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
+// import createLogger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { createStore, applyMiddleware, compose } from 'redux'
 import combineReducers from '../reducers/combine'
@@ -18,12 +18,12 @@ import { verifyAuth, verifyExistingUser } from '../sagas/auth'
 import { error } from '../sagas/utils'
 import { historyDaemon, forecastDeamon,sessionDeamon } from '../sagas/userdata'
 
-const loggerMiddleware = createLogger()
+// const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(
-    loggerMiddleware,
+    // loggerMiddleware,
     sagaMiddleware,
     thunkMiddleware,
   )

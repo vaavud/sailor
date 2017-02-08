@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import {
-  initSession, endSession
+  saveSession, saveSummary, savePoints
 } from '../../../actions/measure'
 
 
@@ -69,11 +69,22 @@ class Measure extends Component {
     // this.positionListener = navigator.geolocation.watchPosition(this._onNewLocation, this._onLocationError, locationProperties) //unsuscribe listener
   }
 
-
   onFinalData(data) {
-    this.props.push({ key: 'summary', props: { speed: data.speeds } })
+    this.props.saveSession(data.session)
+      .then(key => {
+        let summary = {
+          key,
+          windMean: data.session.windMean,
+          windMax: data.session.windMax,
+          speeds: data.speeds,
+          directions: data.directions,
+          locations: data.locations
+        }
+        return this.props.saveSummary(summary)
+      })
+      .then(key => this.props.savePoints(data.measurementPoints, key))
+      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key.key } }))
   }
-
 
   onLocationWorking(location) {
     if (location.available) {
@@ -122,32 +133,23 @@ class Measure extends Component {
   }
 
   onReadyToWork() {
+    this.setState({ readyToWork: true })
     // this.props.endSession()
     // this.props.initSession().then(() => {
     //   this.setState({ readyToWork: true })
     // })
-
-    //Dismis view  and start recoding...
   }
 
   onNewRead(point) {
-
-    // console.log('direction', point.windDirection)
-    // console.log('compass', point.compass)
-    // console.log('----------------------------')
-    // console.log('temperature',point.temperature)
-    // console.log('battery',point.battery)
-
     if (this.state.locationReady) {
       let last = this.state.windDirection
       this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, lastWindDirection: last })
     }
-
   }
 
   render() {
 
-    if (this.state.isBleConnected && this.state.locationReady) {
+    if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
         <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
       )
@@ -168,8 +170,11 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initSession: bindActionCreators(initSession, dispatch),
-    endSession: bindActionCreators(endSession, dispatch),
+    // initSession: bindActionCreators(initSession, dispatch),
+    // endSession: bindActionCreators(endSession, dispatch),
+    saveSession: bindActionCreators(saveSession, dispatch),
+    saveSummary: bindActionCreators(saveSummary, dispatch),
+    savePoints: bindActionCreators(savePoints, dispatch)
   }
 }
 

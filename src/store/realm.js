@@ -98,7 +98,7 @@ Point.schema = {
     timestamp: { type: 'double' },
     windSpeed: { type: 'double' },
     windDirection: { type: 'double' },
-    location: {type:'Location'}
+    location: { type: 'Location' }
   }
 }
 
@@ -120,6 +120,37 @@ Session.schema = {
   }
 }
 
+class SmallPoint { }
+SmallPoint.schema = {
+  name: 'SmallPoint',
+  properties: {
+    timestamp: 'double',
+    value: 'double'
+  }
+}
 
-const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day,SessionPoints,Point] })
+class SmallLatLon { }
+SmallLatLon.schema = {
+  name: 'SmallLatLon',
+  properties: {
+    latitude: 'double',
+    longitude: 'double'
+  }
+}
+
+class Summary { }
+Summary.schema = {
+  name: 'Summary', properties: {
+    key: 'string',
+    windMean: 'double',
+    windMax: 'double',
+    speeds: { type: 'list', objectType: 'SmallPoint' },
+    directions: { type: 'list', objectType: 'SmallPoint' },
+    locations: { type: 'list', objectType: 'SmallLatLon' }
+  }
+}
+
+
+
+const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day, SessionPoints, Point,Summary,SmallLatLon,SmallPoint] })
 export default realm

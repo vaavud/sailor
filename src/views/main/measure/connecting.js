@@ -44,10 +44,10 @@ export default class ConnectingView extends Component {
   }
 
   _renderStatusIcon(isReady){
-    return isReady ?
+    return !isReady ?
       (
         <ActivityIndicator
-          animating={isReady} />
+          animating={true} />
       )
       :
       (
