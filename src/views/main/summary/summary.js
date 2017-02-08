@@ -56,7 +56,6 @@ export default class SummaryView extends Component {
       timeStamp: PropTypes.number.isRequired,
       windSpeed: PropTypes.number.isRequired,
     })).isRequired,
-
     maxWindSpeed: PropTypes.number.isRequired
   }
 
@@ -132,18 +131,29 @@ export default class SummaryView extends Component {
     )
   }
 
+  _getDirection(timeStamp){
+    var len = this.props.directions.length
+    for (let i = 0; i < len; i += 1){
+      if (this.props.directions[i].timeStamp >= timeStamp) {
+        return this.props.directions[i].direction
+      }
+    }
+  }
+
   _renderGraphTimeGrid() {
     const max = this.props.paths.length
     let render = []
     for (let i = max; i > 0; i -= 1) {
       if (i % 20 === 0) {
+        var x = this._getDirection(this.props.paths[i].timeStamp)
         render.push(
           <View style={style.gridContainer} >
             <View style={style.topGrid}
-              pointerEvents="box-none" />
+              pointerEvents="box-none" >
+              <Text style={{color: Colors.vaavudBlue, transform: [{'rotate': x + 'deg'}]}} >{'⬆'}</Text>
+            </View>
             <View style={style.bottomGrid}
               pointerEvents="box-none" >
-              <Text style={style.graphTimeText} >{'---'}</Text>
             </View>
           </View>
         )
@@ -238,7 +248,6 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
     borderRightWidth: 2,
     borderColor: 'rgba(0,0,0,0.2)',
-    borderTopWidth: 2,
     width: 80,
     height: graphHeight / 2
   }
