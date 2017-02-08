@@ -16,7 +16,7 @@ function* historyDaemonHandler(action) {
   if (action.online) {
     yield put(yield getProfile())
     yield put(yield getSubscription())
-    // yield put(yield getSessions())
+    yield put(yield getSessions())
   }
 }
 

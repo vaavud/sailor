@@ -42,6 +42,7 @@ class History extends Component {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
+  console.log(reduxStore.history.sessions)
   return {
     isloading: reduxStore.history.loading,
     sessions: reduxStore.history.sessions,

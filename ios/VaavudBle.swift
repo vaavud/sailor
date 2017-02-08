@@ -340,8 +340,6 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
 //        print(val)
 
         if let _loc = lastLocation {
-//          let speed = Speed(windSpeed: _h1, timestamp: Date().ticks)
-//          let direction = Direction(windDirection: h2, timestamp: Date().ticks)
           let point = MeasurementPoint(speed: _h1, direction: h2, location: _loc, timestamp: Date().ticks)
           measurementPoints.insert(point, at: 0)
         }

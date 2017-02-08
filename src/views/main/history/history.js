@@ -24,10 +24,10 @@ export default class HistoryView extends Component {
     onNextPress: PropTypes.func.isRequired
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     var ds = new ListView.DataSource({
-      rowHasChanged: (a, b) => a !== b ,
+      rowHasChanged: (a, b) => a !== b,
       sectionHeaderHasChanged: (a, b) => a !== b,
     })
     this.state = {
@@ -45,13 +45,13 @@ export default class HistoryView extends Component {
     this.setState({dataSource: this.state.dataSource.cloneWithRowsAndSections(sections)})
   }
 
-  _sessionsToSections (sessions) {
+  _sessionsToSections(sessions) {
     sessions.sort((a, b) => b.timeStart - a.timeStart)
     var sections = [[sessions[0]]]
     for (var i = 1; i < sessions.length; i++) {
       var datePrev = new Date(sessions[i - 1].timeStart)
       var dateCurrent = new Date(sessions[i].timeStart)
-      if (datePrev.toDateString() !== dateCurrent.toDateString()){
+      if (datePrev.toDateString() !== dateCurrent.toDateString()) {
         sections.push([])
       }
       sections[sections.length - 1].push(sessions[i])
@@ -59,7 +59,7 @@ export default class HistoryView extends Component {
     return sections
   }
 
-  renderSectionHeader (sectionData) {
+  renderSectionHeader(sectionData) {
     var rowData = sectionData[0]
     return (
       <View>
