@@ -88,8 +88,13 @@ class VaavudNavigator extends Component {
     const {tabs} = appNavigationState
     const tabKey = tabs.routes[tabs.index].key
     const scenes = appNavigationState[tabKey]
+
+    // console.log(tabs)
+    // console.log(tabKey)
+    // console.log(scenes)
+
     var _tabs = (key) => {
-      if (key === 'measure'){
+      if (scenes.index > 0) {
         return null
       } else {
         return (
@@ -117,13 +122,13 @@ class VaavudNavigator extends Component {
 
     var _tabsM = (key) => {
       if (key !== 'measure') {
-        if (scenes.routes.length > 1){
+        if (scenes.index > 0) {
           return null
         }
         else {
           return (
             <MeasureButton
-              onPress={() => {this.props.navigate({type: 'selectTab', tabKey: 'measure'})}}
+              onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
               btnText={'+'}
               buttonColor={Colors.vaavudBlue}
               btnOutRange={Colors.vaavudRed} />
@@ -133,9 +138,9 @@ class VaavudNavigator extends Component {
       else {
         return (
           <MeasureButton
-              onPress={() => {this.props.navigate({type: 'selectTab', tabKey: 'measure'})}}
-              buttonColor={Colors.vaavudBlue}
-              btnOutRange={Colors.vaavudRed} />
+            onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
+            buttonColor={Colors.vaavudBlue}
+            btnOutRange={Colors.vaavudRed} />
         )
       }
     }
@@ -144,7 +149,7 @@ class VaavudNavigator extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar
           barStyle="light-content"
-          />
+        />
         <NavigationCardStack
           key={'stack_' + tabKey}
           onNavigateBack={this._back}
@@ -154,7 +159,7 @@ class VaavudNavigator extends Component {
           renderScene={this._renderScene}
           cardStyle={{ backgroundColor: Colors.background }}
 
-          />
+        />
         {_tabs(tabKey)}
         {_tabsM(tabKey)}
       </View>
@@ -169,7 +174,7 @@ class VaavudNavigator extends Component {
       return (<VaavudHeader
         {...sceneProps}
         back={this._back}
-        />)
+      />)
     }
     else { return null }
   }
@@ -185,7 +190,7 @@ class VaavudNavigator extends Component {
         key={route.key}
         route={route}
         selected={tabs.index === index}
-        />
+      />
     )
   }
 
@@ -199,7 +204,7 @@ class VaavudNavigator extends Component {
         {...sceneProps}
         onPop={this._back}
         navigate={this.props.navigate}
-        />
+      />
     )
   }
 

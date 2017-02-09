@@ -20,7 +20,7 @@ import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
 import Colors from '../../../../assets/colorTheme'
-import {SmallText, NormalText} from '../../../components/text'
+import { SmallText, NormalText } from '../../../components/text'
 
 const {
   Shape,
@@ -102,7 +102,7 @@ export default class SummaryView extends Component {
       return null
     }
     let i = 0
-    let path = Path().moveTo(0, this._calculateY(this.props.paths[i].speed))
+    let path = Path().moveTo(0, graphHeight).lineTo(0,this._calculateY(this.props.paths[i].speed))
     for (i = 1; i < this.props.paths.length - 2; i++) {
       path = path.curveTo(
         this._calculateX(i),
@@ -115,7 +115,9 @@ export default class SummaryView extends Component {
       this._calculateX(i) + 2,
       (this._calculateY(this.props.paths[i].speed) + this._calculateY(this.props.paths[i + 1].speed)) / 2
     )
-    const d = path
+    path = path.lineTo(this._calculateX(i) + 2, graphHeight)
+
+    const d = path.close()
     return (
       <View style={style.graphAreaContainer}>
         <View style={style.graphContainer}>
@@ -128,7 +130,7 @@ export default class SummaryView extends Component {
             style={{ flex: 1 }}>
 
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-              <Shape d={d} stroke="#000" strokeWidth={1} />
+              <Shape d={d} stroke="#000" fill={Colors.vaavudBlue} strokeWidth={1} />
             </Surface>
             {this._renderGraphTimeGrid()}
           </ScrollView>
@@ -137,9 +139,9 @@ export default class SummaryView extends Component {
     )
   }
 
-  _getDirection(timestamp){
+  _getDirection(timestamp) {
     var len = this.props.directions.length
-    for (let i = 0; i < len; i += 1){
+    for (let i = 0; i < len; i += 1) {
       if (this.props.directions[i].timestamp >= timestamp) {
         return this.props.directions[i].direction
       }
@@ -155,7 +157,7 @@ export default class SummaryView extends Component {
         render.push(
           <View style={style.topGrid}
             pointerEvents="box-none" >
-            <Text style={{fontSize: 20, color: Colors.vaavudBlue, transform: [{'rotate': x + 'deg'}]}} >{'↑'}</Text>
+            <Text style={{ fontSize: 20, color: Colors.vaavudBlue, transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
           </View>
         )
       }

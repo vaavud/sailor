@@ -4,15 +4,26 @@
 
 import React, { Component } from 'react'
 import {
-  View,
-  Button,
-  Text,
-  TextInput
+  Dimensions
 } from 'react-native'
 
-import MapView from 'react-native-maps'
+const {width, height} = Dimensions.get('window')
+const imgHarbor = require('../../../../assets/pinMap.png')
 
-let id = 0
+
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0992;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+import { SelectHabourView, IntroView } from '../../../views/main/newsfeed'
+
+
+function getCoordinate(location) {
+  return {
+    latitude: location.lat,
+    longitude: location.lon
+  }
+}
 
 class MapHarbor extends Component {
 
@@ -21,23 +32,14 @@ class MapHarbor extends Component {
 
     this.state = {
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        ...getCoordinate(props.componentProps.harbor.location),
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
-      marker: props.componentProps.harbor ? { latitude: props.componentProps.harbor.location.lat, longitude: props.componentProps.harbor.location.lon } : undefined,
-      harborName: props.componentProps.harbor.name,
-      harbor: {
-        key: props.componentProps.harbor.key,
-        windMin: props.componentProps.harbor.windMin,
-        windMax: props.componentProps.harbor.windMax,
-        directions: props.componentProps.harbor.directions,
-      }
-
+      harbor: props.componentProps.harbor
     }
 
-    this._onContinue = this._onContinue.bind(this)
+    // this._onContinue = this._onContinue.bind(this)
   }
 
   componentDidMount() {
@@ -48,29 +50,35 @@ class MapHarbor extends Component {
 
   }
 
-  onRegionChange(region) {
-    this.setState({ region })
-  }
+  // onMapPress(e) {
+  //   if (this.state.marker.length > 0) { return }
 
-  onMapPress(e) {
-    if (this.state.marker.length > 0) { return }
+  //   this.setState({
+  //     location: e.nativeEvent.coordinate,
+  //     marker: {
+  //       latitude: e.nativeEvent.coordinate.latitude,
+  //       longitude: e.nativeEvent.coordinate.longitude,
+  //     }
+  //   })
+  // }
 
-    this.setState({
-      location: e.nativeEvent.coordinate,
-      marker: {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude,
-      }
-    })
-  }
-
-  _onContinue() {
-    this.props.push({ key: 'windHarbor', props: { marker: this.state.marker, name: this.state.harborName, harbor: this.state.harbor } })
-  }
+  // _onContinue() {
+  //   this.props.push({ key: 'windHarbor', props: { marker: this.state.marker, name: this.state.harborName, harbor: this.state.harbor } })
+  // }
 
 
   render() {
+
     return (
+      <SelectHabourView
+        onPop={this.props.pop}
+        onPressSave={this.props.push}
+        location={getCoordinate(this.props.componentProps.harbor.location)}
+        locationName={this.state.harbor.name}
+        region={this.state.region} />
+    )
+
+    /*return (
       <View style={{ flex: 1, backgroundColor: 'black' }} >
         <Text> Map from harbor </Text>
         <Button title="Continue" onPress={this._onContinue} />
@@ -98,7 +106,7 @@ class MapHarbor extends Component {
         </MapView>
 
       </View>
-    )
+    )*/
   }
 
 }

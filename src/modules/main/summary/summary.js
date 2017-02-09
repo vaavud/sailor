@@ -39,6 +39,7 @@ class Summary extends Component {
       },
       coordinates: []
     }
+    console.log('state', this.state)
   }
 
   componentDidMount() {
@@ -49,17 +50,23 @@ class Summary extends Component {
         let latlon = summary.locations
         let paths = []
         let coordinates = []
+        let _direc = summary.directions
+        let directions = []
 
         for (let i in latlon) {
           coordinates.push(latlon[i])
         }
 
         for (let i in speeds) {
-          paths.push({ timeStamp: speeds[i].timestamp, speed: speeds[i].value })
+          paths.push({ timestamp: speeds[i].timestamp, speed: speeds[i].value })
         }
 
+        for (let i in _direc) {
+          directions.push({ timestamp: _direc[i].timestamp, direction: _direc[i].value })
+        }
 
-        this.setState({ sessionFound: true, maxWindSpeed: summary.windMax, paths, coordinates })
+        console.log('from local')
+        this.setState({ sessionFound: true, maxWindSpeed: summary.windMax, paths, coordinates, directions })
       }
       else {
         getSummaryFromServer(this.state.sessionKey).then(_summary => {
@@ -78,6 +85,7 @@ class Summary extends Component {
   }
 
   render() {
+    console.log('render', this.state)
     if (this.state.sessionFound)
       return (
         <TestView
@@ -88,10 +96,12 @@ class Summary extends Component {
             id: 1,
             coordinates: this.state.coordinates
           }}
+          directions={this.state.directions}
           paths={this.state.paths}
-          maxWindSpeed={Math.round(this.state.maxWindSpeed)} />
+          maxWindSpeed={Math.ceil(this.state.maxWindSpeed)}
+          minWindSpeed={0} />
       )
-    else { return (null) }
+    else { return <View /> }
   }
 
 }

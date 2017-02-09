@@ -243,7 +243,7 @@ class RangeSlider extends Component {
     const upperTrackColor = this.props.upperTrackColor;
 
     return (
-      <View ref={r => { this.container = r } }
+      <View ref={r => { this.container = r }}
         style={[this.props.style, {
           padding: 0,
           paddingTop: 0,
@@ -251,17 +251,17 @@ class RangeSlider extends Component {
           paddingLeft: 0,
           paddingRight: 0,
         }]}
-        >
-        <View ref={r => { this.track = r } }
+      >
+        <View ref={r => { this.track = r }}
           style={{
             height: this.props.trackSize,
             backgroundColor: 'white',
             ...trackMargin,
           }}
           onLayout={this._onTrackLayout}
-          >
+        >
           <Animated.View
-            ref={r => { this.lowerTrack = r } }
+            ref={r => { this.lowerTrack = r }}
             style={{
               position: 'absolute',
               left: this._lowerTrackMin,
@@ -269,10 +269,10 @@ class RangeSlider extends Component {
               height: this.props.trackSize,
               backgroundColor: lowerTrackColor,
             }}
-            />
+          />
         </View>
         <Thumb
-          ref={r => { this.minRange = r } }
+          ref={r => { this.minRange = r }}
           radius={this.props.thumbRadius}
           trackMarginH={this._trackMarginH}
           enabledColor={lowerTrackColor}
@@ -283,10 +283,10 @@ class RangeSlider extends Component {
           style={{
             top: this._thumbRadiiWithBorder * (THUMB_SCALE_RATIO - 1) + TRACK_EXTRA_MARGIN_V,
           }}
-          />
+        />
 
         <Thumb
-          ref={r => { this.maxRange = r } }
+          ref={r => { this.maxRange = r }}
           radius={this.props.thumbRadius}
           trackMarginH={this._trackMarginH}
           enabledColor={lowerTrackColor}
@@ -297,7 +297,7 @@ class RangeSlider extends Component {
           style={{
             top: this._thumbRadiiWithBorder * (THUMB_SCALE_RATIO - 1) + TRACK_EXTRA_MARGIN_V,
           }}
-          />
+        />
 
       </View>
     );

@@ -9,6 +9,7 @@ import {
   Text,
   requireNativeComponent,
   Dimensions,
+  Image
 } from 'react-native'
 
 let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
@@ -19,11 +20,17 @@ import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 const {width, height} = Dimensions.get('window')
+const imgHarbor = require('../../../../assets/pinMap.png')
+
+
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0992;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 import ForecastWeek from '../../../components/forecastWeek'
 
 function getCoordinate(location) {
-  console.log('getCoordinate', location)
   return {
     latitude: location.lat,
     longitude: location.lon
@@ -34,13 +41,11 @@ class Newsfeed extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
-      current: {
-        coords: {
-          speed: '',
-          latitude: '',
-          longitude: ''
-        }
+      region: {
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       }
     }
   }
@@ -64,25 +69,14 @@ class Newsfeed extends Component {
     }
     else {
       return (
-        <View style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: width,
-          height: height,
-          flexDirection: 'column'
-        }} >
-
+        <View style={{position: 'absolute',top: 0,left: 0,width,height}} >
           <MapView
             style={{ height: 300, width }}
-            mapType="satellite"
-          >
-            <MapView.Marker
-              key={'TODO'}
-              coordinate={getCoordinate(this.props.harbor.location)}
-              title={'My harbor'}
-              description={''}
-            />
+            initialRegion={{...this.state.region,...getCoordinate(this.props.harbor.location) }}
+            mapType="satellite" >
+            <MapView.Marker coordinate={getCoordinate(this.props.harbor.location)}>
+                <Image source={imgHarbor} style={{height: 45,width: 45,}} />
+            </MapView.Marker>
           </MapView>
 
           {this.props.harbor.forecast ?
@@ -94,8 +88,6 @@ class Newsfeed extends Component {
           <Button title="Edit" onPress={() => {
             this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
           }} />
-
-
         </View>
       )
     }
