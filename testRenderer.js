@@ -3,7 +3,7 @@ import { AppRegistry, Dimensions } from 'react-native'
 
 import moment from 'moment'
 
-import TestView from './src/views/main/summary'
+import TestView from './src/views/main/settings'
 
 const { width, height } = Dimensions.get('window')
 
@@ -33,20 +33,7 @@ class App extends Component {
   render() {
     return (
       <TestView
-        region={{
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }}
-        dateTime={1486053616211}
-        locationName={'Islands brygge'}
-        tripCoordinates={{
-          id: 1,
-          coordinates: null
-        }}
-        paths={paths}
-        maxWindSpeed={4} />
+         />
     )
   }
 }
