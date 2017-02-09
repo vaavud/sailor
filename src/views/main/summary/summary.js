@@ -34,9 +34,13 @@ const graphHeight = 150
 
 export default class SummaryView extends Component {
 
+  constructor(props) {
+    super(props)
+    console.log('final logs', props)
+  }
+
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
-    sessionKey: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     region: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
@@ -53,9 +57,9 @@ export default class SummaryView extends Component {
       })).isRequired
     }).isRequired,
 
-    chartPaths: PropTypes.arrayOf(PropTypes.shape({
-      timeStamp: PropTypes.number.isRequired,
-      windSpeed: PropTypes.number.isRequired,
+    paths: PropTypes.arrayOf(PropTypes.shape({
+      timestamp: PropTypes.number.isRequired,
+      speed: PropTypes.number.isRequired,
     })).isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired

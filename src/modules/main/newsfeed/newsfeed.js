@@ -49,14 +49,6 @@ class Newsfeed extends Component {
 
   }
 
-  // <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.speed} </Text>
-  //       <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.latitude} </Text>
-  //       <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> {this.state.current.coords.longitude} </Text>
-
-  //       <Button title="Summary" onPress={() => {
-  //         this.props.push({ key: 'summary' })
-  //       } } />
-
   componentWillUnmount() {
 
   }
@@ -71,8 +63,6 @@ class Newsfeed extends Component {
       )
     }
     else {
-      console.log(this.props.harbor)
-
       return (
         <View style={{
           position: 'absolute',
@@ -86,13 +76,13 @@ class Newsfeed extends Component {
           <MapView
             style={{ height: 300, width }}
             mapType="satellite"
-            >
+          >
             <MapView.Marker
               key={'TODO'}
               coordinate={getCoordinate(this.props.harbor.location)}
               title={'My harbor'}
               description={''}
-              />
+            />
           </MapView>
 
           {this.props.harbor.forecast ?
@@ -103,7 +93,7 @@ class Newsfeed extends Component {
 
           <Button title="Edit" onPress={() => {
             this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-          } } />
+          }} />
 
 
         </View>

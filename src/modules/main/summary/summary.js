@@ -18,7 +18,6 @@ const LATITUDE = 55.66674646433456
 const LONGITUDE = 12.580140583275785
 const LATITUDE_DELTA = 0.0092;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
 
 import { getSummaryInformation, getSummaryFromServer } from '../../../actions/summary'
 
@@ -29,13 +28,6 @@ class Summary extends Component {
   constructor(props) {
     super(props)
 
-    // var paths = []
-    // for (let i in props.componentProps.speed) {
-    //   paths.push({ 'speed': props.componentProps.speed[i].value, 'time': props.componentProps.speed[i].timestamp })
-    // }
-
-    console.log('props.componentProps', props.componentProps)
-
     this.state = {
       sessionKey: props.componentProps.sessionKey,
       sessionFound: false,
@@ -45,7 +37,7 @@ class Summary extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      tripCoordinates: props.componentProps.tripCoordinates,
+      coordinates: []
     }
   }
 
@@ -53,12 +45,25 @@ class Summary extends Component {
 
     getSummaryInformation(this.state.sessionKey).then(summary => {
       if (summary) {
-        this.setState({ sessionFound: true })
-        console.log('summary in cache', summary)
+        let speeds = summary.speeds
+        let latlon = summary.locations
+        let paths = []
+        let coordinates = []
+
+        for (let i in latlon) {
+          coordinates.push(latlon[i])
+        }
+
+        for (let i in speeds) {
+          paths.push({ timeStamp: speeds[i].timestamp, speed: speeds[i].value })
+        }
+
+
+        this.setState({ sessionFound: true, maxWindSpeed: summary.windMax, paths, coordinates })
       }
       else {
         getSummaryFromServer(this.state.sessionKey).then(_summary => {
-          this.setState({ sessionFound: true })
+          // this.setState({ sessionFound: true })
           console.log('summary in server', _summary)
         })
           .catch(() => {
@@ -73,9 +78,20 @@ class Summary extends Component {
   }
 
   render() {
-    return (
-      <View />
-    )
+    if (this.state.sessionFound)
+      return (
+        <TestView
+          region={this.state.region}
+          dateTime={1486053616211}
+          locationName={'Islands brygge'}
+          tripCoordinates={{
+            id: 1,
+            coordinates: this.state.coordinates
+          }}
+          paths={this.state.paths}
+          maxWindSpeed={Math.round(this.state.maxWindSpeed)} />
+      )
+    else { return (null) }
   }
 
 }

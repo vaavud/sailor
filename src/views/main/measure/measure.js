@@ -97,7 +97,7 @@ export default class MeasureView extends Component {
       <View style={style.groundSpeedContainer} >
         <Text>{'Ground speed'}</Text>
         <Text style={style.speedText}>{groundSpeed}</Text>
-        <Text>{'knots'}</Text>
+        <Text>{'-'}</Text>
       </View>
     )
   }
@@ -107,7 +107,7 @@ export default class MeasureView extends Component {
       <View style={style.windSpeedContainer} >
         <Text>{'Wind speed'}</Text>
         <Text style={style.speedText} >{windSpeed}</Text>
-        <Text>{'knots'}</Text>
+        <Text>{'m/s'}</Text>
       </View>
     )
   }

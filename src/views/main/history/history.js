@@ -9,7 +9,6 @@ import React, {
 import {
   ListView,
   View,
-  Text,
   RefreshControl,
   TouchableOpacity,
   StyleSheet

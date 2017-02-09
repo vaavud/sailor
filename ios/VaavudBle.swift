@@ -246,7 +246,6 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
   }
   
   
-  
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
     if central.state == .poweredOn {
       central.scanForPeripherals(withServices: nil, options: nil)
