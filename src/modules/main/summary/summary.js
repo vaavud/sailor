@@ -58,7 +58,8 @@ class Summary extends Component {
           paths.push({ timeStamp: speeds[i].timestamp, speed: speeds[i].value })
         }
 
-        this.setState({ sessionFound: true, windMax: summary.windMax, paths, coordinates })
+
+        this.setState({ sessionFound: true, maxWindSpeed: summary.windMax, paths, coordinates })
       }
       else {
         getSummaryFromServer(this.state.sessionKey).then(_summary => {
@@ -88,7 +89,7 @@ class Summary extends Component {
             coordinates: this.state.coordinates
           }}
           paths={this.state.paths}
-          maxWindSpeed={this.state.windMax} />
+          maxWindSpeed={Math.round(this.state.maxWindSpeed)} />
       )
     else { return (null) }
   }

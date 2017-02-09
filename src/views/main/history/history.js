@@ -82,16 +82,16 @@ export default class HistoryView extends Component {
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
         <View style={style.locationContainer}>
           <Text >{moment(data.timeStart).format('HH:mm')}</Text>
-          <Text>{'location' in data && 'name' in data.location ? data.location.name : '-'}</Text>
+          <Text>{'-'}</Text>
         </View>
         <View style={style.speedContainer} >
           <Text style={style.smalltext} >{'max'}</Text>
-          <Text style={style.windText} >{data.windMax}</Text>
+          <Text style={style.windText} >{data.windMax.toFixed(1)}</Text>
           <Text style={style.smalltext}>{'ms'}</Text>
         </View>
         <View style={style.speedContainer} >
           <Text style={style.smalltext}>{'average'}</Text>
-          <Text style={style.windText} >{data.windMean}</Text>
+          <Text style={style.windText} >{data.windMean.toFixed(1)}</Text>
           <Text style={style.smalltext}>{'ms'}</Text>
         </View>
       </TouchableOpacity>

@@ -33,6 +33,11 @@ const graphHeight = 150
 
 export default class SummaryView extends Component {
 
+  constructor(props) {
+    super(props)
+    console.log('final logs', props)
+  }
+
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
     locationName: PropTypes.string.isRequired,
@@ -130,9 +135,9 @@ export default class SummaryView extends Component {
     )
   }
 
-  _getDirection(timeStamp){
+  _getDirection(timeStamp) {
     var len = this.props.directions.length
-    for (let i = 0; i < len; i += 1){
+    for (let i = 0; i < len; i += 1) {
       if (this.props.directions[i].timeStamp >= timeStamp) {
         return this.props.directions[i].direction
       }
@@ -144,12 +149,12 @@ export default class SummaryView extends Component {
     let render = []
     for (let i = max; i > 0; i -= 1) {
       if (i % 20 === 0) {
-        var x = this._getDirection(this.props.paths[i].timeStamp)
+        // var x = this._getDirection(this.props.paths[i].timeStamp)
         render.push(
           <View style={style.gridContainer} >
             <View style={style.topGrid}
               pointerEvents="box-none" >
-              <Text style={{color: Colors.vaavudBlue, transform: [{'rotate': x + 'deg'}]}} >{'⬆'}</Text>
+              <Text style={{ color: Colors.vaavudBlue, transform: [{ 'rotate': 100 + 'deg' }] }} >{'⬆'}</Text>
             </View>
             <View style={style.bottomGrid}
               pointerEvents="box-none" >
