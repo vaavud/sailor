@@ -11,10 +11,15 @@ import {
   View,
   Text,
   RefreshControl,
-  RecyclerViewBackedScrollView,
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
+
+import {
+  SmallText,
+  NormalText,
+  NormalBold
+} from '../../../components/text'
 
 import moment from 'moment'
 
@@ -36,18 +41,6 @@ export default class HistoryView extends Component {
       dataSource: ds.cloneWithRowsAndSections(sections),
       refreshing: false
     }
-
-    // dataSource: this.state.dataSource.cloneWithRowsAndSections(sections)
-    // console.log('this.props.sessions',)
-  }
-
-  componentWillMount() {
-    // this.componentWillReceiveProps(this.props)
-  }
-
-  componentWillReceiveProps(props) {
-    // var sections = this._sessionsToSections(this.props.sessions)
-    // this.setState({  })
   }
 
   _sessionsToSections(sessions) {
@@ -64,35 +57,33 @@ export default class HistoryView extends Component {
     return sections
   }
 
-  renderSectionHeader(sectionData) {
+  _renderSectionHeader(sectionData) {
     var rowData = sectionData[0]
     return (
-      <View>
-        <Text >
-          {moment(rowData.timeStart).format('dddd, MMMM D, YYYY')}
-        </Text>
+      <View style={style.sectionHeader} >
+        <NormalText textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
       </View>
     )
   }
 
   _renderRow(data) {
-    console.log('because nobody knows:::::', data)
+    // TODO what if there is no location
     return (
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
         <View style={style.locationContainer}>
-          <Text >{moment(data.timeStart).format('HH:mm')}</Text>
-          <Text>{'location' in data && 'name' in data.location ? data.location.name : '-'}</Text>
+          <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
+          <NormalText textContent={'Islands brygge'} />
         </View>
         <View style={style.speedContainer} >
-          <Text style={style.smalltext} >{'max'}</Text>
-          <Text style={style.windText} >{data.windMax}</Text>
-          <Text style={style.smalltext}>{'ms'}</Text>
+          <SmallText textContent={'Max'} />
+          <NormalBold textContent={data.windMax}/>
+          <SmallText textContent={'m/s'} />
         </View>
         <View style={style.speedContainer} >
-          <Text style={style.smalltext}>{'average'}</Text>
-          <Text style={style.windText} >{data.windMean}</Text>
-          <Text style={style.smalltext}>{'ms'}</Text>
+          <SmallText textContent={'Average'} />
+          <NormalBold textContent={data.windMax}/>
+          <SmallText textContent={'m/s'} />
         </View>
       </TouchableOpacity>
     )
@@ -117,7 +108,6 @@ export default class HistoryView extends Component {
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)} />}
-        renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
         renderRow={data => this._renderRow(data, this.props.navigator)}
         renderSeparator={this._renderSeparator}
         renderSectionHeader={this._renderSectionHeader}
@@ -142,8 +132,6 @@ const style = StyleSheet.create({
   },
   speedContainer: {
     width: 60,
-    borderLeftWidth: 1,
-    borderColor: '#555',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -155,13 +143,15 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
   },
   separator: {
-    height: 1,
+    height: 2,
     backgroundColor: '#555',
   },
   sectionHeader: {
-    padding: 6,
-  },
-  sectionHeaderText: {
-    fontWeight: 'bold',
+    padding: 5,
+    backgroundColor: '#7a868c',
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderColor: '#555'
   },
 })

@@ -20,6 +20,7 @@ import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
 import Colors from '../../../../assets/colorTheme'
+import {SmallText, NormalText} from '../../../components/text'
 
 const {
   Shape,
@@ -56,11 +57,12 @@ export default class SummaryView extends Component {
       timeStamp: PropTypes.number.isRequired,
       windSpeed: PropTypes.number.isRequired,
     })).isRequired,
+    minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
   }
 
   _calculateY(value) {
-    return graphHeight - (value * graphHeight) / (this.props.maxWindSpeed + 2)
+    return (this.props.maxWindSpeed - value) * (graphHeight / (this.props.maxWindSpeed - this.props.minWindSpeed))
   }
 
   _calculateX(i) {
@@ -122,7 +124,7 @@ export default class SummaryView extends Component {
             style={{ flex: 1 }}>
 
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-              <Shape d={d} stroke="#000" strokeWidth={2} />
+              <Shape d={d} stroke="#000" strokeWidth={1} />
             </Surface>
             {this._renderGraphTimeGrid()}
           </ScrollView>
@@ -131,10 +133,10 @@ export default class SummaryView extends Component {
     )
   }
 
-  _getDirection(timeStamp){
+  _getDirection(timestamp){
     var len = this.props.directions.length
     for (let i = 0; i < len; i += 1){
-      if (this.props.directions[i].timeStamp >= timeStamp) {
+      if (this.props.directions[i].timestamp >= timestamp) {
         return this.props.directions[i].direction
       }
     }
@@ -145,16 +147,11 @@ export default class SummaryView extends Component {
     let render = []
     for (let i = max; i > 0; i -= 1) {
       if (i % 20 === 0) {
-        var x = this._getDirection(this.props.paths[i].timeStamp)
+        var x = this._getDirection(this.props.paths[i].timestamp)
         render.push(
-          <View style={style.gridContainer} >
-            <View style={style.topGrid}
-              pointerEvents="box-none" >
-              <Text style={{color: Colors.vaavudBlue, transform: [{'rotate': x + 'deg'}]}} >{'⬆'}</Text>
-            </View>
-            <View style={style.bottomGrid}
-              pointerEvents="box-none" >
-            </View>
+          <View style={style.topGrid}
+            pointerEvents="box-none" >
+            <Text style={{fontSize: 20, color: Colors.vaavudBlue, transform: [{'rotate': x + 'deg'}]}} >{'↑'}</Text>
           </View>
         )
       }
@@ -167,19 +164,13 @@ export default class SummaryView extends Component {
   }
 
   _renderWindSpeedPoints() {
-    const max = this.props.maxWindSpeed + 2
+    const max = this.props.maxWindSpeed
+    const min = this.props.minWindSpeed
     let render = []
-    for (let i = max; i >= 0; i -= 1) {
-      if (i % 2 === 0) {
-        render.push(
-          <Text>{i !== 0 ? i + ' m/s' : '   '}</Text> // i like this one =)
-        )
-      }
-      else {
-        render.push(
-          <Text>{'   '}</Text>
-        )
-      }
+    for (let i = max; i >= min; i -= 1) {
+      render.push(
+        <SmallText textContent={i !== min ? i + ' m/s' : '   '} /> // i like this one =)
+      )
     }
     return (
       <View style={style.windSpeedContainer}>
@@ -218,7 +209,7 @@ const style = StyleSheet.create({
   },
   map: {
     width: width * 0.9,
-    height: height * 0.45
+    height: height * 0.3
   },
   graphContainer: {
     flexDirection: 'row',
@@ -232,23 +223,15 @@ const style = StyleSheet.create({
     textAlign: 'center'
   },
   windSpeedContainer: {
-    width: 40,
     height: graphHeight,
     justifyContent: 'space-between'
   },
   topGrid: {
-    flex: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     borderRightWidth: 2,
     borderColor: 'rgba(0,0,0,0.2)',
     width: 80,
-    height: graphHeight / 2
+    height: graphHeight
   },
-  bottomGrid: {
-    flex: 2,
-    justifyContent: 'flex-end',
-    borderRightWidth: 2,
-    borderColor: 'rgba(0,0,0,0.2)',
-    width: 80,
-    height: graphHeight / 2
-  }
 })

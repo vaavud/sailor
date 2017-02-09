@@ -15,10 +15,12 @@ import {
   Dimensions
 } from 'react-native'
 
+
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
 import I18n from '../../components/i18n'
+
 
 const {width, height} = Dimensions.get('window')
 
@@ -176,7 +178,8 @@ const style = StyleSheet.create({
     flex: 1,
     height: 40,
     backgroundColor: 'transparent',
-    color: Colors.inputTextColor
+    color: Colors.inputTextColor,
+    fontFamily: 'Roboto-Regular'
   },
   buttonContainer: {
     marginTop: 30,
@@ -206,6 +209,7 @@ const style = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
     textAlign:'center',
     color: Colors.vaavudBlue
    },
@@ -221,6 +225,7 @@ const style = StyleSheet.create({
   },
   signupButtonText: {
     fontSize: 12,
+    fontFamily: 'Roboto-Regular',
     color: Colors.textColor
   },
   forgotButtonText: {

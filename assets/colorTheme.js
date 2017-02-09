@@ -2,14 +2,14 @@
 'use strict'
 
 const colorTheme = {
-  background: '#b7dbff',
+  background: '#D5D9DB',
   tabbar: '#FFFFFF',
   segmentedTint: 'white',
   segmSelectedTint: '#00A1E1',
   vaavudRed: '#D12A2f',
   vaavudBlue: '#00A1E1',
-  textColor: 'black',
-  inputTextColor: 'black',
+  textColor: '#2A2C2D',
+  inputTextColor: 'white',
 }
 
 export default colorTheme
