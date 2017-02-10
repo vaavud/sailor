@@ -3,6 +3,7 @@ package com.sailing;
 import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 
 public class MainActivity extends ReactActivity {
 

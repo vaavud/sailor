@@ -10,7 +10,6 @@ import {
   View,
   Dimensions,
   TextInput,
-  TouchableOpacity,
   Image,
   StyleSheet
 } from 'react-native'
@@ -24,14 +23,17 @@ const saveIcon = require('../../../../assets/envelope.png')
 const imgHarbor = require('../../../../assets/pinMap.png')
 
 const { width, height } = Dimensions.get('window')
+import Snackbar from 'react-native-snackbar'
 
 export default class SelectHabourView extends Component {
 
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = {
       ...props
     }
+    this._onFinish = this._onFinish.bind(this)
   }
 
   static propTypes = {
@@ -43,6 +45,7 @@ export default class SelectHabourView extends Component {
       latitudeDelta: PropTypes.number.isRequired,
       longitudeDelta: PropTypes.number.isRequired
     }).isRequired,
+    isNew: PropTypes.bool.isRequired,
     locationName: PropTypes.string.isRequired
   }
 
@@ -50,19 +53,27 @@ export default class SelectHabourView extends Component {
     this.setState({ region })
   }
 
+  onMapPress(e) {
+    if (this.state.location) { return }
+    this.setState({
+      location: e.nativeEvent.coordinate
+    })
+  }
+
   _renderMap() {
     return (
       <MapView
         style={style.mapContainer}
         onRegionChangeComplete={this.onRegionChange.bind(this)}
+        onPress={this.onMapPress.bind(this)}
         initialRegion={this.state.region} >
         {this.state.location ?
           <MapView.Marker
-            onDragEnd={e => this.setState({ location: { latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude } })}
+            onDragEnd={e => {
+              this.setState({ location: { latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude } })
+            }}
             coordinate={this.state.location}
-            draggable>
-            <Image source={imgHarbor} style={{ height: 45, width: 45 }} />
-          </MapView.Marker> : null
+            draggable /> : null
         }
       </MapView>
     )
@@ -94,14 +105,27 @@ export default class SelectHabourView extends Component {
     return (
       <Button buttonStyle={style.saveButton}
         textStyle={style.buttonText}
-        onPress={() => {
-          console.log("------------")
-          console.log(this.state.location)
-          console.log(this.state.locationName)
-          this.props.onPressSave({ key: 'windHarbor', props: { ...this.state } })
-        }}
+        onPress={this._onFinish}
         title={'Save habour'} />
     )
+  }
+
+
+  _onFinish() {
+    let mje
+    if (!this.state.location) {
+      mje = 'You want forecast without location, really?'
+    }
+    else if (this.state.locationName === '') {
+      mje = 'What about the name? Somehow you have to identify it, rigth?'
+    }
+
+    if (mje) {
+      Snackbar.show({ title: mje, duration: Snackbar.LENGTH_LONG })
+      return
+    }
+
+    this.props.onPressSave({ key: 'windHarbor', props: { ...this.state } })
   }
 
   render() {

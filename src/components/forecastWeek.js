@@ -42,7 +42,7 @@ export default class ForecastWeek extends Component {
     )
   }
 
-  _renderTemperature(temp) {
+  _renderTemperature(temp,icon) {
     return (
       <View style={{ flex: 0.3, alignItems: 'center' }} >
         <View style={{ width: 20, height: 20, backgroundColor: 'red', marginTop: 5 }} />
@@ -76,7 +76,7 @@ export default class ForecastWeek extends Component {
 
     return (
       <View style={{ flex: 1 }} key={index} >
-        {this._renderTemperature(spot.temperature)}
+        {this._renderTemperature(spot.temperature,spot.icon)}
         {this._renderSpeed(spot.windSpeed, spot.windDirection)}
         {this._renderDays(spot.day)}
       </View>

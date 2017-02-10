@@ -29,6 +29,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
 import ForecastWeek from '../../../components/forecastWeek'
+import { IntroView } from '../../../views/main/newsfeed'
+
 
 function getCoordinate(location) {
   return {
@@ -68,28 +70,35 @@ class Newsfeed extends Component {
       )
     }
     else {
-      return (
-        <View style={{position: 'absolute',top: 0,left: 0,width,height}} >
-          <MapView
-            style={{ height: 300, width }}
-            initialRegion={{...this.state.region,...getCoordinate(this.props.harbor.location) }}
-            mapType="satellite" >
-            <MapView.Marker coordinate={getCoordinate(this.props.harbor.location)}>
-                <Image source={imgHarbor} style={{height: 45,width: 45,}} />
-            </MapView.Marker>
-          </MapView>
+      if (!this.props.harbor.forecast) {
+        return (
+          <IntroView onNextPress={this.props.push} />
+        )
+      }
+      else {
+        return (
+          <View style={{ position: 'absolute', top: 0, left: 0, width, height }} >
+            <MapView
+              style={{ height: 300, width }}
+              initialRegion={{ ...this.state.region, ...getCoordinate(this.props.harbor.location) }}
+              mapType="satellite" >
+              <MapView.Marker coordinate={getCoordinate(this.props.harbor.location)}>
+                <Image source={imgHarbor} style={{ height: 45, width: 45, }} />
+              </MapView.Marker>
+            </MapView>
 
-          {this.props.harbor.forecast ?
-            <ForecastWeek
-              resolution={this.props.harbor.forecast.resolution}
-              name={this.props.harbor.name}
-              days={this.props.harbor.forecast.days} /> : null}
+            {this.props.harbor.forecast ?
+              <ForecastWeek
+                resolution={this.props.harbor.forecast.resolution}
+                name={this.props.harbor.name}
+                days={this.props.harbor.forecast.days} /> : null}
 
-          <Button title="Edit" onPress={() => {
-            this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-          }} />
-        </View>
-      )
+            <Button title="Edit" onPress={() => {
+              this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+            }} />
+          </View>
+        )
+      }
     }
   }
 }

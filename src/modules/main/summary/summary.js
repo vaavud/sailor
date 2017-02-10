@@ -85,7 +85,6 @@ class Summary extends Component {
   }
 
   render() {
-    console.log('render', this.state)
     if (this.state.sessionFound)
       return (
         <TestView
