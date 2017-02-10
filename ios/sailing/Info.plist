@@ -34,6 +34,7 @@
 	<string>624217360948538</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>vaavud-icons.ttf</string>
 		<string>weather-icons.ttf</string>
 		<string>Roboto-Black.ttf</string>
 		<string>Roboto-BlackItalic.ttf</string>

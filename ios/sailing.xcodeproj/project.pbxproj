@@ -50,6 +50,7 @@
 		2EAEBBE61E49CF090027EB2C /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EAEBBDA1E49CF090027EB2C /* Roboto-Regular.ttf */; };
 		2EAEBBE71E49CF090027EB2C /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EAEBBDB1E49CF090027EB2C /* Roboto-Thin.ttf */; };
 		2EAEBBE81E49CF090027EB2C /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EAEBBDC1E49CF090027EB2C /* Roboto-ThinItalic.ttf */; };
+		2EB10CF41E4DBF5B005B2D61 /* vaavud-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EB10CF31E4DBF5B005B2D61 /* vaavud-icons.ttf */; };
 		365113629DFF406EA1135586 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2979DF1D99314720B571B25B /* MaterialIcons.ttf */; };
 		3D9EDCFC92264191B54E824A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBCD51F41A764022AFFB06AC /* Ionicons.ttf */; };
 		426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3953F755AF4EA595AC4FB6 /* libc++.tbd */; };
@@ -370,6 +371,7 @@
 		2EAEBBDA1E49CF090027EB2C /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		2EAEBBDB1E49CF090027EB2C /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		2EAEBBDC1E49CF090027EB2C /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		2EB10CF31E4DBF5B005B2D61 /* vaavud-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "vaavud-icons.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 		2EAEBBB11E49CEEF0027EB2C /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				2EB10CF31E4DBF5B005B2D61 /* vaavud-icons.ttf */,
 				2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */,
 				2EAEBBD11E49CF090027EB2C /* Roboto-Black.ttf */,
 				2EAEBBD21E49CF090027EB2C /* Roboto-BlackItalic.ttf */,
@@ -1172,6 +1175,7 @@
 				365113629DFF406EA1135586 /* MaterialIcons.ttf in Resources */,
 				B8410B7F73FC4050BBD932D4 /* Octicons.ttf in Resources */,
 				F9F5372FA71F42D692904840 /* SimpleLineIcons.ttf in Resources */,
+				2EB10CF41E4DBF5B005B2D61 /* vaavud-icons.ttf in Resources */,
 				6740D147A6A54460A29019F9 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

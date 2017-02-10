@@ -33,6 +33,7 @@ const da = {
   direction:      'Vind retning',
   temperature:    'Temperatur',
   prefrencesText: 'Vind indstillinger',
+  editPref:       'Ændre preferencer',
   showColors:     'Vis farve-forklaring i nyhedsfeed',
   deviceStatus:   'Ultra Sonic enhedens status',
   otherSection:   'Andet',

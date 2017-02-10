@@ -18,16 +18,16 @@ class SmallText extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.small, customStyle]} >
+      <Text style={[s.small, style]} >
         {textContent}
       </Text>
     )
@@ -38,16 +38,16 @@ class SmallBold extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.smallSemibold, customStyle]} >
+      <Text style={[s.smallSemibold, style]} >
         {textContent}
       </Text>
     )
@@ -59,16 +59,16 @@ class NormalText extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.normal, customStyle]} >
+      <Text style={[s.normal, style]} >
         {textContent}
       </Text>
     )
@@ -79,16 +79,16 @@ class NormalLight extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.normalLight, customStyle]} >
+      <Text style={[s.normalLight, style]} >
         {textContent}
       </Text>
     )
@@ -99,16 +99,16 @@ class NormalBold extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.normalBold, customStyle]} >
+      <Text style={[s.normalBold, style]} >
         {textContent}
       </Text>
     )
@@ -119,16 +119,16 @@ class HeadingText extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.large, customStyle]} >
+      <Text style={[s.large, style]} >
         {textContent}
       </Text>
     )
@@ -139,16 +139,16 @@ class HeadingLight extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.largeLight, customStyle]} >
+      <Text style={[s.largeLight, style]} >
         {textContent}
       </Text>
     )
@@ -159,16 +159,16 @@ class HeadingBold extends Component {
 
   static propTypes = {
     textContent: PropTypes.string.isRequired,
-    customStyle: PropTypes.number
+    style: PropTypes.number
   }
 
   render(){
     const {
       textContent,
-      customStyle
+      style
     } = this.props
     return (
-      <Text style={[s.largeBold, customStyle]} >
+      <Text style={[s.largeBold, style]} >
         {textContent}
       </Text>
     )

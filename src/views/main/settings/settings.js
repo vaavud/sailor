@@ -19,6 +19,11 @@ import Colors from '../../../../assets/colorTheme'
 
 import I18n from '../../../components/i18n'
 
+import {
+  SmallText, 
+  NormalText
+} from '../../../components/text'
+
 import Button from '../../../reactcommon/components/button'
 
 import {
@@ -35,10 +40,36 @@ export default class SettingsView extends Component{
     deviceBatteryLevel: PropTypes.number.isRequired,
   }
 
+  _getTemperatureValue(e) {
+    this.props.updateSettings('temperature', temp_conv_inverse[e])
+  }
+
+  _getDirectionValue(e) {
+    this.props.updateSettings('direction', angle_conv_inverse[e])
+  }
+
+
+  _getWindSpeedValue(e) {
+    switch (e) {
+      case 'm/s':
+        this.props.updateSettings('windSpeed', 'mps')
+        break
+      case 'mph':
+        this.props.updateSettings('windSpeed', 'mph')
+        break
+      case 'km/h':
+        this.props.updateSettings('windSpeed', 'kmh')
+        break
+      case 'knots':
+        this.props.updateSettings('windSpeed', 'knots')
+        break
+    }
+  }
+
   _renderSectionHeader(text){
     return (
       <View style={style.sectionHeader} >
-        <Text>{I18n.t(text)}</Text>
+        <NormalText textContent={I18n.t(text)} />
       </View>
     )
   }
@@ -46,8 +77,8 @@ export default class SettingsView extends Component{
   _renderDeviceText(description, value){
     return (
       <View style={style.deviceTextContainer} >
-        <Text style={style.deviceText}>{description}</Text>
-        <Text style={style.deviceText}>{value}</Text>
+        <NormalText style={style.deviceText} textContent={description} />
+        <NormalText style={style.deviceText} textContent={value} />
       </View>
     )
   }
@@ -72,7 +103,7 @@ export default class SettingsView extends Component{
           options={[speed_conv['m/s'].short, speed_conv['km/h'].short, speed_conv.knots.short, speed_conv.mph.short]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getWindSpeedValue(e)}
-          selectedOption={1}
+          selectedOption={SpeedUnits[this.props.settings.windSpeed]}
           optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={2}
@@ -93,7 +124,7 @@ export default class SettingsView extends Component{
           options={[angle_conv.deg.long, angle_conv.card.long]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getDirectionValue(e)}
-          selectedOption={1}
+          selectedOption={angle_conv[this.props.settings.direction].long}
           optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={2}
@@ -114,12 +145,22 @@ export default class SettingsView extends Component{
           options={[temp_conv.cel.short, temp_conv.fahr.short]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getTemperatureValue(e)}
-          selectedOption={1}
+          selectedOption={TempCUnits[this.props.settings.temperature]}
           optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={2}
           containerStyle={{borderRadius: 2}}
           />
+      </View>
+    )
+  }
+
+  _renderWindPrefrences(){
+    return (
+      <View style={style.prefernceContainer} >
+        <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
+        <NormalText style={style.preferenceText} textContent={'5 m/s to 11 m/s'} />
+        {this._renderLink('editPref', () => console.log('hit edit pref'))}
       </View>
     )
   }
@@ -162,10 +203,14 @@ export default class SettingsView extends Component{
     )
   }
 
+  _goToWeb(link){
+    this.props.push(({key: 'web', props:{url: link}}))
+  }
+
   _renderOthersSection(){
     return (
       <View style={style.otherSectionContainer} >
-        {this._renderLink('vaavud', () => console.log('hit vaavud link') )}
+        {this._renderLink('vaavud', () =>  this._goToWeb('https://vaavud.com'))}
         {this._renderLink('termsButton', () => console.log('hit vaavud link') )}
         {this._renderLink('privacyButton', () => console.log('hit vaavud link') )}
         {this._renderLink('logout', () => console.log('hit vaavud link') )}
@@ -176,21 +221,19 @@ export default class SettingsView extends Component{
 
   render(){
     return (
-      <View style={style.container} >
-        <ScrollView style={style.scrollView} >
+        <ScrollView style={style.container} >
           {this._renderSectionHeader('unitText')}
           {this._renderWindspeedSelector()}
           {this._renderDirectionSelector()}
           {this._renderTemperatureSelector()}
           {this._renderSectionHeader('prefrencesText')}
-          {/* TODO find out what goes in this section */}
+          {this._renderWindPrefrences()}
           {this._renderShowColors()}
           {this._renderSectionHeader('deviceStatus')}
           {this._renderDeviceStatus()}
           {this._renderSectionHeader('otherSection')}
           {this._renderOthersSection()}
         </ScrollView>
-      </View>
     )
   }
 }
@@ -198,6 +241,7 @@ export default class SettingsView extends Component{
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 20,
     backgroundColor: Colors.background
   },
   sectionHeader: {
@@ -221,13 +265,23 @@ const style = StyleSheet.create({
   },
   deviceStatusInnerContainer: {
     padding: 10,
-    backgroundColor: 'grey'
+    backgroundColor: 'grey',
+    borderRadius: 5
   },
   deviceTextContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   deviceText: {
+    margin: 5,
+    fontSize: 16
+  },
+  prefernceContainer: {
+    flex: 1,
+    marginTop: 10,
+    alignItems: 'center'
+  },
+  preferenceText: {
     margin: 5,
     fontSize: 16
   },

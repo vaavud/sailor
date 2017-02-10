@@ -33,6 +33,7 @@ const en = {
   direction:      'Direction',
   temperature:    'Temperature',
   prefrencesText: 'Wind preferences',
+  editPref:       'Edit preferences',
   showColors:     'Show color explanation in newsfeed',
   deviceStatus:   'Ultra Sonic device status',
   otherSection:   'Other',
@@ -42,7 +43,6 @@ const en = {
   // Newsfeed screens
   chooseHabour:   'Choose your harbour',
   letsgoButton:   'Let\'s go!',
-
 }
 
 export default en
