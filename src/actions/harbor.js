@@ -50,7 +50,7 @@ export function getForecast(windMax, windMin, unit, token, subId) {
 }
 
 
-
+//facebook:1019425681435560
 
 export function getSubscription() {
   return new Promise((resolve, reject) => {
@@ -152,6 +152,8 @@ export function saveHarbor(payload, profile, key) {
       dispatch({ type: PROFILE_LOADED, windMax: profile.maxSpeed, windMin: profile.minSpeed })
 
       let _key
+
+      console.log(key)
 
       if (key) {
         _key = key

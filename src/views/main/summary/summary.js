@@ -102,7 +102,7 @@ export default class SummaryView extends Component {
       return null
     }
     let i = 0
-    let path = Path().moveTo(0, graphHeight).lineTo(0,this._calculateY(this.props.paths[i].speed))
+    let path = Path().moveTo(0, graphHeight).lineTo(0, this._calculateY(this.props.paths[i].speed))
     for (i = 1; i < this.props.paths.length - 2; i++) {
       path = path.curveTo(
         this._calculateX(i),
@@ -128,7 +128,6 @@ export default class SummaryView extends Component {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={{ flex: 1 }}>
-
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
               <Shape d={d} stroke="#000" fill={Colors.vaavudBlue} strokeWidth={1} />
             </Surface>

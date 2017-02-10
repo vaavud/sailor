@@ -22,14 +22,14 @@ export default class IntroView extends Component {
     onNextPress: PropTypes.func.isRequired
   }
 
-  render(){
+  render() {
     return (
       <View style={style.container} >
         <Text style={style.heading} >{I18n.t('chooseHabour')}</Text>
-        <View style={{flexDirection: 'row'}} >
+        <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            onPress={() => this.props.onNextPress }
+            onPress={() => this.props.onNextPress({ key: 'mapHarbor', props: { isNew: true } })}
             title={I18n.t('letsgoButton')} />
         </View>
       </View>
@@ -63,7 +63,7 @@ const style = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    textAlign:'center',
+    textAlign: 'center',
     color: Colors.vaavudBlue
   }
 })

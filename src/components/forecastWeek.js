@@ -50,7 +50,7 @@ export default class ForecastWeek extends Component {
     return (
       <View style={{ flex: 0.3, alignItems: 'center' }} >
         <View style={{ width: 20, height: 20, alignitems: 'center', justifyContent: 'center', marginTop: 5 }} >
-          <Icon name={icon} style={{color: 'white', textAlign: 'center'}} />
+          <Icon name={icon} style={{ color: 'white', textAlign: 'center' }} />
         </View>
         <Text style={style.text}>{temp}°</Text>
       </View>
