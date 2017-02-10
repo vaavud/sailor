@@ -173,9 +173,11 @@ export default class SummaryView extends Component {
     const min = this.props.minWindSpeed
     let render = []
     for (let i = max; i >= min; i -= 1) {
-      render.push(
-        <SmallText textContent={i === min && i === max ? i + '   ' : ' m/s'} /> // i like this one =)
-      )
+      if (i === max || i === min){
+        render.push( <SmallText textContent={'    '} /> )
+      } else {
+        render.push( <SmallText textContent={i + 'm/s'} /> )
+      }
     }
     return (
       <View style={style.windSpeedContainer}>
