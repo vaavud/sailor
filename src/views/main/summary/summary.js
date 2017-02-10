@@ -174,7 +174,7 @@ export default class SummaryView extends Component {
     let render = []
     for (let i = max; i >= min; i -= 1) {
       render.push(
-        <SmallText textContent={i !== min ? i + ' m/s' : '   '} /> // i like this one =)
+        <SmallText textContent={i === min && i === max ? i + '   ' : ' m/s'} /> // i like this one =)
       )
     }
     return (

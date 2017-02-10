@@ -7,6 +7,10 @@ import {
 } from 'react-native'
 import React, { Component, PropTypes } from 'react'
 
+import icoMoonConfig from '../reactcommon/selection.json'
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
+const Icon = createIconSetFromIcoMoon(icoMoonConfig)
+
 const {width, height} = Dimensions.get('window')
 
 const resolution = require('../../assets/resolution.png')
@@ -42,10 +46,12 @@ export default class ForecastWeek extends Component {
     )
   }
 
-  _renderTemperature(temp,icon) {
+  _renderTemperature(temp, icon) {
     return (
       <View style={{ flex: 0.3, alignItems: 'center' }} >
-        <View style={{ width: 20, height: 20, backgroundColor: 'red', marginTop: 5 }} />
+        <View style={{ width: 20, height: 20, alignitems: 'center', justifyContent: 'center', marginTop: 5 }} >
+          <Icon name={icon} style={{ color: 'white', textAlign: 'center' }} />
+        </View>
         <Text style={style.text}>{temp}°</Text>
       </View>
     )
@@ -76,7 +82,7 @@ export default class ForecastWeek extends Component {
 
     return (
       <View style={{ flex: 1 }} key={index} >
-        {this._renderTemperature(spot.temperature,spot.icon)}
+        {this._renderTemperature(spot.temperature, spot.icon)}
         {this._renderSpeed(spot.windSpeed, spot.windDirection)}
         {this._renderDays(spot.day)}
       </View>

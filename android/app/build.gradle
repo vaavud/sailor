@@ -127,6 +127,7 @@ android {
 
 dependencies {
     compile project(':react-native-snackbar')
+    compile project(':react-native-vector-icons')
     compile project(':react-native-maps')
     compile project(':realm')
     compile project(':react-native-fbsdk')
