@@ -133,7 +133,7 @@ const style = StyleSheet.create({
   },
   locationContainer: {
     flex: 1,
-    padding: 20,
+    padding: 12,
   },
   speedContainer: {
     width: 60,

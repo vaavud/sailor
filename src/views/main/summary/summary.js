@@ -30,7 +30,7 @@ const {
 
 const { width, height } = Dimensions.get('window')
 
-const graphHeight = 150
+const graphHeight = 200
 
 export default class SummaryView extends Component {
 
@@ -177,7 +177,11 @@ export default class SummaryView extends Component {
       if (i === max || i === min) {
         render.push(<SmallText textContent={'    '} />)
       } else {
-        render.push(<SmallText textContent={i + 'm/s'} />)
+        if (i % 2 === 0){
+          render.push(<SmallText textContent={i + 'm/s'} />)
+        } else {
+          render.push(<SmallText textContent={'    '} />)
+        }
       }
     }
     return (
@@ -201,7 +205,6 @@ export default class SummaryView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: width * 0.05,
     paddingVertical: height * 0.025,
     backgroundColor: Colors.background
   },
@@ -216,14 +219,15 @@ const style = StyleSheet.create({
     fontSize: 20
   },
   map: {
-    width: width * 0.9,
-    height: height * 0.3
+    width: width,
+    height: height * 0.4
   },
   graphContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    margin: 15,
     padding: 5,
+    height: graphHeight + 20,
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.2)'
   },
@@ -231,6 +235,7 @@ const style = StyleSheet.create({
     textAlign: 'center'
   },
   windSpeedContainer: {
+    marginRight: 5,
     height: graphHeight,
     justifyContent: 'space-between'
   },
@@ -240,6 +245,6 @@ const style = StyleSheet.create({
     borderRightWidth: 2,
     borderColor: 'rgba(0,0,0,0.2)',
     width: 80,
-    height: graphHeight
+    height: graphHeight + 20
   },
 })
