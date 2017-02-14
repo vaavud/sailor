@@ -61,7 +61,6 @@ class Newsfeed extends Component {
   }
 
   render() {
-    console.log(this.props)
     if (this.props.harbor.loading) {
       return (
         <View style={{ flex: 1 }}>

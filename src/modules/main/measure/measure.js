@@ -79,7 +79,7 @@ class Measure extends Component {
         return this.props.saveSummary(summary)
       })
       .then(key => this.props.savePoints(data.measurementPoints, key))
-      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key.key } }))
+      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key } }))
   }
 
   onLocationWorking(location) {

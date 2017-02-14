@@ -52,16 +52,17 @@ export function saveSummary(summary) {
 
 function savePointsLocal(points, key) {
   realm.write(() => {
-    realm.create('SessionPoints', { key, ...points })
+    console.log('saving points...', { key, points })
+    realm.create('SessionPoints', { key, points })
   })
 }
 
 export function savePoints(points, key) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
-      if (getState().app.online) {
+      if (getState().app.online && 1 === 2) {
         sendPoints(key, points).then(() => {
-          resolve({ key })
+          resolve(key)
         })
           .catch(err => { //Saved local
             savePointsLocal(points, key)

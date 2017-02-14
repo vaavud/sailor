@@ -38,62 +38,95 @@ export function* forecastDeamon() {
   yield takeEvery(HARBOR_LOADED, forecastDeamonHandler)
 }
 
+
+function deletePointsWraper(sessionPoint) {
+  return new Promise((resolve, reject) => {
+    realm.write(() => {
+      console.log('removing from local', sessionPoint.key)
+      realm.delete(sessionPoint)
+      resolve()
+    })
+  })
+}
+
 function* sessionDeamonHandler() {
-  // if (yield select(online)) {
+  if (yield select(online)) {
 
-  //   let currentSessions = realm.objects('Session').filtered('sent = false')
-  //   let keySaved = []
+    let sessionPoints = realm.objects('SessionPoints')
+
+    for (let i in sessionPoints) {
+      let sessionPoint = sessionPoints[i]
+      let points = sessionPoint.points
+      let _points = []
+
+      for (let x in points) {
+        _points.push(points[x])
+      }
+
+      try {
+        yield call(sendPoints, sessionPoint.key, _points)
+        yield call(deletePointsWraper, sessionPoint)
+      }
+      catch (e) {
+        console.log('error wa wa wa', e)
+      }
+    }
 
 
-  //   if (currentSessions.length > 0) {
 
-  //     for (let i in currentSessions) {
+    //   let currentSessions = realm.objects('Session').filtered('sent = false')
+    //   let keySaved = []
 
-  //       if (currentSessions[i] === undefined) { continue }
 
-  //       let key = currentSessions[i].key
-  //       console.log('key', key)
-  //       let sessionPoints = realm.objects('SessionPoints').filtered(`key = "${key}"`)
+    //   if (currentSessions.length > 0) {
 
-  //       if (sessionPoints[0].points.length > 0) {
+    //     for (let i in currentSessions) {
 
-  //         let points = sessionPoints[0].points
-  //         let _points = []
+    //       if (currentSessions[i] === undefined) { continue }
 
-  //         for (let x in points) {
-  //           _points.push(points[x])
-  //         }
+    //       let key = currentSessions[i].key
+    //       console.log('key', key)
+    //       let sessionPoints = realm.objects('SessionPoints').filtered(`key = "${key}"`)
 
-  //         try {
-  //           yield call(sendPoints, key, _points)
-  //           yield call(saveSessionFb, key, currentSessions[i])
-  //           keySaved.push(key)
+    //       if (sessionPoints[0].points.length > 0) {
 
-  //           console.log('Saved with key :D', key)
+    //         let points = sessionPoints[0].points
+    //         let _points = []
 
-  //         }
-  //         catch (e) {
-  //           console.log('error wa wa wa', e)
-  //         }
-  //       }
-  //       else { //just save session
-  //         console.log('no points, just session') // This should never happen
-  //         keySaved.push(key)
-  //       }
-  //     }
+    //         for (let x in points) {
+    //           _points.push(points[x])
+    //         }
 
-  //     for (let index in keySaved) {
-  //       realm.write(() => {
-  //         let session = realm.objects('Session').filtered(`key = "${keySaved[index]}"`)
-  //         session[0].sent = true
-  //       })
-  //     }
-  //     console.log('everythin done...')
-  //   }
-  //   else {
-  //     console.log('nothing to send...')
-  //   }
-  // }
+    //         try {
+    //           yield call(sendPoints, key, _points)
+    //           yield call(saveSessionFb, key, currentSessions[i])
+    //           keySaved.push(key)
+
+    //           console.log('Saved with key :D', key)
+
+    //         }
+    //         catch (e) {
+    //           console.log('error wa wa wa', e)
+    //         }
+    //       }
+    //       else { //just save session
+    //         console.log('no points, just session') // This should never happen
+    //         keySaved.push(key)
+    //       }
+    //     }
+
+    //     for (let index in keySaved) {
+    //       realm.write(() => {
+    //         let session = realm.objects('Session').filtered(`key = "${keySaved[index]}"`)
+    //         session[0].sent = true
+    //       })
+    //     }
+    //     console.log('everythin done...')
+    //   }
+    //   else {
+    //     console.log('nothing to send...')
+    //   }
+  }
 }
 
 export function* sessionDeamon() {

@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import {
   View,
   Dimensions,
+  Text
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -39,6 +40,7 @@ class Summary extends Component {
     this.state = {
       sessionKey: props.componentProps.sessionKey,
       sessionFound: false,
+      summaryLost: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -50,12 +52,12 @@ class Summary extends Component {
   }
 
   componentDidMount() {
-
+    console.log(this.state.sessionKey)
     getSummaryInformation(this.state.sessionKey).then(summary => {
       let latslons = summary.locations.map(latlon => getCoordinate(latlon))
       this.setState({ sessionFound: true, windMin: summary.windMin, windMax: summary.windMax, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
     }).catch(err => {
-      console.log('ERROR!!!!! SUMMARY')
+      this.setState({ summaryLost: true })
     })
   }
 
@@ -79,6 +81,13 @@ class Summary extends Component {
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
           minWindSpeed={Math.floor(this.state.windMin)} />
       )
+    else if (this.state.summaryLost) {
+      return (
+        <View style={{ marginTop: 50, flex: 1 }} >
+          <Text>{'Forgive us!!!!, we lost your points.... Contact Malle@vaavud.com if you want to complaing... (btw he uses Tinder)'}</Text>
+        </View >
+      )
+    }
     else { return <View /> }
   }
 
