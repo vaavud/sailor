@@ -49,7 +49,7 @@ export default class ForecastWeek extends Component {
   _renderTemperature(temp, icon) {
     return (
       <View style={{ flex: 0.3, alignItems: 'center' }} >
-        <View style={{ width: 20, height: 20, alignitems: 'center', justifyContent: 'center', marginTop: 5 }} >
+        <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center', marginTop: 5 }} >
           <Icon name={icon} style={{ color: 'white', textAlign: 'center' }} />
         </View>
         <Text style={style.text}>{temp}°</Text>

@@ -35,6 +35,7 @@ export default class SettingsView extends Component{
 
   static propTypes = {
     updateSettings: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     isBleDeviceConnected: PropTypes.bool.isRequired,
     deviceSerialNo: PropTypes.string.isRequired,
     deviceBatteryLevel: PropTypes.number.isRequired,
@@ -211,10 +212,14 @@ export default class SettingsView extends Component{
     return (
       <View style={style.otherSectionContainer} >
         {this._renderLink('vaavud', () =>  this._goToWeb('https://vaavud.com'))}
-        {this._renderLink('termsButton', () => console.log('hit vaavud link') )}
-        {this._renderLink('privacyButton', () => console.log('hit vaavud link') )}
-        {this._renderLink('logout', () => console.log('hit vaavud link') )}
-        {this._renderLink('appGuide', () => console.log('hit vaavud link') )}        
+        {this._renderLink('termsButton', () => this._goToWeb('https://vaavud.com/terms/') )}
+        {this._renderLink('privacyButton', () => this._goToWeb('https://vaavud.com/privacy-policy/') )}
+        {this._renderLink('logout', () => this.props.logout() )}
+        {this._renderLink('appGuide', () => {
+          console.log('hit vaavud link')
+          //TODO app guide link??
+          } 
+        )}        
       </View>
     )
   }
@@ -226,11 +231,11 @@ export default class SettingsView extends Component{
           {this._renderWindspeedSelector()}
           {this._renderDirectionSelector()}
           {this._renderTemperatureSelector()}
+          {this._renderSectionHeader('deviceStatus')}
+          {this._renderDeviceStatus()}
           {this._renderSectionHeader('prefrencesText')}
           {this._renderWindPrefrences()}
           {this._renderShowColors()}
-          {this._renderSectionHeader('deviceStatus')}
-          {this._renderDeviceStatus()}
           {this._renderSectionHeader('otherSection')}
           {this._renderOthersSection()}
         </ScrollView>
@@ -265,7 +270,7 @@ const style = StyleSheet.create({
   },
   deviceStatusInnerContainer: {
     padding: 10,
-    backgroundColor: 'grey',
+    backgroundColor: 'rgba(255,255,255, 0.5)',
     borderRadius: 5
   },
   deviceTextContainer: {
@@ -286,8 +291,8 @@ const style = StyleSheet.create({
     fontSize: 16
   },
   buttonText: {
-    margin: 5,
-    fontSize: 16,
+    margin: 10,
+    fontSize: 20,
     color: Colors.vaavudBlue
   },
   otherSectionContainer: {

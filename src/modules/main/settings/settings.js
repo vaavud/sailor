@@ -41,6 +41,7 @@ class Settings extends Component {
     return (
       <SettingsView
         updateSettings={this.props.updateSettings}
+        logout={this.props.logout}
         settings={this.props.settings}
         push={this.props.push} />
     )
