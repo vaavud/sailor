@@ -120,23 +120,24 @@ Session.schema = {
   }
 }
 
-class SmallPoint { }
-SmallPoint.schema = {
-  name: 'SmallPoint',
+class SpeedPoint { }
+SpeedPoint.schema = {
+  name: 'SpeedPoint',
   properties: {
     timestamp: 'double',
-    value: 'double'
+    windSpeed: 'double'
   }
 }
 
-class SmallLatLon { }
-SmallLatLon.schema = {
-  name: 'SmallLatLon',
+class DirectionPoint { }
+DirectionPoint.schema = {
+  name: 'DirectionPoint',
   properties: {
-    latitude: 'double',
-    longitude: 'double'
+    timestamp: 'double',
+    windDirection: 'double'
   }
 }
+
 
 class Summary { }
 Summary.schema = {
@@ -144,13 +145,11 @@ Summary.schema = {
     key: 'string',
     windMean: 'double',
     windMax: 'double',
-    speeds: { type: 'list', objectType: 'SmallPoint' },
-    directions: { type: 'list', objectType: 'SmallPoint' },
-    locations: { type: 'list', objectType: 'SmallLatLon' }
+    speeds: { type: 'list', objectType: 'SpeedPoint' },
+    directions: { type: 'list', objectType: 'DirectionPoint' },
+    locations: { type: 'list', objectType: 'Location' }
   }
 }
 
-
-
-const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day, SessionPoints, Point,Summary,SmallLatLon,SmallPoint] })
+const realm = new Realm({ schema: [Session, Location, Harbor, Direction, Settings, Forecast, Day, SessionPoints, Point, Summary, DirectionPoint, SpeedPoint] })
 export default realm
