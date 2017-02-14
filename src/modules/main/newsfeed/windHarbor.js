@@ -6,19 +6,21 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  SegmentedControlIOS,
+  StyleSheet,
   Dimensions
 } from 'react-native'
 
+import { SegmentedControls } from 'react-native-radio-buttons'
+
 import Button from '../../../reactcommon/components/button'
 
+import Colors from '../../../../assets/colorTheme'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const {width, height} = Dimensions.get('window')
 
-import MultiSlider from 'react-native-multi-slider' //https://github.com/JackDanielsAndCode/react-native-multi-slider
-
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { saveHarbor } from '../../../actions/harbor'
 
 // let SelectorView = requireNativeComponent('SelectorViewSwift', WindHarbor)
@@ -72,12 +74,11 @@ class WindHarbor extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-
+      <View style={{ flex: 1 }}>
+      <View style={{alignItems: 'center'}}>
         <Text style={{ marginTop: 80 }}>Ready to roll!</Text>
 
 
-        <View style={{ position: 'absolute', alignItems: 'center', height: 300, width, top: (width / 2) }} >
 
           <Text style={{}}>Your suggested wind range is </Text>
           <Text style={{ marginTop: 10, marginBottom: 50 }}>
@@ -99,15 +100,22 @@ class WindHarbor extends Component {
           />
 
           <Text style={{ marginTop: 5 }}>Move the sliders to fine tune the range</Text>
-
-          <SegmentedControlIOS
-            style={{ width: width - 60, marginTop: 30 }}
-            backTint={'#fff'}
-            selectedTint={'#fff'}
-            selectedIndex={0}
-            values={['mps', 'kph', 'knot', 'mph']}
-            onValueChange={event => { }} />
-        </View>
+          </View>
+          <View style={style.segmentedContainer} >
+            <SegmentedControls style={style.segmentedControl} 
+              tint={Colors.segmSelectedTint}
+              selectedTint={Colors.segmentedTint}
+              backTint={Colors.segmentedTint}
+              options={['mps', 'kph', 'knot', 'mph']}
+              allowFontScaling={false} // default: true
+              onSelection={(e, i) => console.log('TODO ')}
+              selectedOption={1}
+              optionStyles={{ fontFamily: 'Roboto-Medium' }}
+              optionContainerStyle={style.segmentedControl}
+              containerBorderWidth={3}
+              containerStyle={{borderRadius: 2}}
+              />
+          </View>
 
 
         <View style={{ width: width - 80, height: 45, flexDirection: 'row', position: 'absolute', bottom: 50, left: 40 }} >
@@ -137,5 +145,16 @@ const mapDispatchToProps = (dispatch) => {
     saveHarbor: bindActionCreators(saveHarbor, dispatch)
   }
 }
+
+const style = StyleSheet.create({
+  segmentedContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 15
+  },
+  segmentedControl: {
+    justifyContent:'center',
+    height: 40,
+  },
+})
 
 export default connect(mapReduxStoreToProps, mapDispatchToProps)(WindHarbor)

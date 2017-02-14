@@ -72,7 +72,14 @@ export default class SignupView extends Component {
   }
 
   _handleSignupPress(){
-    this.props.onPressSignup()
+    const {
+      firstName, 
+      lastName,
+      email,
+      password,
+      confirmPW
+    } = this.state
+    this.props.onPressSignup(firstName, lastName, email, password, confirmPW)
   }
 
   _renderBackButton(){

@@ -1,5 +1,4 @@
 // @flow
-
 'use strict'
 
 import React, {
@@ -11,16 +10,15 @@ import {
   View,
   Image,
   TextInput,
+  Keyboard,
   StyleSheet,
   Dimensions
 } from 'react-native'
-
 
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
 import I18n from '../../components/i18n'
-
 
 const {width, height} = Dimensions.get('window')
 
@@ -41,10 +39,32 @@ export default class LoginView extends Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      keyboardShown: false
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
+    this._keyboardDidShow = this._keyboardDidShow.bind(this)
+    this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    this._handleStartShouldSetResponderCapture = this._handleStartShouldSetResponderCapture.bind(this)
+  }
+
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow () {
+    this.setState({keyboardShown: true})
+  }
+
+  _keyboardDidHide () {
+    this.setState({keyboardShown: false})
   }
 
   _handleEmailInput(event) {
@@ -57,6 +77,14 @@ export default class LoginView extends Component {
 
   _handleLoginPress() {
     this.props.onPressLogin(this.state.email, this.state.password)
+  }
+
+  _handleStartShouldSetResponderCapture(evt){
+    return this.state.keyboardShown;
+  }
+
+  _handleResponderRelease(evt){
+    Keyboard.dismiss()
   }
 
   _renderInputFields(){
@@ -138,7 +166,9 @@ export default class LoginView extends Component {
 
   render() {
     return (
-      <View style={style.container}>
+      <View style={style.container}
+         onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+         onResponderRelease={this._handleResponderRelease} >
         <Image style={style.logo}
           source={loginLogo} />
         {this._renderInputFields()}

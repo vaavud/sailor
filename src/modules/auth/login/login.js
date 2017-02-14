@@ -2,7 +2,9 @@
 
 'use strict'
 
-import React, { Component } from 'react'
+import React, {
+  Component
+} from 'react'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -17,9 +19,15 @@ import {
   GraphRequestManager
 } from 'react-native-fbsdk'
 
+import I18n from '../../../components/i18n'
+
 import { LoginView } from '../../../views/auth'
 
-import { doLogin, doSignUp } from '../../../actions/auth'
+import {
+  doLogin,
+  doSignUp
+} from '../../../actions/auth'
+
 import { showError } from '../../../actions/utils'
 
 
@@ -51,8 +59,8 @@ class Login extends Component {
     }
     else {
       this.props.showError({
-        title: 'Something went wrong',
-        msg: 'Make sure you are using the right credentials'
+        title: I18n.t('errorTitle'),
+        msg: I18n.t('wrongCred')
       })
     }
   }

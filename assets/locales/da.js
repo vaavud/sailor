@@ -5,6 +5,8 @@ const da = {
   // multiple usages
   yes:            'Ja',
   no:             'Nej',
+  errorTitle:     'Noget gik galt',
+  completeFields: 'Alle felter skal udfyldes',
   vaavud:         'Vaavud',
   emailInput:     'Din e-mail',
   passwordInput:  'Dit kodeord',
@@ -16,11 +18,14 @@ const da = {
   loginButton:    'Log ind',
   facebookButton: 'Forsæt med Facebook',
   forgotPwButton: 'Glem dit kodeord?',
+  wrongCred:      'Sikrer dig at email og kodeord er korrekt',
 
   // Sign up screen
   firstNameInput: 'Dit fornavn',
   lastNameInput:  'Dit efternavn',
   confirmPwInput: 'Bekræft dit kodeord',
+  shortPasword:   'Dit kodeord skal være mindst 6 karakterer langt',
+  matchPassword:  'Kodeordene skal være ens',
 
   // Forgot password screen
   forgetText:     'Har du glemt kodeordet til din konto?',

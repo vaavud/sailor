@@ -5,6 +5,8 @@ const en = {
   // multiple usages
   yes:            'Yes',
   no:             'No',
+  errorTitle:     'Something went wrong',
+  completeFields: 'All the fields must be completed',
   vaavud:         'Vaavud',
   emailInput:     'Your e-mail',
   passwordInput:  'Your password',
@@ -16,11 +18,14 @@ const en = {
   loginButton:    'Login',
   facebookButton: 'Continue with Facebook',
   forgotPwButton: 'Forgot your password?',
+  wrongCred:      'Make sure that email and password are correct',
 
   // Sign up screen
   firstNameInput: 'Your first name',
   lastNameInput:  'Your last name',
   confirmPwInput: 'Confirm your password',
+  shortPasword:   'Your password must be at least 6 characters long',
+  matchPassword:  'The passwords must match',
 
    // Forgot password screen
   forgetText:     'Did you forget your password?',
