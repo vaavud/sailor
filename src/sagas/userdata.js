@@ -10,7 +10,7 @@ import { HARBOR_LOADED } from '../constants/harbor'
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
 import { harbor, settings, token, online } from '../selectors/common'
-import { saveSessionFb, sendPoints } from '../actions/measure'
+import { saveSession, sendPoints } from '../actions/measure'
 
 function* historyDaemonHandler(action) {
   if (action.online) {
@@ -49,6 +49,17 @@ function deletePointsWraper(sessionPoint) {
   })
 }
 
+function updateSession(session) {
+  return new Promise((resolve, reject) => {
+    realm.write(() => {
+      console.log('sent to firebase', session.key)
+      session.sent = true
+      resolve()
+    })
+  })
+}
+
+
 function* sessionDeamonHandler() {
   if (yield select(online)) {
 
@@ -56,22 +67,37 @@ function* sessionDeamonHandler() {
 
     for (let i in sessionPoints) {
       let sessionPoint = sessionPoints[i]
-      let points = sessionPoint.points
-      let _points = []
+      if (sessionPoint) {
+        let points = sessionPoint.points
+        let _points = []
 
-      for (let x in points) {
-        _points.push(points[x])
+        for (let x in points) {
+          _points.push(points[x])
+        }
+
+        try {
+          yield call(sendPoints, sessionPoint.key, _points)
+          yield call(deletePointsWraper, sessionPoint)
+        }
+        catch (e) {
+          console.log('error wa wa wa', e)
+        }
       }
 
-      try {
-        yield call(sendPoints, sessionPoint.key, _points)
-        yield call(deletePointsWraper, sessionPoint)
-      }
-      catch (e) {
-        console.log('error wa wa wa', e)
-      }
     }
 
+
+    let currentSessions = realm.objects('Session').filtered('sent = false')
+    for (let i in currentSessions) {
+      let s = currentSessions[i]
+      if (s) {
+        let key = s.key
+        delete s.key
+        console.log('trying to send to firebase ', key)
+        yield call(saveSession, s, key)
+        yield call(updateSession, s)
+      }
+    }
 
 
     //   let currentSessions = realm.objects('Session').filtered('sent = false')

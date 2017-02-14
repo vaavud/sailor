@@ -208,7 +208,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
       directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
     
-    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.01, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
+//    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
     let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
     let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
     
@@ -234,7 +234,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
     session.windMin = min
     
     
-    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection, "session": session.toDic ] )
+    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":latlon.map{["lat":$0.latitude,"lon":$0.longitude]},"speeds":simplifiedSpeed,"directions":simplifiedDirection, "session": session.toDic ] )
   }
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -344,7 +344,8 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
         //Compass
         let s70 = val.substring(from: 16, to: 17)
         let h7 = Int(s70, radix: 16)! * 2
-//        print(val)
+        
+        print(val)
 
         if let _loc = lastLocation {
           let point = MeasurementPoint(speed: _h1, direction: h2, location: _loc, timestamp: Date().ticks)

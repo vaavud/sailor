@@ -10,28 +10,46 @@ let SERVER_URL = 'http://52.30.86.52/apps/'
   userData [saga]
 */
 
-export function saveSession(session) {
+export function saveSession(session, _key) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
 
       let uid = firebase.auth().currentUser.uid
       let deviceKey = 'UNTRASONIC'
-      let nodeRef = firebase.database().ref('session').push()
+
+      let nodeRef
+      if (_key) {
+        nodeRef = firebase.database().ref('session').child(_key)
+      }
+      else {
+        nodeRef = firebase.database().ref('session').push()
+      }
+
 
       session.uid = uid
       session.deviceKey = deviceKey
 
       delete session.windMin
+      delete session.key
 
-      nodeRef.set(session)
-      let key = nodeRef.key
+      let key = _key === undefined ? nodeRef.key : _key
 
-      realm.write(() => {
-        console.log('saving session', { key, ...session })
-        realm.create('Session', { key, ...session })
-      })
       console.log('my key', key)
-      console.log('session', session)
+
+      if (getState().app.online) {  // TODO 
+
+        nodeRef.set(session)
+        realm.write(() => {
+          console.log('saving session', { key, ...session, sent: true })
+          realm.create('Session', { key, ...session, sent: true })
+        })
+      }
+      else {
+        realm.write(() => {
+          console.log('saving session', { key, ...session })
+          realm.create('Session', { key, ...session })
+        })
+      }
 
       resolve(key)
     })
@@ -60,7 +78,7 @@ function savePointsLocal(points, key) {
 export function savePoints(points, key) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
-      if (getState().app.online && 1 === 2) {
+      if (getState().app.online) {
         sendPoints(key, points).then(() => {
           resolve(key)
         })

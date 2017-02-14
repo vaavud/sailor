@@ -63,7 +63,6 @@ class Measure extends Component {
 
   onFinalData(data) {
 
-    console.log('data', data)
     let windMin = data.session.windMin
 
     this.props.saveSession(data.session)
