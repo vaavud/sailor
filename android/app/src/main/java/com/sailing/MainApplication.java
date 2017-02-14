@@ -15,6 +15,8 @@ import com.facebook.soloader.SoLoader;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
+import com.sailing.packages.VaavudPackage;
+import com.vaavud.vaavudSDK.core.location.LocationManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
               new FBSDKPackage(mCallbackManager),
               new ReactNativeI18n(),
               new SnackbarPackage(),
-              new MapsPackage()
+              new VaavudPackage()
       );
     }
   };
@@ -60,5 +62,6 @@ public class MainApplication extends Application implements ReactApplication {
     FacebookSdk.sdkInitialize(getApplicationContext());
     // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
+    LocationManager.getInstance().init(getApplicationContext());
   }
 }
