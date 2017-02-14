@@ -16,11 +16,6 @@ import Colors from '../../assets/colorTheme'
 
 class SmallText extends Component {
 
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
-
   render(){
     const {
       textContent,
@@ -57,11 +52,6 @@ class SmallBold extends Component {
 
 class NormalText extends Component {
 
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
-
   render(){
     const {
       textContent,
@@ -76,11 +66,6 @@ class NormalText extends Component {
 }
 
 class NormalLight extends Component {
-
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
 
   render(){
     const {
@@ -97,11 +82,6 @@ class NormalLight extends Component {
 
 class NormalBold extends Component {
 
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
-
   render(){
     const {
       textContent,
@@ -116,11 +96,6 @@ class NormalBold extends Component {
 }
 
 class HeadingText extends Component {
-
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
 
   render(){
     const {
@@ -137,11 +112,6 @@ class HeadingText extends Component {
 
 class HeadingLight extends Component {
 
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
-
   render(){
     const {
       textContent,
@@ -156,11 +126,6 @@ class HeadingLight extends Component {
 }
 
 class HeadingBold extends Component {
-
-  static propTypes = {
-    textContent: PropTypes.string.isRequired,
-    style: PropTypes.number
-  }
 
   render(){
     const {
@@ -177,26 +142,26 @@ class HeadingBold extends Component {
 
 const s = StyleSheet.create({
   small: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Roboto-Regular',
     color: Colors.textColor
   },
   SmallBold: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Roboto-Bold',
   },
   normal: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     color: Colors.textColor
   },
   normalLight: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Roboto-Light',
     color: Colors.textColor
   },
   normalBold :{
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Roboto-Bold',
     color: Colors.textColor
   },
@@ -211,7 +176,7 @@ const s = StyleSheet.create({
     color: Colors.textColor
   },
   largeBold: {
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: 'Roboto-Bold',
     color: Colors.textColor
   },

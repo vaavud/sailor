@@ -17,8 +17,12 @@ import {
 import {
   SmallText,
   NormalText,
-  NormalBold
+  NormalLight,
+  NormalBold,
+  HeadingBold
 } from '../../../components/text'
+
+import Colors from '../../../../assets/colorTheme'
 
 import moment from 'moment'
 
@@ -60,7 +64,9 @@ export default class HistoryView extends Component {
     var rowData = sectionData[0]
     return (
       <View style={style.sectionHeader} >
-        <NormalText textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
+        <NormalLight style={{flex: 1}}
+          textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
+        <NormalLight style={{width: 40, textAlign: 'center'}} textContent={'m/s'} />
       </View>
     )
   }
@@ -71,18 +77,18 @@ export default class HistoryView extends Component {
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
         <View style={style.locationContainer}>
-          <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
-          <NormalText textContent={'Islands brygge'} />
+          <NormalText textContent={moment(data.timeStart).format('HH:mm')} />
+          <NormalBold textContent={'Lat: 55.67° Lon: ‎12.56°'} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
-          <NormalBold textContent={data.windMax}/>
-          <SmallText textContent={'m/s'} />
+          <HeadingBold style={{color: Colors.vaavudRed}}
+            textContent={data.windMax}/>
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Average'} />
-          <NormalBold textContent={data.windMax}/>
-          <SmallText textContent={'m/s'} />
+          <HeadingBold style={{color: Colors.vaavudBlue}}
+            textContent={data.windMax}/>
         </View>
       </TouchableOpacity>
     )
@@ -123,11 +129,11 @@ const style = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    backgroundColor: 'grey',
+    backgroundColor: Colors.background,
   },
   locationContainer: {
     flex: 1,
-    padding: 12,
+    padding: 20,
   },
   speedContainer: {
     width: 60,
@@ -142,10 +148,11 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
   },
   separator: {
-    height: 2,
+    height: 1,
     backgroundColor: '#555',
   },
   sectionHeader: {
+    flexDirection: 'row',
     padding: 5,
     backgroundColor: '#7a868c',
     borderWidth: 1,

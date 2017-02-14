@@ -20,7 +20,7 @@ import Colors from '../../../../assets/colorTheme'
 import I18n from '../../../components/i18n'
 
 import {
-  SmallText, 
+  SmallText,
   NormalText
 } from '../../../components/text'
 
@@ -194,8 +194,8 @@ export default class SettingsView extends Component{
     return (
       <View style={style.deviceStatusContainer} >
         <View style={style.deviceStatusInnerContainer} >
-          {this._renderDeviceText('serialNo', 'TODO get value =)')}
-          {this._renderDeviceText('batteryLevel', 'TODO get value =)')}
+          {this._renderDeviceText('Serial no.', 'xxxxx-xxxx-xxxxx')}
+          {this._renderDeviceText('Battery level', '88 %')}
           <Button
             title={isBleDeviceConnected ? 'Disconnect' : 'Connect'}
             textStyle={style.buttonText} />
@@ -218,8 +218,8 @@ export default class SettingsView extends Component{
         {this._renderLink('appGuide', () => {
           console.log('hit vaavud link')
           //TODO app guide link??
-          } 
-        )}        
+          }
+        )}
       </View>
     )
   }
@@ -261,7 +261,7 @@ const style = StyleSheet.create({
   },
   segmentedControl: {
     justifyContent:'center',
-    height: 40,
+    height: 30,
   },
   deviceStatusContainer: {
     flex: 1,
@@ -278,7 +278,8 @@ const style = StyleSheet.create({
     justifyContent: 'space-between'
   },
   deviceText: {
-    margin: 5,
+    marginTop: 5,
+    marginBottom: 5,
     fontSize: 16
   },
   prefernceContainer: {
@@ -291,7 +292,8 @@ const style = StyleSheet.create({
     fontSize: 16
   },
   buttonText: {
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
     fontSize: 20,
     color: Colors.vaavudBlue
   },
