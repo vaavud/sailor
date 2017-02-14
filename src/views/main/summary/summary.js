@@ -36,7 +36,7 @@ export default class SummaryView extends Component {
 
   constructor(props) {
     super(props)
-    console.log('final logs', props)
+    console.log('final logs', props, props.paths[0].windSpeed)
   }
 
   static propTypes = {
@@ -59,7 +59,7 @@ export default class SummaryView extends Component {
 
     paths: PropTypes.arrayOf(PropTypes.shape({
       timestamp: PropTypes.number.isRequired,
-      speed: PropTypes.number.isRequired,
+      windSpeed: PropTypes.number.isRequired,
     })).isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
@@ -102,19 +102,20 @@ export default class SummaryView extends Component {
       return null
     }
     let i = 0
-    let path = Path().moveTo(0, graphHeight).lineTo(0, this._calculateY(this.props.paths[i].speed))
+    let path = Path().moveTo(0, graphHeight).lineTo(0, this._calculateY(this.props.paths[i].windSpeed))
     for (i = 1; i < this.props.paths.length - 2; i++) {
       path = path.curveTo(
         this._calculateX(i),
-        this._calculateY(this.props.paths[i].speed),
+        this._calculateY(this.props.paths[i].windSpeed),
         this._calculateX(i) + 2,
-        (this._calculateY(this.props.paths[i].speed) + this._calculateY(this.props.paths[i + 1].speed)) / 2
+        (this._calculateY(this.props.paths[i].windSpeed) + this._calculateY(this.props.paths[i + 1].windSpeed)) / 2
       )
     }
     path = path.lineTo(
       this._calculateX(i) + 2,
-      (this._calculateY(this.props.paths[i].speed) + this._calculateY(this.props.paths[i + 1].speed)) / 2
+      (this._calculateY(this.props.paths[i].windSpeed) + this._calculateY(this.props.paths[i + 1].windSpeed)) / 2
     )
+
     path = path.lineTo(this._calculateX(i) + 2, graphHeight)
 
     const d = path.close()
@@ -142,7 +143,7 @@ export default class SummaryView extends Component {
     var len = this.props.directions.length
     for (let i = 0; i < len; i += 1) {
       if (this.props.directions[i].timestamp >= timestamp) {
-        return this.props.directions[i].direction
+        return this.props.directions[i].windDirection
       }
     }
   }
@@ -150,7 +151,7 @@ export default class SummaryView extends Component {
   _renderGraphTimeGrid() {
     const max = this.props.paths.length
     let render = []
-    for (let i = max; i > 0; i -= 1) {
+    for (let i = 0; i < max; i += 1) {
       if (i % 20 === 0) {
         var x = this._getDirection(this.props.paths[i].timestamp)
         render.push(
@@ -173,10 +174,10 @@ export default class SummaryView extends Component {
     const min = this.props.minWindSpeed
     let render = []
     for (let i = max; i >= min; i -= 1) {
-      if (i === max || i === min){
-        render.push( <SmallText textContent={'    '} /> )
+      if (i === max || i === min) {
+        render.push(<SmallText textContent={'    '} />)
       } else {
-        render.push( <SmallText textContent={i + 'm/s'} /> )
+        render.push(<SmallText textContent={i + 'm/s'} />)
       }
     }
     return (

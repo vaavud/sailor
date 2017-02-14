@@ -19,9 +19,17 @@ const LONGITUDE = 12.580140583275785
 const LATITUDE_DELTA = 0.0092;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-import { getSummaryInformation, getSummaryFromServer } from '../../../actions/summary'
+import { getSummaryInformation } from '../../../actions/summary'
 
 import TestView from '../../../views/main/summary'
+
+
+function getCoordinate(location) {
+  return {
+    latitude: location.lat,
+    longitude: location.lon
+  }
+}
 
 class Summary extends Component {
 
@@ -39,45 +47,16 @@ class Summary extends Component {
       },
       coordinates: []
     }
-    console.log('state', this.state)
   }
 
   componentDidMount() {
 
     getSummaryInformation(this.state.sessionKey).then(summary => {
-      if (summary) {
-        let speeds = summary.speeds
-        let latlon = summary.locations
-        let paths = []
-        let coordinates = []
-        let _direc = summary.directions
-        let directions = []
-
-        for (let i in latlon) {
-          coordinates.push(latlon[i])
-        }
-
-        for (let i in speeds) {
-          paths.push({ timestamp: speeds[i].timestamp, speed: speeds[i].value })
-        }
-
-        for (let i in _direc) {
-          directions.push({ timestamp: _direc[i].timestamp, direction: _direc[i].value })
-        }
-
-        console.log('from local')
-        this.setState({ sessionFound: true, maxWindSpeed: summary.windMax, paths, coordinates, directions })
-      }
-      else {
-        getSummaryFromServer(this.state.sessionKey).then(_summary => {
-          // this.setState({ sessionFound: true })
-          console.log('summary in server', _summary)
-        })
-          .catch(() => {
-            console.log('No summary::: Sad face')
-          })
-      }
-    })
+      let latslons = summary.locations.map(latlon => getCoordinate(latlon))
+      this.setState({ sessionFound: true, maxWindSpeed: 7, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
+    }).catch(err => {
+        console.log('ERROR!!!!! SUMMARY')
+      })
   }
 
   componentWillUnmount() {
