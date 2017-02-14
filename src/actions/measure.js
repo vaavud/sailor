@@ -21,6 +21,8 @@ export function saveSession(session) {
       session.uid = uid
       session.deviceKey = deviceKey
 
+      delete session.windMin
+
       nodeRef.set(session)
       let key = nodeRef.key
 

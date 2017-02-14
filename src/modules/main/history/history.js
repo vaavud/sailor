@@ -29,7 +29,7 @@ class History extends Component {
 
 
   render() {
-    console.log('hmmmm:::::', this.props.isloading,this.props.sessions.length > 0)
+    console.log('hmmmm:::::', this.props.isloading, this.props.sessions.length > 0)
     if (this.props.sessions.length > 0) {
       return (
         <HistoryView

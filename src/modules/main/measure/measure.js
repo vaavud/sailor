@@ -59,22 +59,18 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
 
     NativeModules.VaavudBle.initBle()
-
-    //Location setup
-    // let locationProperties = { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000, distanceFilter: 1 }
-
-    // navigator.geolocation.getCurrentPosition(latlon => {
-    //   this.setState({ latlon: latlon.coords, locationReady: true })
-    // }, this._onLocationError, locationProperties)
-    // this.positionListener = navigator.geolocation.watchPosition(this._onNewLocation, this._onLocationError, locationProperties) //unsuscribe listener
   }
 
   onFinalData(data) {
+
+    console.log('data', data)
+    let windMin = data.session.windMin
+
     this.props.saveSession(data.session)
       .then(key => {
         let summary = {
           key,
-          windMean: data.session.windMean,
+          windMin,
           windMax: data.session.windMax,
           speeds: data.speeds,
           directions: data.directions,

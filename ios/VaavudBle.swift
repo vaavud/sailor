@@ -20,7 +20,7 @@ struct Session {
   var windMean: Double?
   var windDirection: Int?
   var location: [String:Double]?
-  
+  var windMin: Double?
   
   
   var toDic: [String:Any] {
@@ -29,6 +29,7 @@ struct Session {
     d["windMeter"] = windMeter
     d["timeEnd"] = timeEnd
     d["windMax"] = windMax
+    d["windMin"] = windMin
     d["windMean"] = windMean
     d["windDirection"] = windDirection
     d["location"] = location
@@ -139,7 +140,7 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
   @objc
   func initBle() {
     manager = CBCentralManager(delegate: self, queue: nil)
-    session = Session(timeStart: Date().ticks, timeEnd: nil, windMax: nil, windMean: nil, windDirection: nil, location: nil)
+    session = Session(timeStart: Date().ticks, timeEnd: nil, windMax: nil, windMean: nil, windDirection: nil, location: nil,windMin: nil)
     
     isAuthorizedtoGetUserLocation()
     if CLLocationManager.locationServicesEnabled() {
@@ -207,18 +208,20 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
       directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
     
-//    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.01, highQuality: false).map{["latitude":$0.latitude,"longitude":$0.longitude]} //TODO FIXME
+    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.01, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
     let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
     let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
     
     
     var avg : Double = 0
     var max : Double = 0
-    let dir = simplifiedDirection.last?["windDirection"]! ?? 0
+    var min = simplifiedSpeed.last!["windSpeed"]!
+    let dir = simplifiedDirection.last!["windDirection"]!
     let _latlon = ["lat":latlon.last!.latitude,"lon":latlon.last!.longitude]
     for s in simplifiedSpeed {
       let v = s["windSpeed"]!
       max = max < v ? v : max
+      min = min > v ? v : min
       avg = avg + v
     }
     avg = avg / Double(simplifiedSpeed.count)
@@ -228,9 +231,10 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
     session.windMean = avg
     session.location = _latlon
     session.timeEnd = Date().ticks
+    session.windMin = min
     
     
-    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":latlon.map{["lat":$0.latitude,"lon":$0.longitude]},"speeds":simplifiedSpeed,"directions":simplifiedDirection, "session": session.toDic ] )
+    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":measurementPoints.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection, "session": session.toDic ] )
   }
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {

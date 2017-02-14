@@ -34,7 +34,7 @@ export function getSummaryInformation(sessionKey) {
         locations: locations,
         windDirections: directions,
         windMax: s.windMax,
-        windMean: s.windMean
+        windMin: s.windMin
       }
 
       resolve(_summary)
@@ -54,12 +54,18 @@ function getSummaryFromServer(sessionKey) {
       .then(response => response.json())
       .then(responseData => {
 
-        if (responseData.windSpeeds.length === 0) {
+        console.log('from server', responseData)
+
+        if ('err' in responseData) {
           reject()
         }
         else {
-          console.log('from server',responseData)
-          resolve(responseData)
+          if (responseData.windSpeeds.length === 0) {
+            reject()
+          }
+          else {
+            resolve(responseData)
+          }
         }
       })
       .catch(err => {

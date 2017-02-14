@@ -143,7 +143,7 @@ class Summary { }
 Summary.schema = {
   name: 'Summary', properties: {
     key: 'string',
-    windMean: 'double',
+    windMin: 'double',
     windMax: 'double',
     speeds: { type: 'list', objectType: 'SpeedPoint' },
     directions: { type: 'list', objectType: 'DirectionPoint' },

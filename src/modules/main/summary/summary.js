@@ -53,10 +53,10 @@ class Summary extends Component {
 
     getSummaryInformation(this.state.sessionKey).then(summary => {
       let latslons = summary.locations.map(latlon => getCoordinate(latlon))
-      this.setState({ sessionFound: true, maxWindSpeed: 7, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
+      this.setState({ sessionFound: true, windMin: summary.windMin, windMax: summary.windMax, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
     }).catch(err => {
-        console.log('ERROR!!!!! SUMMARY')
-      })
+      console.log('ERROR!!!!! SUMMARY')
+    })
   }
 
   componentWillUnmount() {
@@ -76,8 +76,8 @@ class Summary extends Component {
           }}
           directions={this.state.directions}
           paths={this.state.paths}
-          maxWindSpeed={Math.ceil(this.state.maxWindSpeed)}
-          minWindSpeed={0} />
+          maxWindSpeed={Math.ceil(this.state.windMax + 1)}
+          minWindSpeed={Math.floor(this.state.windMin)} />
       )
     else { return <View /> }
   }
