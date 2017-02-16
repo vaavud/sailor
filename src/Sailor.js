@@ -7,10 +7,11 @@ import { connect } from 'react-redux'
 import Welcome from './modules/auth/welcome'
 import Main from './modules/main'
 import Intro from './modules/intro'
-// import Spinner from 'react-native-loading-spinner-overlay'
+import Loading from './modules/loading'
+
 
 //constants
-import { NEEDS_AUTH, IS_AUTH, SETUP, LOADING } from './constants/auth'
+import { NEEDS_AUTH, HOME_READY, SETUP, LOADING } from './constants/auth'
 
 
 class SailorMain extends Component {
@@ -23,12 +24,12 @@ class SailorMain extends Component {
     switch (this.props.app.state) {
       case NEEDS_AUTH:
         return (<Welcome />)
-      case IS_AUTH:
+      case HOME_READY:
         return (<Main />)
       case SETUP:
         return (<Intro />)
       case LOADING:
-        return (<View style={{ backgroundColor: 'purple', flex: 1 }} />)
+        return (<Loading />)
       default:
         return (<Welcome />)
     }

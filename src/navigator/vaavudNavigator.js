@@ -37,7 +37,7 @@ import icoMoonConfig from '../reactcommon/components/selection.json'
 import Colors from '../../assets/colorTheme'
 
 const Icon = createIconSetFromIcoMoon(icoMoonConfig)
-const logo = <Icon name='logo' size={20} color='white'/>
+const logo = <Icon name='logo' size={20} color='white' />
 
 class VaavudNavigator extends Component {
 
@@ -132,7 +132,7 @@ class VaavudNavigator extends Component {
         else {
           return (
             <MeasureButton
-            icon={logo}
+              icon={logo}
               onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
               btnText={'X'}
               buttonColor={Colors.vaavudBlue}
@@ -141,13 +141,17 @@ class VaavudNavigator extends Component {
         }
       }
       else {
-        return (
-          <MeasureButton
-          icon={logo}
-            onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
-            buttonColor={Colors.vaavudBlue}
-            btnOutRange={Colors.vaavudRed} />
-        )
+        if (scenes.index > 0) {
+          return null
+        }
+        else
+          return (
+            <MeasureButton
+              icon={logo}
+              onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
+              buttonColor={Colors.vaavudBlue}
+              btnOutRange={Colors.vaavudRed} />
+          )
       }
     }
 

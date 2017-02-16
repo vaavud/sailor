@@ -2,6 +2,8 @@
 import firebase from 'firebase'
 import realm from '../store/realm'
 
+import { NEW_SESSION } from '../constants/history'
+
 let SERVER_URL = 'http://52.30.86.52/apps/'
 
 /*
@@ -50,7 +52,8 @@ export function saveSession(session, _key) {
           realm.create('Session', { key, ...session })
         })
       }
-
+      session.key = key
+      dispatch({ type: NEW_SESSION, session })
       resolve(key)
     })
   }

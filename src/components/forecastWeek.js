@@ -29,8 +29,8 @@ export default class ForecastWeek extends Component {
           <Text numberOfLines={1} style={[style.text, { fontSize: 13 }]}>{this.props.name}</Text>
         </View>
         <View style={style.headerDescription} >
-          <Image source={resolution} style={[style.img, { marginRight: 5 }]} resizeMode="contain" />
-          <Text style={[style.text, { fontSize: 13, marginRight: 10 }]}>{this.props.resolution}</Text>
+          <Image source={null} style={[style.img, { marginRight: 5 }]} resizeMode="contain" />
+          <Text style={[style.text, { fontSize: 13, marginRight: 10 }]} />
           <Image source={rightArrow} style={[style.img, { marginRight: 10 }]} resizeMode="contain" />
         </View>
       </View>

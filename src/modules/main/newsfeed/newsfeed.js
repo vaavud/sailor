@@ -20,7 +20,7 @@ import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 const {width, height} = Dimensions.get('window')
-const imgHarbor = require('../../../../assets/pinMap.png')
+const imgHarbor = require('../../../../assets/windRed.png')
 
 
 const ASPECT_RATIO = width / height

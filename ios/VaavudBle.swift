@@ -345,8 +345,6 @@ class VaavudBle: RCTEventEmitter,CBCentralManagerDelegate, CBPeripheralDelegate,
         let s70 = val.substring(from: 16, to: 17)
         let h7 = Int(s70, radix: 16)! * 2
         
-        print(val)
-
         if let _loc = lastLocation {
           let point = MeasurementPoint(speed: _h1, direction: h2, location: _loc, timestamp: Date().ticks)
           measurementPoints.insert(point, at: 0)
