@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -26,16 +27,25 @@ import com.vaavud.vaavudSDK.Config;
 import com.vaavud.vaavudSDK.VaavudSDK;
 
 import com.vaavud.vaavudSDK.core.VaavudError;
+import com.vaavud.vaavudSDK.core.aegir.ble.BleMessages;
 import com.vaavud.vaavudSDK.core.listener.DirectionListener;
 import com.vaavud.vaavudSDK.core.listener.SpeedListener;
+import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
+import com.vaavud.vaavudSDK.core.location.LocationManager;
+import com.vaavud.vaavudSDK.core.model.MeasurementPoint;
 import com.vaavud.vaavudSDK.core.model.event.DirectionEvent;
+import com.vaavud.vaavudSDK.core.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.core.model.event.SpeedEvent;
 import com.vaavud.vaavudSDK.model.MeasurementSession;
 import com.vaavud.vaavudSDK.model.WindMeter;
 import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
 import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
-public class VaavudSDKBridge extends ReactContextBaseJavaModule implements SpeedListener, DirectionListener {
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class VaavudSDKBridge extends ReactContextBaseJavaModule implements VaavudDataListener {
 
     private static final String TAG = "VaavudAPI";
     private VaavudSDK vaavudSDK;
@@ -43,98 +53,114 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Speed
     private DeviceEventManagerModule.RCTDeviceEventEmitter module;
     private MeasurementSession session;
 
-
-
     public VaavudSDKBridge(ReactApplicationContext reactContext) {
         super(reactContext);
         mContext = reactContext.getApplicationContext();
-//        vaavudSDK = VaavudSDK.init(reactContext.getApplicationContext());
+        initSDK();
     }
 
     @Override
     public String getName() {
-        return "VaavudAPI";
+        return "VaavudBle";
     }
 
-    @Override
-    public void speedChanged(SpeedEvent event) {
-        WritableMap data = Arguments.createMap();
-        data.putDouble("time", event.getTime());
-        data.putDouble("speed", event.getSpeed());
-        data.putDouble("windMean",session.getWindMean());
-        emitData(data);
-    }
+//    @Override
+//    public void speedChanged(SpeedEvent event) {
+//        WritableMap data = Arguments.createMap();
+//        data.putDouble("time", event.getTime());
+//        data.putDouble("speed", event.getSpeed());
+//        data.putDouble("windMean",session.getWindMean());
+//        emitData(data);
+//    }
+//
+//    @Override
+//    public void trueSpeedChanged(TrueSpeedEvent event) {
+//        WritableMap data = Arguments.createMap();
+//        data.putDouble("time", event.getTime());
+//        data.putDouble("trueSpeed", event.getTrueSpeed());
+//        data.putDouble("windMean",session.getWindMean());
+//        emitData(data);
+//
+//    }
+//
+//    @Override
+//    public void newDirectionEvent(DirectionEvent event) {
+//        WritableMap data = Arguments.createMap();
+//        data.putDouble("time", event.getTime());
+//        data.putDouble("direction", event.getDirection());
+//        emitData(data);
+//    }
+//
+//    @Override
+//    public void trueDirectionEvent(TrueDirectionEvent event) {
+//        WritableMap data = Arguments.createMap();
+//        data.putDouble("time", event.getTime());
+//        data.putDouble("trueDirection", event.getTrueDirection());
+//        emitData(data);
+//
+//    }
 
-    @Override
-    public void trueSpeedChanged(TrueSpeedEvent event) {
-        WritableMap data = Arguments.createMap();
-        data.putDouble("time", event.getTime());
-        data.putDouble("trueSpeed", event.getTrueSpeed());
-        data.putDouble("windMean",session.getWindMean());
-        emitData(data);
-
-    }
-
-    @Override
-    public void newDirectionEvent(DirectionEvent event) {
-        WritableMap data = Arguments.createMap();
-        data.putDouble("time", event.getTime());
-        data.putDouble("direction", event.getDirection());
-        emitData(data);
-    }
-
-    @Override
-    public void trueDirectionEvent(TrueDirectionEvent event) {
-        WritableMap data = Arguments.createMap();
-        data.putDouble("time", event.getTime());
-        data.putDouble("trueDirection", event.getTrueDirection());
-        emitData(data);
-
-    }
-
-    private void emitData(WritableMap data) {
-        //Log.d(TAG, "Emit: " + data);
-        module.emit("VaavudWindEvent", data);
+    private void emitData(String event, WritableMap data) {
+        Log.d(TAG, "Emit: " + event + " " );
+        module.emit(event, data);
     }
 
     private void initSDK(){
-        vaavudSDK = VaavudSDK.init(getReactApplicationContext());
+        if (vaavudSDK==null) {
+            vaavudSDK = VaavudSDK.init(mContext);
+            vaavudSDK.setListener(this);
+        }
+    }
+
+    private void initEmmiter(){
         if (module == null) {
             module = getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
         }
     }
 
     @ReactMethod
-    public void initBLE(Promise callback){
+    public void initBle(){
+        Log.d(TAG, "initBle from React");
         initSDK();
+        initEmmiter();
         Config config = new Config(null);
         config.setWindMeter(WindMeter.AEGIR);
         vaavudSDK.setConfig(config);
+        LocationManager.getInstance().connect();
         try {
-            vaavudSDK.initBLE();
-            callback.resolve(null);
+            vaavudSDK.initBLE(getCurrentActivity());
+            emitData("onReadyToWork",null);
         } catch (VaavudError vaavudError) {
-            callback.reject(vaavudError.getMessage(), vaavudError);
+            emitData("onError",null);
         }
+
     }
 
     @ReactMethod
-    public void start(Promise callback) {
-        //Log.d(TAG, "Starting from React");
-//        LocationManager.getInstance().connect();
-        if(vaavudSDK==null) {
-            initSDK();
-        }
+    public void onConnect() {
+        Log.d(TAG, "Starting from React");
+        initSDK();
+        initEmmiter();
         try {
             session = vaavudSDK.startSession();
-            callback.resolve(null);
         } catch (VaavudError vaavudError) {
-            callback.reject(vaavudError.getMessage(), vaavudError);
+            emitData("onError",null);
         }
     }
 
     @ReactMethod
-    public void stop(Promise callback) {
+    public void isVaavudBLEConnected(){
+        WritableMap map = new WritableNativeMap();
+        if (VaavudSDK.init(mContext).isAegirAvailable()){
+            map.putBoolean("available",true);
+        }else{
+            map.putBoolean("available",false);
+        }
+        emitData("onVaavudBLEFound",map);
+    }
+
+    @ReactMethod
+    public void onDisconnect() {
 //        Log.d(TAG, "Stoping from React");
 //        LocationManager.getInstance().onPause();
         if (vaavudSDK != null) {
@@ -158,21 +184,69 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Speed
 //                if (LocationManager.getInstance().getLastLocation() != null) {
 //                    Log.e("latlon",LocationManager.getInstance().getLastLocation().toString());
                 WritableMap locationMap = new WritableNativeMap();
-                locationMap.putDouble("lat", session.getLastLocationEvent().getLocation().getLatitude());
-                locationMap.putDouble("lon", session.getLastLocationEvent().getLocation().getLongitude());
+                locationMap.putDouble("lat", 0.0);//session.getLastLocationEvent().getLocation().getLatitude());
+                locationMap.putDouble("lon", 0.0);//session.getLastLocationEvent().getLocation().getLongitude());
                 map.putMap("location", locationMap);
 //                }
-                callback.resolve(map);
+                emitData("onFinalData",map);
             } catch (VaavudError vaavudError) {
-                callback.reject(vaavudError);
+//                callback.reject(vaavudError);
+                emitData("onError",null);
             }
-        } else {
-            callback.reject(new VaavudError("SDK not available"));
         }
 
 
     }
 
+    @Override
+    public void onNewLocation(LocationEvent event){
+        WritableMap map = Arguments.createMap();
+        map.putBoolean("available",true);
+        emitData("onLocationWorking",map);
+    }
 
+    @Override
+    public void onNewData(HashMap data) {
+//        WritableMap map = Arguments.createMap();
+//        map = (WritableMap)data;
+        emitData((String)data.get("message"),hashMapToWritableMap((HashMap<String,Object>)data.get("data")));
+    }
 
+//    @Override
+//    public void onNewMessage(BleMessages message){
+//        emitData("onNewRead",data);
+//    }
+
+    private WritableMap hashMapToWritableMap(HashMap<String,Object> hash){
+        WritableMap map = Arguments.createMap();
+        if (!hash.keySet().isEmpty()) {
+            Iterator it = hash.keySet().iterator();
+            while (it.hasNext()){
+                String next = (String) it.next();
+                switch (hash.get(next).getClass().getName()){
+                    case "java.lang.Boolean":
+                        map.putBoolean(next,(boolean)hash.get(next));
+                        break;
+                    case "java.lang.Integer":
+                        map.putInt(next,(int)hash.get(next));
+                        break;
+                    case "java.lang.Double":
+                        map.putDouble(next,(double)hash.get(next));
+                        break;
+                    case "java.lang.String":
+                        map.putString(next,(String)hash.get(next));
+                        break;
+                    case "com.facebook.react.bridge.WritableNativeMap":
+                        map.putMap(next,(WritableMap) hash.get(next));
+                        break;
+                }
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public void onError(VaavudError error) {
+
+    }
 }
