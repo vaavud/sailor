@@ -3,16 +3,16 @@ import realm from '../store/realm'
 import firebase from 'firebase'
 
 import { LOGOUT } from '../constants/auth'
+import { SETTING_UPDATED } from '../constants/settings'
 
-export function updateSettings(key, value) { 
+export function updateSettings(key, value) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
 
       realm.write(() => {
         let settings = realm.objects('Settings')
-        console.log(settings[0])
         settings[0][key] = value
-        console.log(settings[0])
+        dispatch({ type: SETTING_UPDATED, key, value })
       })
     })
   }

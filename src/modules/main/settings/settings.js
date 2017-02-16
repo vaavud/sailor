@@ -13,13 +13,6 @@ import { logout, updateSettings } from '../../../actions/settings'
 
 import SettingsView from '../../../views/main/settings'
 
-import { SegmentedControls } from 'react-native-radio-buttons'
-
-import {
-  time_conv, speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
-  angle_conv_inverse, temp_conv_inverse
-} from '../../../reactcommon/utils'
-
 
 class Settings extends Component {
 
@@ -29,15 +22,17 @@ class Settings extends Component {
   }
 
   componentDidMount() {
+    console.log('mount')
 
   }
 
   componentWillUnmount() {
+    console.log('unmount')
 
   }
 
 
-  render(){
+  render() {
     return (
       <SettingsView
         updateSettings={this.props.updateSettings}
@@ -49,7 +44,7 @@ class Settings extends Component {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
-  console.log(reduxStore.settings)
+  console.log('settings', reduxStore.settings)
   return {
     settings: reduxStore.settings
   }

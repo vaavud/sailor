@@ -1,5 +1,5 @@
 
-import { SETTINGS_LOADED } from '../constants/settings'
+import { SETTINGS_LOADED, SETTING_UPDATED } from '../constants/settings'
 
 var initialState = {
   timeInterval: undefined,
@@ -20,6 +20,14 @@ export default function settings(state = initialState, action) {
         temperature: action.settings.temperature,
         colorExplanation: action.settings.colorExplanation
       }
+    case SETTING_UPDATED:
+
+      let newState = { ...state }
+      newState[action.key] = action.value
+
+      return newState
+
+
     default:
       return state
   }
