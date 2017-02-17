@@ -24,9 +24,11 @@ import Colors from '../../../assets/colorTheme'
 
 const {width, height} = Dimensions.get('window')
 
+const backgroundImage = require('../../../assets/images/forgot-image.png')
+
 const loginLogo = require('../../../assets/logo-login.png')
 const emailIcon = require('../../../assets/envelope.png')
-const backButtonIcon = require('../../../assets/back.png')
+const backButtonIcon = require('../../../assets/icons/back-arrow.png')
 
 export default class ForgotView extends Component{
 
@@ -110,14 +112,15 @@ export default class ForgotView extends Component{
 
   render(){
     return (
-      <View style={style.container}>
+      <Image style={style.container}
+        source={backgroundImage}>
         {this._renderBackButton()}
         <Image style={style.logo}
           source={loginLogo}/>
         {this._renderText()}
         {this._renderEmailField()}
         {this._renderButton()}
-      </View>
+      </Image>
     )
   }
 }
@@ -132,16 +135,15 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     padding: width * 0.1,
     paddingTop: height * 0.1,
-    backgroundColor: Colors.background
   },
   backButtonStyle:{
     position: 'absolute',
-    top: 20,
+    top: 30,
     left: 20,
   },
   logo: {
     alignSelf:'center',
-    marginBottom: 50
+    marginBottom: 5
   },
   inputLogo:{
     width: 30
@@ -149,14 +151,15 @@ const style = StyleSheet.create({
   inputContainer:{
     flexDirection: 'row',
     alignItems: 'center',
+  
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
   input:{
     flex: 1,
+    margin: 5,
     height: 40,
-    backgroundColor: 'transparent',
-    color: Colors.inputTextColor
+    color: Colors.inputTextColor,
   },
   button: {
     width: width * 0.8 - 1,
@@ -179,6 +182,7 @@ const style = StyleSheet.create({
   text:{
     fontSize: 14,
     lineHeight: 20,
+    backgroundColor: 'transparent',
     fontWeight: 'bold',
     textAlign: 'center',
     color: Colors.textColor

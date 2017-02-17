@@ -17,7 +17,7 @@ import {
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
-
+import AnimateNumber from '../../../components/animateNumber'
 
 const compass = require('../../../../assets/trueWindCompass.png')
 const compassHand = require('../../../../assets/trueWindCompassHand.png')
@@ -54,7 +54,16 @@ export default class MeasureView extends Component {
     ).start()
   }
 
+  _crazyMod(a, n) {
+    return a - Math.floor(a / n) * n
+  }
+  
+
   _renderCompass(lastHeading, newHeading) {
+    var l = lastHeading
+    var n = newHeading
+    var a = n - l
+    newHeading = (this._crazyMod((n - l) + 180, 360) - 180) + l
     this.animateNewHeading()
     const animate = this.animatedValue.interpolate({
       inputRange: [0, 1],
@@ -83,11 +92,11 @@ export default class MeasureView extends Component {
     )
   }
 
-  _renderSpeedContainer(groundSpeed, windSpeed) {
+  _renderSpeedContainer(groundSpeed, lastWindSpeed, windSpeed) {
     return (
       <View style={style.speedContainer} >
         {this._renderGroundSpeed(groundSpeed)}
-        {this._renderWindSpeed(windSpeed)}
+        {this._renderWindSpeed(lastWindSpeed, windSpeed)}
       </View>
     )
   }
@@ -102,11 +111,16 @@ export default class MeasureView extends Component {
     )
   }
 
-  _renderWindSpeed(windSpeed) {
+  _renderWindSpeed(lastWindSpeed, windSpeed) {
+    var dir = lastWindSpeed < windSpeed
+    console.log('speeds l and n::::' + ' ' + lastWindSpeed + '  :: ' + windSpeed)
     return (
       <View style={style.windSpeedContainer} >
         <Text>{'Wind speed'}</Text>
-        <Text style={style.speedText} >{windSpeed}</Text>
+        <AnimateNumber
+          direction={dir}
+          startFrom={lastWindSpeed}
+          endWith={windSpeed} />
         <Text>{'m/s'}</Text>
       </View>
     )
