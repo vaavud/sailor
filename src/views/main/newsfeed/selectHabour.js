@@ -20,7 +20,10 @@ import Button from '../../../reactcommon/components/button'
 import Colors from '../../../../assets/colorTheme'
 
 const saveIcon = require('../../../../assets/envelope.png')
-const imgHarbor = require('../../../../assets/pinMap.png')
+const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
+
+import { nameByLatLon } from '../../../actions/harbor'
+
 
 const { width, height } = Dimensions.get('window')
 import Snackbar from 'react-native-snackbar'
@@ -29,11 +32,11 @@ export default class SelectHabourView extends Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       ...props
     }
     this._onFinish = this._onFinish.bind(this)
+    this.onRegionChange = this.onRegionChange.bind(this)
   }
 
   static propTypes = {
@@ -50,32 +53,31 @@ export default class SelectHabourView extends Component {
   }
 
   onRegionChange(region) {
-    this.setState({ region })
-  }
-
-  onMapPress(e) {
-    if (this.state.location) { return }
-    this.setState({
-      location: e.nativeEvent.coordinate
+    nameByLatLon(region).then(name => {
+      if (name.results.length > 0) {
+        this.setState({ locationName: name.results[0].formatted_address, location: region })
+      }
     })
   }
 
+  // onMapPress(e) {
+  //   if (this.state.location) { return }
+  //   this.setState({
+  //     location: e.nativeEvent.coordinate
+  //   })
+  // }
+
   _renderMap() {
     return (
-      <MapView
-        style={style.mapContainer}
-        onRegionChangeComplete={this.onRegionChange.bind(this)}
-        onPress={this.onMapPress.bind(this)}
-        initialRegion={this.state.region} >
-        {this.state.location ?
-          <MapView.Marker
-            onDragEnd={e => {
-              this.setState({ location: { latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude } })
-            }}
-            coordinate={this.state.location}
-            draggable /> : null
-        }
-      </MapView>
+      <View style={style.mapContainer}>
+        <MapView
+          style={{ flex: 1 }}
+          onRegionChangeComplete={this.onRegionChange}
+          mapType="satellite"
+          initialRegion={this.state.region} />
+        <Image source={imgHarbor} style={{ position: 'absolute', top: (height / 2) - 15, left: (width / 2) - 15 }} />
+
+      </View>
     )
   }
 
@@ -88,7 +90,7 @@ export default class SelectHabourView extends Component {
         <TextInput style={style.inputField}
           defaultValue={this.state.locationName}
           autoFocus={false}
-          onChangeText={(locationName) => {
+          onChangeText={locationName => {
             this.setState({ locationName })
           }}
           autoCorrect={false}
@@ -103,10 +105,16 @@ export default class SelectHabourView extends Component {
 
   _renderButton() {
     return (
-      <Button buttonStyle={style.saveButton}
-        textStyle={style.buttonText}
-        onPress={this._onFinish}
-        title={'Save habour'} />
+      <View style={style.buttonsArea}>
+        <Button buttonStyle={[style.bottonButtonNext]}
+          textStyle={style.buttonText}
+          onPress={this._onFinish}
+          title={'Save habour'} />
+        <Button buttonStyle={style.bottonButtonBack}
+          textStyle={style.buttonText}
+          onPress={this.props.onPop}
+          title={'Back'} />
+      </View>
     )
   }
 
@@ -157,23 +165,38 @@ const style = StyleSheet.create({
     left: 40,
     width: width - 80,
     height: 50,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'white',
     borderRadius: 5
   },
-  inputField: {
-    flex: 1,
-    padding: 10
-  },
-  saveButton: {
+  buttonsArea: {
     position: 'absolute',
     bottom: 50,
     left: 40,
     width: width - 80,
+    height: 100
+  },
+  inputField: {
+    flex: 1,
+    padding: 10,
+  },
+  bottonButtonBack: {
+    width: width - 80,
     height: 50,
+    marginTop: 10,
     alignSelf: 'center',
     justifyContent: 'center',
     borderColor: 'white',
+    backgroundColor: 'transparent',
+    borderRadius: 5
+  },
+  bottonButtonNext: {
+    width: width - 80,
+    height: 50,
+    marginTop: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.vaavudBlue,
+    borderColor: 'white',
     borderRadius: 5
   },
   buttonText: {
@@ -183,8 +206,9 @@ const style = StyleSheet.create({
     color: 'white'
   },
   inputLogo: {
-    width: 25,
-    height: 25,
-    marginLeft: 10
+    width: 20,
+    height: 20,
+    marginLeft: 10,
+    tintColor: 'gray'
   },
 })

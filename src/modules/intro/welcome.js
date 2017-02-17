@@ -4,8 +4,13 @@
 
 import React, { Component } from 'react'
 import {
-  View, Button, Text, NativeModules, NativeEventEmitter
+  View, Text, NativeModules, NativeEventEmitter, StyleSheet, Image
 } from 'react-native'
+import Button from '../../reactcommon/components/button'
+
+
+import Colors from '../../../assets/colorTheme'
+const bluetooth = require('../../../assets/icons/bluetooth.png')
 
 
 
@@ -68,22 +73,16 @@ class Welcome extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'pink', paddingTop: 100 }} >
-        <Text> Welcome </Text>
-        <Button title="Connect" onPress={() => {
-          if (this.state.status === 'poweredOn') {
-            //NativeModules.VaavudBle.onConnect()
-            this.props.nav({ type: 'push', key: 'bluetooth' })
-          }
-          else {
-            this.props.showError({ title: 'Bluetooth error', msg: 'Please enable Bluetooth to continue' })
-          }
-        } } />
-
-        <Button title="DisConnect" onPress={() => {
-          // NativeModules.VaavudBle.onDisconnect()
-        } } />
-
+      <View style={style.container} >
+        <Image source={bluetooth} style={{ height: 90, width: 75 }} />
+        <Text style={style.heading} >Connect</Text>
+        <Text style={style.description} >{'Let’s connect your windmeter.\n Place it next to your phone and hit \n conintue'}</Text>
+        <View style={{ flexDirection: 'row' }} >
+          <Button buttonStyle={style.button}
+            textStyle={style.buttonText}
+            onPress={() => this.props.nav({ type: 'push', key: 'bluetooth' })}
+            title="Continue" />
+        </View>
       </View>
     )
   }
@@ -102,3 +101,44 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapReduxStoreToProps, mapDispatchToProps)(Welcome)
+
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.vaavudBlue
+  },
+  heading: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10
+  },
+  description: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10
+  },
+  button: {
+    flex: 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 50,
+    height: 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: 'white',
+    backgroundColor: 'white',
+  },
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.vaavudBlue
+  }
+})

@@ -17,6 +17,7 @@ import {
 import {
   SmallText,
   NormalText,
+  SmallBold,
   NormalLight,
   NormalBold,
   HeadingBold
@@ -77,8 +78,8 @@ export default class HistoryView extends Component {
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
         <View style={style.locationContainer}>
-          <NormalText textContent={moment(data.timeStart).format('HH:mm')} />
-          <NormalBold textContent={'Lat: 55.67° Lon: ‎12.56°'} />
+          <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
+          <SmallBold textContent={'Lat: 55.67° Lon: ‎12.56°'} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />

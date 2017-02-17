@@ -7,21 +7,18 @@ import {
   View,
   Button,
   Text,
-  requireNativeComponent,
   Dimensions,
   Image
 } from 'react-native'
 
-let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
-
+// let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 const {width, height} = Dimensions.get('window')
-const imgHarbor = require('../../../../assets/windRed.png')
-
+const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
 
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0992;
@@ -82,7 +79,7 @@ class Newsfeed extends Component {
               initialRegion={{ ...this.state.region, ...getCoordinate(this.props.harbor.location) }}
               mapType="satellite" >
               <MapView.Marker coordinate={getCoordinate(this.props.harbor.location)}>
-                <Image source={imgHarbor} style={{ height: 45, width: 45, }} />
+                <Image source={imgHarbor} />
               </MapView.Marker>
             </MapView>
 

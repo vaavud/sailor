@@ -4,6 +4,9 @@ import realm from '../store/realm'
 
 import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, FORECAST_FAILD, PROFILE_LOADED, NO_PROFILE } from '../constants/harbor'
 
+const google_Api_key = 'AIzaSyBcL4Hz1TeA52ZnrMDTRuo_Ff8wtZ7xY5E'
+const googleApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?'
+
 
 const apiUrl = 'https://api.vaavud.com/apps/sailing/'
 
@@ -12,6 +15,7 @@ export function getForecast(windMax, windMin, unit, token, subId) {
   return new Promise((resolve, reject) => {
 
     let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/${unit}/${subId}`
+    console.log(finalUrl)
 
     var myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
@@ -64,6 +68,8 @@ export function getSubscription() {
 
           let subs = snapshot.val()
           let i = Object.keys(subs).filter(o => 'appName' in subs[o]).filter(e => subs[e].appName === 'sailor')
+
+          console.log(i)
 
           if (i.length > 0) {
             let s = subs[i[0]]
@@ -194,4 +200,22 @@ export function saveHarbor(payload, profile, key) {
 
     })
   }
+}
+
+
+
+export function nameByLatLon(location) {
+  return new Promise((resolve, reject) => {
+    let request = `${googleApiUrl}latlng=${location.latitude},${location.longitude}&key=${google_Api_key}`
+
+    fetch(request)
+      .then(response => response.json())
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        console.log('google api', err)
+        reject(err)
+      })
+  })
 }

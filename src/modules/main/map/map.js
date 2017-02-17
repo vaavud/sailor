@@ -36,6 +36,9 @@ class Map extends Component {
     })
   }
 
+  onRegionChange(region) {
+  }
+
   componentWillUnmount() {
 
   }
@@ -57,13 +60,14 @@ class Map extends Component {
         style={{ flex: 1 }}
         initialRegion={this.state.region}
         region={this.state.maxRegion}
+        onRegionChange={this.onRegionChange}
         mapType="satellite" >
         {Object.keys(this.state.markers).map(key => (
           this._renderMarker(this.state.markers[key], key)
         ))}
       </MapView>)
   }
-
+  
 }
 
 // const mapReduxStoreToProps = (reduxStore) => {
