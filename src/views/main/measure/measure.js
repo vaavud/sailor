@@ -17,7 +17,6 @@ import {
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
-import AnimateNumber from '../../../components/animateNumber'
 
 const compass = require('../../../../assets/trueWindCompass.png')
 const compassHand = require('../../../../assets/trueWindCompassHand.png')
