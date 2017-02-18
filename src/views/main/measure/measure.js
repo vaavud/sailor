@@ -110,16 +110,11 @@ export default class MeasureView extends Component {
     )
   }
 
-  _renderWindSpeed(lastWindSpeed, windSpeed) {
-    var dir = lastWindSpeed < windSpeed
-    console.log('speeds l and n::::' + ' ' + lastWindSpeed + '  :: ' + windSpeed)
+  _renderWindSpeed(windSpeed) {
     return (
       <View style={style.windSpeedContainer} >
         <Text>{'Wind speed'}</Text>
-        <AnimateNumber
-          direction={dir}
-          startFrom={lastWindSpeed}
-          endWith={windSpeed} />
+        <Text style={style.speedText} >{windSpeed}</Text>
         <Text>{'m/s'}</Text>
       </View>
     )
