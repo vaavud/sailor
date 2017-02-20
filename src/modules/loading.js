@@ -12,12 +12,16 @@ class Loading extends Component {
 
   constructor(props) {
     super(props)
+
+    
   }
 
   render() {
     return (
       <View style={{ backgroundColor: Colors.vaavudBlue, flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-        <Image source={logo} style={{ width: 110, height: 80, marginBottom: 25 }} />
+        <Image source={logo} style={{
+          width: 110, height: 80, marginBottom: 25
+        }} />
         <Text style={{ color: 'white' }}>{this.props.status}</Text>
       </View>)
   }

@@ -84,12 +84,12 @@ export default class HistoryView extends Component {
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
           <HeadingBold style={{color: Colors.vaavudRed}}
-            textContent={data.windMax}/>
+            textContent={data.windMax.toFixed(1)}/>
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Average'} />
           <HeadingBold style={{color: Colors.vaavudBlue}}
-            textContent={data.windMax}/>
+            textContent={data.windMax.toFixed(1)}/>
         </View>
       </TouchableOpacity>
     )
