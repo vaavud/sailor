@@ -75,10 +75,8 @@ class WindHarbor extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={{ marginTop: 80 }}>Ready to roll!</Text>
-
-
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ marginTop: 80 }}>Ready to roll!</Text>
 
           <Text style={{}}>Your suggested wind range is </Text>
           <Text style={{ marginTop: 10, marginBottom: 50 }}>
@@ -100,33 +98,33 @@ class WindHarbor extends Component {
           />
 
           <Text style={{ marginTop: 5 }}>Move the sliders to fine tune the range</Text>
-          </View>
-          <View style={style.segmentedContainer} >
-            <SegmentedControls style={style.segmentedControl} 
-              tint={Colors.segmSelectedTint}
-              selectedTint={Colors.segmentedTint}
-              backTint={Colors.segmentedTint}
-              options={['mps', 'kph', 'knot', 'mph']}
-              allowFontScaling={false} // default: true
-              onSelection={(e, i) => console.log('TODO ')}
-              selectedOption={1}
-              optionStyles={{ fontFamily: 'Roboto-Medium' }}
-              optionContainerStyle={style.segmentedControl}
-              containerBorderWidth={3}
-              containerStyle={{borderRadius: 2}}
-              />
-          </View>
+        </View>
+        <View style={style.segmentedContainer} >
+          <SegmentedControls style={style.segmentedControl}
+            tint={Colors.segmSelectedTint}
+            selectedTint={Colors.segmentedTint}
+            backTint={Colors.segmentedTint}
+            options={['mps', 'kph', 'knot', 'mph']}
+            allowFontScaling={false} // default: true
+            onSelection={(e, i) => console.log('TODO ')}
+            selectedOption={'mps'}
+            optionStyles={{ fontFamily: 'Roboto-Medium' }}
+            optionContainerStyle={style.segmentedControl}
+            containerBorderWidth={3}
+            containerStyle={{ borderRadius: 2 }}
+          />
+        </View>
 
 
-        <View style={{ width: width - 80, height: 45, flexDirection: 'row', position: 'absolute', bottom: 50, left: 40 }} >
+        <View style={{ width: width - 80, height: 90, position: 'absolute', bottom: 40, left: 40 }} >
           <Button
-            buttonStyle={{ flex: 0.3, backgroundColor: 'pink', margin: 5 }}
-            textStyle={{ textAlign: 'center', marginTop: 8 }}
-            title="Back" onPress={() => { this.props.pop() }} />
-          <Button
-            textStyle={{ textAlign: 'center', marginTop: 8 }}
-            buttonStyle={{ flex: 0.7, backgroundColor: 'pink', margin: 5 }} title="Finish"
+            textStyle={{ textAlign: 'center', color: 'white', marginTop: 8, fontSize: 16 }}
+            buttonStyle={{ flex: 1, backgroundColor: Colors.vaavudBlue, margin: 5 }} title="Finish"
             onPress={this._onFinish} />
+          <Button
+            buttonStyle={{ flex: 1, margin: 5 }}
+            textStyle={{ textAlign: 'center', backgroundColor: 'transparent', marginTop: 8, fontSize: 16, }}
+            title="Back" onPress={() => { this.props.pop() }} />
         </View>
       </View>
     )
@@ -152,7 +150,7 @@ const style = StyleSheet.create({
     paddingTop: 15
   },
   segmentedControl: {
-    justifyContent:'center',
+    justifyContent: 'center',
     height: 40,
   },
 })

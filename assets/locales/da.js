@@ -10,13 +10,13 @@ const da = {
   vaavud:         'Vaavud',
   emailInput:     'Din e-mail',
   passwordInput:  'Dit kodeord',
-  signupButton:   'Opret konto',
   termsButton:    'Vilkår',
   privacyButton:  'Privatliv',
 
   // Login screen
-  loginButton:    'Log ind',
-  facebookButton: 'Forsæt med Facebook',
+  loginButton:    'LOG IND',
+  facebookButton: 'FORSÆT MED FACEBOOK',
+  signupButton:   'Har du ikke en konto? Opret en',
   forgotPwButton: 'Glem dit kodeord?',
   wrongCred:      'Sikrer dig at email og kodeord er korrekt',
 
@@ -24,6 +24,7 @@ const da = {
   firstNameInput: 'Dit fornavn',
   lastNameInput:  'Dit efternavn',
   confirmPwInput: 'Bekræft dit kodeord',
+  createAccount:  'OPRET KONTO',
   shortPasword:   'Dit kodeord skal være mindst 6 karakterer langt',
   matchPassword:  'Kodeordene skal være ens',
 

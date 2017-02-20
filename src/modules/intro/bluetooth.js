@@ -4,13 +4,21 @@
 
 import React, { Component } from 'react'
 import {
-  View, Button, Text,
+  View,  Text,
   NativeEventEmitter,
-  NativeModules
+  NativeModules,
+  Image,StyleSheet
 } from 'react-native'
+
+import Button from '../../reactcommon/components/button'
+
+import Colors from '../../../assets/colorTheme'
+const correct = require('../../../assets/icons/correct.png')
+
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
 
 class Bluethooth extends Component {
 
@@ -74,14 +82,17 @@ class Bluethooth extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'pink', paddingTop: 100 }} >
-
-        {!this.state.readyToWork ? <Text> Trying to connect to the Vaavud Ble </Text> : <Text> Vaavud ble connected and ready to work </Text>}
-
-        <Button title="Back" onPress={() => {
-          this.props.nav({ type: 'pop' })
-        } } />
-
+      <View style={style.container} >
+        <Image source={correct} style={{ height: 90, width: 90 }} />
+        <Text style={style.heading} >Success</Text>
+        <Text style={style.description} >Vaavud ultrasonic connected</Text>
+        <Text style={style.description} >Serial no. 15589-545946-151561-54545</Text>
+        <View style={{ flexDirection: 'row' }} >
+          <Button buttonStyle={style.button}
+            textStyle={style.buttonText}
+            onPress={() => this.props.nav({ type: 'push', key: 'bluetooth' })}
+            title="Continue" />
+        </View>
       </View>
     )
   }
@@ -99,3 +110,45 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapReduxStoreToProps, mapDispatchToProps)(Bluethooth)
+
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.vaavudBlue
+  },
+  heading: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10,
+    marginBottom:20
+  },
+  description: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10
+  },
+  button: {
+    flex: 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 50,
+    height: 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: 'white',
+    backgroundColor: 'white',
+  },
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.vaavudBlue
+  }
+})

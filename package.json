@@ -5,9 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-		"get-version": "node -e \"console.log(require('./package.json').version)\""
+    "get-version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "0.0.7",
     "firebase": "3.6.7",
     "moment": "2.13.0",
     "react": "15.4.2",
@@ -20,7 +21,6 @@
     "react-native-snackbar": "0.3.1",
     "react-native-vector-icons": "4.0.0",
     "react-redux": "5.0.2",
-    "@ptomasroos/react-native-multi-slider": "0.0.7",    
     "realm": "0.15.4",
     "redux": "3.6.0",
     "redux-saga": "0.14.2",

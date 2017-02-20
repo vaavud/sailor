@@ -21,11 +21,13 @@ import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
+const backgroundImage = require('../../../assets/images/signup-image.png')
+
 const loginLogo = require('../../../assets/logo-login.png')
 const loginInputLogo = require('../../../assets/profile.png')
 const passwordInputLogo = require('../../../assets/unlock.png')
 const emailIcon = require('../../../assets/envelope.png')
-const backButtonIcon = require('../../../assets/back.png')
+const backButtonIcon = require('../../../assets/icons/back-arrow.png')
 
 export default class SignupView extends Component {
 
@@ -221,7 +223,7 @@ export default class SignupView extends Component {
       <View style={style.buttonContainer}>
         <Button buttonStyle={style.loginButton}
           textStyle={style.buttonText}
-          title={I18n.t('signupButton')}
+          title={I18n.t('createAccount')}
           onPress={() => this._handleSignupPress()} />
       </View>
     )
@@ -248,14 +250,15 @@ export default class SignupView extends Component {
 
   render(){
     return (
-      <View style={style.container}>
+      <Image style={style.container}
+        source={backgroundImage}>
         {this._renderBackButton()}
         <Image style={style.logo}
           source={loginLogo}/>
         {this._renderInputFields()}
         {this._renderSignupButton()}
         {this._renderTermsAndPrivacy()}
-      </View>
+      </Image>
     )
   }
 }
@@ -273,7 +276,7 @@ const style = StyleSheet.create({
   },
   backButtonStyle:{
     position: 'absolute',
-    top: 20,
+    top: 30,
     left: 20,
   },
   logo: {
@@ -291,9 +294,9 @@ const style = StyleSheet.create({
   },
   input:{
     flex: 1,
+    margin: 5,
     height: 40,
-    backgroundColor: 'transparent',
-    color: Colors.inputTextColor
+    color: Colors.inputTextColor,
   },
   buttonContainer:{
     marginTop: 30,
@@ -310,7 +313,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 12,
     textAlign:'center',
     color: Colors.vaavudBlue
    },
@@ -326,11 +329,13 @@ const style = StyleSheet.create({
   },
   termsText:{
     fontSize: 12,
-    color: Colors.textColor
+    color: Colors.textColor,
+    backgroundColor: 'transparent'    
   },
   termsButtonText: {
     fontSize: 12,
     textAlign: 'right',
-    color: Colors.textColor
+    color: Colors.textColor,
+    backgroundColor: 'transparent'
   }
 })

@@ -9,12 +9,20 @@ import React, {
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Image,
+  Dimensions
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
 import Button from '../../../reactcommon/components/button'
 import I18n from '../../../components/i18n'
+
+const {width, height} = Dimensions.get('window')
+
+
+const imgHarbor = require('../../../../assets/icons/big-harbour-marker.png')
+const bgIntroFlow = require('../../../../assets/images/harbour-background.png')
 
 export default class IntroView extends Component {
 
@@ -24,7 +32,8 @@ export default class IntroView extends Component {
 
   render() {
     return (
-      <View style={style.container} >
+      <Image source={bgIntroFlow} style={style.container} >
+        <Image source={imgHarbor} />
         <Text style={style.heading} >{I18n.t('chooseHabour')}</Text>
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
@@ -32,14 +41,14 @@ export default class IntroView extends Component {
             onPress={() => this.props.onNextPress({ key: 'mapHarbor', props: { isNew: true } })}
             title={I18n.t('letsgoButton')} />
         </View>
-      </View>
+      </Image>
     )
   }
 }
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
+    width, height,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,10 +57,12 @@ const style = StyleSheet.create({
   heading: {
     fontSize: 40,
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
+    backgroundColor:'transparent',
+    marginTop:10
   },
   button: {
-    flex: 2,
+    flex: 1,
     borderWidth: 1,
     borderRadius: 5,
     margin: 50,

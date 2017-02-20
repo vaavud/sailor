@@ -176,7 +176,7 @@ const s = StyleSheet.create({
     color: Colors.textColor
   },
   largeBold: {
-    fontSize: 28,
+    fontSize: 20,
     fontFamily: 'Roboto-Bold',
     color: Colors.textColor
   },

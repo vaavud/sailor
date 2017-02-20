@@ -22,6 +22,8 @@ import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
+const loginImage = require('../../../assets/images/login-image.png')
+
 const loginLogo = require('../../../assets/logo-login.png')
 const loginInputLogo = require('../../../assets/profile.png')
 const passwordInputLogo = require('../../../assets/unlock.png')
@@ -87,6 +89,10 @@ export default class LoginView extends Component {
     Keyboard.dismiss()
   }
 
+  _renderLogoAndText(){
+    return
+  }
+
   _renderInputFields(){
     return (
       <View>
@@ -138,7 +144,7 @@ export default class LoginView extends Component {
           title={I18n.t('loginButton')}
           onPress={() => this._handleLoginPress()} />
         <Button buttonStyle={style.fbButton}
-          textStyle={style.buttonText}
+          textStyle={style.fbButtonText}
           title={I18n.t('facebookButton')}
           onPress={() => this.props.onPressFBLogin()} />
       </View>
@@ -153,28 +159,29 @@ export default class LoginView extends Component {
     return (
       <View style={style.signupContainer}>
         <Button buttonStyle={style.signupForgotButton}
-          textStyle={style.signupButtonText}
-          title={I18n.t('signupButton')}
-          onPress={onPressSignup} />
-        <Button buttonStyle={style.signupForgotButton}
           textStyle={style.forgotButtonText}
           title={I18n.t('forgotPwButton')}
           onPress={onPressForgotPassword} />
+        <Button buttonStyle={style.signupForgotButton}
+          textStyle={style.signupButtonText}
+          title={I18n.t('signupButton')}
+          onPress={onPressSignup} />
       </View>
     )
   }
 
   render() {
     return (
-      <View style={style.container}
+      <Image style={style.container}
+        source={loginImage}
          onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
          onResponderRelease={this._handleResponderRelease} >
-        <Image style={style.logo}
+        <Image style={{alignSelf: 'center', marginBottom: 50}}
           source={loginLogo} />
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
-      </View>
+      </Image>
     )
   }
 }
@@ -188,8 +195,8 @@ const style = StyleSheet.create({
     height: height,
     flexDirection: 'column',
     padding: width * 0.1,
+    color: 'white',
     paddingTop: height * 0.1,
-    backgroundColor: Colors.background
   },
   logo: {
     alignSelf: 'center',
@@ -200,19 +207,18 @@ const style = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center',  
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
   input: {
     flex: 1,
+    margin: 5,
     height: 40,
-    backgroundColor: 'transparent',
     color: Colors.inputTextColor,
-    fontFamily: 'Roboto-Regular'
   },
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 15,
     justifyContent: 'space-between'
   },
   loginButton: {
@@ -238,29 +244,34 @@ const style = StyleSheet.create({
     backgroundColor: '#3B5998',
   },
   buttonText: {
-    fontSize: 16,
-    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
     textAlign:'center',
     color: Colors.vaavudBlue
    },
+   fbButtonText: {
+    fontSize: 12,
+    textAlign:'center',
+    color: 'white'
+   },
    signupContainer: {
      flex: 1,
-     flexDirection: 'row',
      justifyContent: 'space-between',
    },
    signupForgotButton: {
-    alignSelf: 'flex-end',
     justifyContent: 'center',
     marginHorizontal: 5,
   },
   signupButtonText: {
     fontSize: 12,
-    fontFamily: 'Roboto-Regular',
+    textAlign: 'center',    
+    backgroundColor: 'transparent', 
     color: Colors.textColor
   },
   forgotButtonText: {
     fontSize: 12,
-    textAlign: 'right',
+    marginTop: 10,
+    textAlign: 'center',
+    backgroundColor: 'transparent', 
     color: Colors.textColor
   }
 })

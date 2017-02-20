@@ -10,20 +10,21 @@ const en = {
   vaavud:         'Vaavud',
   emailInput:     'Your e-mail',
   passwordInput:  'Your password',
-  signupButton:   'Sign up',
   termsButton:    'Terms & conditions',
   privacyButton:  'Privacy',
 
   // Login screen
-  loginButton:    'Login',
-  facebookButton: 'Continue with Facebook',
+  loginButton:    'LOG IN',
+  facebookButton: 'CONTINUE WITH FACEBOOK',
   forgotPwButton: 'Forgot your password?',
+  signupButton:   'Don\'t have an account? Create one',
   wrongCred:      'Make sure that email and password are correct',
 
   // Sign up screen
   firstNameInput: 'Your first name',
   lastNameInput:  'Your last name',
   confirmPwInput: 'Confirm your password',
+  createAccount:  'SIGN UP',
   shortPasword:   'Your password must be at least 6 characters long',
   matchPassword:  'The passwords must match',
 

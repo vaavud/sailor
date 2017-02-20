@@ -29,7 +29,9 @@
                                                       moduleName:@"sailing"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  
+  
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:222/255 green:222/255 blue:222/255 alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

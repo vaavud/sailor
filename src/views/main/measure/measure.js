@@ -18,7 +18,6 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 
-
 const compass = require('../../../../assets/trueWindCompass.png')
 const compassHand = require('../../../../assets/trueWindCompassHand.png')
 
@@ -54,7 +53,16 @@ export default class MeasureView extends Component {
     ).start()
   }
 
+  _crazyMod(a, n) {
+    return a - Math.floor(a / n) * n
+  }
+  
+
   _renderCompass(lastHeading, newHeading) {
+    var l = lastHeading
+    var n = newHeading
+    var a = n - l
+    newHeading = (this._crazyMod((n - l) + 180, 360) - 180) + l
     this.animateNewHeading()
     const animate = this.animatedValue.interpolate({
       inputRange: [0, 1],
@@ -83,11 +91,11 @@ export default class MeasureView extends Component {
     )
   }
 
-  _renderSpeedContainer(groundSpeed, windSpeed) {
+  _renderSpeedContainer(groundSpeed, lastWindSpeed, windSpeed) {
     return (
       <View style={style.speedContainer} >
         {this._renderGroundSpeed(groundSpeed)}
-        {this._renderWindSpeed(windSpeed)}
+        {this._renderWindSpeed(lastWindSpeed, windSpeed)}
       </View>
     )
   }
