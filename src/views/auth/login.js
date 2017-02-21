@@ -18,6 +18,7 @@ import {
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
+import { textStyle } from '../../components/text'
 import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
@@ -195,7 +196,6 @@ const style = StyleSheet.create({
     height: height,
     flexDirection: 'column',
     padding: width * 0.1,
-    color: 'white',
     paddingTop: height * 0.1,
   },
   logo: {
@@ -203,17 +203,19 @@ const style = StyleSheet.create({
     marginBottom: 50
   },
   inputLogo: {
+    marginTop:15,
     width: 30
   },
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'center',  
+    alignItems: 'center',
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
   input: {
     flex: 1,
     margin: 5,
+    paddingTop: 15,
     height: 40,
     color: Colors.inputTextColor,
   },
@@ -244,12 +246,12 @@ const style = StyleSheet.create({
     backgroundColor: '#3B5998',
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign:'center',
     color: Colors.vaavudBlue
    },
    fbButtonText: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign:'center',
     color: 'white'
    },
@@ -262,16 +264,16 @@ const style = StyleSheet.create({
     marginHorizontal: 5,
   },
   signupButtonText: {
-    fontSize: 12,
-    textAlign: 'center',    
-    backgroundColor: 'transparent', 
-    color: Colors.textColor
+    ...textStyle.small,
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'white'
   },
   forgotButtonText: {
-    fontSize: 12,
+    ...textStyle.small,
     marginTop: 10,
     textAlign: 'center',
-    backgroundColor: 'transparent', 
-    color: Colors.textColor
+    backgroundColor: 'transparent',
+    color: 'white'
   }
 })

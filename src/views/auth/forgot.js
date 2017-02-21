@@ -105,7 +105,8 @@ export default class ForgotView extends Component{
       <View style={style.buttonContainer}>
         <Button buttonStyle={style.button}
           textStyle={style.buttonText}
-          title={I18n.t('sendResetlink')} />
+          title={I18n.t('sendResetlink')}
+          onPress={() => this._handlePressSend} />
       </View>
     )
   }

@@ -8,6 +8,7 @@ import React, {
 
 import {
   View,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -21,7 +22,8 @@ import I18n from '../../../components/i18n'
 
 import {
   SmallText,
-  NormalText
+  NormalText,
+  textStyle
 } from '../../../components/text'
 
 import Button from '../../../reactcommon/components/button'
@@ -204,16 +206,21 @@ export default class SettingsView extends Component{
     )
   }
 
-  _goToWeb(link){
-    this.props.push(({key: 'web', props:{url: link}}))
+  _handleClickLink(link){
+    Linking.canOpenURL(link).then(
+      Linking.openURL(link),
+      //TODO handle reject
+    ).catch((error) => {
+      //TODO error handling
+    })
   }
 
   _renderOthersSection(){
     return (
       <View style={style.otherSectionContainer} >
-        {this._renderLink('vaavud', () =>  this._goToWeb('https://vaavud.com'))}
-        {this._renderLink('termsButton', () => this._goToWeb('https://vaavud.com/terms/') )}
-        {this._renderLink('privacyButton', () => this._goToWeb('https://vaavud.com/privacy-policy/') )}
+        {this._renderLink('vaavud', () =>  this._handleClickLink('https://vaavud.com'))}
+        {this._renderLink('termsButton', () => this._handleClickLink('https://vaavud.com/terms/') )}
+        {this._renderLink('privacyButton', () => this._handleClickLink('https://vaavud.com/privacy-policy/') )}
         {this._renderLink('logout', () => this.props.logout() )}
         {this._renderLink('appGuide', () => {
           console.log('hit vaavud link')
@@ -249,11 +256,16 @@ const style = StyleSheet.create({
     marginTop: 20,
     backgroundColor: Colors.background
   },
+  firstSectionHeader: {
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.borderColor
+  },
   sectionHeader: {
     paddingHorizontal: 15,
-    marginTop: 30,
+    marginTop: 20,
     borderBottomWidth: 1,
-    borderBottomColor: 'white'
+    borderBottomColor: Colors.borderColor
   },
   segmentedContainer: {
     paddingHorizontal: 15,

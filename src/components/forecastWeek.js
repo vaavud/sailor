@@ -5,17 +5,17 @@ import {
   Image,
   StyleSheet
 } from 'react-native'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 
 import icoMoonConfig from '../reactcommon/selection.json'
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
+import { textStyle } from './text'
+
 const Icon = createIconSetFromIcoMoon(icoMoonConfig)
 
-const {width, height} = Dimensions.get('window')
+const {width} = Dimensions.get('window')
 
-const resolution = require('../../assets/resolution.png')
 const geoIcon = require('../../assets/geoIcon.png')
-const rightArrow = require('../../assets/right-arrow.png')
 const windIcontTemp = require('../../assets/windBlue.png')
 
 
@@ -29,30 +29,19 @@ export default class ForecastWeek extends Component {
           <Text numberOfLines={1} style={[style.text, { fontSize: 13 }]}>{this.props.name}</Text>
         </View>
         <View style={style.headerDescription} >
-          <Image source={null} style={[style.img, { marginRight: 5 }]} resizeMode="contain" />
-          <Text style={[style.text, { fontSize: 13, marginRight: 10 }]} />
-          <Image source={rightArrow} style={[style.img, { marginRight: 10 }]} resizeMode="contain" />
+          <Text style={{...textStyle.normal, marginRight: 5}} >m/s</Text>
         </View>
-      </View>
-    )
-  }
-
-
-  _renderFooter() {
-    return (
-      <View style={style.footer} >
-        <Text style={[style.text, { width }]}>m/s</Text>
       </View>
     )
   }
 
   _renderTemperature(temp, icon) {
     return (
-      <View style={{ flex: 0.3, alignItems: 'center' }} >
-        <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center', marginTop: 5 }} >
-          <Icon name={icon} style={{ color: 'white', textAlign: 'center' }} />
+      <View style={{ flex: 0.3, alignItems: 'center', marginTop: 15 }} >
+        <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }} >
+          <Icon name={icon} style={textStyle.normal} />
         </View>
-        <Text style={style.text}>{temp}°</Text>
+        <Text style={textStyle.small}>{temp}°</Text>
       </View>
     )
   }
@@ -111,8 +100,6 @@ export default class ForecastWeek extends Component {
         {this._renderHeader()}
         <View style={style.divider} />
         {this._renderBody()}
-        <View style={style.divider} />
-        {this._renderFooter()}
       </View>
     )
   }
@@ -123,7 +110,7 @@ const style = StyleSheet.create({
     height: 180,
     width,
     marginTop: 5,
-    backgroundColor: '#666'
+    backgroundColor: 'rgba(255,255,255, 0.7)'
   },
   divider: {
     width,
@@ -134,12 +121,14 @@ const style = StyleSheet.create({
     width, height: 125, flexDirection: 'row'
   },
   text: {
-    fontSize: 11, color: '#fff', textAlign: 'center'
+    ...textStyle.small,
+    textAlign: 'center'
   },
   header: {
     height: 35, width, flexDirection: 'row'
   },
   footer: {
+    padding: 5,
     width, height: 20
   },
   headerTitle: {
@@ -152,6 +141,6 @@ const style = StyleSheet.create({
     fontSize: 12, color: '#fff', backgroundColor: 'transparent', textAlign: 'center', position: 'absolute', top: 20, width: width / 7
   },
   img: {
-    width: 15, height: 15, tintColor: '#fff'
+    width: 15, height: 15, tintColor: '#263238'
   }
 })

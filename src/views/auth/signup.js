@@ -10,6 +10,7 @@ import {
   View,
   Image,
   TextInput,
+  Linking,
   StyleSheet,
   TouchableOpacity,
   Dimensions
@@ -18,6 +19,7 @@ import {
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 import I18n from '../../components/i18n'
+import { textStyle } from '../../components/text'
 
 const {width, height} = Dimensions.get('window')
 
@@ -33,9 +35,7 @@ export default class SignupView extends Component {
 
   static propTypes = {
     onPressSignup: PropTypes.func.isRequired,
-    onPressBack: PropTypes.func.isRequired,
-    onPressTerms: PropTypes.func.isRequired,
-    onPressPrivacy: PropTypes.func.isRequired
+    onPressBack: PropTypes.func.isRequired
   }
 
   constructor(props){
@@ -82,6 +82,15 @@ export default class SignupView extends Component {
       confirmPW
     } = this.state
     this.props.onPressSignup(firstName, lastName, email, password, confirmPW)
+  }
+
+  _handleClickLink(link){
+    Linking.canOpenURL(link).then(
+      Linking.openURL(link),
+      //TODO handle reject
+    ).catch((error) => {
+      //TODO error handling
+    })
   }
 
   _renderBackButton(){
@@ -221,7 +230,7 @@ export default class SignupView extends Component {
   _renderSignupButton(){
     return (
       <View style={style.buttonContainer}>
-        <Button buttonStyle={style.loginButton}
+        <Button buttonStyle={style.signupButton}
           textStyle={style.buttonText}
           title={I18n.t('createAccount')}
           onPress={() => this._handleSignupPress()} />
@@ -230,20 +239,16 @@ export default class SignupView extends Component {
   }
 
   _renderTermsAndPrivacy(){
-    const {
-      onPressTerms,
-      onPressPrivacy
-    } = this.props
     return (
       <View style={style.termsContainer}>
         <Button buttonStyle={style.termsButton}
           textStyle={style.termsButtonText}
           title={I18n.t('termsButton')}
-          onPress={onPressTerms} />
+          onPress={() => this._handleClickLink('https://vaavud.com/terms/')} />
         <Button buttonStyle={style.termsButton}
           textStyle={style.termsButtonText}
           title={I18n.t('privacyButton')}
-          onPress={onPressPrivacy} />
+          onPress={() => this._handleClickLink('https://vaavud.com/privacy-policy/')} />
       </View>
     )
   }
@@ -281,9 +286,10 @@ const style = StyleSheet.create({
   },
   logo: {
     alignSelf:'center',
-    marginBottom: 50
+    marginBottom: 25
   },
   inputLogo:{
+    marginTop: 15,
     width: 30
   },
   inputContainer:{
@@ -295,13 +301,14 @@ const style = StyleSheet.create({
   input:{
     flex: 1,
     margin: 5,
+    paddingTop: 15,
     height: 40,
     color: Colors.inputTextColor,
   },
   buttonContainer:{
-    marginTop: 30,
+    marginTop: 10,
   },
-  loginButton: {
+  signupButton: {
     width : width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
@@ -313,7 +320,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign:'center',
     color: Colors.vaavudBlue
    },
@@ -327,15 +334,10 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 5,
   },
-  termsText:{
-    fontSize: 12,
-    color: Colors.textColor,
-    backgroundColor: 'transparent'    
-  },
   termsButtonText: {
-    fontSize: 12,
+    ...textStyle.small,
     textAlign: 'right',
-    color: Colors.textColor,
+    color: 'white',
     backgroundColor: 'transparent'
   }
 })
