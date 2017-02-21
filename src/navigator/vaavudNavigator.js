@@ -158,7 +158,7 @@ class VaavudNavigator extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          barStyle="light-content"
+          barStyle="dark-content"
         />
         <NavigationCardStack
           key={'stack_' + tabKey}

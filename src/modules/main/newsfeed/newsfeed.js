@@ -8,7 +8,8 @@ import {
   Button,
   Text,
   Dimensions,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native'
 
 // let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
@@ -24,14 +25,15 @@ const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0992;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import ForecastWeek from '../../../components/forecastWeek'
 import { IntroView } from '../../../views/main/newsfeed'
 
 
-function getCoordinate(location) {
+function getCoordinate(location, skew) {
   return {
-    latitude: location.lat,
+    latitude: location.lat - skew,
     longitude: location.lon
   }
 }
@@ -57,6 +59,18 @@ class Newsfeed extends Component {
 
   }
 
+  _renderEditBtn(){
+    return(
+    <TouchableOpacity style={{position: 'absolute', flexDirection:'row', alignItems:'center', top: 30, right: 10, backgroundColor: 'transparent' }}
+      onPress={() => {
+                  this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+                }} >
+      <Text style={{marginRight: 5, fontSize:16, color: 'white'}}>{'Edit'}</Text>
+      <Icon style={{fontSize:16, color: 'white'}} name={'edit'} />
+    </TouchableOpacity>
+    )
+  }
+
   render() {
     if (this.props.harbor.loading) {
       return (
@@ -75,23 +89,27 @@ class Newsfeed extends Component {
         return (
           <View style={{ position: 'absolute', top: 0, left: 0, width, height }} >
             <MapView
-              style={{ height: 300, width }}
-              initialRegion={{ ...this.state.region, ...getCoordinate(this.props.harbor.location) }}
+              style={{ height: height, width }}
+              initialRegion={{ ...this.state.region, ...getCoordinate(this.props.harbor.location, 0.02) }}
               mapType="satellite" >
-              <MapView.Marker coordinate={getCoordinate(this.props.harbor.location)}>
+              <MapView.Marker coordinate={getCoordinate(this.props.harbor.location, 0)}>
                 <Image source={imgHarbor} />
               </MapView.Marker>
             </MapView>
 
             {this.props.harbor.forecast ?
+            <View style={{position: 'absolute', bottom: 40, left: 0}} >
               <ForecastWeek
                 resolution={this.props.harbor.forecast.resolution}
                 name={this.props.harbor.name}
-                days={this.props.harbor.forecast.days} /> : null}
+                days={this.props.harbor.forecast.days}
+                editHarbour={() => {
+                  this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+                }}/>
+              </View>
+              : null}
 
-            <Button title="Edit" onPress={() => {
-              this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-            }} />
+            {this._renderEditBtn()}
           </View>
         )
       }

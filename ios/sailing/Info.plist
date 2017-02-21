@@ -34,6 +34,10 @@
 	<string>624217360948538</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
 		<string>vaavud-icons.ttf</string>
 		<string>weather-icons.ttf</string>
 		<string>Roboto-Black.ttf</string>

@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   tab: {
     alignItems: 'center',
     backgroundColor: 'transparent',
+    height: 40,
     flex: 1,
     justifyContent: 'center'
   },

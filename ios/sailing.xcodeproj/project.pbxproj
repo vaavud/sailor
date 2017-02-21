@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -36,6 +37,10 @@
 		2B436F891E28FE9A00C0E250 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */; };
 		2B651C911E48ADDF003F5994 /* SwiftSimplify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */; };
 		2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBE8C0B062A4B57B3A2EBBD /* libAirMaps.a */; };
+		2E6484221E5B0A25007C8CFB /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362A81E5AFDD700743072 /* OpenSans-Bold.ttf */; };
+		2E6484231E5B0A25007C8CFB /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362A91E5AFDD700743072 /* OpenSans-Italic.ttf */; };
+		2E6484241E5B0A25007C8CFB /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362AA1E5AFDD700743072 /* OpenSans-Light.ttf */; };
+		2E6484251E5B0A25007C8CFB /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362AB1E5AFDD700743072 /* OpenSans-Regular.ttf */; };
 		2EA71B4F1E4CD5AA00865759 /* weather-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */; };
 		2EAEBBDD1E49CF090027EB2C /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EAEBBD11E49CF090027EB2C /* Roboto-Black.ttf */; };
 		2EAEBBDE1E49CF090027EB2C /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EAEBBD21E49CF090027EB2C /* Roboto-BlackItalic.ttf */; };
@@ -379,6 +384,10 @@
 		2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSimplify.swift; sourceTree = "<group>"; };
+		2E9362A81E5AFDD700743072 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		2E9362A91E5AFDD700743072 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		2E9362AA1E5AFDD700743072 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		2E9362AB1E5AFDD700743072 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "weather-icons.ttf"; sourceTree = "<group>"; };
 		2EAEBBD11E49CF090027EB2C /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		2EAEBBD21E49CF090027EB2C /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -680,6 +689,10 @@
 		2EAEBBB11E49CEEF0027EB2C /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				2E9362A81E5AFDD700743072 /* OpenSans-Bold.ttf */,
+				2E9362A91E5AFDD700743072 /* OpenSans-Italic.ttf */,
+				2E9362AA1E5AFDD700743072 /* OpenSans-Light.ttf */,
+				2E9362AB1E5AFDD700743072 /* OpenSans-Regular.ttf */,
 				2EB10CF31E4DBF5B005B2D61 /* vaavud-icons.ttf */,
 				2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */,
 				2EAEBBD11E49CF090027EB2C /* Roboto-Black.ttf */,
@@ -1223,6 +1236,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6484221E5B0A25007C8CFB /* OpenSans-Bold.ttf in Resources */,
+				2E6484231E5B0A25007C8CFB /* OpenSans-Italic.ttf in Resources */,
+				2E6484241E5B0A25007C8CFB /* OpenSans-Light.ttf in Resources */,
+				2E6484251E5B0A25007C8CFB /* OpenSans-Regular.ttf in Resources */,
 				2EAEBBE41E49CF090027EB2C /* Roboto-Medium.ttf in Resources */,
 				2EAEBBE01E49CF090027EB2C /* Roboto-BoldItalic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,

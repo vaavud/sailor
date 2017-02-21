@@ -8,8 +8,11 @@ import React, {
 
 import {
   Text,
+  Platform,
   StyleSheet
 } from 'react-native'
+
+const isIOS = Platform.OS === 'ios'
 
 import Colors from '../../assets/colorTheme'
 
@@ -22,7 +25,7 @@ class SmallText extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.small, style]} >
+      <Text style={[textStyle.small, style]} >
         {textContent}
       </Text>
     )
@@ -42,7 +45,7 @@ class SmallBold extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.smallSemibold, style]} >
+      <Text style={[textStyle.smallBold, style]} >
         {textContent}
       </Text>
     )
@@ -58,7 +61,7 @@ class NormalText extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.normal, style]} >
+      <Text style={[textStyle.normal, style]} >
         {textContent}
       </Text>
     )
@@ -73,7 +76,7 @@ class NormalLight extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.normalLight, style]} >
+      <Text style={[textStyle.normalLight, style]} >
         {textContent}
       </Text>
     )
@@ -88,7 +91,7 @@ class NormalBold extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.normalBold, style]} >
+      <Text style={[textStyle.normalBold, style]} >
         {textContent}
       </Text>
     )
@@ -103,7 +106,7 @@ class HeadingText extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.large, style]} >
+      <Text style={[textStyle.large, style]} >
         {textContent}
       </Text>
     )
@@ -118,7 +121,7 @@ class HeadingLight extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.largeLight, style]} >
+      <Text style={[textStyle.largeLight, style]} >
         {textContent}
       </Text>
     )
@@ -133,54 +136,54 @@ class HeadingBold extends Component {
       style
     } = this.props
     return (
-      <Text style={[s.largeBold, style]} >
+      <Text style={[textStyle.largeBold, style]} >
         {textContent}
       </Text>
     )
   }
 }
 
-const s = StyleSheet.create({
+const textStyle = {
   small: {
     fontSize: 12,
-    fontFamily: 'Roboto-Regular',
+    fontFamily: isIOS ? 'OpenSans' : 'Roboto-Regular',
     color: Colors.textColor
   },
-  SmallBold: {
+  smallBold: {
     fontSize: 12,
-    fontFamily: 'Roboto-Bold',
+    fontFamily: isIOS ? 'OpenSans-Bold' : 'Roboto-Bold',
   },
   normal: {
     fontSize: 16,
-    fontFamily: 'Roboto-Regular',
+    fontFamily: isIOS ? 'OpenSans' : 'Roboto-Regular',
     color: Colors.textColor
   },
   normalLight: {
     fontSize: 16,
-    fontFamily: 'Roboto-Light',
+    fontFamily: isIOS ? 'OpenSans-Light' : 'Roboto-Light',
     color: Colors.textColor
   },
   normalBold :{
     fontSize: 16,
-    fontFamily: 'Roboto-Bold',
+    fontFamily: isIOS ? 'OpenSans-Bold' : 'Roboto-Bold',
     color: Colors.textColor
   },
   large: {
     fontSize: 24,
-    fontFamily: 'Roboto-Regular',
+    fontFamily: isIOS ? 'OpenSans' : 'Roboto-Regular',
     color: Colors.textColor
   },
   largeLight: {
     fontSize: 24,
-    fontFamily: 'Roboto-Light',
+    fontFamily: isIOS ? 'OpenSans-Light' : 'Roboto-Light',
     color: Colors.textColor
   },
   largeBold: {
-    fontSize: 20,
-    fontFamily: 'Roboto-Bold',
+    fontSize: 24,
+    fontFamily: isIOS ? 'OpenSans-Bold' : 'Roboto-Bold',
     color: Colors.textColor
   },
-})
+}
 
 export {
   SmallText,
@@ -190,5 +193,6 @@ export {
   NormalBold,
   HeadingText,
   HeadingLight,
-  HeadingBold
+  HeadingBold,
+  textStyle
 }
