@@ -11,7 +11,6 @@ import Measure from './modules/main/measure'
 import Map from './modules/main/map'
 import Settings from './modules/main/settings'
 import Summary from './modules/main/summary'
-import WebPage from './components/webPage'
 
 export const routes =
   [
@@ -23,7 +22,6 @@ export const routes =
     { id: 'mapHarbor', title: 'Map Harbor', component: MapHarbor },
     { id: 'windHarbor', title: 'Wind Harbor', component: WindHarbor },
     { id: 'summary', title: 'Summary', component: Summary },
-    { id: 'web', title:'Web',  component : WebPage },
   ]
 
 export const defaultRoute = 'newsfeed'

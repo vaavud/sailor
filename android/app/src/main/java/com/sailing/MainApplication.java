@@ -3,6 +3,7 @@ package com.sailing;
 import android.app.Application;
 
 import com.airbnb.android.react.maps.MapsPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -14,7 +15,6 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.sailing.packages.VaavudPackage;
 import com.vaavud.vaavudSDK.core.location.LocationManager;
 
@@ -45,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
               new FBSDKPackage(mCallbackManager),
               new ReactNativeI18n(),
               new SnackbarPackage(),
+              new MapsPackage(),
               new VaavudPackage()
       );
     }

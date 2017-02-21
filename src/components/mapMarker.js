@@ -1,7 +1,8 @@
 import {
   View,
+  Animated,
   Text,
-  Image
+  Platform
 } from 'react-native'
 
 import React, { Component } from 'react'
@@ -10,26 +11,49 @@ import map_markers from '../reactcommon/markerIcons'
 
 import { convertWindSpeed } from '../reactcommon/utils'
 
+const isIos = Platform.OS === 'ios'
+
 class MapMarker extends Component {
 
   constructor(props) {
     super(props)
-
+    this.springValue = new Animated.Value(0.5)
     this.state = {
       hasDirection: props.direction !== undefined
     }
+    this.spring = this.spring.bind(this)
   }
+
+  componentDidMount(){
+    this.spring()
+  }
+
+  spring () {
+    this.springValue.setValue(0.5)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 1,
+        friction: 1.5
+      }
+    ).start()
+  }
+
   render() {
     return (
       <View style={styles.bubble} >
-        <Image
+        <Animated.Image
         source={this.state.hasDirection ? map_markers.markerRedDirection : map_markers.markerRed}
         style={{
           height: 45,
           width: 45,
           position: 'absolute',
           top: 0,
-          transform: [{ 'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg` }]
+          transform: isIos ? [
+            {'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg`},
+            {scale: this.springValue}]
+            :
+            [{'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg`}]
         }} />
         <Text style={styles.speed}>{this.props.speed.toFixed(1)}</Text>
       </View>

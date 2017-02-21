@@ -52,6 +52,12 @@ export default class SelectHabourView extends Component {
     locationName: PropTypes.string.isRequired
   }
 
+  _stripName(name){
+    let index = name.indexOf(',')
+    return index !== -1 ? name.substring(0, index) : name
+  }
+
+
   onRegionChange(region) {
     nameByLatLon(region).then(name => {
       if (name.results.length > 0) {
@@ -88,9 +94,10 @@ export default class SelectHabourView extends Component {
           source={saveIcon}
           resizeMode={'contain'} />
         <TextInput style={style.inputField}
-          defaultValue={this.state.locationName}
+          defaultValue={this._stripName(this.state.locationName)}
           autoFocus={false}
           onChangeText={locationName => {
+            locationName = this._stripName(locationName)
             this.setState({ locationName })
           }}
           autoCorrect={false}

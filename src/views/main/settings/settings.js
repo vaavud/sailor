@@ -29,7 +29,7 @@ import {
 import Button from '../../../reactcommon/components/button'
 
 import {
-  time_conv, speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
+  speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
   angle_conv_inverse, temp_conv_inverse
 } from '../../../reactcommon/utils'
 
@@ -107,10 +107,9 @@ export default class SettingsView extends Component{
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getWindSpeedValue(e)}
           selectedOption={SpeedUnits[this.props.settings.windSpeed]}
-          optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
+          optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={2}
-          containerStyle={{borderRadius: 2}}
+          containerBorderWidth={1}
           />
       </View>
     )
@@ -128,10 +127,9 @@ export default class SettingsView extends Component{
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getDirectionValue(e)}
           selectedOption={angle_conv[this.props.settings.direction].long}
-          optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
+          optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={2}
-          containerStyle={{borderRadius: 2}}
+          containerBorderWidth={1}
           />
       </View>
     )
@@ -149,10 +147,9 @@ export default class SettingsView extends Component{
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getTemperatureValue(e)}
           selectedOption={TempCUnits[this.props.settings.temperature]}
-          optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
+          optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={2}
-          containerStyle={{borderRadius: 2}}
+          containerBorderWidth={1}
           />
       </View>
     )
@@ -179,11 +176,10 @@ export default class SettingsView extends Component{
           options={['Yes', 'No']}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => console.log('TODO')}
-          selectedOption={1}
-          optionStyles={{ fontFamily: 'AvenirNext-Medium' }}
+          selectedOption={'Yes'}
+          optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={2}
-          containerStyle={{borderRadius: 2}}
+          containerBorderWidth={1}
           />
       </View>
     )
@@ -222,11 +218,7 @@ export default class SettingsView extends Component{
         {this._renderLink('termsButton', () => this._handleClickLink('https://vaavud.com/terms/') )}
         {this._renderLink('privacyButton', () => this._handleClickLink('https://vaavud.com/privacy-policy/') )}
         {this._renderLink('logout', () => this.props.logout() )}
-        {this._renderLink('appGuide', () => {
-          console.log('hit vaavud link')
-          //TODO app guide link??
-          }
-        )}
+        {this._renderLink('appGuide', () => this._handleClickLink('https://vaavud.com/faq/'))}
       </View>
     )
   }
@@ -269,11 +261,11 @@ const style = StyleSheet.create({
   },
   segmentedContainer: {
     paddingHorizontal: 15,
-    paddingTop: 15
+    paddingTop: 15,
   },
   segmentedControl: {
     justifyContent:'center',
-    height: 30,
+    height: 40
   },
   deviceStatusContainer: {
     flex: 1,
@@ -304,6 +296,7 @@ const style = StyleSheet.create({
     fontSize: 16
   },
   buttonText: {
+    ...textStyle.normal,
     marginTop: 10,
     marginBottom: 10,
     fontSize: 20,
