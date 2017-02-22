@@ -13,7 +13,8 @@ import {
   Linking,
   StyleSheet,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
@@ -25,10 +26,10 @@ const {width, height} = Dimensions.get('window')
 
 const backgroundImage = require('../../../assets/images/signup-image.png')
 
-const loginLogo = require('../../../assets/logo-login.png')
-const loginInputLogo = require('../../../assets/profile.png')
-const passwordInputLogo = require('../../../assets/unlock.png')
-const emailIcon = require('../../../assets/envelope.png')
+const loginLogo = require('../../../assets/icons/logo.png')
+const loginInputLogo = require('../../../assets/icons/profile.png')
+const passwordInputLogo = require('../../../assets/icons/unlock.png')
+const emailIcon = require('../../../assets/icons/envelope.png')
 const backButtonIcon = require('../../../assets/icons/back-arrow.png')
 
 export default class SignupView extends Component {
@@ -75,7 +76,7 @@ export default class SignupView extends Component {
 
   _handleSignupPress(){
     const {
-      firstName, 
+      firstName,
       lastName,
       email,
       password,
@@ -107,8 +108,7 @@ export default class SignupView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-          source={loginInputLogo}
-          resizeMode={'contain'}/>
+          source={loginInputLogo}/>
         <TextInput style={style.input}
           autoFocus={false}
           autoCorrect={false}
@@ -127,8 +127,7 @@ export default class SignupView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-          source={loginInputLogo}
-          resizeMode={'contain'}/>
+          source={loginInputLogo}/>
         <TextInput style={style.input}
           ref={r => { this.secondInput = r } }
           autoFocus={false}
@@ -148,8 +147,7 @@ export default class SignupView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-          source={emailIcon}
-          resizeMode={'contain'}/>
+          source={emailIcon}/>
         <TextInput style={style.input}
           ref={ r => {this.thirdInput = r} }
           autoFocus={false}
@@ -171,8 +169,7 @@ export default class SignupView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-          source={passwordInputLogo}
-          resizeMode={'contain'}/>
+          source={passwordInputLogo}/>
         <TextInput style={style.input}
           ref={ r => {this.fourthInput = r} }
           autoFocus={false}
@@ -195,8 +192,7 @@ export default class SignupView extends Component {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
-          source={passwordInputLogo}
-          resizeMode={'contain'}/>
+          source={passwordInputLogo}/>
         <TextInput style={style.input}
           ref={ r  => {this.fifthInput = r} }
           autoFocus={false}
@@ -275,9 +271,10 @@ const style = StyleSheet.create({
     width: width,
     height: height,
     flexDirection: 'column',
-    padding: width * 0.1,
+    paddingLeft: width * 0.1,
+    paddingRight: width * 0.1,
     paddingTop: height * 0.1,
-    backgroundColor: Colors.background
+    paddingBottom: Platform.OS === 'ios' ? 0 : 30
   },
   backButtonStyle:{
     position: 'absolute',
@@ -290,7 +287,7 @@ const style = StyleSheet.create({
   },
   inputLogo:{
     marginTop: 15,
-    width: 30
+    marginLeft: 5
   },
   inputContainer:{
     flexDirection: 'row',
@@ -301,6 +298,7 @@ const style = StyleSheet.create({
   input:{
     flex: 1,
     margin: 5,
+    marginLeft: 10,
     paddingTop: 15,
     height: 40,
     color: Colors.inputTextColor,
@@ -323,19 +321,21 @@ const style = StyleSheet.create({
     fontSize: 14,
     textAlign:'center',
     color: Colors.vaavudBlue
-   },
-   termsContainer: {
-     flex: 1,
-     flexDirection: 'row',
-     justifyContent: 'space-between',
-   },
-   termsButton: {
+  },
+  termsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  termsButton: {
     alignSelf: 'flex-end',
+    height: 40,
     justifyContent: 'center',
     marginHorizontal: 5,
   },
   termsButtonText: {
-    ...textStyle.small,
+    ...textStyle.normal,
+    fontSize: 14,
     textAlign: 'right',
     color: 'white',
     backgroundColor: 'transparent'

@@ -12,22 +12,26 @@ import {
   TextInput,
   Keyboard,
   StyleSheet,
+  Platform,
   Dimensions
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
-import { textStyle } from '../../components/text'
+import {
+  textStyle
+} from '../../components/text'
+
 import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
 const loginImage = require('../../../assets/images/login-image.png')
 
-const loginLogo = require('../../../assets/logo-login.png')
-const loginInputLogo = require('../../../assets/profile.png')
-const passwordInputLogo = require('../../../assets/unlock.png')
+const loginLogo = require('../../../assets/icons/logo.png')
+const loginInputLogo = require('../../../assets/icons/profile.png')
+const passwordInputLogo = require('../../../assets/icons/unlock.png')
 
 export default class LoginView extends Component {
 
@@ -99,8 +103,7 @@ export default class LoginView extends Component {
       <View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-            source={loginInputLogo}
-            resizeMode={'contain'} />
+            source={loginInputLogo}/>
           <TextInput style={style.input}
             autoFocus={false}
             autoCorrect={false}
@@ -118,8 +121,7 @@ export default class LoginView extends Component {
         </View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-            source={passwordInputLogo}
-            resizeMode={'contain'} />
+            source={passwordInputLogo}/>
           <TextInput style={style.input}
             ref={r => { this.SecondInput = r } }
             autoFocus={false}
@@ -175,10 +177,10 @@ export default class LoginView extends Component {
     return (
       <Image style={style.container}
         source={loginImage}
-         onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
-         onResponderRelease={this._handleResponderRelease} >
+        onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+        onResponderRelease={this._handleResponderRelease} >
         <Image style={{alignSelf: 'center', marginBottom: 50}}
-          source={loginLogo} />
+          source={loginLogo}/>
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
@@ -195,8 +197,10 @@ const style = StyleSheet.create({
     width: width,
     height: height,
     flexDirection: 'column',
-    padding: width * 0.1,
+    paddingLeft: width * 0.1,
+    paddingRight: width * 0.1,
     paddingTop: height * 0.1,
+    paddingBottom: Platform.OS === 'ios' ? 0 : 30
   },
   logo: {
     alignSelf: 'center',
@@ -204,7 +208,7 @@ const style = StyleSheet.create({
   },
   inputLogo: {
     marginTop:15,
-    width: 30
+    marginLeft: 5
   },
   inputContainer: {
     flexDirection: 'row',
@@ -215,12 +219,13 @@ const style = StyleSheet.create({
   input: {
     flex: 1,
     margin: 5,
+    marginLeft: 10,
     paddingTop: 15,
     height: 40,
     color: Colors.inputTextColor,
   },
   buttonContainer: {
-    marginTop: 15,
+    marginTop: 10,
     justifyContent: 'space-between'
   },
   loginButton: {
@@ -246,32 +251,35 @@ const style = StyleSheet.create({
     backgroundColor: '#3B5998',
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 14,
     textAlign:'center',
     color: Colors.vaavudBlue
-   },
-   fbButtonText: {
+  },
+  fbButtonText: {
+    ...textStyle.normal,
     fontSize: 14,
     textAlign:'center',
     color: 'white'
-   },
-   signupContainer: {
-     flex: 1,
-     justifyContent: 'space-between',
-   },
-   signupForgotButton: {
+  },
+  signupContainer:{
+    justifyContent: 'space-between',
+    flex: 1
+  },
+  signupForgotButton: {
+    height: 40,
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
     justifyContent: 'center',
-    marginHorizontal: 5,
   },
   signupButtonText: {
-    ...textStyle.small,
+    fontSize: 14,
     textAlign: 'center',
     backgroundColor: 'transparent',
     color: 'white'
   },
   forgotButtonText: {
-    ...textStyle.small,
-    marginTop: 10,
+    fontSize: 14,
     textAlign: 'center',
     backgroundColor: 'transparent',
     color: 'white'

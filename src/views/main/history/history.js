@@ -11,7 +11,8 @@ import {
   View,
   RefreshControl,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 
 import {
@@ -79,7 +80,7 @@ export default class HistoryView extends Component {
         onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
         <View style={style.locationContainer}>
           <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
-          <SmallBold textContent={'Lat: 55.67° Lon: ‎12.56°'} />
+          <NormalText textContent={'Lat: 55.67° Lon: ‎12.56°'} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
@@ -126,7 +127,7 @@ export default class HistoryView extends Component {
 const style = StyleSheet.create({
   list: {
     flex: 1,
-    marginTop: 20
+    marginTop: Platform.OS === 'ios' ? 20 : 0
   },
   row: {
     flexDirection: 'row',
@@ -155,7 +156,7 @@ const style = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     padding: 5,
-    backgroundColor: '#7a868c',
+    backgroundColor: 'rgba(255,255,255, 1)',
     borderWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,

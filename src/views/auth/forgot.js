@@ -26,8 +26,8 @@ const {width, height} = Dimensions.get('window')
 
 const backgroundImage = require('../../../assets/images/forgot-image.png')
 
-const loginLogo = require('../../../assets/logo-login.png')
-const emailIcon = require('../../../assets/envelope.png')
+const loginLogo = require('../../../assets/icons/logo.png')
+const emailIcon = require('../../../assets//icons/envelope.png')
 const backButtonIcon = require('../../../assets/icons/back-arrow.png')
 
 export default class ForgotView extends Component{
@@ -147,23 +147,25 @@ const style = StyleSheet.create({
     marginBottom: 5
   },
   inputLogo:{
-    width: 30
+    marginTop:15,
+    marginLeft: 5
   },
   inputContainer:{
     flexDirection: 'row',
     alignItems: 'center',
-  
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
   input:{
     flex: 1,
     margin: 5,
+    marginLeft: 10,
+    paddingTop: 15,
     height: 40,
     color: Colors.inputTextColor,
   },
   button: {
-    width: width * 0.8 - 1,
+    width: width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
     height: 40,
@@ -186,7 +188,7 @@ const style = StyleSheet.create({
     backgroundColor: 'transparent',
     fontWeight: 'bold',
     textAlign: 'center',
-    color: Colors.textColor
+    color: 'white'
   },
   buttonText: {
     fontSize: 16,

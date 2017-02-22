@@ -11,6 +11,7 @@ import {
   Linking,
   ScrollView,
   StyleSheet,
+  Platform,
   Text,
 } from 'react-native'
 
@@ -230,8 +231,6 @@ export default class SettingsView extends Component{
           {this._renderWindspeedSelector()}
           {this._renderDirectionSelector()}
           {this._renderTemperatureSelector()}
-          {this._renderSectionHeader('deviceStatus')}
-          {this._renderDeviceStatus()}
           {this._renderSectionHeader('prefrencesText')}
           {this._renderWindPrefrences()}
           {this._renderShowColors()}
@@ -245,7 +244,7 @@ export default class SettingsView extends Component{
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     backgroundColor: Colors.background
   },
   firstSectionHeader: {

@@ -19,7 +19,7 @@ import MapView from 'react-native-maps'
 import Button from '../../../reactcommon/components/button'
 import Colors from '../../../../assets/colorTheme'
 
-const saveIcon = require('../../../../assets/envelope.png')
+const saveIcon = require('../../../../assets/icons/envelope.png')
 const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
 
 import { nameByLatLon } from '../../../actions/harbor'
