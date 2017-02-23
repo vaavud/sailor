@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -30,6 +31,9 @@
 		2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1C6EDB1E2FAECF00AF4A10 /* libART.a */; };
 		2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */; };
 		2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */; };
+		2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */; };
+		2B1EE5031E5AEEA400C9561C /* VaavudSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B1EE5421E5B171200C9561C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1EE5411E5B171100C9561C /* utils.swift */; };
 		2B436F861E28FE9A00C0E250 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F821E28FE9A00C0E250 /* Bolts.framework */; };
 		2B436F871E28FE9A00C0E250 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */; };
 		2B436F881E28FE9A00C0E250 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */; };
@@ -175,6 +179,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
 			remoteInfo = ART;
+		};
+		2B1EE4FE1E5AEE7F00C9561C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9F0409B11BA5DC22009FFBD4;
+			remoteInfo = VaavudSDK;
+		};
+		2B1EE5001E5AEE7F00C9561C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9F0409BC1BA5DC22009FFBD4;
+			remoteInfo = VaavudSDKTests;
+		};
+		2B1EE5041E5AEEA400C9561C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F0409B01BA5DC22009FFBD4;
+			remoteInfo = VaavudSDK;
 		};
 		2B436F631E28FDF200C0E250 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -339,6 +364,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2B1EE5061E5AEEA400C9561C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B1EE5031E5AEEA400C9561C /* VaavudSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -373,6 +412,8 @@
 		2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sailing-Bridging-Header.h"; sourceTree = "<group>"; };
 		2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaavudBle.swift; sourceTree = "<group>"; };
 		2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VaavudBle.m; sourceTree = "<group>"; };
+		2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VaavudSDK.xcodeproj; path = "../../vaavud-ios-sdk/VaavudSDK.xcodeproj"; sourceTree = "<group>"; };
+		2B1EE5411E5B171100C9561C /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		2B436F811E28FE0500C0E250 /* sailing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sailing.entitlements; path = sailing/sailing.entitlements; sourceTree = "<group>"; };
 		2B436F821E28FE9A00C0E250 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -434,6 +475,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */,
 				2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */,
 				2B436F881E28FE9A00C0E250 /* FBSDKLoginKit.framework in Frameworks */,
 				2B436F861E28FE9A00C0E250 /* Bolts.framework in Frameworks */,
@@ -562,6 +604,7 @@
 		13B07FAE1A68108700A75B9A /* sailing */ = {
 			isa = PBXGroup;
 			children = (
+				2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */,
 				2EAEBBB11E49CEEF0027EB2C /* resources */,
 				2B436F821E28FE9A00C0E250 /* Bolts.framework */,
 				2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */,
@@ -577,6 +620,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */,
 				2B1C6F6A1E31160C00AF4A10 /* sailing-Bridging-Header.h */,
+				2B1EE5411E5B171100C9561C /* utils.swift */,
 				2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */,
 				2B182FC31E3B7BA100022F99 /* DirectionSelector.swift */,
 				2B182FE71E3B845700022F99 /* DirectionSelectorView.m */,
@@ -639,6 +683,15 @@
 			isa = PBXGroup;
 			children = (
 				2B1C6EDB1E2FAECF00AF4A10 /* libART.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B1EE4D51E5AEE7E00C9561C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */,
+				2B1EE5011E5AEE7F00C9561C /* VaavudSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -813,10 +866,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				2B1EE5061E5AEEA400C9561C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2B1EE5051E5AEEA400C9561C /* PBXTargetDependency */,
 			);
 			name = sailing;
 			productName = "Hello World";
@@ -940,6 +995,10 @@
 					ProductGroup = 2B0ED59B1E4DEBF10065EEEC /* Products */;
 					ProjectRef = 4A45BBD789AB44B89A1BF670 /* Slider.xcodeproj */;
 				},
+				{
+					ProductGroup = 2B1EE4D51E5AEE7E00C9561C /* Products */;
+					ProjectRef = 2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1046,6 +1105,20 @@
 			fileType = archive.ar;
 			path = libART.a;
 			remoteRef = 2B1C6EDA1E2FAECF00AF4A10 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = VaavudSDK.framework;
+			remoteRef = 2B1EE4FE1E5AEE7F00C9561C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B1EE5011E5AEE7F00C9561C /* VaavudSDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = VaavudSDKTests.xctest;
+			remoteRef = 2B1EE5001E5AEE7F00C9561C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2B436F641E28FDF200C0E250 /* libRCTFBSDK.a */ = {
@@ -1284,6 +1357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1EE5421E5B171200C9561C /* utils.swift in Sources */,
 				2B651C911E48ADDF003F5994 /* SwiftSimplify.swift in Sources */,
 				2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */,
 				2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */,
@@ -1302,6 +1376,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* sailing */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		2B1EE5051E5AEEA400C9561C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VaavudSDK;
+			targetProxy = 2B1EE5041E5AEEA400C9561C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1378,6 +1457,7 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sailing/sailing.entitlements;
@@ -1404,6 +1484,7 @@
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sailing/sailing.entitlements;
