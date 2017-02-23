@@ -37,6 +37,7 @@
 		2B436F891E28FE9A00C0E250 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */; };
 		2B651C911E48ADDF003F5994 /* SwiftSimplify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B651C901E48ADDF003F5994 /* SwiftSimplify.swift */; };
 		2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBE8C0B062A4B57B3A2EBBD /* libAirMaps.a */; };
+		2E4C713F1E5EE959004080DD /* weather-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */; };
 		2E6484221E5B0A25007C8CFB /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362A81E5AFDD700743072 /* OpenSans-Bold.ttf */; };
 		2E6484231E5B0A25007C8CFB /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362A91E5AFDD700743072 /* OpenSans-Italic.ttf */; };
 		2E6484241E5B0A25007C8CFB /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9362AA1E5AFDD700743072 /* OpenSans-Light.ttf */; };
@@ -1199,6 +1200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E4C713F1E5EE959004080DD /* weather-icons.ttf in Resources */,
 				2E6484221E5B0A25007C8CFB /* OpenSans-Bold.ttf in Resources */,
 				2E6484231E5B0A25007C8CFB /* OpenSans-Italic.ttf in Resources */,
 				2E6484241E5B0A25007C8CFB /* OpenSans-Light.ttf in Resources */,
