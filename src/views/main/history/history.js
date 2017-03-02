@@ -77,7 +77,9 @@ export default class HistoryView extends Component {
     // TODO what if there is no location
     return (
       <TouchableOpacity style={style.row}
-        onPress={() => this.props.onNextPress({ key: 'summary', props: { sessionKey: data.key } })}>
+        onPress={() => this.props.onNextPress({ key: 'summary', props: { 
+          sessionKey: data.key,
+          }})}>
         <View style={style.locationContainer}>
           <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
           <NormalText textContent={'Lat: 55.67° Lon: ‎12.56°'} />
@@ -151,7 +153,7 @@ const style = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: '#555',
+    backgroundColor: Colors.borderColor,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -160,6 +162,6 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderColor: '#555'
+    borderColor: Colors.borderColor
   },
 })

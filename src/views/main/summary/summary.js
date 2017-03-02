@@ -11,7 +11,10 @@ import {
   Text,
   ScrollView,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  Image
 } from 'react-native'
 
 import MapView from 'react-native-maps'
@@ -20,7 +23,7 @@ import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
 import Colors from '../../../../assets/colorTheme'
-import { SmallText, NormalText } from '../../../components/text'
+import { SmallText } from '../../../components/text'
 
 const {
   Shape,
@@ -28,6 +31,7 @@ const {
   Path,
 } = ReactART
 
+const backButtonIcon = require('../../../../assets/icons/back-arrow.png')
 const { width, height } = Dimensions.get('window')
 
 const graphHeight = 200
@@ -36,7 +40,6 @@ export default class SummaryView extends Component {
 
   constructor(props) {
     super(props)
-    console.log('final logs', props, props.paths[0].windSpeed)
   }
 
   static propTypes = {
@@ -82,10 +85,21 @@ export default class SummaryView extends Component {
     )
   }
 
+  _renderBackButton(){
+    return (
+      <TouchableOpacity style={style.backButtonStyle}
+        onPress={this.props.onPressBack} >
+        <Image
+          source={backButtonIcon} />
+      </TouchableOpacity>
+    )
+  }
+
   _renderMapArea() {
     return (
       <MapView
         style={style.map}
+        mapType={'satellite'}
         initialRegion={this.props.region} >
         <MapView.Polyline
           key={this.props.tripCoordinates.id}
@@ -124,7 +138,7 @@ export default class SummaryView extends Component {
         <View style={style.graphContainer}>
           {this._renderWindSpeedPoints()}
           <ScrollView
-            ref={scrollView => { this._scrollView = scrollView; }}
+            ref={scrollView => { this._scrollView = scrollView }}
             automaticallyAdjustContentInsets={false}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -194,8 +208,9 @@ export default class SummaryView extends Component {
   render() {
     return (
       <ScrollView style={style.container}>
-        {this._renderHeader()}
         {this._renderMapArea()}
+        {this._renderHeader()}
+        {this._renderBackButton()}
         {this._renderGraphArea()}
       </ScrollView>
     )
@@ -205,31 +220,40 @@ export default class SummaryView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: height * 0.025,
     backgroundColor: Colors.background
   },
   sectionContainer: {
+    position: 'absolute',
+    width: width,
     padding: 5,
+    paddingTop: Platform.OS === 'ios' ? 25 : 0,
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)'
+  },
+  backButtonStyle:{
+    position: 'absolute',
+    top: 20,
+    left: 20,
   },
   dateText: {
-    margin: 5
+    color: 'white',
+    margin: 5,
   },
   locationText: {
+    color: 'white',
     fontSize: 20
   },
   map: {
     width: width,
-    height: height * 0.4
+    height: height * 0.5,
+    alignItems: 'center'
   },
   graphContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 15,
-    padding: 5,
+    marginLeft: 10,
     height: graphHeight + 20,
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
   },
   graphTimeText: {
     textAlign: 'center'

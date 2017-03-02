@@ -14,7 +14,7 @@ import { CHECK_AUTH, VERIFY_EXISTING_USER, TOKEN, STATUS } from '../constants/au
 
 
 //sagas
-import { verifyAuth, verifyExistingUser, workWithCache } from '../sagas/auth'
+import { verifyAuth, verifyExistingUser, workWithCache,saveUserIfNeeded } from '../sagas/auth'
 import { error } from '../sagas/utils'
 import { historyDaemon, forecastDeamon, sessionDeamon } from '../sagas/userdata'
 
@@ -38,6 +38,7 @@ sagaMiddleware.run(historyDaemon)
 sagaMiddleware.run(forecastDeamon)
 sagaMiddleware.run(sessionDeamon)
 sagaMiddleware.run(workWithCache)
+sagaMiddleware.run(saveUserIfNeeded)
 
 
 createPersist()

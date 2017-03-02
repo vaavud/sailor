@@ -11,6 +11,7 @@ import {
   Image,
   TextInput,
   Linking,
+  Keyboard,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
@@ -24,13 +25,12 @@ import { textStyle } from '../../components/text'
 
 const {width, height} = Dimensions.get('window')
 
-const backgroundImage = require('../../../assets/images/signup-image.png')
-
-const loginLogo = require('../../../assets/icons/logo.png')
-const loginInputLogo = require('../../../assets/icons/profile.png')
-const passwordInputLogo = require('../../../assets/icons/unlock.png')
-const emailIcon = require('../../../assets/icons/envelope.png')
-const backButtonIcon = require('../../../assets/icons/back-arrow.png')
+var backgroundImage
+var loginLogo
+var loginInputLogo
+var passwordInputLogo
+var emailIcon
+var backButtonIcon
 
 export default class SignupView extends Component {
 
@@ -46,13 +46,41 @@ export default class SignupView extends Component {
       lastName: '',
       email: '',
       password: '',
-      confirmPW: ''
+      confirmPW: '',
+      keyboardShown: false
     }
     this._handleFirstNameInput = this._handleFirstNameInput.bind(this)
     this._handleLastNameInput = this._handleLastNameInput.bind(this)
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
     this._handleConfirmPWInput = this._handleConfirmPWInput.bind(this)
+    this._keyboardDidShow = this._keyboardDidShow.bind(this)
+    this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    this._handleStartShouldSetResponderCapture = this._handleStartShouldSetResponderCapture.bind(this)
+  }
+
+  componentWillMount(){
+    backgroundImage = require('../../../assets/images/signup-image.png')
+    loginLogo = require('../../../assets/icons/logo.png')
+    loginInputLogo = require('../../../assets/icons/profile.png')
+    passwordInputLogo = require('../../../assets/icons/unlock.png')
+    emailIcon = require('../../../assets/icons/envelope.png')
+    backButtonIcon = require('../../../assets/icons/back-arrow.png')
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow () {
+    this.setState({keyboardShown: true})
+  }
+
+  _keyboardDidHide () {
+    this.setState({keyboardShown: false})
   }
 
   _handleFirstNameInput(event){
@@ -83,6 +111,14 @@ export default class SignupView extends Component {
       confirmPW
     } = this.state
     this.props.onPressSignup(firstName, lastName, email, password, confirmPW)
+  }
+
+  _handleStartShouldSetResponderCapture(evt){
+    return this.state.keyboardShown
+  }
+
+  _handleResponderRelease(evt){
+    Keyboard.dismiss()
   }
 
   _handleClickLink(link){
@@ -252,10 +288,14 @@ export default class SignupView extends Component {
   render(){
     return (
       <Image style={style.container}
-        source={backgroundImage}>
+        source={backgroundImage}
+        onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+        onResponderRelease={this._handleResponderRelease}>
         {this._renderBackButton()}
         <Image style={style.logo}
-          source={loginLogo}/>
+          source={loginLogo}
+          onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+          onResponderRelease={this._handleResponderRelease}/>
         {this._renderInputFields()}
         {this._renderSignupButton()}
         {this._renderTermsAndPrivacy()}

@@ -233,7 +233,6 @@ export default class SettingsView extends Component{
           {this._renderTemperatureSelector()}
           {this._renderSectionHeader('prefrencesText')}
           {this._renderWindPrefrences()}
-          {this._renderShowColors()}
           {this._renderSectionHeader('otherSection')}
           {this._renderOthersSection()}
         </ScrollView>

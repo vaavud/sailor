@@ -79,7 +79,8 @@ class Summary extends Component {
           directions={this.state.directions}
           paths={this.state.paths}
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
-          minWindSpeed={Math.floor(this.state.windMin)} />
+          minWindSpeed={Math.floor(this.state.windMin)} 
+          onPressBack={this.props.pop} />
       )
     else if (this.state.summaryLost) {
       return (

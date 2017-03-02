@@ -33,7 +33,8 @@ class History extends Component {
       return (
         <HistoryView
           onNextPress={this.props.push}
-          sessions={this.props.sessions} />
+          sessions={this.props.sessions} 
+          onPop={this.props.pop}/>
       )
     } else { return null }
   }

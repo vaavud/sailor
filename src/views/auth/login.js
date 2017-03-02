@@ -27,11 +27,10 @@ import I18n from '../../components/i18n'
 
 const {width, height} = Dimensions.get('window')
 
-const loginImage = require('../../../assets/images/login-image.png')
-
-const loginLogo = require('../../../assets/icons/logo.png')
-const loginInputLogo = require('../../../assets/icons/profile.png')
-const passwordInputLogo = require('../../../assets/icons/unlock.png')
+var loginImage
+var loginLogo
+var loginInputLogo
+var passwordInputLogo
 
 export default class LoginView extends Component {
 
@@ -57,6 +56,10 @@ export default class LoginView extends Component {
   }
 
   componentWillMount () {
+    loginImage = require('../../../assets/images/login-image.png')
+    loginLogo = require('../../../assets/icons/logo.png')
+    loginInputLogo = require('../../../assets/icons/profile.png')
+    passwordInputLogo = require('../../../assets/icons/unlock.png')
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
@@ -92,10 +95,6 @@ export default class LoginView extends Component {
 
   _handleResponderRelease(evt){
     Keyboard.dismiss()
-  }
-
-  _renderLogoAndText(){
-    return
   }
 
   _renderInputFields(){
@@ -179,8 +178,10 @@ export default class LoginView extends Component {
         source={loginImage}
         onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
         onResponderRelease={this._handleResponderRelease} >
-        <Image style={{alignSelf: 'center', marginBottom: 50}}
-          source={loginLogo}/>
+        <Image style={style.logo}
+          source={loginLogo}
+          onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+          onResponderRelease={this._handleResponderRelease}/>
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}

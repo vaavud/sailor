@@ -3,6 +3,7 @@ import { put, takeEvery, race, call } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
 import realm from '../store/realm'
+import firebase from 'firebase'
 
 import {
   IS_AUTH, CHECK_AUTH, NEEDS_AUTH, VERIFY_EXISTING_USER,
@@ -82,6 +83,29 @@ function* verifyExistingUserHandler(action) {
 export function* verifyExistingUser() {
   yield takeEvery(VERIFY_EXISTING_USER, verifyExistingUserHandler)
 }
+
+
+
+function* saveUserIfNeededHandler(data) {
+
+  let ref = firebase.database().ref('user').child(data.uid)
+
+  ref.once('value', snapshot => {
+    let user = snapshot.val()
+    if (!user) {
+      let credential = data.credential
+      delete credential.token
+      delete credential.type
+      ref.set(credential)
+    } 
+  })
+}
+
+export function* saveUserIfNeeded(){
+  yield takeEvery('SAVE_FB_USER',saveUserIfNeededHandler)
+}
+
+
 
 
 //

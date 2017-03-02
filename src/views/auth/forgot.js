@@ -10,6 +10,7 @@ import React, {
 import {
   View,
   Image,
+  Keyboard,
   TextInput,
   TouchableOpacity,
   StyleSheet,
@@ -24,11 +25,10 @@ import Colors from '../../../assets/colorTheme'
 
 const {width, height} = Dimensions.get('window')
 
-const backgroundImage = require('../../../assets/images/forgot-image.png')
-
-const loginLogo = require('../../../assets/icons/logo.png')
-const emailIcon = require('../../../assets//icons/envelope.png')
-const backButtonIcon = require('../../../assets/icons/back-arrow.png')
+var backgroundImage
+var loginLogo
+var emailIcon
+var backButtonIcon
 
 export default class ForgotView extends Component{
 
@@ -40,9 +40,27 @@ export default class ForgotView extends Component{
   constructor(props){
     super(props)
     this.state = {
-      email: ''
+      email: '',
+      keyboardShown: false
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
+    this._keyboardDidShow = this._keyboardDidShow.bind(this)
+    this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    this._handleStartShouldSetResponderCapture = this._handleStartShouldSetResponderCapture.bind(this)
+  }
+
+  componentWillMount(){
+    backgroundImage = require('../../../assets/images/forgot-image.png')
+    loginLogo = require('../../../assets/icons/logo.png')
+    emailIcon = require('../../../assets//icons/envelope.png')
+    backButtonIcon = require('../../../assets/icons/back-arrow.png')
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)
+  }
+
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
   }
 
   _handleEmailInput(event){
@@ -51,6 +69,22 @@ export default class ForgotView extends Component{
 
   _handlePressSend(){
     // TODO
+  }
+
+  _keyboardDidShow () {
+    this.setState({keyboardShown: true})
+  }
+
+  _keyboardDidHide () {
+    this.setState({keyboardShown: false})
+  }
+
+  _handleStartShouldSetResponderCapture(evt){
+    return this.state.keyboardShown
+  }
+
+  _handleResponderRelease(evt){
+    Keyboard.dismiss()
   }
 
   _renderBackButton(){
@@ -114,10 +148,14 @@ export default class ForgotView extends Component{
   render(){
     return (
       <Image style={style.container}
-        source={backgroundImage}>
+        source={backgroundImage}
+        onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+        onResponderRelease={this._handleResponderRelease}>
         {this._renderBackButton()}
         <Image style={style.logo}
-          source={loginLogo}/>
+          source={loginLogo}
+          onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
+          onResponderRelease={this._handleResponderRelease}/>
         {this._renderText()}
         {this._renderEmailField()}
         {this._renderButton()}

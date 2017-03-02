@@ -71,7 +71,8 @@ export default class MeasureView extends Component {
     return (
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >
-          <Image source={compass} />
+          <Image style={{width: undefined, height: undefined}} 
+            source={compass} />
           <Animated.Image
             style={{
                 position: 'absolute',

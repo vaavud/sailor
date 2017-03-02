@@ -26,7 +26,7 @@ export default class ForecastWeek extends Component {
       <View style={style.header}>
         <View style={style.headerTitle} >
           <Image style={[style.img, { marginLeft: 5, marginRight: 2 }]} source={geoIcon} resizeMode={'contain'} />
-          <Text numberOfLines={1} style={[style.text, { fontSize: 13 }]}>{this.props.name}</Text>
+          <Text numberOfLines={1} style={style.text}>{this.props.name}</Text>
         </View>
         <View style={style.headerDescription} >
           <Text style={{...textStyle.normal, marginRight: 5}} >m/s</Text>
@@ -107,10 +107,10 @@ export default class ForecastWeek extends Component {
 
 const style = StyleSheet.create({
   container: {
-    height: 180,
+    height: 200,
     width,
     marginTop: 5,
-    backgroundColor: 'rgba(255,255,255, 0.7)'
+    backgroundColor: 'rgba(255,255,255, 0.85)'
   },
   divider: {
     width,
@@ -121,7 +121,7 @@ const style = StyleSheet.create({
     width, height: 125, flexDirection: 'row'
   },
   text: {
-    ...textStyle.small,
+    ...textStyle.normal,
     textAlign: 'center'
   },
   header: {

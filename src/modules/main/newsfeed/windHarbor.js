@@ -15,25 +15,22 @@ import { SegmentedControls } from 'react-native-radio-buttons'
 import Button from '../../../reactcommon/components/button'
 
 import Colors from '../../../../assets/colorTheme'
+import { textStyle } from '../../../components/text'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-const {width, height} = Dimensions.get('window')
 
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { saveHarbor } from '../../../actions/harbor'
 
 // let SelectorView = requireNativeComponent('SelectorViewSwift', WindHarbor)
 
+const {width, height} = Dimensions.get('window')
 
 class WindHarbor extends Component {
 
   constructor(props) {
     super(props)
-
-    console.log('props', props.componentProps)
-
-
     this.state = {
       windMin: 1,
       windMax: 16,
@@ -108,7 +105,7 @@ class WindHarbor extends Component {
             allowFontScaling={false} // default: true
             onSelection={(e, i) => console.log('TODO ')}
             selectedOption={'mps'}
-            optionStyles={{ fontFamily: 'Roboto-Medium' }}
+            optionStyle={textStyle.normal}
             optionContainerStyle={style.segmentedControl}
             containerBorderWidth={3}
             containerStyle={{ borderRadius: 2 }}

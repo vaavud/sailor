@@ -2,7 +2,7 @@
 'use strict'
 
 const colorTheme = {
-  background: '#E3F2FD',
+  background: '#d8ebf3',
   tabbar: '#FFFFFF',
   segmentedTint: '#E3F2FD',
   segmSelectedTint: '#00A1E1',

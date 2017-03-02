@@ -40,7 +40,7 @@ export function doSignUp(credential) {
         let _cFacebook = firebase.auth.FacebookAuthProvider.credential(credential.token)
         firebase.auth().signInWithCredential(_cFacebook)
           .then(user => {
-            // dispatch({ type: VERIFY_EXISTING_USER, credential, uid: user.uid }) //TODO IMPORTANT
+            dispatch({ type: 'SAVE_FB_USER', credential, uid: user.uid }) //TODO IMPORTANT
           })
           .catch(err => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: 'There was an error with facebook' })

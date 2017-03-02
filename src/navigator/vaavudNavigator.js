@@ -180,7 +180,7 @@ class VaavudNavigator extends Component {
   // The detailed spec of `sceneProps` is defined at `NavigationTypeDefinition`
   // as type `NavigationSceneRendererProps`.
   _renderHeader(sceneProps) {
-    if (sceneProps.scene.key === 'scene_summary' || sceneProps.scene.key === 'scene_web' || sceneProps.scene.key === 'scene_shop') {
+    if (sceneProps.scene.key === 'scene_web' || sceneProps.scene.key === 'scene_shop') {
       return (<VaavudHeader
         {...sceneProps}
         back={this._back}
