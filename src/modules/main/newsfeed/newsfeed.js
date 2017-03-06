@@ -59,15 +59,15 @@ class Newsfeed extends Component {
 
   }
 
-  _renderEditBtn(){
-    return(
-    <TouchableOpacity style={{position: 'absolute', flexDirection:'row', alignItems:'center', top: 30, right: 10, backgroundColor: 'transparent' }}
-      onPress={() => {
-                  this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-                }} >
-      <Text style={{marginRight: 5, fontSize:16, color: 'white'}}>{'Edit'}</Text>
-      <Icon style={{fontSize:16, color: 'white'}} name={'edit'} />
-    </TouchableOpacity>
+  _renderEditBtn() {
+    return (
+      <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', top: 30, right: 10, backgroundColor: 'transparent' }}
+        onPress={() => {
+          this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+        }} >
+        <Text style={{ marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
+        <Icon style={{ fontSize: 16, color: 'white' }} name={'edit'} />
+      </TouchableOpacity>
     )
   }
 
@@ -98,14 +98,15 @@ class Newsfeed extends Component {
             </MapView>
 
             {this.props.harbor.forecast ?
-            <View style={{position: 'absolute', bottom: 40, left: 0}} >
-              <ForecastWeek
-                resolution={this.props.harbor.forecast.resolution}
-                name={this.props.harbor.name}
-                days={this.props.harbor.forecast.days}
-                editHarbour={() => {
-                  this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-                }}/>
+              <View style={{ position: 'absolute', bottom: 40, left: 0 }} >
+                <ForecastWeek
+                  resolution={this.props.harbor.forecast.resolution}
+                  name={this.props.harbor.name}
+                  days={this.props.harbor.forecast.days}
+                  settings={this.props.settings}
+                  editHarbour={() => {
+                    this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+                  }} />
               </View>
               : null}
 
@@ -118,8 +119,10 @@ class Newsfeed extends Component {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
+  
   return {
-    harbor: reduxStore.harbor
+    harbor: reduxStore.harbor,
+    settings: reduxStore.settings
   }
 }
 

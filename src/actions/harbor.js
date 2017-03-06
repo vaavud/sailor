@@ -14,9 +14,9 @@ const apiUrl = 'https://apps-api.vaavud.com/sailing/'
 export function getForecast(windMax, windMin, unit, token, subId) {
   return new Promise((resolve, reject) => {
 
-    let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/${unit}/${subId}`
+    let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/mps/${subId}`
     console.log(finalUrl)
-    
+
     var myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
     myHeaders.append('Authorization', token)

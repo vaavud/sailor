@@ -8,27 +8,28 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { ForgotView } from '../../../views/auth'
-
+import { showError } from '../../../actions/utils'
 class Forgot extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
 
   }
 
-  componentDidMount () {
+  componentDidMount() {
 
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
 
   }
 
 
-  render () {
+  render() {
     return (
-     <ForgotView
-     onPressBack={this.props.pop}/>
+      <ForgotView
+        showError={this.props.showError}
+        onPressBack={this.props.pop} />
     )
   }
 }
@@ -40,7 +41,8 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    showError: bindActionCreators(showError, dispatch)
   }
 }
 
-export default connect(mapReduxStoreToProps,mapDispatchToProps)(Forgot)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(Forgot)

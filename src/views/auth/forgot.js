@@ -72,11 +72,9 @@ export default class ForgotView extends Component {
   }
 
   _handlePressSend() {
-
     forgotPassword(this.state.email).then(() => {
-      console.log('change for alert...')
+      
     })
-
   }
 
   _keyboardDidShow() {

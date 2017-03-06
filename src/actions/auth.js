@@ -47,7 +47,7 @@ export function doSignUp(credential) {
           })
       }
       else {
-        //TODO
+        //TODO 
       }
     })
   }
