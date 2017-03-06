@@ -22,8 +22,8 @@ const {width, height} = Dimensions.get('window')
 const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
 
 const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.0992;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const LATITUDE_DELTA = 0.0992
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -119,7 +119,7 @@ class Newsfeed extends Component {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
-  
+
   return {
     harbor: reduxStore.harbor,
     settings: reduxStore.settings

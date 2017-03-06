@@ -15,6 +15,8 @@ import {
   Platform
 } from 'react-native'
 
+import { connect } from 'react-redux'
+
 import {
   SmallText,
   NormalText,
@@ -25,10 +27,11 @@ import {
 } from '../../../components/text'
 
 import Colors from '../../../../assets/colorTheme'
+import { SpeedUnits, convertWindSpeed } from '../../../reactcommon/utils'
 
 import moment from 'moment'
 
-export default class HistoryView extends Component {
+class HistoryView extends Component {
 
   static propType = {
     onNextPress: PropTypes.func.isRequired
@@ -46,6 +49,9 @@ export default class HistoryView extends Component {
       dataSource: ds.cloneWithRowsAndSections(sections),
       refreshing: false
     }
+
+    this._renderSectionHeader = this._renderSectionHeader.bind(this)
+
   }
 
   _sessionsToSections(sessions) {
@@ -66,9 +72,9 @@ export default class HistoryView extends Component {
     var rowData = sectionData[0]
     return (
       <View style={style.sectionHeader} >
-        <NormalLight style={{flex: 1}}
+        <NormalLight style={{ flex: 1 }}
           textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
-        <NormalLight style={{width: 40, textAlign: 'center'}} textContent={'m/s'} />
+        <NormalLight style={{ width: 40, textAlign: 'center' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
       </View>
     )
   }
@@ -77,22 +83,24 @@ export default class HistoryView extends Component {
     // TODO what if there is no location
     return (
       <TouchableOpacity style={style.row}
-        onPress={() => this.props.onNextPress({ key: 'summary', props: { 
-          sessionKey: data.key,
-          }})}>
+        onPress={() => this.props.onNextPress({
+          key: 'summary', props: {
+            sessionKey: data.key,
+          }
+        })}>
         <View style={style.locationContainer}>
           <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
           <NormalText textContent={'Lat: 55.67° Lon: ‎12.56°'} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
-          <HeadingBold style={{color: Colors.vaavudRed}}
-            textContent={data.windMax.toFixed(1)}/>
+          <HeadingBold style={{ color: Colors.vaavudRed }}
+            textContent={convertWindSpeed(data.windMax, this.props.settings.windSpeed).toFixed(1)} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Average'} />
-          <HeadingBold style={{color: Colors.vaavudBlue}}
-            textContent={data.windMax.toFixed(1)}/>
+          <HeadingBold style={{ color: Colors.vaavudBlue }}
+            textContent={convertWindSpeed(data.windMean, this.props.settings.windSpeed).toFixed(1)} />
         </View>
       </TouchableOpacity>
     )
@@ -126,6 +134,22 @@ export default class HistoryView extends Component {
   }
 }
 
+
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(HistoryView)
+
+
+
 const style = StyleSheet.create({
   list: {
     flex: 1,
@@ -144,7 +168,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  smalltext:{
+  smalltext: {
     fontSize: 8
   },
   windText: {
