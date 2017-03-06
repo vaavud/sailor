@@ -19,6 +19,8 @@ const {width} = Dimensions.get('window')
 const geoIcon = require('../../assets/geoIcon.png')
 const windIcontTemp = require('../../assets/windBlue.png')
 
+import { SpeedUnits, convertWindSpeed } from '../reactcommon/utils'
+
 
 export default class ForecastWeek extends Component {
 
@@ -30,7 +32,7 @@ export default class ForecastWeek extends Component {
           <Text numberOfLines={1} style={style.text}>{this.props.name}</Text>
         </View>
         <View style={style.headerDescription} >
-          <Text style={{...textStyle.normal, marginRight: 5}} >m/s</Text>
+          <Text style={{ ...textStyle.normal, marginRight: 5 }} >{SpeedUnits[this.props.settings.windSpeed]}</Text>
         </View>
       </View>
     )
@@ -54,7 +56,7 @@ export default class ForecastWeek extends Component {
           resizeMode="cover"
           source={windIcontTemp}
           style={[{ height: 45, width: 45, marginTop: 5 }, { transform: [{ 'rotate': `${direction}deg` }] }]} />
-        <Text style={style.speedText}>{speed}</Text>
+        <Text style={style.speedText}>{convertWindSpeed(speed, this.props.settings.windSpeed).toFixed(0)}</Text>
       </View>
     )
   }

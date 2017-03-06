@@ -99,7 +99,7 @@ class VaavudNavigator extends Component {
     // console.log(scenes)
 
     var _tabs = (key) => {
-      if (scenes.index > 0) {
+      if (scenes.index > 0 || key === 'measure') {
         return null
       } else {
         return (
@@ -108,52 +108,20 @@ class VaavudNavigator extends Component {
           </View>
         )
       }
-      // if (key !== 'measure') {
-      //   if (scenes.routes.length > 1) {
-      //     return null
-      //   }
-      //   else {
-      //     return (
-      //       <View style={{ backgroundColor: 'red', flexDirection: 'row' }}>
-      //         {tabs.routes.map(this._renderTab, this)}
-      //       </View>
-      //     )
-      //   }
-      // }
-      // else {
-      //   return null
-      // }
     }
 
     var _tabsM = (key) => {
-      if (key !== 'measure') {
-        if (scenes.index > 0) {
-          return null
-        }
-        else {
-          return (
-            <MeasureButton
-              icon={logo}
-              activeIcon={stopIcon}
-              onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
-              buttonColor={Colors.vaavudBlue}
-              btnOutRange={Colors.vaavudRed} />
-          )
-        }
+      if (scenes.index > 0 || key === 'measure') {
+        return null
       }
       else {
-        if (scenes.index > 0) {
-          return null
-        }
-        else
-          return (
-            <MeasureButton
-              icon={logo}
-              activeIcon={stopIcon}
-              onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
-              buttonColor={Colors.vaavudBlue}
-              btnOutRange={Colors.vaavudRed} />
-          )
+        return (
+          <MeasureButton
+            icon={logo}
+            onPress={() => { this.props.navigate({ type: 'selectTab', tabKey: 'measure' }) }}
+            buttonColor={Colors.vaavudBlue}
+            btnOutRange={Colors.vaavudRed} />
+        )
       }
     }
 

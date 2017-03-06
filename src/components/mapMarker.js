@@ -24,11 +24,11 @@ class MapMarker extends Component {
     this.spring = this.spring.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.spring()
   }
 
-  spring () {
+  spring() {
     this.springValue.setValue(0.5)
     Animated.spring(
       this.springValue,
@@ -43,19 +43,19 @@ class MapMarker extends Component {
     return (
       <View style={styles.bubble} >
         <Animated.Image
-        source={this.state.hasDirection ? map_markers.markerRedDirection : map_markers.markerRed}
-        style={{
-          height: 45,
-          width: 45,
-          position: 'absolute',
-          top: 0,
-          transform: isIos ? [
-            {'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg`},
-            {scale: this.springValue}]
-            :
-            [{'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg`}]
-        }} />
-        <Text style={styles.speed}>{this.props.speed.toFixed(1)}</Text>
+          source={this.state.hasDirection ? map_markers.markerRedDirection : map_markers.markerRed}
+          style={{
+            height: 45,
+            width: 45,
+            position: 'absolute',
+            top: 0,
+            transform: isIos ? [
+              { 'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg` },
+              { scale: this.springValue }]
+              :
+              [{ 'rotate': `${this.state.hasDirection ? this.props.direction : 0}deg` }]
+          }} />
+        <Text style={styles.speed}>{convertWindSpeed(this.props.speed, this.props.settings.windSpeed).toFixed(0)}</Text>
       </View>
     )
   }

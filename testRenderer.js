@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
-import { AppRegistry, Dimensions } from 'react-native'
+import {
+  AppRegistry,
+  Dimensions,
+  Animated ,
+  Easing,
+  StyleSheet,
+  Button,
+  View,
+  Image,
+  Text
+} from 'react-native'
 
-import moment from 'moment'
+import Colors from './assets/colorTheme'
 
-import TestView from './src/views/main/settings'
+const compass = require('./assets/images/compass.png')
+const compassHand = require('./assets/images/test_compass.png')
 
 const { width, height } = Dimensions.get('window')
 
@@ -15,27 +26,155 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let paths = []
 
-
+const compassSize = width * 0.8
 
 class App extends Component {
 
-  constructor(props) {
+   constructor(props){
     super(props)
+    this.animatedValue = new Animated.Value(0)
+    this.state = {
+      lastHeading: 0,
+      newHeading: 0
+    }
+  }
+  animateNewHeading(){
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear
+      }
+    ).start()
   }
 
-  componentWillMount() {
+  _crazyMod(a, n) {
+    return a - Math.floor(a / n) * n
+  }
 
-    for (let i = 0; i <= 10; i += 1) {
-      paths.push({ "time": 1485206064773, "speed": 3.997632504255838 }, { "time": 1485206070372, "speed": 3.068956296859301 }, { "time": 1485206071372, "speed": 3.54159961623714 }, { "time": 1485206072372, "speed": 3.765967435454199 }, { "time": 1485206073372, "speed": 4.173442678368795 }, { "time": 1485206074372, "speed": 3.897974498030536 }, { "time": 1485206075372, "speed": 4.171193772728991 }, { "time": 1485206076372, "speed": 3.922153230579238 }, { "time": 1485206077372, "speed": 4.352127387661957 }, { "time": 1485206078371, "speed": 3.901507834743171 }, { "time": 1485206079372, "speed": 3.713187147557339 }, { "time": 1485206080372, "speed": 3.625968676548974 }, { "time": 1485206081372, "speed": 3.526898757324068 }, { "time": 1485206082372, "speed": 3.54577457915066 }, { "time": 1485206083372, "speed": 3.351251020246505 }, { "time": 1485206084372, "speed": 2.5 }, { "time": 1485206085372, "speed": 3.619336709520822 }, { "time": 1485206086373, "speed": 3.671533797561137 }, { "time": 1485206087376, "speed": 3.626054463107192 }, { "time": 1485206088379, "speed": 3.728547275693853 }, { "time": 1485206089378, "speed": 3.631790375221834 }, { "time": 1485206090372, "speed": 3.788737332049081 }, { "time": 1485206091381, "speed": 3.811115452112911 }, { "time": 1485206092373, "speed": 3.708675283447745 }, { "time": 1485206093380, "speed": 3.681595690124138 }, { "time": 1485206094380, "speed": 3.714363455998627 }, { "time": 1485206095373, "speed": 4.26920306789536 })
-    }
+
+  _renderCompass(lastHeading, newHeading) {
+    var l = 90
+    var n = 110
+    var a = n - l
+    newHeading = (this._crazyMod((n - l) + 180, 360) - 180) + l
+    this.animateNewHeading()
+    const animate = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0 + 'deg', 180 + 'deg']
+    })
+    return (
+      <View style={style.compassContainer} >
+        <View style={style.compassInnerContainer} >
+          <Image style={{width: compassSize, height: compassSize}}
+            source={compass}
+             />
+          <Animated.Image
+          resizeMode={'contain'}
+            style={{
+                position: 'absolute',
+                top: 13,
+                left: 13,
+                width: compassSize - 26,
+                height: compassSize - 26,
+                transform: [{ 'rotate': animate }]
+            }}
+            source={compassHand} />
+          </View>
+      </View>
+    )
+  }
+
+  _renderWindText() {
+    return (
+      <View style={style.windTextContainer} >
+        <Text style={style.windText} >{'TRUE'}</Text>
+      </View>
+    )
+  }
+
+  _renderSpeedContainer(groundSpeed, lastWindSpeed, windSpeed) {
+    return (
+      <View style={style.speedContainer} >
+        {this._renderGroundSpeed(groundSpeed)}
+        {this._renderWindSpeed(lastWindSpeed, windSpeed)}
+      </View>
+    )
+  }
+
+  _renderGroundSpeed(groundSpeed) {
+    return (
+      <View style={style.groundSpeedContainer} >
+        <Text>{'Ground speed'}</Text>
+        <Text style={style.speedText}>{groundSpeed}</Text>
+        <Text>{'-'}</Text>
+      </View>
+    )
+  }
+
+  _renderWindSpeed(windSpeed) {
+    return (
+      <View style={style.windSpeedContainer} >
+        <Text>{'Wind speed'}</Text>
+        <Text style={style.speedText} >{windSpeed}</Text>
+        <Text>{'m/s'}</Text>
+      </View>
+    )
   }
 
   render() {
     return (
-      <TestView
-         />
+      <View style={style.container} >
+        {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
+        {this._renderWindText()}
+        <Button title="Stop" onPress={this.props.testStop} />
+        {this._renderSpeedContainer('N/A', this.props.windSpeed)}
+      </View>
     )
   }
 }
 
 AppRegistry.registerComponent('sailing', () => App)
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 40,
+    backgroundColor: Colors.background
+  },
+  compassContainer: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  windTextContainer: {
+    margin: 20,
+    alignItems: 'center',
+  },
+  windText: {
+    fontSize: 26
+  },
+  speedContainer: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  windSpeedContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    borderLeftWidth: 1,
+    borderLeftColor: 'grey'
+  },
+  groundSpeedContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  speedText: {
+    fontSize: 30,
+    fontWeight: 'bold'
+  }
+})
+

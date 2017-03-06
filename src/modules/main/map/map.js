@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 // import { View } from 'react-native'
 // import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 import MapMarker from '../../../components/mapMarker'
@@ -50,7 +50,7 @@ class Map extends Component {
       <MapView.Marker
         key={key}
         coordinate={getCoordinate(marker.location)}>
-        <MapMarker speed={marker.windMean} direction={marker.windDirection} />
+        <MapMarker speed={marker.windMean} direction={marker.windDirection} settings={this.props.settings} />
       </MapView.Marker>)
   }
 
@@ -67,18 +67,18 @@ class Map extends Component {
         ))}
       </MapView>)
   }
-  
+
 }
 
-// const mapReduxStoreToProps = (reduxStore) => {
-//   return {
-//   }
-// }
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings
+  }
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//   }
-// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
 
-// export default connect(mapReduxStoreToProps, mapDispatchToProps)(Map)
-export default Map
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(Map)

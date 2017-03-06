@@ -23,6 +23,9 @@ import I18n from '../../components/i18n'
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
+import { forgotPassword } from '../../actions/auth'
+
+
 const {width, height} = Dimensions.get('window')
 
 var backgroundImage
@@ -30,14 +33,14 @@ var loginLogo
 var emailIcon
 var backButtonIcon
 
-export default class ForgotView extends Component{
+export default class ForgotView extends Component {
 
   static propTypes = {
     onPressSendResetLink: PropTypes.func.isRequired,
     onPressBack: PropTypes.func.isRequired
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       email: '',
@@ -46,10 +49,11 @@ export default class ForgotView extends Component{
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._keyboardDidShow = this._keyboardDidShow.bind(this)
     this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    this._handlePressSend = this._handlePressSend.bind(this)
     this._handleStartShouldSetResponderCapture = this._handleStartShouldSetResponderCapture.bind(this)
   }
 
-  componentWillMount(){
+  componentWillMount() {
     backgroundImage = require('../../../assets/images/forgot-image.png')
     loginLogo = require('../../../assets/icons/logo.png')
     emailIcon = require('../../../assets//icons/envelope.png')
@@ -58,46 +62,48 @@ export default class ForgotView extends Component{
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
   }
 
-  _handleEmailInput(event){
-    this.setState({email: event})
+  _handleEmailInput(event) {
+    this.setState({ email: event })
   }
 
-  _handlePressSend(email){
-    this.props.onPressSendResetLink(email)
+  _handlePressSend() {
+    forgotPassword(this.state.email).then(() => {
+      
+    })
   }
 
-  _keyboardDidShow () {
-    this.setState({keyboardShown: true})
+  _keyboardDidShow() {
+    this.setState({ keyboardShown: true })
   }
 
-  _keyboardDidHide () {
-    this.setState({keyboardShown: false})
+  _keyboardDidHide() {
+    this.setState({ keyboardShown: false })
   }
 
-  _handleStartShouldSetResponderCapture(evt){
+  _handleStartShouldSetResponderCapture(evt) {
     return this.state.keyboardShown
   }
 
-  _handleResponderRelease(evt){
+  _handleResponderRelease(evt) {
     Keyboard.dismiss()
   }
 
-  _renderBackButton(){
+  _renderBackButton() {
     return (
       <TouchableOpacity style={style.backButtonStyle}
         onPress={this.props.onPressBack} >
-      <Image
-        source={backButtonIcon} />
+        <Image
+          source={backButtonIcon} />
       </TouchableOpacity>
     )
   }
 
-  _renderText(){
+  _renderText() {
     return (
       <View style={style.textContainer} >
         <Text style={style.text}>
@@ -110,12 +116,12 @@ export default class ForgotView extends Component{
     )
   }
 
-   _renderEmailField(){
+  _renderEmailField() {
     return (
       <View style={style.inputContainer}>
         <Image style={style.inputLogo}
           source={emailIcon}
-          resizeMode={'contain'}/>
+          resizeMode={'contain'} />
         <TextInput style={style.input}
           autoFocus={false}
           autoCorrect={false}
@@ -127,25 +133,23 @@ export default class ForgotView extends Component{
           returnKeyType="next"
           autoCapitalize="none"
           onChangeText={this._handleEmailInput}
-          onSubmitEditing={() => {
-            this._handlePressSend(this.state.email)
-          }} />
+          onSubmitEditing={this._handlePressSend} />
       </View>
     )
   }
 
-  _renderButton(){
+  _renderButton() {
     return (
       <View style={style.buttonContainer}>
         <Button buttonStyle={style.button}
           textStyle={style.buttonText}
           title={I18n.t('sendResetlink')}
-          onPress={() => this._handlePressSend(this.state.email)} />
+          onPress={this._handlePressSend} />
       </View>
     )
   }
 
-  render(){
+  render() {
     return (
       <Image style={style.container}
         source={backgroundImage}
@@ -155,7 +159,7 @@ export default class ForgotView extends Component{
         <Image style={style.logo}
           source={loginLogo}
           onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
-          onResponderRelease={this._handleResponderRelease}/>
+          onResponderRelease={this._handleResponderRelease} />
         {this._renderText()}
         {this._renderEmailField()}
         {this._renderButton()}
@@ -165,7 +169,7 @@ export default class ForgotView extends Component{
 }
 
 const style = StyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -175,26 +179,26 @@ const style = StyleSheet.create({
     padding: width * 0.1,
     paddingTop: height * 0.1,
   },
-  backButtonStyle:{
+  backButtonStyle: {
     position: 'absolute',
     top: 30,
     left: 20,
   },
   logo: {
-    alignSelf:'center',
+    alignSelf: 'center',
     marginBottom: 5
   },
-  inputLogo:{
-    marginTop:15,
+  inputLogo: {
+    marginTop: 15,
     marginLeft: 5
   },
-  inputContainer:{
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: 'rgba(255, 255, 255, .3)',
     borderBottomWidth: 1
   },
-  input:{
+  input: {
     flex: 1,
     margin: 5,
     marginLeft: 10,
@@ -213,14 +217,14 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 15,
   },
-  buttonContainer:{
+  buttonContainer: {
     marginTop: 30,
   },
-  textContainer:{
+  textContainer: {
     paddingHorizontal: 20,
     marginVertical: 20
   },
-  text:{
+  text: {
     fontSize: 14,
     lineHeight: 20,
     backgroundColor: 'transparent',
@@ -232,5 +236,5 @@ const style = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: Colors.vaavudBlue
-   }
+  }
 })

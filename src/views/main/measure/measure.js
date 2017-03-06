@@ -14,16 +14,22 @@ import {
   Button,
   Animated,
   Easing,
+  Dimensions
 } from 'react-native'
 
 import Colors from '../../../../assets/colorTheme'
 
-const compass = require('../../../../assets/trueWindCompass.png')
-const compassHand = require('../../../../assets/trueWindCompassHand.png')
+const {width} = Dimensions.get('window')
+
+// const compass = require('../../../../assets/trueWindCompass.png')
+// const compassHand = require('../../../../assets/trueWindCompassHand.png')
+const compass = require('../../../../assets/images/compass.png')
+const compassHand = require('../../../../assets/images/test_compass.png')
+const compassSize = width * 0.8
 
 export default class MeasureView extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.animatedValue = new Animated.Value(0)
     this.state = {
@@ -42,7 +48,7 @@ export default class MeasureView extends Component {
     testStop: PropTypes.func.isRequired
   }
 
-  animateNewHeading(){
+  animateNewHeading() {
     this.animatedValue.setValue(0)
     Animated.timing(
       this.animatedValue, {
@@ -56,7 +62,7 @@ export default class MeasureView extends Component {
   _crazyMod(a, n) {
     return a - Math.floor(a / n) * n
   }
-  
+
 
   _renderCompass(lastHeading, newHeading) {
     var l = lastHeading
@@ -71,12 +77,18 @@ export default class MeasureView extends Component {
     return (
       <View style={style.compassContainer} >
         <View style={style.compassInnerContainer} >
-          <Image style={{width: undefined, height: undefined}} 
-            source={compass} />
+          <Image style={{ width: compassSize, height: compassSize }}
+            source={compass}
+          />
           <Animated.Image
+            resizeMode={'contain'}
             style={{
-                position: 'absolute',
-                transform: [{ 'rotate': animate }]
+              position: 'absolute',
+              top: 13,
+              left: 13,
+              width: compassSize - 26,
+              height: compassSize - 26,
+              transform: [{ 'rotate': animate }]
             }}
             source={compassHand} />
         </View>
@@ -135,6 +147,7 @@ export default class MeasureView extends Component {
 
 const style = StyleSheet.create({
   container: {
+    width,
     flex: 1,
     paddingTop: 40,
     backgroundColor: Colors.background

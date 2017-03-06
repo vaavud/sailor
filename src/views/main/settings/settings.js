@@ -30,12 +30,13 @@ import Button from '../../../reactcommon/components/button'
 
 import {
   speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
-  angle_conv_inverse, temp_conv_inverse
+  angle_conv_inverse, temp_conv_inverse, SpeedUnitsUI, mSpeeedUnits
 } from '../../../reactcommon/utils'
 
 const isIos = Platform.OS === 'ios'
 
-export default class SettingsView extends Component{
+
+export default class SettingsView extends Component {
 
   static propTypes = {
     updateSettings: PropTypes.func.isRequired,
@@ -55,23 +56,24 @@ export default class SettingsView extends Component{
 
 
   _getWindSpeedValue(e) {
+    console.log(e)
     switch (e) {
       case 'm/s':
-        this.props.updateSettings('windSpeed', 'mps')
+        this.props.updateSettings('windSpeed', mSpeeedUnits.mps)
         break
       case 'mph':
-        this.props.updateSettings('windSpeed', 'mph')
+        this.props.updateSettings('windSpeed', mSpeeedUnits.mph)
         break
       case 'km/h':
-        this.props.updateSettings('windSpeed', 'kmh')
+        this.props.updateSettings('windSpeed', mSpeeedUnits.kmh)
         break
       case 'knots':
-        this.props.updateSettings('windSpeed', 'knots')
+        this.props.updateSettings('windSpeed', mSpeeedUnits.knots)
         break
     }
   }
 
-  _renderSectionHeader(text){
+  _renderSectionHeader(text) {
     return (
       <View style={style.sectionHeader} >
         <NormalText textContent={I18n.t(text)} />
@@ -79,7 +81,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderDeviceText(description, value){
+  _renderDeviceText(description, value) {
     return (
       <View style={style.deviceTextContainer} >
         <NormalText style={style.deviceText} textContent={description} />
@@ -88,16 +90,16 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderLink(text, func){
+  _renderLink(text, func) {
     return (
       <Button
         textStyle={style.buttonText}
         title={I18n.t(text)}
-        onPress={func}/>
+        onPress={func} />
     )
   }
 
-  _renderWindspeedSelector(){
+  _renderWindspeedSelector() {
     return (
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('windSpeed')}</Text>
@@ -105,7 +107,7 @@ export default class SettingsView extends Component{
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
           backTint={Colors.segmentedTint}
-          options={[speed_conv['m/s'].short, speed_conv['km/h'].short, speed_conv.knots.short, speed_conv.mph.short]}
+          options={[SpeedUnitsUI.mps, SpeedUnitsUI.kmh, SpeedUnitsUI.mph, SpeedUnitsUI.knots]}
           allowFontScaling={false} // default: true
           onSelection={(e, i) => this._getWindSpeedValue(e)}
           selectedOption={SpeedUnits[this.props.settings.windSpeed]}
@@ -117,7 +119,7 @@ export default class SettingsView extends Component{
     )
   }
 
-   _renderDirectionSelector(){
+  _renderDirectionSelector() {
     return (
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('direction')}</Text>
@@ -137,7 +139,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderTemperatureSelector(){
+  _renderTemperatureSelector() {
     return (
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('temperature')}</Text>
@@ -157,7 +159,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderWindPrefrences(){
+  _renderWindPrefrences() {
     return (
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
@@ -167,7 +169,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderShowColors(){
+  _renderShowColors() {
     return (
       <View style={style.segmentedContainer} >
         <Text>{I18n.t('showColors')}</Text>
@@ -187,7 +189,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _renderDeviceStatus(){
+  _renderDeviceStatus() {
     const {
       isBleDeviceConnected
     } = this.props
@@ -204,7 +206,7 @@ export default class SettingsView extends Component{
     )
   }
 
-  _handleClickLink(link){
+  _handleClickLink(link) {
     Linking.canOpenURL(link).then(
       Linking.openURL(link),
       //TODO handle reject
@@ -213,30 +215,30 @@ export default class SettingsView extends Component{
     })
   }
 
-  _renderOthersSection(){
+  _renderOthersSection() {
     return (
       <View style={style.otherSectionContainer} >
-        {this._renderLink('vaavud', () =>  this._handleClickLink('https://vaavud.com'))}
-        {this._renderLink('termsButton', () => this._handleClickLink('https://vaavud.com/terms/') )}
-        {this._renderLink('privacyButton', () => this._handleClickLink('https://vaavud.com/privacy-policy/') )}
-        {this._renderLink('logout', () => this.props.logout() )}
+        {this._renderLink('vaavud', () => this._handleClickLink('https://vaavud.com'))}
+        {this._renderLink('termsButton', () => this._handleClickLink('https://vaavud.com/terms/'))}
+        {this._renderLink('privacyButton', () => this._handleClickLink('https://vaavud.com/privacy-policy/'))}
+        {this._renderLink('logout', () => this.props.logout())}
         {this._renderLink('appGuide', () => this._handleClickLink('https://vaavud.com/faq/'))}
       </View>
     )
   }
 
-  render(){
+  render() {
     return (
-        <ScrollView style={style.container} >
-          {this._renderSectionHeader('unitText')}
-          {this._renderWindspeedSelector()}
-          {this._renderDirectionSelector()}
-          {this._renderTemperatureSelector()}
-          {this._renderSectionHeader('prefrencesText')}
-          {this._renderWindPrefrences()}
-          {this._renderSectionHeader('otherSection')}
-          {this._renderOthersSection()}
-        </ScrollView>
+      <ScrollView style={style.container} >
+        {this._renderSectionHeader('unitText')}
+        {this._renderWindspeedSelector()}
+        {this._renderDirectionSelector()}
+        {this._renderTemperatureSelector()}
+        {this._renderSectionHeader('prefrencesText')}
+        {this._renderWindPrefrences()}
+        {this._renderSectionHeader('otherSection')}
+        {this._renderOthersSection()}
+      </ScrollView>
     )
   }
 }
@@ -263,7 +265,7 @@ const style = StyleSheet.create({
     paddingTop: 15,
   },
   segmentedControl: {
-    justifyContent:'center',
+    justifyContent: 'center',
     height: 40
   },
   deviceStatusContainer: {

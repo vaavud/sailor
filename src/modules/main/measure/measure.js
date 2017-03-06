@@ -4,11 +4,11 @@
 
 import React, { Component } from 'react'
 import {
-  View,
-  Text,
   NativeEventEmitter,
   NativeModules,
-  Button
+  Alert,
+  View,
+  Text
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -18,6 +18,8 @@ import {
   saveSession, saveSummary, savePoints
 } from '../../../actions/measure'
 
+
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 
 import { MeasureView, ConnectingView } from '../../../views/main/measure'
 
@@ -36,22 +38,21 @@ class Measure extends Component {
       windSpeed: 0,
       windDirection: 0,
       lastWindDirection: 0,
-      locationReady: false,
+      locationReady: true,
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
     this.onReadyToWork = this.onReadyToWork.bind(this)
     this.onNewRead = this.onNewRead.bind(this)
     this.onFinalData = this.onFinalData.bind(this)
-    // this._onLocationError = this._onLocationError.bind(this)
     this.onLocationWorking = this.onLocationWorking.bind(this)
     this._onStopMeasurement = this._onStopMeasurement.bind(this)
-
+    this.onBleState = this.onBleState.bind(this)
   }
 
   componentDidMount() {
     // this.state.myModuleEvt.addListener('onBleConnected', this.onBleConnected)
-    // this.state.myModuleEvt.addListener('onStateHasChanged', this.onStateHasChanged)
+    this.state.myModuleEvt.addListener('onBleState', this.onBleState)
     this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
     this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
     this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
@@ -59,6 +60,19 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
 
     NativeModules.VaavudBle.initBle()
+  }
+
+
+
+  onBleState(data) {
+    switch (data.status) {
+      case 'off':
+        Alert.alert('Bluetooth Error', 'Haha!! Einstein... you want to use a Bluetooth device with Bluetooth off!', [{ text: 'OK' }])
+        break
+      case 'unauthorized':
+        Alert.alert('Bluetooth Error', 'Come on! i promise you not to send all the information to our server :), give us authorization (go to settings and change it)', [{ text: 'OK' }])
+        break
+    }
   }
 
   onFinalData(data) {
@@ -119,12 +133,7 @@ class Measure extends Component {
   }
 
   onVaavudBleFound(ble) {
-    if (ble.available) {
-      this.setState({ isBleConnected: true })
-    }
-    else {
-      //TODOs
-    }
+    this.setState({ isBleConnected: true })
   }
 
   onReadyToWork() {
@@ -136,17 +145,46 @@ class Measure extends Component {
   }
 
   onNewRead(point) {
-    if (this.state.locationReady) {
-      let last = this.state.windDirection
-      this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, lastWindDirection: last })
-    }
+    // if (this.state.locationReady) {
+    let last = this.state.windDirection
+    this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, lastWindDirection: last })
+    // }
+  }
+
+  _renderDotIndicator() {
+    return <PagerDotIndicator pageCount={2} />
   }
 
   render() {
 
+    /*return (
+      <View style={{ flex: 1 }}>
+        <IndicatorViewPager
+          indicator={this._renderDotIndicator()}
+          style={{ flex: 1 }} >
+          <View style={{ backgroundColor: 'cadetblue' }}>
+            <Text>page one</Text>
+          </View>
+          <View style={{ backgroundColor: 'cornflowerblue' }}>
+            <Text>page two</Text>
+          </View>
+          <View style={{ backgroundColor: '#1AA094' }}>
+            <Text>page three</Text>
+          </View>
+        </IndicatorViewPager>
+      </View>
+    )*/
+
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
-        <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+        <View style={{ flex: 1 }}>
+          <IndicatorViewPager
+            indicator={this._renderDotIndicator()}
+            style={{ flex: 1 }} >
+            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+          </IndicatorViewPager>
+        </View>
       )
     }
     else {
@@ -155,6 +193,7 @@ class Measure extends Component {
       )
     }
   }
+
 }
 
 const mapReduxStoreToProps = (reduxStore) => {

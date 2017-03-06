@@ -7,22 +7,20 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { resetPassword } from '../../../actions/auth'
-
 import { ForgotView } from '../../../views/auth'
-
+import { showError } from '../../../actions/utils'
 class Forgot extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this._sendResetMail = this._sendResetMail.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
 
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
 
   }
 
@@ -31,11 +29,12 @@ class Forgot extends Component {
   }
 
 
-  render () {
+  render() {
     return (
       <ForgotView
         onPressBack={this.props.pop}
-        onPressSendResetLink={this._sendResetMail}/>
+        onPressSendResetLink={this._sendResetMail}
+        showError={this.props.showError} />
     )
   }
 }
@@ -47,8 +46,8 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    resetPassword: bindActionCreators(resetPassword, dispatch)
+    showError: bindActionCreators(showError, dispatch)
   }
 }
 
-export default connect(mapReduxStoreToProps,mapDispatchToProps)(Forgot)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(Forgot)

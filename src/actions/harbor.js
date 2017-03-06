@@ -8,13 +8,13 @@ const google_Api_key = 'AIzaSyBcL4Hz1TeA52ZnrMDTRuo_Ff8wtZ7xY5E'
 const googleApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?'
 
 
-const apiUrl = 'https://api.vaavud.com/apps/sailing/'
+const apiUrl = 'https://apps-api.vaavud.com/sailing/'
 
 
 export function getForecast(windMax, windMin, unit, token, subId) {
   return new Promise((resolve, reject) => {
 
-    let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/${unit}/${subId}`
+    let finalUrl = apiUrl + `harbour/${windMax}/${windMin}/mps/${subId}`
     console.log(finalUrl)
 
     var myHeaders = new Headers()
@@ -28,6 +28,7 @@ export function getForecast(windMax, windMin, unit, token, subId) {
     fetch(request)
       .then(response => response.json())
       .then(forecast => {
+        console.log(forecast)
         if ('id' in forecast[0]) {
           resolve({ type: FORECAST_LOADED, forecast: forecast[0] })
 
