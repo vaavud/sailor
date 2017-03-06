@@ -32,6 +32,9 @@ const da = {
   forgetText:     'Har du glemt kodeordet til din konto?',
   resetText:      'Indtast din e-mail og vi sender dig et link til at ændre dit kodeord',
   sendResetlink:  'SEND RESET LINK',
+  passwordReset:  'Nulstil kodeord',
+  checkMail:      'Link til at nulstille kodeord er blevet sendt. Tjek venligst din mail',
+  invalidMail:    'Der opstod et problem. Sikrer dig at du bruger den rigtige mail',
 
   // Settings screen
   unitText:       'Enheder',

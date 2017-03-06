@@ -90,7 +90,9 @@ class Newsfeed extends Component {
           <View style={{ position: 'absolute', top: 0, left: 0, width, height }} >
             <MapView
               style={{ height: height, width }}
-              initialRegion={{ ...this.state.region, ...getCoordinate(this.props.harbor.location, 0.02) }}
+              pitchEnabled={false}
+              scrollEnabled={false}
+              region={{...this.state.region,  ...getCoordinate(this.props.harbor.location, 0.02) }}
               mapType="satellite" >
               <MapView.Marker coordinate={getCoordinate(this.props.harbor.location, 0)}>
                 <Image source={imgHarbor} />

@@ -32,9 +32,9 @@ const en = {
   forgetText:     'Did you forget your password?',
   resetText:      'Enter you email and we will send you a link to reset your password',
   sendResetlink:  'SEND RESET LINK',
-
-  // Error messages
-  
+  passwordReset:  'Password reset',
+  checkMail:      'Link to reset password has been sent. Please check your email',
+  invalidMail:    'There was problem resseting your password. Make sure you are using the correct email',
 
   // Settings screen
   unitText:       'Units',

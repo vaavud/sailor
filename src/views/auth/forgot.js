@@ -19,8 +19,9 @@ import {
   Dimensions
 } from 'react-native'
 
-import I18n from '../../components/i18n'
 
+import I18n from '../../components/i18n'
+import LoadingModal from '../../components/loadingModal'
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
@@ -74,13 +75,16 @@ export default class ForgotView extends Component {
   }
 
   _handlePressSend() {
+    this.setState({isLoading: true})
     forgotPassword(this.state.email).then(() => {
-      Alert.alert('Passord reset', 'Please check you email', [{text: 'OK', onPress: () => {
+      Alert.alert(I18n.t('passwordReset'), I18n.t('checkMail'), [{text: 'OK', onPress: () => {
+        this.setState({isLoading: false})
         this.props.onPressBack
       }
     }])
-    }).catch(error => {
-      this.props.showError({title: 'Password reset', msg: 'There was problem resseting your password. Make sure you are using the correct email'})
+  }).catch(error => {
+      this.setState({isLoading: false})
+      this.props.showError({title: I18n.t('passwordReset'), msg: I18n.t('invalidMail')})
     })
   }
 

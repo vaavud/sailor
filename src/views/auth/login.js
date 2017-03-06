@@ -46,7 +46,7 @@ export default class LoginView extends Component {
     this.state = {
       email: '',
       password: '',
-      keyboardShown: false
+      keyboardShown: false,
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
