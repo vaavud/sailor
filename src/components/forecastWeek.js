@@ -18,7 +18,7 @@ const {width} = Dimensions.get('window')
 const geoIcon = require('../../assets/geoIcon.png')
 const windIcontTemp = require('../../assets/windBlue.png')
 
-import { SpeedUnits, convertWindSpeed } from '../reactcommon/utils'
+import { SpeedUnits, convertWindSpeed, convertTemp } from '../reactcommon/utils'
 
 
 export default class ForecastWeek extends Component {
@@ -43,7 +43,7 @@ export default class ForecastWeek extends Component {
         <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }} >
           <Icon name={icon} style={textStyle.normal} />
         </View>
-        <Text style={textStyle.small}>{temp}°</Text>
+        <Text style={textStyle.small}>{convertTemp(temp, this.props.settings.temperature).toFixed(0)}°</Text>
       </View>
     )
   }
