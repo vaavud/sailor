@@ -4,6 +4,8 @@ import firebase from 'firebase'
 
 import { LOGOUT } from '../constants/auth'
 import { SETTING_UPDATED } from '../constants/settings'
+import { AsyncStorage } from 'react-native'
+
 
 export function updateSettings(key, value) {
   return function (dispatch, getState) {
@@ -32,8 +34,10 @@ export function logout(time) {
 
         let settings = realm.objects('Settings')
         realm.delete(settings)
-
       })
+
+      AsyncStorage.setItem('bleSetup', 'false')
+      AsyncStorage.setItem('battery', 'n/a')
 
       firebase.auth().signOut()
       //TODO clean settings

@@ -38,15 +38,16 @@ class Settings extends Component {
         updateSettings={this.props.updateSettings}
         logout={this.props.logout}
         settings={this.props.settings}
+        battery={this.props.battery}
         push={this.props.push} />
     )
   }
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
-  console.log('settings', reduxStore.settings)
   return {
-    settings: reduxStore.settings
+    settings: reduxStore.settings,
+    battery: reduxStore.app.battery
   }
 }
 

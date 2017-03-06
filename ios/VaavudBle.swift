@@ -70,7 +70,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     vaavudSDK.startWithBluetooth(listener: self)
     
     vaavudSDK.bluetoothCallback =  { data in
-      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection] )
+      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery] )
     }
     
     vaavudSDK.bluetoothExtraCallback = { data in
@@ -78,7 +78,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     }
     
     vaavudSDK.locationCallback =  { data in
-      print(data)
+      self.sendEvent(withName: "onLocationWorking", body: [] )
     }
   }
   

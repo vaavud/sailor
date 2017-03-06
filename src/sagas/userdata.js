@@ -3,13 +3,15 @@ import realm from '../store/realm'
 
 import { takeEvery, put, select, call } from 'redux-saga/effects'
 
-import { WORK_WITH_SERVER, STATUS, HOME_READY } from '../constants/auth'
+import { WORK_WITH_SERVER, STATUS, HOME_READY, SETUP } from '../constants/auth'
 import { HARBOR_LOADED } from '../constants/harbor'
 
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
 import { harbor, settings, token, online } from '../selectors/common'
 import { saveSession, sendPoints } from '../actions/measure'
+import { introStatus, getBatteryLevel } from '../actions/bluetooth'
+
 
 
 //
@@ -20,11 +22,19 @@ import { saveSession, sendPoints } from '../actions/measure'
 
 function* historyDaemonHandler(action) {
   yield put({ type: STATUS, status: 'Loading user information...' })
+  yield put(yield getBatteryLevel())
   yield put(yield getProfile())
   yield put(yield getSubscription())
   yield put(yield getSessions())
-  yield put({ type: HOME_READY })
 
+  let isSetupDone = yield introStatus()
+
+  if (isSetupDone === 'true') { // AsyncStorage only supports String...
+    yield put({ type: HOME_READY })
+  }
+  else {
+    yield put({ type: SETUP })
+  }
 }
 
 export function* historyDaemon() {

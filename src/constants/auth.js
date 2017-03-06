@@ -12,3 +12,6 @@ export const STATUS = 'STATUS'
 export const WORK_WITH_CACHE = 'WORK_WITH_CACHE'
 export const WORK_WITH_SERVER = 'WORK_WITH_SERVER'
 export const HOME_READY = 'HOME_READY'
+export const SKIP_SETUP = 'SKIP_SETUP'
+export const BATTERY = 'BATTERY'
+

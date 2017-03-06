@@ -62,6 +62,7 @@
 		93E94FE2B8DD4913ACBB0A55 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E37DCB3D8C64654A399AFBA /* FontAwesome.ttf */; };
 		A91DF851CFD64EA282403BAD /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09A4CBF3A1EB40CBA7C0D82D /* MaterialCommunityIcons.ttf */; };
 		B8410B7F73FC4050BBD932D4 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CCEB54585CE1476F858A374E /* Octicons.ttf */; };
+		BB5DF06E31D14DCE9CC38F08 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E44D5C5A8A149BBA1DAC862 /* libReactNativePermissions.a */; };
 		E0187662759046A7A7BE80B8 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AE307EC0DFA492382E56B9F /* Foundation.ttf */; };
 		F9F5372FA71F42D692904840 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AE13804577947DD9A1ED33B /* SimpleLineIcons.ttf */; };
 /* End PBXBuildFile section */
@@ -164,6 +165,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
 			remoteInfo = AirMaps;
+		};
+		2B1952F61E6D8F0300425A5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86CEE11460394A33A0E18752 /* ReactNativePermissions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
+			remoteInfo = ReactNativePermissions;
 		};
 		2B1C6EDA1E2FAECF00AF4A10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -419,12 +427,14 @@
 		2EA71B4E1E4CD5AA00865759 /* weather-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "weather-icons.ttf"; sourceTree = "<group>"; };
 		2EB10CF31E4DBF5B005B2D61 /* vaavud-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "vaavud-icons.ttf"; sourceTree = "<group>"; };
 		31B6A118A0A743E487416C17 /* RNSnackbar.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSnackbar.xcodeproj; path = "../node_modules/react-native-snackbar/ios/RNSnackbar.xcodeproj"; sourceTree = "<group>"; };
+		3E44D5C5A8A149BBA1DAC862 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		4A45BBD789AB44B89A1BF670 /* Slider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Slider.xcodeproj; path = "../node_modules/react-native-multi-slider/iOS/Slider.xcodeproj"; sourceTree = "<group>"; };
 		5CC10F92572843D996E1AC7D /* libRNSnackbar.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSnackbar.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5EC1E537DFA843C2B9B7127D /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		86CEE11460394A33A0E18752 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		8AE13804577947DD9A1ED33B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		8CBE8C0B062A4B57B3A2EBBD /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		8E37DCB3D8C64654A399AFBA /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -485,6 +495,7 @@
 				44C9DDC29C7D437AB48A743C /* libRCTActionSheet.a in Frameworks */,
 				6EE37A82B61F43F79F0E86CD /* libRNSnackbar.a in Frameworks */,
 				9134738FBF59437E8ABE4249 /* libRNVectorIcons.a in Frameworks */,
+				BB5DF06E31D14DCE9CC38F08 /* libReactNativePermissions.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +674,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2B1952D71E6D8F0200425A5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B1952F71E6D8F0300425A5E /* libReactNativePermissions.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2B1C6ED61E2FAECF00AF4A10 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,6 +796,7 @@
 				4A45BBD789AB44B89A1BF670 /* Slider.xcodeproj */,
 				31B6A118A0A743E487416C17 /* RNSnackbar.xcodeproj */,
 				C807A047A7F44C9190EA5AB2 /* RNVectorIcons.xcodeproj */,
+				86CEE11460394A33A0E18752 /* ReactNativePermissions.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -948,6 +968,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 2B1952D71E6D8F0200425A5E /* Products */;
+					ProjectRef = 86CEE11460394A33A0E18752 /* ReactNativePermissions.xcodeproj */;
+				},
+				{
 					ProductGroup = 2B1735BD1E2CD1AA003DC5A7 /* Products */;
 					ProjectRef = BFD83942FC9841D594C64C98 /* RealmReact.xcodeproj */;
 				},
@@ -1074,6 +1098,13 @@
 			fileType = archive.ar;
 			path = libAirMaps.a;
 			remoteRef = 2B1735F41E2E3E8E003DC5A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B1952F71E6D8F0300425A5E /* libReactNativePermissions.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativePermissions.a;
+			remoteRef = 2B1952F61E6D8F0300425A5E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2B1C6EDB1E2FAECF00AF4A10 /* libART.a */ = {
@@ -1388,6 +1419,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1415,6 +1447,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1433,6 +1466,10 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X5DMTGX3GW;
 				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+				);
 				INFOPLIST_FILE = sailing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1460,6 +1497,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X5DMTGX3GW;
 				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+				);
 				INFOPLIST_FILE = sailing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (

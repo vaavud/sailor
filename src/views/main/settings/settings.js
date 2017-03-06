@@ -114,7 +114,7 @@ export default class SettingsView extends Component {
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={isIos ? 1 : 2}
-          />
+        />
       </View>
     )
   }
@@ -134,7 +134,7 @@ export default class SettingsView extends Component {
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={isIos ? 1 : 2}
-          />
+        />
       </View>
     )
   }
@@ -154,7 +154,7 @@ export default class SettingsView extends Component {
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={isIos ? 1 : 2}
-          />
+        />
       </View>
     )
   }
@@ -184,7 +184,7 @@ export default class SettingsView extends Component {
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={isIos ? 1 : 2}
-          />
+        />
       </View>
     )
   }
@@ -196,11 +196,8 @@ export default class SettingsView extends Component {
     return (
       <View style={style.deviceStatusContainer} >
         <View style={style.deviceStatusInnerContainer} >
-          {this._renderDeviceText('Serial no.', 'xxxxx-xxxx-xxxxx')}
-          {this._renderDeviceText('Battery level', '88 %')}
-          <Button
-            title={isBleDeviceConnected ? 'Disconnect' : 'Connect'}
-            textStyle={style.buttonText} />
+          {this._renderDeviceText('BLE.', 'Vaavud ble')}
+          {this._renderDeviceText('Battery level', this.props.battery + '%')}
         </View>
       </View>
     )
@@ -236,6 +233,7 @@ export default class SettingsView extends Component {
         {this._renderTemperatureSelector()}
         {this._renderSectionHeader('prefrencesText')}
         {this._renderWindPrefrences()}
+        {this._renderDeviceStatus()}
         {this._renderSectionHeader('otherSection')}
         {this._renderOthersSection()}
       </ScrollView>

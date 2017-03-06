@@ -26,7 +26,9 @@
     "redux": "3.6.0",
     "redux-saga": "0.14.3",
     "redux-thunk": "2.2.0",
-    "rn-viewpager": "1.1.4"
+    "rn-viewpager": "1.1.4",
+    "react-native-popup-dialog": "0.6.22",
+    "react-native-permissions": "0.2.7"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",

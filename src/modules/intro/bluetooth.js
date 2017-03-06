@@ -4,10 +4,8 @@
 
 import React, { Component } from 'react'
 import {
-  View,  Text,
-  NativeEventEmitter,
-  NativeModules,
-  Image,StyleSheet
+  View, Text,
+  Image, StyleSheet
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
@@ -18,6 +16,7 @@ const correct = require('../../../assets/icons/correct.png')
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { saveLastBLEStatus, skipIntro } from '../../actions/bluetooth'
 
 
 class Bluethooth extends Component {
@@ -25,73 +24,33 @@ class Bluethooth extends Component {
   constructor(props) {
     super(props)
 
-    const myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
-
-    this.state = {
-      myModuleEvt,
-      readyToWork: false
-    }
-
-    this.onBleConnected = this.onBleConnected.bind(this)
-
+    this._finishSetup = this._finishSetup.bind(this)
   }
 
   componentDidMount() {
-    this.state.myModuleEvt.addListener('onBleConnected', this.onBleConnected)
-    this.state.myModuleEvt.addListener('onStateHasChanged', this.onStateHasChanged)
-    this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
-    this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
-    this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
 
-    NativeModules.VaavudBle.onConnect()
   }
 
   componentWillUnmount() {
-    NativeModules.VaavudBle.onDisconnect()
-    this.state.myModuleEvt.removeAllListeners('onBleConnected')
-    this.state.myModuleEvt.removeAllListeners('onStateHasChanged')
-    this.state.myModuleEvt.removeAllListeners('onNewRead')
-    this.state.myModuleEvt.removeAllListeners('onReadyToWork')
-    this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
+
   }
 
-
-  onStateHasChanged(ble) {
-    console.log('status', ble)
+  _finishSetup() {
+    this.props.saveLastBLEStatus(this.props.point.battery).then(this.props.skipIntro)
   }
-
-  onVaavudBleFound(ble) {
-    console.log('onVaavudBleFound', ble)
-  }
-
-  onNewRead(read) {
-    console.log('read', read)
-    NativeModules.VaavudBle.onDisconnect()
-  }
-
-  onReadyToWork() {
-    console.log('onReadyToWork')
-  }
-
-  onBleConnected(data) {
-    console.log('callback', data)
-    this.setState({ readyToWork: true })
-    this.props.nav({ type: 'push', key: 'summary' })
-  }
-
 
   render() {
     return (
       <View style={style.container} >
         <Image source={correct} style={{ height: 90, width: 90 }} />
         <Text style={style.heading} >Success</Text>
-        <Text style={style.description} >Vaavud ultrasonic connected</Text>
-        <Text style={style.description} >Serial no. 15589-545946-151561-54545</Text>
+        <Text style={style.description} >Vaavud ultrasonic connected and ready to work</Text>
+        <Text style={style.description} >Battery level no. {this.props.point.battery}%</Text>
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            onPress={() => this.props.nav({ type: 'push', key: 'bluetooth' })}
-            title="Continue" />
+            onPress={this._finishSetup}
+            title="Finish" />
         </View>
       </View>
     )
@@ -101,11 +60,15 @@ class Bluethooth extends Component {
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    saveLastBLEStatus: bindActionCreators(saveLastBLEStatus, dispatch),
+    skipIntro: bindActionCreators(skipIntro, dispatch),
+
   }
 }
 
@@ -126,7 +89,7 @@ const style = StyleSheet.create({
     color: 'white',
     backgroundColor: 'transparent',
     marginTop: 10,
-    marginBottom:20
+    marginBottom: 20
   },
   description: {
     fontSize: 15,

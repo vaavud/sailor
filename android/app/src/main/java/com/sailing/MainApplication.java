@@ -8,6 +8,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import io.realm.react.RealmReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -40,6 +47,13 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(new MainReactPackage(),
+            new ReactNativePermissionsPackage(),
+            new RealmReactPackage(),
+            new VectorIconsPackage(),
+            new SnackbarPackage(),
+            new MapsPackage(),
+            new ReactNativeI18n(),
+            new FBSDKPackage(),
             new VectorIconsPackage(),
               new RealmReactPackage(),
               new FBSDKPackage(mCallbackManager),

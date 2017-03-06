@@ -157,24 +157,6 @@ class Measure extends Component {
 
   render() {
 
-    /*return (
-      <View style={{ flex: 1 }}>
-        <IndicatorViewPager
-          indicator={this._renderDotIndicator()}
-          style={{ flex: 1 }} >
-          <View style={{ backgroundColor: 'cadetblue' }}>
-            <Text>page one</Text>
-          </View>
-          <View style={{ backgroundColor: 'cornflowerblue' }}>
-            <Text>page two</Text>
-          </View>
-          <View style={{ backgroundColor: '#1AA094' }}>
-            <Text>page three</Text>
-          </View>
-        </IndicatorViewPager>
-      </View>
-    )*/
-
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
         <View style={{ flex: 1 }}>

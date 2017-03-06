@@ -6,7 +6,7 @@ import {
   NavigationExperimental,
 } from 'react-native'
 
-import {  } from 'react-native'
+import { } from 'react-native'
 
 
 import React, { Component } from 'react'
@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import Welcome from './welcome'
 import Bluetooth from './bluetooth'
 import Summary from './summary'
+import Connecting from './connecting'
 
 
 const {
@@ -32,7 +33,7 @@ function createReducer(initialState) {
   return (currentState = initialState, action) => {
     switch (action.type) {
       case 'push':
-        return NavigationStateUtils.push(currentState, { key: action.key, title: action.title, showBackButton: action.showBackButton })
+        return NavigationStateUtils.push(currentState, { key: action.key, title: action.title, showBackButton: action.showBackButton, props: { ...action.props } })
       case 'pop':
         return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState
       default:
@@ -62,6 +63,7 @@ class Intro extends Component {
     if (newState === this.state.navState) {
       return false
     }
+
     this.setState({
       navState: newState
     })
@@ -89,30 +91,24 @@ class Intro extends Component {
         navigationState={this.state.navState}
         onNavigate={this._handleAction.bind(this)}
         renderScene={this._renderScene.bind(this)}
-        />
+      />
     )
-  }
-
-  _push(key) {
-
   }
 
   _renderScene(props) {
     const key = props.scene.route.key
+    const propsComponet = props.scene.route.props
+
 
     switch (key) {
       case 'welcome':
-        return (
-          <Welcome nav={this._handleAction} />
-        )
+        return <Welcome { ...propsComponet } nav={this._handleAction} />
+      case 'connecting':
+        return <Connecting { ...propsComponet } nav={this._handleAction} />
       case 'bluetooth':
-        return (
-          <Bluetooth nav={this._handleAction} />
-        )
+        return <Bluetooth { ...propsComponet } nav={this._handleAction} />
       case 'summary':
-        return (
-          <Summary nav={this._handleAction} />
-        )
+        return <Summary { ...propsComponet } nav={this._handleAction} />
     }
   }
 }
