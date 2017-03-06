@@ -33,6 +33,9 @@ const en = {
   resetText:      'Enter you email and we will send you a link to reset your password',
   sendResetlink:  'SEND RESET LINK',
 
+  // Error messages
+  
+
   // Settings screen
   unitText:       'Units',
   windSpeed:      'Wind speed',

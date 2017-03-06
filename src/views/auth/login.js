@@ -60,13 +60,13 @@ export default class LoginView extends Component {
     loginLogo = require('../../../assets/icons/logo.png')
     loginInputLogo = require('../../../assets/icons/profile.png')
     passwordInputLogo = require('../../../assets/icons/unlock.png')
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)
   }
 
   componentWillUnmount () {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
   }
 
   _keyboardDidShow () {
@@ -90,7 +90,7 @@ export default class LoginView extends Component {
   }
 
   _handleStartShouldSetResponderCapture(evt){
-    return this.state.keyboardShown;
+    return this.state.keyboardShown
   }
 
   _handleResponderRelease(evt){

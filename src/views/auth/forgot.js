@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   View,
   Image,
   Keyboard,
@@ -44,7 +45,8 @@ export default class ForgotView extends Component {
     super(props)
     this.state = {
       email: '',
-      keyboardShown: false
+      keyboardShown: false,
+      isLoading: false
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._keyboardDidShow = this._keyboardDidShow.bind(this)
@@ -73,7 +75,12 @@ export default class ForgotView extends Component {
 
   _handlePressSend() {
     forgotPassword(this.state.email).then(() => {
-      
+      Alert.alert('Passord reset', 'Please check you email', [{text: 'OK', onPress: () => {
+        this.props.onPressBack
+      }
+    }])
+    }).catch(error => {
+      this.props.showError({title: 'Password reset', msg: 'There was problem resseting your password. Make sure you are using the correct email'})
     })
   }
 
