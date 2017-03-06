@@ -53,6 +53,18 @@ export function doSignUp(credential) {
   }
 }
 
+export function resetPassword(email) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      firebase.auth().sendPasswordResetEmail(email).then(() => {
+        dispatch({type: DISPLAY_ERROR, title: 'Reset link sent', code: 'Please check your e-mail to get reset link'})
+      }, (error) => {
+        dispatch({type: DISPLAY_ERROR, title: 'Something went wrong', code: error.code})
+      })
+    })
+  }
+}
+
 export function setUserCredential(uid, credential) {
   return new Promise((resolve, reject) => {
     delete credential.password

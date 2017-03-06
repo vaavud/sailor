@@ -67,8 +67,8 @@ export default class ForgotView extends Component{
     this.setState({email: event})
   }
 
-  _handlePressSend(){
-    // TODO
+  _handlePressSend(email){
+    this.props.onPressSendResetLink(email)
   }
 
   _keyboardDidShow () {
@@ -128,7 +128,7 @@ export default class ForgotView extends Component{
           autoCapitalize="none"
           onChangeText={this._handleEmailInput}
           onSubmitEditing={() => {
-            this._handlePressSend()
+            this._handlePressSend(this.state.email)
           }} />
       </View>
     )
@@ -140,7 +140,7 @@ export default class ForgotView extends Component{
         <Button buttonStyle={style.button}
           textStyle={style.buttonText}
           title={I18n.t('sendResetlink')}
-          onPress={() => this._handlePressSend} />
+          onPress={() => this._handlePressSend(this.state.email)} />
       </View>
     )
   }

@@ -7,14 +7,10 @@ import React, {
 
 import {
   StyleSheet,
-  Text,
   View,
   Animated,
-  Easing,
   TouchableWithoutFeedback,
-  PixelRatio,
   Dimensions,
-  PermissionsAndroid
 } from 'react-native'
 
 
@@ -143,12 +139,6 @@ export default class MeasureButton extends Component {
                   inputRange: [0, 1],
                   outputRange: [1, this.state.outRangeScale]
                 })
-              },
-              {
-                rotate: this.state.anim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ['0deg', this.props.icon ? '0deg' : '135deg']
-                })
               }]
             }]}>
             {this._renderButtonIcon()}
@@ -162,16 +152,7 @@ export default class MeasureButton extends Component {
     if (this.props.icon && !this.state.active){
       return this.props.icon
     } else {
-      return (
-      <Animated.Text style={[styles.btnText, {
-        color: this.state.anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [this.state.buttonTextColor, this.state.btnOutRangeTxt]
-        })
-      }]}>
-        +
-      </Animated.Text>
-    )
+      return this.props.activeIcon
     }
   }
 

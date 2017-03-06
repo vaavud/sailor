@@ -3,6 +3,7 @@ import {
   Dimensions,
   Text,
   Image,
+  Platform,
   StyleSheet
 } from 'react-native'
 import React, { Component } from 'react'
@@ -107,7 +108,6 @@ export default class ForecastWeek extends Component {
 
 const style = StyleSheet.create({
   container: {
-    height: 200,
     width,
     marginTop: 5,
     backgroundColor: 'rgba(255,255,255, 0.85)'
@@ -118,7 +118,10 @@ const style = StyleSheet.create({
     backgroundColor: '#555'
   },
   body: {
-    width, height: 125, flexDirection: 'row'
+    width,
+    height: 125,
+    marginBottom: Platform.OS === 'ios' ? 20 : 40,
+    flexDirection: 'row'
   },
   text: {
     ...textStyle.normal,

@@ -22,7 +22,6 @@ import Colors from '../../../../assets/colorTheme'
 import I18n from '../../../components/i18n'
 
 import {
-  SmallText,
   NormalText,
   textStyle
 } from '../../../components/text'
@@ -33,6 +32,8 @@ import {
   speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
   angle_conv_inverse, temp_conv_inverse
 } from '../../../reactcommon/utils'
+
+const isIos = Platform.OS === 'ios'
 
 export default class SettingsView extends Component{
 
@@ -110,7 +111,7 @@ export default class SettingsView extends Component{
           selectedOption={SpeedUnits[this.props.settings.windSpeed]}
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={1}
+          containerBorderWidth={isIos ? 1 : 2}
           />
       </View>
     )
@@ -130,7 +131,7 @@ export default class SettingsView extends Component{
           selectedOption={angle_conv[this.props.settings.direction].long}
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={1}
+          containerBorderWidth={isIos ? 1 : 2}
           />
       </View>
     )
@@ -150,7 +151,7 @@ export default class SettingsView extends Component{
           selectedOption={TempCUnits[this.props.settings.temperature]}
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={1}
+          containerBorderWidth={isIos ? 1 : 2}
           />
       </View>
     )
@@ -180,7 +181,7 @@ export default class SettingsView extends Component{
           selectedOption={'Yes'}
           optionStyle={{ ...textStyle.normal }}
           optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={1}
+          containerBorderWidth={isIos ? 1 : 2}
           />
       </View>
     )
