@@ -6,7 +6,9 @@ import React, { Component } from 'react'
 import {
   NativeEventEmitter,
   NativeModules,
-  Alert
+  Alert,
+  View,
+  Text
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -16,6 +18,8 @@ import {
   saveSession, saveSummary, savePoints
 } from '../../../actions/measure'
 
+
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 
 import { MeasureView, ConnectingView } from '../../../views/main/measure'
 
@@ -147,15 +151,40 @@ class Measure extends Component {
     // }
   }
 
+  _renderDotIndicator() {
+    return <PagerDotIndicator pageCount={2} />
+  }
+
   render() {
 
-    // return (
-    //   <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
-    // )
+    /*return (
+      <View style={{ flex: 1 }}>
+        <IndicatorViewPager
+          indicator={this._renderDotIndicator()}
+          style={{ flex: 1 }} >
+          <View style={{ backgroundColor: 'cadetblue' }}>
+            <Text>page one</Text>
+          </View>
+          <View style={{ backgroundColor: 'cornflowerblue' }}>
+            <Text>page two</Text>
+          </View>
+          <View style={{ backgroundColor: '#1AA094' }}>
+            <Text>page three</Text>
+          </View>
+        </IndicatorViewPager>
+      </View>
+    )*/
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
-        <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+        <View style={{ flex: 1 }}>
+          <IndicatorViewPager
+            indicator={this._renderDotIndicator()}
+            style={{ flex: 1 }} >
+            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+          </IndicatorViewPager>
+        </View>
       )
     }
     else {
@@ -164,6 +193,7 @@ class Measure extends Component {
       )
     }
   }
+
 }
 
 const mapReduxStoreToProps = (reduxStore) => {

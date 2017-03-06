@@ -22,7 +22,7 @@ export function doSignUp(credential) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
-      console.log('credential',credential)
+      console.log('credential', credential)
 
       if (credential.type === 'password') {
         firebase.auth().createUserWithEmailAndPassword(credential.email, credential.password)
@@ -35,12 +35,12 @@ export function doSignUp(credential) {
           })
       }
       else if (credential.type === 'facebook') {
-      console.log('credential',credential)
+        console.log('credential', credential)
 
         let _cFacebook = firebase.auth.FacebookAuthProvider.credential(credential.token)
         firebase.auth().signInWithCredential(_cFacebook)
           .then(user => {
-            dispatch({ type: 'SAVE_FB_USER', credential, uid: user.uid }) //TODO IMPORTANT
+            dispatch({ type: 'SAVE_FB_USER', credential, uid: user.uid })
           })
           .catch(err => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: 'There was an error with facebook' })
@@ -52,6 +52,19 @@ export function doSignUp(credential) {
     })
   }
 }
+
+
+export function forgotPassword(email) {
+  return new Promise((resolve, reject) => {
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(() => resolve())
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+  })
+}
+
 
 export function setUserCredential(uid, credential) {
   return new Promise((resolve, reject) => {

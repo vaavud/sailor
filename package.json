@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "remotedev-debugger --hostname localhost --port 8080 --injectserver=reactnative",
+    "postinstall": "remotedev-debugger --hostname localhost --port 8080 --injectserver",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "get-version": "node -e \"console.log(require('./package.json').version)\""

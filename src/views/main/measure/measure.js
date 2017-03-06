@@ -147,6 +147,7 @@ export default class MeasureView extends Component {
 
 const style = StyleSheet.create({
   container: {
+    width,
     flex: 1,
     paddingTop: 40,
     backgroundColor: Colors.background
