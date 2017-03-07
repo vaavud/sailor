@@ -21,7 +21,7 @@ import {
 
 
 import I18n from '../../components/i18n'
-import LoadingModal from '../../components/loadingModal'
+// import LoadingModal from '../../components/loadingModal'
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 

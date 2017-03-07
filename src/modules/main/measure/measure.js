@@ -77,7 +77,7 @@ class Measure extends Component {
 
   onFinalData(data) {
 
-    let windMin = data.session.windMin
+    let windMin = 0
 
     this.props.saveSession(data.session)
       .then(key => {

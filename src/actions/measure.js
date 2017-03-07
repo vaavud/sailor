@@ -5,7 +5,7 @@ import realm from '../store/realm'
 import { NEW_SESSION } from '../constants/history'
 
 // let SERVER_URL = 'http://52.30.86.52/apps/'
-let SERVER_URL = 'https://dev.vaavud.com/apps/'
+let SERVER_URL = 'https://apps-dev.vaavud.com/'
 
 
 /*
@@ -40,7 +40,7 @@ export function saveSession(session, _key) {
 
       console.log('my key', key)
 
-      if (getState().app.online) {  // TODO 
+      if (getState().app.online) {  //TODO 
 
         nodeRef.set(session)
         realm.write(() => {
@@ -108,7 +108,7 @@ export function sendPoints(_key, points) {
 
     console.log('summary', JSON.stringify(obj))
 
-    fetch(SERVER_URL + 'addMeasurements', {
+    fetch(`${SERVER_URL}addMeasurements`, {
       method: 'POST',
       body: JSON.stringify([obj])
     })

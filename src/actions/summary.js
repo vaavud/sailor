@@ -2,9 +2,9 @@
 // import firebase from 'firebase'
 // import realm from '../store/realm'
 
-let SERVER_URL = 'https://dev.vaavud.com/apps/sailing/'
 import realm from '../store/realm'
 
+let SERVER_URL = 'https://apps-dev.vaavud.com/sailing/'
 
 export function getSummaryInformation(sessionKey) {
   return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ export function getSummaryInformation(sessionKey) {
 
 function getSummaryFromServer(sessionKey) {
   return new Promise((resolve, reject) => {
-    fetch(SERVER_URL + `m-screen/${sessionKey}`)
+    fetch(`${SERVER_URL}m-screen/${sessionKey}`)
       .then(response => response.json())
       .then(responseData => {
 
