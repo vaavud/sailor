@@ -48,12 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(new MainReactPackage(),
             new ReactNativePermissionsPackage(),
-            new RealmReactPackage(),
-            new VectorIconsPackage(),
-            new SnackbarPackage(),
-            new MapsPackage(),
-            new ReactNativeI18n(),
-            new FBSDKPackage(),
             new VectorIconsPackage(),
               new RealmReactPackage(),
               new FBSDKPackage(mCallbackManager),
