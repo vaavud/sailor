@@ -3,15 +3,24 @@
 'use strict'
 
 import React, { Component } from 'react'
+
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
 // import { View } from 'react-native'
 // import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import LinearGradient from 'react-native-linear-gradient'
 import MapView from 'react-native-maps'
 import MapMarker from '../../../components/mapMarker'
 
+import { SpeedUnits} from '../../../reactcommon/utils'
 import { getMarkers } from '../../../actions/map'
 
+const { width } = Dimensions.get('window')
 
 function getCoordinate(location) {
   return {
@@ -56,6 +65,7 @@ class Map extends Component {
 
   render() {
     return (
+      <View style={style.container}>
       <MapView
         style={{ flex: 1 }}
         initialRegion={this.state.region}
@@ -65,7 +75,22 @@ class Map extends Component {
         {Object.keys(this.state.markers).map(key => (
           this._renderMarker(this.state.markers[key], key)
         ))}
-      </MapView>)
+      </MapView>
+      <LinearGradient
+          colors={['rgba(0,0,0,0)', 'black']}
+          style={{position:'absolute',
+            width:width,
+            height:40,
+            flex: 1,
+            bottom:0,
+          }}>
+          <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between', backgroundColor:'transparent'}}>
+            <Text style={{fontSize:16,color:'white', marginTop:10, marginLeft:30  }}> { SpeedUnits[this.props.settings.windSpeed]} </Text>
+            <Text style={{fontSize:16,color:'white',textAlign:'right', marginTop:10, marginRight:30  }}> {'24h'} </Text>
+          </View>
+        </LinearGradient>
+      </View>
+      )
   }
 
 }
@@ -80,5 +105,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
   }
 }
+
+const style = StyleSheet.create({
+  container:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  }
+})
 
 export default connect(mapReduxStoreToProps, mapDispatchToProps)(Map)
