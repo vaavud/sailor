@@ -8,7 +8,6 @@ import {
   NativeModules,
   Alert,
   View,
-  Text
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -21,7 +20,11 @@ import {
 
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 
-import { MeasureView, ConnectingView } from '../../../views/main/measure'
+import {
+  TrueWindView,
+  ApparentWindView,
+  ConnectingView
+} from '../../../views/main/measure'
 
 
 class Measure extends Component {
@@ -163,8 +166,8 @@ class Measure extends Component {
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
             style={{ flex: 1 }} >
-            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
-            <MeasureView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <TrueWindView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <ApparentWindView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
         </View>
       )

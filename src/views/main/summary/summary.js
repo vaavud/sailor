@@ -34,7 +34,7 @@ const {
 const backButtonIcon = require('../../../../assets/icons/back-arrow.png')
 const { width, height } = Dimensions.get('window')
 
-const graphHeight = 200
+const graphHeight = height * 0.3
 
 export default class SummaryView extends Component {
 
@@ -45,6 +45,8 @@ export default class SummaryView extends Component {
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
     locationName: PropTypes.string.isRequired,
+    startTime: PropTypes.number.isRequired,
+    endTime: PropTypes.number.isRequired,
     region: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
@@ -64,6 +66,7 @@ export default class SummaryView extends Component {
       timestamp: PropTypes.number.isRequired,
       windSpeed: PropTypes.number.isRequired,
     })).isRequired,
+    windAverage: PropTypes.number.isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
   }
@@ -79,7 +82,7 @@ export default class SummaryView extends Component {
   _renderHeader() {
     return (
       <View style={style.sectionContainer} >
-        <Text style={style.dateText}>{moment(this.props.dateTime).format('LLLL')}</Text>
+        <Text style={style.dateText}>{moment(this.props.dateTime).format('llll')}</Text>
         <Text style={style.locationText}>{this.props.locationName}</Text>
       </View>
     )
@@ -90,6 +93,7 @@ export default class SummaryView extends Component {
       <TouchableOpacity style={style.backButtonStyle}
         onPress={this.props.onPressBack} >
         <Image
+          style={{tintColor: 'black'}}
           source={backButtonIcon} />
       </TouchableOpacity>
     )
@@ -100,6 +104,9 @@ export default class SummaryView extends Component {
       <MapView
         style={style.map}
         mapType={'satellite'}
+        pitchEnabled={false}
+        scrollEnabled={false}
+        zoomEnabled={false}
         initialRegion={this.props.region} >
         <MapView.Polyline
           key={this.props.tripCoordinates.id}
@@ -108,6 +115,24 @@ export default class SummaryView extends Component {
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={1} />
       </MapView>
+    )
+  }
+
+  _renderResultArea(){
+    const {
+      startTime,
+      endTime,
+      windAverage,
+      maxWindSpeed
+    } = this.props
+    var x = endTime - startTime
+    var y = maxWindSpeed - 1
+    return (
+       <View style={style.resultContainer} >
+         <SmallText textContent={'Duration: ' + moment.utc(x).format('HH:mm:ss')} />
+         <SmallText textContent={'Avg: ' + windAverage + ' m/s'} />
+         <SmallText textContent={'Max: ' + y + ' m/s'} />
+       </View>
     )
   }
 
@@ -134,7 +159,6 @@ export default class SummaryView extends Component {
 
     const d = path.close()
     return (
-      <View style={style.graphAreaContainer}>
         <View style={style.graphContainer}>
           {this._renderWindSpeedPoints()}
           <ScrollView
@@ -149,7 +173,6 @@ export default class SummaryView extends Component {
             {this._renderGraphTimeGrid()}
           </ScrollView>
         </View>
-      </View>
     )
   }
 
@@ -172,6 +195,7 @@ export default class SummaryView extends Component {
           <View style={style.topGrid}
             pointerEvents="box-none" >
             <Text style={{ fontSize: 20, color: Colors.vaavudBlue, transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
+            <SmallText style={{backgroundColor: 'transparent'}} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
           </View>
         )
       }
@@ -211,6 +235,7 @@ export default class SummaryView extends Component {
         {this._renderMapArea()}
         {this._renderHeader()}
         {this._renderBackButton()}
+        {this._renderResultArea()}
         {this._renderGraphArea()}
       </ScrollView>
     )
@@ -226,33 +251,46 @@ const style = StyleSheet.create({
     position: 'absolute',
     width: width,
     padding: 5,
-    paddingTop: Platform.OS === 'ios' ? 25 : 0,
+    paddingTop: Platform.OS === 'ios' ? 15 : 0,
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.6)'
+    backgroundColor: 'rgba(255,255,255,0.8)'
+  },
+  resultContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 5,
+    padding: 10,
+    margin: 20,
+    backgroundColor: Colors.container
   },
   backButtonStyle:{
     position: 'absolute',
-    top: 20,
-    left: 20,
+    top: Platform.OS === 'ios' ? 25 : 15,
+    left: 15,
   },
   dateText: {
-    color: 'white',
+    color: 'black',
     margin: 5,
   },
   locationText: {
-    color: 'white',
+    color: 'black',
     fontSize: 20
   },
   map: {
     width: width,
-    height: height * 0.5,
+    height: height * 0.45,
     alignItems: 'center'
   },
   graphContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10,
-    height: graphHeight + 20,
+    marginLeft: 20,
+    marginRight: 20,
+    padding: 10,
+    paddingBottom: 0,
+    borderRadius: 5,
+    backgroundColor: Colors.container,
+    height: graphHeight + 40,
     justifyContent: 'center',
   },
   graphTimeText: {
@@ -264,11 +302,11 @@ const style = StyleSheet.create({
     justifyContent: 'space-between'
   },
   topGrid: {
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderRightWidth: 2,
     borderColor: 'rgba(0,0,0,0.2)',
     width: 80,
-    height: graphHeight + 20
+    height: graphHeight
   },
 })

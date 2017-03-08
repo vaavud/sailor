@@ -52,8 +52,8 @@ class Summary extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.sessionKey)
     getSummaryInformation(this.state.sessionKey).then(summary => {
+      console.log('summ wooooot:::: ', summary)
       let latslons = summary.locations.map(latlon => getCoordinate(latlon))
       this.setState({ sessionFound: true, windMin: summary.windMin, windMax: summary.windMax, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
     }).catch(err => {
@@ -79,7 +79,10 @@ class Summary extends Component {
           directions={this.state.directions}
           paths={this.state.paths}
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
-          minWindSpeed={Math.floor(this.state.windMin)} 
+          minWindSpeed={Math.floor(this.state.windMin)}
+          windAverage={5}
+          startTime={1488984269046}
+          endTime={1488984683159}
           onPressBack={this.props.pop} />
       )
     else if (this.state.summaryLost) {

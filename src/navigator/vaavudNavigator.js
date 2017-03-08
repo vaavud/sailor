@@ -103,7 +103,7 @@ class VaavudNavigator extends Component {
         return null
       } else {
         return (
-          <View style={{ backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
+          <View style={{ backgroundColor: '#FFFFFF', borderTopWidth:1, borderTopColor: 'grey', flexDirection: 'row' }}>
             {tabs.routes.map(this._renderTab, this)}
           </View>
         )

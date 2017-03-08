@@ -19,16 +19,16 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 
-const {width, height} = Dimensions.get('window')
+const {width} = Dimensions.get('window')
 
 // const compass = require('../../../../assets/trueWindCompass.png')
 // const compassHand = require('../../../../assets/trueWindCompassHand.png')
 const compass = require('../../../../assets/images/aw_compass.png')
 const compassHand = require('../../../../assets/images/test_compass.png')
-const bgImage = require('../../../../assets/images/background.png')
+
 const compassSize = width * 0.8
 
-export default class MeasureView extends Component {
+export default class ApparentWindView extends Component {
 
   constructor(props) {
     super(props)
@@ -68,7 +68,6 @@ export default class MeasureView extends Component {
   _renderCompass(lastHeading, newHeading) {
     var l = lastHeading
     var n = newHeading
-    var a = n - l
     newHeading = (this._crazyMod((n - l) + 180, 360) - 180) + l
     this.animateNewHeading()
     const animate = this.animatedValue.interpolate({
@@ -100,7 +99,7 @@ export default class MeasureView extends Component {
   _renderWindText() {
     return (
       <View style={style.windTextContainer} >
-        <Text style={style.windText} >{'TRUE'}</Text>
+        <Text style={style.windText} >{'Apparent wind'}</Text>
       </View>
     )
   }
@@ -136,12 +135,12 @@ export default class MeasureView extends Component {
 
   render() {
     return (
-        <View style={style.container}>
+      <View style={style.container}>
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
         <Button title="Stop" onPress={this.props.testStop} />
         {this._renderSpeedContainer('N/A', this.props.windSpeed)}
-        </View>
+      </View>
     )
   }
 }

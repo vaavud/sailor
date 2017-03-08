@@ -41,6 +41,8 @@ export default class SettingsView extends Component {
   static propTypes = {
     updateSettings: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    windMin: PropTypes.number.isRequired,
+    windMax: PropTypes.number.isRequired,    
     isBleDeviceConnected: PropTypes.bool.isRequired,
     deviceSerialNo: PropTypes.string.isRequired,
     deviceBatteryLevel: PropTypes.number.isRequired,
@@ -160,10 +162,14 @@ export default class SettingsView extends Component {
   }
 
   _renderWindPrefrences() {
+    const {
+      windMin,
+      windMax
+    } = this.props
     return (
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
-        <NormalText style={style.preferenceText} textContent={'5 m/s to 11 m/s'} />
+        <NormalText style={style.preferenceText} textContent={windMin + ' m/s to ' + windMax + 'm/s'} />
         {this._renderLink('editPref', () => console.log('hit edit pref'))}
       </View>
     )
