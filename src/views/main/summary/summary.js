@@ -95,7 +95,7 @@ export default class SummaryView extends Component {
     )
   }
 
-  _renderMapArea() {
+  _renderMapArea() { //this.props.tripCoordinates.coordinates
     return (
       <MapView
         style={style.map}
@@ -103,7 +103,7 @@ export default class SummaryView extends Component {
         initialRegion={this.props.region} >
         <MapView.Polyline
           key={this.props.tripCoordinates.id}
-          coordinates={this.props.tripCoordinates.coordinates}
+          coordinates={[]}
           strokeColor="#000"
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={1} />
@@ -144,7 +144,7 @@ export default class SummaryView extends Component {
             showsHorizontalScrollIndicator={false}
             style={{ flex: 1 }}>
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-              <Shape d={d} stroke="#000" fill={Colors.vaavudBlue} strokeWidth={1} />
+              <Shape d={d} stroke="#3c3c3c" fill={Colors.vaavudBlue} strokeWidth={1} />
             </Surface>
             {this._renderGraphTimeGrid()}
           </ScrollView>

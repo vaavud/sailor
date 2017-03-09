@@ -85,7 +85,7 @@ class HistoryView extends Component {
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({
           key: 'summary', props: {
-            sessionKey: data.key,
+            sessionKey: '-keyValueRandom',
           }
         })}>
         <View style={style.locationContainer}>

@@ -125,7 +125,7 @@ export function sendPoints(_key, points) {
         }
       })
       .catch(err => {
-        console.log(err)
+        console.log('error server', err)
         reject()
       })
   })

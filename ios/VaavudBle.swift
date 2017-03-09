@@ -88,6 +88,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
       self.lastLatLon = data.coordinate
       self.sendEvent(withName: "onLocationWorking", body: [] )
     }
+    
   }
   
   
@@ -158,6 +159,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
       min = min > v ? v : min
       avg = avg + v
     }
+    
     
     avg = avg / Double(simplifiedSpeed.count)
     
