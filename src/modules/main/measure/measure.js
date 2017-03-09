@@ -42,6 +42,10 @@ class Measure extends Component {
       windDirection: 0,
       lastWindDirection: 0,
       locationReady: true,
+      velocity: 0,
+      trueWindDirection: 0,
+      trueWindSpeed: 0,
+      trueLastWindDirection: 0
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
@@ -150,7 +154,16 @@ class Measure extends Component {
   onNewRead(point) {
     // if (this.state.locationReady) {
     let last = this.state.windDirection
-    this.setState({ windSpeed: point.windSpeed, windDirection: point.windDirection, lastWindDirection: last })
+    let lastTrue = this.state.trueWindDirection
+    this.setState({
+      windSpeed: point.windSpeed,
+      windDirection: point.windDirection,
+      lastWindDirection: last,
+      velocity: point.velocity,
+      trueWindDirection: point.trueWindDirection,
+      trueWindSpeed: point.trueWindSpeed,
+      trueLastWindDirection: lastTrue
+    })
     // }
   }
 
@@ -166,8 +179,8 @@ class Measure extends Component {
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
             style={{ flex: 1 }} >
-            <TrueWindView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
-            <ApparentWindView windHeading={this.state.windDirection} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <TrueWindView windHeading={this.state.trueWindDirection} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
+            <ApparentWindView windHeading={this.state.windDirection} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
         </View>
       )

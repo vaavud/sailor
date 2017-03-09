@@ -19,7 +19,7 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 // const compass = require('../../../../assets/trueWindCompass.png')
 // const compassHand = require('../../../../assets/trueWindCompassHand.png')
@@ -117,7 +117,7 @@ export default class TrueWindView extends Component {
     return (
       <View style={style.groundSpeedContainer} >
         <Text>{'Ground speed'}</Text>
-        <Text style={style.speedText}>{groundSpeed}</Text>
+        <Text style={style.speedText}>{groundSpeed.toFixed(1)}</Text>
         <Text>{'-'}</Text>
       </View>
     )
@@ -139,7 +139,7 @@ export default class TrueWindView extends Component {
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
         <Button title="Stop" onPress={this.props.testStop} />
-        {this._renderSpeedContainer('N/A', this.props.windSpeed)}
+        {this._renderSpeedContainer(this.props.velocity, this.props.windSpeed)}
       </View>
     )
   }
