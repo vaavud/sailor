@@ -40,6 +40,7 @@ class Welcome extends Component {
     this._onContinue = this._onContinue.bind(this)
     this.onStateHasChanged = this.onStateHasChanged.bind(this)
     this._renderPopup = this._renderPopup.bind(this)
+    this._permissions = this._permissions.bind(this)
 
   }
 
@@ -78,16 +79,23 @@ class Welcome extends Component {
     console.log('callback', data)
   }
 
-  async _permissions() {
-    let response = await Permissions.getPermissionStatus('location')
-    return response === 'authorized'
+  _permissions() {
+    Permissions.getPermissionStatus('location').then(response => {
+      if (response === 'authorized') {
+        this.props.nav({ type: 'push', key: 'connecting' })
+      }
+      else {
+        this.popupDialog.show()
+      }
+    })
   }
 
-  async _onContinue() {
-    let location = await Permissions.requestPermission('location')
-    if (location === 'authorized') {
-      this.props.nav({ type: 'push', key: 'bluetooth' })
-    }
+  _onContinue() {
+    Permissions.requestPermission('location').then(location => {
+      if (location === 'authorized') {
+        this.props.nav({ type: 'push', key: 'bluetooth' })
+      }
+    })
   }
 
   render() {
@@ -99,14 +107,7 @@ class Welcome extends Component {
         <View style={{ height: 120 }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            onPress={() => {
-              if (this._permissions()) {
-                this.props.nav({ type: 'push', key: 'connecting'})
-              }
-              else {
-                this.popupDialog.show()
-              }
-            }}
+            onPress={this._permissions}
             title="Continue" />
 
           <Button buttonStyle={style.buttonSkip}

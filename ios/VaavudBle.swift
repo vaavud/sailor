@@ -62,6 +62,10 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
   var lastLatLon : CLLocationCoordinate2D?
   var points : [MeasurementPoint] = []
   
+  var lastVelocity = 0.0
+  var lastTrueWindSpeed = 0.0
+  var lastTrueWindDirection = 0.0
+  
   override func supportedEvents() -> [String]! {
     return ["onBleState","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking","onFinalData"]
   }
@@ -77,11 +81,27 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
         self.points.append(MeasurementPoint(speed: data.windSpeed, direction: data.windDirection, location: latlon, timestamp: Date().ticks))
       }
       
-      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery] )
+      
+      
+      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery, "velocity": self.lastVelocity, "trueWindSpeed": self.lastTrueWindSpeed, "trueWindDirection": self.lastTrueWindDirection] )
     }
     
     vaavudSDK.bluetoothExtraCallback = { data in
       print(data)
+    }
+    
+    vaavudSDK.trueWindSpeedCallback = {data in
+      self.lastTrueWindSpeed = data.speed
+    }
+    
+    vaavudSDK.trueWindDirectionCallback = {data in
+      print(data.direction)
+      self.lastTrueWindDirection = data.direction
+    }
+    
+    
+    vaavudSDK.velocityCallback = { data in
+      self.lastVelocity = data.speed
     }
     
     vaavudSDK.locationCallback =  { data in
@@ -143,7 +163,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
       directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
 
-////    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 1, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
+    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.0001, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
     let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
     let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
     
@@ -170,7 +190,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
 //    session.timeEnd = Date().ticks
 //    session.windMin = min
     
-    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":points.map{$0.toDic},"locations":latlon.map{["lat":$0.latitude,"lon":$0.longitude]},"speeds":simplifiedSpeed,"directions":simplifiedDirection,"session": vaavudSDK.session.dict ] )
+    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":points.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection,"session": vaavudSDK.session.dict ] )
     points = []
   }
 }

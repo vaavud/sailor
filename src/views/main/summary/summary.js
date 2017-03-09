@@ -100,18 +100,20 @@ export default class SummaryView extends Component {
   }
 
   _renderMapArea() { //this.props.tripCoordinates.coordinates
+    console.log('summ wooooot:::: ', this.props.tripCoordinates.coordinates)
+
     return (
       <View style={{ position: 'absolute', top: 0, left: 0, width, height, justifyContent: 'flex-end' }} >
       <MapView
         style={style.map}
         mapType={'satellite'}
         pitchEnabled={false}
-        scrollEnabled={false}
-        zoomEnabled={false}
+        scrollEnabled={true}
+        zoomEnabled={true}
         initialRegion={this.props.region} >
         <MapView.Polyline
           key={this.props.tripCoordinates.id}
-          coordinates={[]}
+          coordinates={this.props.tripCoordinates.coordinates}
           strokeColor="#000"
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={1} />
