@@ -193,20 +193,6 @@ class Main extends Component {
     if (this.state !== state) {
       this.setState(state)
     }
-  } Î
-
-  handleBackAction() {
-    return this._handleAction({ type: 'pop' })
-  }
-
-  componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress',
-      () => this.handleBackAction())
-  }
-
-  componentWillUnmount() {
-    BackAndroid.removeEventListener('hardwareBackPress',
-      () => this.handleBackAction())
   }
 
   render() {

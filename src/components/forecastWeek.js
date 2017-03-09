@@ -130,7 +130,11 @@ const style = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    height: 35, width, flexDirection: 'row'
+    height: 35,
+    width,
+    flexDirection: 'row',
+    paddingLeft: 5,
+    paddingRight: 5
   },
   footer: {
     padding: 5,

@@ -92,6 +92,7 @@ class Newsfeed extends Component {
               style={{ height: height, width }}
               pitchEnabled={false}
               scrollEnabled={false}
+              zoomEnabled={false}
               region={{...this.state.region,  ...getCoordinate(this.props.harbor.location, 0.02) }}
               mapType="satellite" >
               <MapView.Marker coordinate={getCoordinate(this.props.harbor.location, 0)}>

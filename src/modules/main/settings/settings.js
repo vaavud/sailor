@@ -18,17 +18,12 @@ class Settings extends Component {
 
   constructor(props) {
     super(props)
-
   }
 
   componentDidMount() {
-    console.log('mount')
-
   }
 
   componentWillUnmount() {
-    console.log('unmount')
-
   }
 
 
@@ -37,6 +32,8 @@ class Settings extends Component {
       <SettingsView
         updateSettings={this.props.updateSettings}
         logout={this.props.logout}
+        windMin={this.props.harbor.windMin}
+        windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
         push={this.props.push} />
@@ -47,6 +44,7 @@ class Settings extends Component {
 const mapReduxStoreToProps = (reduxStore) => {
   return {
     settings: reduxStore.settings,
+    harbor: reduxStore.harbor,
     battery: reduxStore.app.battery
   }
 }
