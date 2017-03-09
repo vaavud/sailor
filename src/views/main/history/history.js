@@ -72,9 +72,9 @@ class HistoryView extends Component {
     var rowData = sectionData[0]
     return (
       <View style={style.sectionHeader} >
-        <NormalLight style={{ flex: 1 }}
+        <NormalLight style={{ flex: 1,fontSize: 12, color: 'white', fontWeight: 'bold' }}
           textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
-        <NormalLight style={{ width: 40, textAlign: 'center' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
+        <NormalLight style={{ width: 40, textAlign: 'center', fontSize: 12, color: 'white' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
       </View>
     )
   }
@@ -182,10 +182,6 @@ const style = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     padding: 5,
-    backgroundColor: 'rgba(255,255,255, 1)',
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderColor: Colors.borderColor
+    backgroundColor: '#303e48',
   },
 })

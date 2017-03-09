@@ -34,7 +34,7 @@ const {
 const backButtonIcon = require('../../../../assets/icons/back-arrow.png')
 const { width, height } = Dimensions.get('window')
 
-const graphHeight = height * 0.3
+const graphHeight = 150
 
 export default class SummaryView extends Component {
 
@@ -101,6 +101,7 @@ export default class SummaryView extends Component {
 
   _renderMapArea() { //this.props.tripCoordinates.coordinates
     return (
+      <View style={{ position: 'absolute', top: 0, left: 0, width, height, justifyContent: 'flex-end' }} >
       <MapView
         style={style.map}
         mapType={'satellite'}
@@ -115,6 +116,7 @@ export default class SummaryView extends Component {
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={1} />
       </MapView>
+      </View>
     )
   }
 
@@ -168,7 +170,7 @@ export default class SummaryView extends Component {
             showsHorizontalScrollIndicator={false}
             style={{ flex: 1 }}>
             <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-              <Shape d={d} stroke="#3c3c3c" fill={Colors.vaavudBlue} strokeWidth={1} />
+              <Shape d={d} stroke={'#0080b3'} fill={'#99d0e6'} strokeWidth={1} />
             </Surface>
             {this._renderGraphTimeGrid()}
           </ScrollView>
@@ -194,8 +196,8 @@ export default class SummaryView extends Component {
         render.push(
           <View style={style.topGrid}
             pointerEvents="box-none" >
-            <Text style={{ fontSize: 20, color: Colors.vaavudBlue, transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
-            <SmallText style={{backgroundColor: 'transparent'}} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
+            <Text style={{ fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
+            <SmallText style={{backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
           </View>
         )
       }
@@ -231,13 +233,13 @@ export default class SummaryView extends Component {
 
   render() {
     return (
-      <ScrollView style={style.container}>
+      <View style={style.container}>
         {this._renderMapArea()}
         {this._renderHeader()}
         {this._renderBackButton()}
         {this._renderResultArea()}
         {this._renderGraphArea()}
-      </ScrollView>
+      </View>
     )
   }
 }
@@ -256,12 +258,16 @@ const style = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.8)'
   },
   resultContainer:{
+    position: 'absolute',
     flexDirection: 'row',
+    width: width,
+    left:0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#80a4b3',
+    bottom: graphHeight + 40,
     justifyContent: 'space-between',
-    borderRadius: 5,
     padding: 10,
-    margin: 20,
-    backgroundColor: Colors.container
+    backgroundColor: 'rgba(255,255,255,0.8)'
   },
   backButtonStyle:{
     position: 'absolute',
@@ -278,18 +284,19 @@ const style = StyleSheet.create({
   },
   map: {
     width: width,
-    height: height * 0.45,
+    height: height,
     alignItems: 'center'
   },
   graphContainer: {
+    position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 20,
+    bottom: 0,
+    left: 0,
+    width: width,
     padding: 10,
     paddingBottom: 0,
-    borderRadius: 5,
-    backgroundColor: Colors.container,
+    backgroundColor: 'rgba(255,255,255,0.8)'  ,
     height: graphHeight + 40,
     justifyContent: 'center',
   },
@@ -304,8 +311,8 @@ const style = StyleSheet.create({
   topGrid: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderRightWidth: 2,
-    borderColor: 'rgba(0,0,0,0.2)',
+    borderRightWidth: 1,
+    borderColor: '#80a4b3',
     width: 80,
     height: graphHeight
   },
