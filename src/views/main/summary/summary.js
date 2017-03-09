@@ -133,7 +133,6 @@ export default class SummaryView extends Component {
        <View style={style.resultContainer} >
          <SmallText textContent={'Duration: ' + moment.utc(x).format('HH:mm:ss')} />
          <SmallText textContent={'Avg: ' + windAverage + ' m/s'} />
-         <SmallText textContent={'Max: ' + y + ' m/s'} />
        </View>
     )
   }
@@ -143,7 +142,7 @@ export default class SummaryView extends Component {
       return null
     }
     let i = 0
-    let path = Path().moveTo(0, graphHeight).lineTo(0, this._calculateY(this.props.paths[i].windSpeed))
+    let path = Path().moveTo(0, graphHeight).lineTo(this.props.minWindSpeed, this._calculateY(this.props.paths[i].windSpeed))
     for (i = 1; i < this.props.paths.length - 2; i++) {
       path = path.curveTo(
         this._calculateX(i),
@@ -214,15 +213,11 @@ export default class SummaryView extends Component {
     const min = this.props.minWindSpeed
     let render = []
     for (let i = max; i >= min; i -= 1) {
-      if (i === max || i === min) {
-        render.push(<SmallText textContent={'    '} />)
-      } else {
-        if (i % 2 === 0){
-          render.push(<SmallText textContent={i + 'm/s'} />)
+        if (i === max){
+          render.push(<SmallText style={{marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={'m/s'} />)
         } else {
-          render.push(<SmallText textContent={'    '} />)
+          render.push(<SmallText style={{marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={i} />)
         }
-      }
     }
     return (
       <View style={style.windSpeedContainer}>
@@ -260,11 +255,13 @@ const style = StyleSheet.create({
   resultContainer:{
     position: 'absolute',
     flexDirection: 'row',
-    width: width,
-    left:0,
+    width: width - 20,
+    left:10,
     borderBottomWidth: 1,
     borderBottomColor: '#80a4b3',
-    bottom: graphHeight + 40,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    bottom: graphHeight + 50,
     justifyContent: 'space-between',
     padding: 10,
     backgroundColor: 'rgba(255,255,255,0.8)'
@@ -291,12 +288,14 @@ const style = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    bottom: 0,
-    left: 0,
-    width: width,
+    bottom: 10,
+    left: 10,
+    width: width - 20,
     padding: 10,
-    paddingBottom: 0,
-    backgroundColor: 'rgba(255,255,255,0.8)'  ,
+    paddingBottom: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    backgroundColor: 'rgba(255,255,255,1)'  ,
     height: graphHeight + 40,
     justifyContent: 'center',
   },
