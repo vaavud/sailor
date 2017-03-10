@@ -25,7 +25,6 @@ const {width, height} = Dimensions.get('window')
 // const compassHand = require('../../../../assets/trueWindCompassHand.png')
 const compass = require('../../../../assets/images/aw_compass.png')
 const compassHand = require('../../../../assets/images/test_compass.png')
-const bgImage = require('../../../../assets/images/background.png')
 const compassSize = width * 0.8
 
 export default class MeasureView extends Component {

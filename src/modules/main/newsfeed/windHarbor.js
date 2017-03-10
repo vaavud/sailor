@@ -14,6 +14,8 @@ import {
 import { SegmentedControls } from 'react-native-radio-buttons'
 
 import Button from '../../../reactcommon/components/button'
+import { convertWindSpeed } from '../../../reactcommon/utils'
+import {forecastWindDirections} from '../../../reactcommon/forecastIcons'
 
 import Colors from '../../../../assets/colorTheme'
 import { textStyle } from '../../../components/text'
@@ -30,6 +32,7 @@ const {width} = Dimensions.get('window')
 
 const logo = require('../../../../assets/icons/logo.png')
 
+
 class WindHarbor extends Component {
 
   constructor(props) {
@@ -43,7 +46,27 @@ class WindHarbor extends Component {
       currentMaxSpeed: props.harbor.windMax,
       latlon: { lat: props.componentProps.location.latitude, lon: props.componentProps.location.longitude },
       name: props.componentProps.locationName,
-      id: props.componentProps.id
+      id: props.componentProps.id,
+      dommyData:[
+        {
+          color:'#7a868c',
+          windSpeed: Math.floor(convertWindSpeed(props.harbor.windMin - 1 ,props.settings.windSpeed)),
+          windDirection:195,
+          day:'No wind /\n It\'s dark'
+        },
+        {
+          color:'#00a1e1',
+          windSpeed: Math.floor(convertWindSpeed(props.harbor.windMax - ((props.harbor.windMax - props.harbor.windMax) / 2),props.settings.windSpeed)),
+          windDirection:10,
+          day:'It\'s perfect \nfor you!'
+        },
+        {
+          color:'#d12a2f',
+          windSpeed: Math.floor(convertWindSpeed(props.harbor.windMax + 2,props.settings.windSpeed)),
+          windDirection:10,
+          day:'Too windy \nfor you!'
+        }
+      ]
     }
 
     this._onFinish = this._onFinish.bind(this)
@@ -72,6 +95,43 @@ class WindHarbor extends Component {
     this.props.saveHarbor(harbor, profile, this.state.id).then(() => this.props.pop(true))
   }
 
+  _renderSpotDayTest(_spot) {
+    let days = []
+
+    for (let index in _spot) {
+      days.push(
+        <View style={style.spotTest} key={index}>
+          <View style={style.spotContainerWind}>
+            <Image
+            resizeMode="cover"
+            source={forecastWindDirections[_spot[index].color]}
+            style={[style.spotImageWind, {transform: [{'rotate': _spot[index].windDirection + 'deg'}]}] } />
+            <Text style={style.spotLable}>{ _spot[index].windSpeed }</Text>
+          </View>
+          <Text style={[style.spotLable,{marginTop:5}]}>{_spot[index].day}</Text>
+        </View>
+      )
+    }
+  return days
+}
+
+  renderExplanation() {
+      return (
+        <View style={{height:150,marginTop:5,backgroundColor: Colors.container, borderRadius: 5}} >
+        
+          <View style={{flexDirection: 'row' }}>
+            <View style={{flex:0.5, margin:10}}>
+              <Text style={{fontSize: 13, color: Colors.textColor ,backgroundColor: 'transparent',marginTop:3}}>Color explanation</Text>
+            </View>
+          </View>
+        <View style={{height:1,backgroundColor:'#80a4b3'}} />
+          <View style={style.spotContainer}>
+          {this._renderSpotDayTest(this.state.dommyData)}
+          </View>
+        </View>
+      )
+    }
+
   _renderSlider(){
     return (
     <View style={{ alignItems: 'center' }}>
@@ -84,7 +144,7 @@ class WindHarbor extends Component {
           </Text>
 
           <MultiSlider
-            containerStyle={{marginTop: 30}}
+            containerStyle={{marginTop:  30, marginBottom: -20}}
             values={[this.state.currentMinSpeed, this.state.currentMaxSpeed]}
             min={this.state.windMin}
             max={this.state.windMax}
@@ -94,7 +154,7 @@ class WindHarbor extends Component {
             }}
           />
 
-          <Text style={textStyle.normal} >Move the sliders to fine tune the range</Text>
+          <Text style={{...textStyle.normal, textAlign: 'center'}} >{'Move the sliders\nto fine tune the range'}</Text>
         </View>
     )
   }
@@ -120,15 +180,17 @@ class WindHarbor extends Component {
 
   _renderButtons(){
     return (
-      <View style={{ width: width - 80, height: 90, position: 'absolute', bottom: 40, left: 40 }} >
+      <View style={{justifyContent: 'flex-end' }} >
           <Button
-            textStyle={{ textAlign: 'center', color: 'white', marginTop: 8, fontSize: 16 }}
-            buttonStyle={{ flex: 1, backgroundColor: Colors.vaavudBlue, margin: 5 }} title="Finish"
+            textStyle={style.buttonText}
+            buttonStyle={style.bottonButtonNext} 
+            title="Finish"
             onPress={this._onFinish} />
           <Button
-            buttonStyle={{ flex: 1, margin: 5 }}
-            textStyle={{ textAlign: 'center', backgroundColor: 'transparent', marginTop: 8, fontSize: 16, }}
-            title="Back" onPress={() => { this.props.pop() }} />
+            textStyle={{color: Colors.textColor}}
+            buttonStyle={style.bottonButtonBack}
+            title="Back" 
+            onPress={() => { this.props.pop() }} />
         </View>
     )
   }
@@ -136,10 +198,9 @@ class WindHarbor extends Component {
   render(){
     return (
       <View style={style.container} >
-        <Image style={style.logo}
-          source={logo}/>
         {this._renderSlider()}
         {this._renderSegmented()}
+        {this.renderExplanation()}
         {this._renderButtons()}
       </View>
     )
@@ -162,6 +223,7 @@ const mapDispatchToProps = (dispatch) => {
 const style = StyleSheet.create({
   container:{
     flex: 1,
+    justifyContent: 'space-between',
     paddingTop: 40,
     paddingLeft: width * 0.1,
     paddingRight: width * 0.1,
@@ -171,24 +233,67 @@ const style = StyleSheet.create({
     marginBottom: 30
   },
   segmentedContainer: {
-    marginTop: 30,
-    paddingHorizontal: 15,
-    paddingTop: 15
+    marginTop: 10
   },
   segmentedControl: {
     justifyContent: 'center',
     height: 40,
   },
-  loginButton: {
-    width : width * 0.8 - 2,
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 10,
-    height: 40,
+  bottonButtonBack: {
+    height: 50,
+    marginTop: 10,
     alignSelf: 'center',
     justifyContent: 'center',
     borderColor: 'white',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
+    borderRadius: 5
+  },
+  bottonButtonNext: {
+    height: 50,
+    marginTop: 10,
+    justifyContent: 'center',
+    backgroundColor: Colors.vaavudBlue,
+    borderColor: 'white',
+    borderRadius: 5
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: 'white'
+  },
+  spotTest: {
+    marginRight:1,
+    height:90,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  spotContainerWind: {
+    marginTop:10,
+    width: 45,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  spotImageWind: {
+    height:45,
+    width:45,
+    position:'absolute',
+    top:0
+  },
+  spotLable: {
+    fontSize: 11,
+    color: Colors.textColor,
+    backgroundColor: 'transparent',
+    textAlign:'center'
+  },
+  spotContainer: {
+    flexDirection: 'row',
+    marginRight:10,
+    marginLeft:10,
+    alignItems: 'center'
   },
 })
 

@@ -4,13 +4,25 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, NativeModules, NativeEventEmitter, StyleSheet, Image
+  Dimensions,
+  View,
+  Text,
+  NativeModules,
+  NativeEventEmitter,
+  StyleSheet,
+  Image
 } from 'react-native'
 import Button from '../../reactcommon/components/button'
-
+import { HeadingText, NormalText} from '../../components/text'
 
 import Colors from '../../../assets/colorTheme'
 const ic_bluetooth = require('../../../assets/icons/bluetooth.png')
+const locactionLogo = require('../../../assets/icons/ico-pin-map.png')
+const buildingOne = require('../../../assets/icons/ico-bulding-1.png')
+const buildingTwo = require('../../../assets/icons/ico-building-2.png')
+const tree = require('../../../assets/icons/ico-tree-1.png')
+const bgmap = require('../../../assets/images/bgmap.png')
+const overlay = require('../../../assets/images/overlay.png')
 
 
 
@@ -23,6 +35,8 @@ import { skipIntro } from '../../actions/bluetooth'
 import PopupDialog from 'react-native-popup-dialog'
 import Permissions from 'react-native-permissions'
 
+
+const {height, width} = Dimensions.get('window')
 
 class Welcome extends Component {
 
@@ -121,20 +135,43 @@ class Welcome extends Component {
     )
   }
 
+  _renderPopUpView(){
+    return (
+      <Image style={style.popUpBg}
+      source={bgmap} >
+        <Image style={style.popUpContainer}
+        source={overlay} >
+        <View style={{flex: 1, alignItems: 'center'}} >
+          <HeadingText style={{textAlign: 'center', backgroundColor:'transparent', margin: 30}}
+            textContent={'Access your\nlocation'} />
+          <Image source={locactionLogo} />
+          <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
+            <Image source={buildingOne} />
+            <Image source={buildingTwo} />
+            <Image source={tree} />
+          </View>
+          <NormalText style={{textAlign: 'center', marginTop: 20 }}
+          textContent={'In order for you to use the ultrasonic, we need to access your location'} />
+        </View>
+          <Button buttonStyle={style.popUpButton}
+          textStyle={style.popUpButtonText}
+          onPress={this._onContinue}
+          title="Accept" />
+        <Button buttonStyle={style.buttonSkip}
+          textStyle={style.buttonText}
+          onPress={() => this.popupDialog.dismiss()}
+          title="Do not allow" />
+        </Image>
+      </Image>
+    )
+  }
+
 
   _renderPopup() {
     return (<PopupDialog
-      ref={(popupDialog) => { this.popupDialog = popupDialog }} >
-      <View>
-        <Button
-          textStyle={style.buttonText}
-          onPress={this._onContinue}
-          title="Accept" />
-        <Button
-          textStyle={style.buttonText}
-          onPress={() => this.popupDialog.dismiss()}
-          title="Cancel" />
-      </View>
+      ref={(popupDialog) => { this.popupDialog = popupDialog }}
+        height={height}>
+      {this._renderPopUpView()}
     </PopupDialog>)
   }
 
@@ -163,11 +200,23 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
   },
+  popUpBg:{
+    flex: 1,
+    width: width,
+    height: height,
+  },
+  popUpContainer:{
+    flex: 1,
+    width: width,
+    height: height,
+    padding: 30,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   heading: {
     fontSize: 40,
     textAlign: 'center',
     color: 'white',
-    backgroundColor: 'transparent',
     marginTop: 10
   },
   description: {
@@ -177,11 +226,25 @@ const style = StyleSheet.create({
     backgroundColor: 'transparent',
     marginTop: 10
   },
+  popUpButton: {
+    borderRadius: 5,
+    height: 40,
+    width: width - 40,
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.vaavudBlue,
+  },
+  popUpButtonText:{
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white'
+  },
   button: {
     borderWidth: 1,
     borderRadius: 5,
     height: 40,
-    width: 300,
+    width: width - 40,
     marginTop: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -190,7 +253,6 @@ const style = StyleSheet.create({
   },
   buttonSkip: {
     height: 40,
-    width: 300,
     marginTop: 20,
     alignSelf: 'center',
     justifyContent: 'center',

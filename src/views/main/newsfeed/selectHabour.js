@@ -187,7 +187,6 @@ const style = StyleSheet.create({
     padding: 10,
   },
   bottonButtonBack: {
-    width: width - 80,
     height: 50,
     marginTop: 10,
     alignSelf: 'center',
@@ -209,6 +208,7 @@ const style = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
+    alignSelf: 'center',
     textAlign: 'center',
     color: 'white'
   },
