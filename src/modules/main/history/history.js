@@ -4,13 +4,17 @@
 
 import React, { Component } from 'react'
 import {
-  View, Button
+  View, Button, Image, Text
 } from 'react-native'
 
 import HistoryView from '../../../views/main/history'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+const ic_empty = require('../../../../assets/icons/ic_empty.png')
+
+import NoHistory from '../../../components/NoHistory'
 
 class History extends Component {
 
@@ -37,7 +41,7 @@ class History extends Component {
           onPop={this.props.pop} />
       )
     } else {
-      return <View style={{ flex: 1, backgroundColor: 'red' }} />
+      return <NoHistory/>
     }
   }
 

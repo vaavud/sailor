@@ -24,6 +24,8 @@ import { getSummaryInformation } from '../../../actions/summary'
 
 import TestView from '../../../views/main/summary'
 
+import NoSummary from '../../../components/noSummary'
+
 
 function getCoordinate(location) {
   return {
@@ -87,9 +89,7 @@ class Summary extends Component {
       )
     else if (this.state.summaryLost) {
       return (
-        <View style={{ marginTop: 50, flex: 1 }} >
-          <Text>{'Forgive us!!!!, we lost your points.... Contact Malle@vaavud.com if you want to complaing... (btw he uses Tinder)'}</Text>
-        </View >
+        <NoSummary pop={this.props.pop}/>
       )
     }
     else { return <View /> }
