@@ -1,6 +1,6 @@
 // @flow
 'use strict'
 
-import SettingsView from './settings';
+import SettingsView from './settings'
 
 export default SettingsView

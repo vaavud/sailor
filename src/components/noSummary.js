@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Image, Text,StyleSheet,Dimensions
+  View, Image, Text,StyleSheet,Dimensions,Linking
 } from 'react-native'
 
 import Button from '../reactcommon/components/button'
@@ -32,7 +32,11 @@ export default class NoSummary extends Component {
           <Button buttonStyle={style.buttonFaqStyle}
           textStyle={style.buttonFaqText}
           title={"FAQ"}
-          onPress={() => {}} />
+          onPress={() => {
+            Linking.canOpenURL('https://vaavud.com/faq/').then(
+              Linking.openURL('https://vaavud.com/faq/')
+            )
+          }} />
       </View>)
     }
 }
