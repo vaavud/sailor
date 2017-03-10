@@ -160,8 +160,6 @@ export function saveHarbor(payload, profile, key) {
 
       let _key
 
-      console.log(key)
-
       if (key) {
         _key = key
         firebase.database().ref('subscription').child(key).update(payload)
@@ -171,8 +169,6 @@ export function saveHarbor(payload, profile, key) {
         _key = ref.key
         ref.set(payload)
       }
-
-      console.log(_key)
 
 
       // Dispach harbor information

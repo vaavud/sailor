@@ -59,8 +59,11 @@ class SignUp extends Component {
         firstName: firstName,
         lastName: lastName,
         password: password,
-        type: 'email'
+        type: 'password'
       }
+
+      console.log(credential)
+
       this.props.doSignUp(credential)
     }
   }
