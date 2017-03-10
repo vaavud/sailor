@@ -13,6 +13,8 @@ import {
   Dimensions
 } from 'react-native'
 
+import { NormalText } from '../components/text'
+
 import Colors from '../../assets/colorTheme'
 
 const logo = require('../../assets/icons/logo.png')
@@ -21,7 +23,8 @@ const {width, height} = Dimensions.get('window')
 export default class LoadingModal extends Component {
 
   static propTypes = {
-    isActive: PropTypes.bool.isRequired
+    isActive: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired
   }
 
   render(){
@@ -30,7 +33,12 @@ export default class LoadingModal extends Component {
       <View style={style.container} >
         <View style={style.innerContainer} >
           <Image source={logo} />
-          <ActivityIndicator animating={true} />
+          <ActivityIndicator
+            size={'large'}
+            color={'white'} 
+            style={style.spinner}
+            animating={true} />
+          <NormalText textContent={this.props.message} />
         </View>
       </View>
       )
@@ -63,5 +71,8 @@ const style = StyleSheet.create({
     backgroundColor: Colors.vaavudBlue,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  spinner:{
+    margin: 20,
   }
 })

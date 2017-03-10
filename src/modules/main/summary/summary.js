@@ -25,6 +25,8 @@ import { getSummaryInformation } from '../../../actions/summary'
 import TestView from '../../../views/main/summary'
 
 import NoSummary from '../../../components/noSummary'
+import LoadingModal from '../../../components/loadingModal'
+
 
 
 function getCoordinate(location) {
@@ -92,7 +94,7 @@ class Summary extends Component {
         <NoSummary pop={this.props.pop}/>
       )
     }
-    else { return <View /> }
+    else { return <LoadingModal isActive={true} message={'Fetching data...'}/> }
   }
 
 }
