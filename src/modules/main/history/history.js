@@ -33,10 +33,12 @@ class History extends Component {
       return (
         <HistoryView
           onNextPress={this.props.push}
-          sessions={this.props.sessions} 
-          onPop={this.props.pop}/>
+          sessions={this.props.sessions}
+          onPop={this.props.pop} />
       )
-    } else { return null }
+    } else {
+      return <View style={{ flex: 1, backgroundColor: 'red' }} />
+    }
   }
 
 }
