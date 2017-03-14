@@ -17,8 +17,12 @@ import {
   saveSession, saveSummary, savePoints
 } from '../../../actions/measure'
 
+import Colors from '../../../../assets/colorTheme'
 
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
+
+import {NormalText} from '../../../components/text'
+import LoadingModal from '../../../components/loadingModal'
 
 import {
   TrueWindView,
@@ -45,7 +49,8 @@ class Measure extends Component {
       velocity: 0,
       trueWindDirection: 0,
       trueWindSpeed: 0,
-      trueLastWindDirection: 0
+      trueLastWindDirection: 0,
+      isLoading: false
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
@@ -117,6 +122,7 @@ class Measure extends Component {
   }
 
   _onStopMeasurement() {
+    this.setState({isLoading: true})
     // navigator.geolocation.clearWatch(this.positionListener)
     NativeModules.VaavudBle.onDisconnect()
     // // this.state.myModuleEvt.removeAllListeners('onBleConnected')
@@ -168,7 +174,12 @@ class Measure extends Component {
   }
 
   _renderDotIndicator() {
-    return <PagerDotIndicator pageCount={2} />
+    return (
+      <PagerDotIndicator
+        dotStyle={{backgroundColor: Colors.vaavudBlue, opacity: 0.5}}
+        selectedDotStyle={{backgroundColor: Colors.vaavudBlue}}
+        pageCount={2} />
+    )  
   }
 
   render() {
@@ -182,6 +193,9 @@ class Measure extends Component {
             <TrueWindView windHeading={this.state.trueWindDirection} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
             <ApparentWindView windHeading={this.state.windDirection} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
+          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...'} >
+            <NormalText textContent={'Note that processing time may vary depending on duration of the measument session'} />
+          </LoadingModal>
         </View>
       )
     }

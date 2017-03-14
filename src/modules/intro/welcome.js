@@ -117,7 +117,7 @@ class Welcome extends Component {
       <View style={style.container} >
         <Image source={ic_bluetooth} style={{ height: 90, width: 75 }} />
         <Text style={style.heading} >Connect</Text>
-        <Text style={style.description} >{'Let’s connect your windmeter.\n Place it next to your phone and hit \n conintue'}</Text>
+        <Text style={style.description} >{'Let’s connect your wind meter.\n Place it next to your phone and hit \n continue'}</Text>
         <View style={{ height: 120 }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}

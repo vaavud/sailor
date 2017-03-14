@@ -9,6 +9,8 @@ import {
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
+import { NormalText } from '../../components/text'
+import I18n from '../../components/i18n'
 
 import Colors from '../../../assets/colorTheme'
 const correct = require('../../../assets/icons/correct.png')
@@ -43,14 +45,17 @@ class Bluethooth extends Component {
     return (
       <View style={style.container} >
         <Image source={correct} style={{ height: 90, width: 90 }} />
-        <Text style={style.heading} >Success</Text>
-        <Text style={style.description} >Vaavud ultrasonic connected and ready to work</Text>
-        <Text style={style.description} >Battery level no. {this.props.point.battery}%</Text>
+        <NormalText style={style.heading}
+          textContent={I18n.t('success')} />
+        <NormalText style={style.description}
+          textContent={I18n.t('deviceConnect')} />
+        <NormalText style={style.description}
+          textContent={I18n.t('batteryLevel') + this.props.point.battery + ' %'} />
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
             onPress={this._finishSetup}
-            title="Finish" />
+            title={I18n.t('finish')} />
         </View>
       </View>
     )

@@ -35,10 +35,11 @@ export default class LoadingModal extends Component {
           <Image source={logo} />
           <ActivityIndicator
             size={'large'}
-            color={'white'} 
+            color={'white'}
             style={style.spinner}
             animating={true} />
-          <NormalText textContent={this.props.message} />
+          <NormalText textContent={this.props.message}  />
+          {this.props.children}
         </View>
       </View>
       )
@@ -73,6 +74,9 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   spinner:{
-    margin: 20,
+    margin: 10,
+  },
+  message: {
+    margin: 10
   }
 })

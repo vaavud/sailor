@@ -104,11 +104,14 @@ export default class ApparentWindView extends Component {
     )
   }
 
-  _renderSpeedContainer(groundSpeed, lastWindSpeed, windSpeed) {
+  _renderSpeedContainer(groundSpeed, windSpeed) {
+    if (groundSpeed < 0){
+      groundSpeed = 0
+    }
     return (
       <View style={style.speedContainer} >
         {this._renderGroundSpeed(groundSpeed)}
-        {this._renderWindSpeed(lastWindSpeed, windSpeed)}
+        {this._renderWindSpeed(windSpeed)}
       </View>
     )
   }
@@ -118,7 +121,6 @@ export default class ApparentWindView extends Component {
       <View style={style.groundSpeedContainer} >
         <Text>{'Ground speed'}</Text>
         <Text style={style.speedText}>{groundSpeed}</Text>
-        <Text>{'-'}</Text>
       </View>
     )
   }
@@ -139,7 +141,7 @@ export default class ApparentWindView extends Component {
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
         <Button title="Stop" onPress={this.props.testStop} />
-        {this._renderSpeedContainer(this.props.velocity.toFixed(1), this.props.windSpeed)}
+        {this._renderSpeedContainer(this.props.velocity.toFixed(1), this.props.windSpeed.toFixed(1))}
       </View>
     )
   }
