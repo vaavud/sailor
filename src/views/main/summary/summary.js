@@ -88,12 +88,12 @@ export default class SummaryView extends Component {
     )
   }
 
-  _renderBackButton(){
+  _renderBackButton() {
     return (
       <TouchableOpacity style={style.backButtonStyle}
         onPress={this.props.onPressBack} >
         <Image
-          style={{tintColor: 'black'}}
+          style={{ tintColor: 'black' }}
           source={backButtonIcon} />
       </TouchableOpacity>
     )
@@ -103,38 +103,41 @@ export default class SummaryView extends Component {
 
     return (
       <View style={{ position: 'absolute', top: 0, left: 0, width, height, justifyContent: 'flex-end' }} >
-      <MapView
-        style={style.map}
-        mapType={'satellite'}
-        pitchEnabled={false}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        initialRegion={this.props.region} >
-        <MapView.Polyline
-          key={this.props.tripCoordinates.id}
-          coordinates={this.props.tripCoordinates.coordinates}
-          strokeColor="#000"
-          fillColor="rgba(255,0,0,0.5)"
-          strokeWidth={1} />
-      </MapView>
+        <MapView
+          style={style.map}
+          mapType={'satellite'}
+          pitchEnabled={false}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          initialRegion={this.props.region} >
+          <MapView.Polyline
+            key={this.props.tripCoordinates.id}
+            coordinates={this.props.tripCoordinates.coordinates}
+            strokeColor="#000"
+            fillColor="rgba(255,0,0,0.5)"
+            strokeWidth={1} />
+        </MapView>
       </View>
     )
   }
 
-  _renderResultArea(){
+  _renderResultArea() {
     const {
       startTime,
       endTime,
       windAverage,
       maxWindSpeed
     } = this.props
-    var x = endTime - startTime
+
+    let timeStart = this.props.paths[0].timestamp
+    let timeEnd = this.props.paths[this.props.paths.length - 1].timestamp
+    let time = timeEnd - timeStart
     var y = maxWindSpeed - 1
     return (
-       <View style={style.resultContainer} >
-         <SmallText textContent={'Duration: ' + moment.utc(x).format('HH:mm:ss')} />
-         <SmallText textContent={'Avg: ' + windAverage + ' m/s'} />
-       </View>
+      <View style={style.resultContainer} >
+        <SmallText textContent={'Duration: ' + moment.utc(time).format('HH:mm:ss')} />
+        <SmallText textContent={'Avg: ' + windAverage + ' m/s'} />
+      </View>
     )
   }
 
@@ -161,20 +164,20 @@ export default class SummaryView extends Component {
 
     const d = path.close()
     return (
-        <View style={style.graphContainer}>
-          {this._renderWindSpeedPoints()}
-          <ScrollView
-            ref={scrollView => { this._scrollView = scrollView }}
-            automaticallyAdjustContentInsets={false}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            style={{ flex: 1 }}>
-            <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-              <Shape d={d} stroke={'#0080b3'} fill={'#99d0e6'} strokeWidth={1} />
-            </Surface>
-            {this._renderGraphTimeGrid()}
-          </ScrollView>
-        </View>
+      <View style={style.graphContainer}>
+        {this._renderWindSpeedPoints()}
+        <ScrollView
+          ref={scrollView => { this._scrollView = scrollView }}
+          automaticallyAdjustContentInsets={false}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{ flex: 1 }}>
+          <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
+            <Shape d={d} stroke={'#0080b3'} fill={'#99d0e6'} strokeWidth={1} />
+          </Surface>
+          {this._renderGraphTimeGrid()}
+        </ScrollView>
+      </View>
     )
   }
 
@@ -197,7 +200,7 @@ export default class SummaryView extends Component {
           <View style={style.topGrid}
             pointerEvents="box-none" >
             <Text style={{ fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
-            <SmallText style={{backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
+            <SmallText style={{ backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
           </View>
         )
       }
@@ -214,11 +217,11 @@ export default class SummaryView extends Component {
     const min = this.props.minWindSpeed
     let render = []
     for (let i = max; i >= min; i -= 1) {
-        if (i === max){
-          render.push(<SmallText style={{marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={'m/s'} />)
-        } else {
-          render.push(<SmallText style={{marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold'}} textContent={i} />)
-        }
+      if (i === max) {
+        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={'m/s'} />)
+      } else {
+        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={i} />)
+      }
     }
     return (
       <View style={style.windSpeedContainer}>
@@ -253,11 +256,11 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.8)'
   },
-  resultContainer:{
+  resultContainer: {
     position: 'absolute',
     flexDirection: 'row',
     width: width - 20,
-    left:10,
+    left: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#80a4b3',
     borderTopLeftRadius: 5,
@@ -267,7 +270,7 @@ const style = StyleSheet.create({
     padding: 10,
     backgroundColor: 'rgba(255,255,255,0.8)'
   },
-  backButtonStyle:{
+  backButtonStyle: {
     position: 'absolute',
     top: Platform.OS === 'ios' ? 25 : 15,
     left: 15,
@@ -296,7 +299,7 @@ const style = StyleSheet.create({
     paddingBottom: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    backgroundColor: 'rgba(255,255,255,1)'  ,
+    backgroundColor: 'rgba(255,255,255,1)',
     height: graphHeight + 40,
     justifyContent: 'center',
   },

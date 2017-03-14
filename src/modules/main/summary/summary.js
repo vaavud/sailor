@@ -52,7 +52,6 @@ class Summary extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       coordinates: [],
-      startTime: 0,
       endTime: 0
     }
   }
@@ -60,14 +59,15 @@ class Summary extends Component {
   componentDidMount() {
     getSummaryInformation(this.state.sessionKey).then(summary => {
       let latslons = summary.locations.map(latlon => getCoordinate(latlon))
-      this.setState({ sessionFound: true,
+      this.setState({
+        sessionFound: true,
         windMin: summary.windMin,
         windMax: summary.windMax,
         paths: summary.windSpeeds,
         coordinates: latslons,
         directions: summary.windDirections,
         timeStart: summary.windSpeeds[0].timestamp,
-        timeEnd: summary.windSpeeds[summary.windSpeeds.length - 1].timestamp        
+        timeEnd: summary.windSpeeds[summary.windSpeeds.length - 1].timestamp
       })
     }).catch(err => {
       this.setState({ summaryLost: true })
@@ -79,11 +79,11 @@ class Summary extends Component {
   }
 
   render() {
-    if (this.state.sessionFound){
+    if (this.state.sessionFound) {
       return (
         <SummaryView
           region={this.state.region}
-          dateTime={this.state.startTime}
+          dateTime={this.state.timeStart}
           locationName={this.props.componentProps.locationName}
           tripCoordinates={{
             id: 1,
@@ -94,16 +94,17 @@ class Summary extends Component {
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
           minWindSpeed={Math.floor(this.state.windMin)}
           windAverage={this.props.componentProps.windMean.toFixed(1)}
-          startTime={this.state.startTime}
+          startTime={this.state.timeStart}
           endTime={this.state.endTime}
           onPressBack={this.props.pop} />
-      )}
-    else if (this.state.summaryLost) {
-      return (
-        <NoSummary pop={this.props.pop}/>
       )
     }
-    else { return <LoadingModal isActive={true} message={'Fetching data...'}/> }
+    else if (this.state.summaryLost) {
+      return (
+        <NoSummary pop={this.props.pop} />
+      )
+    }
+    else { return <LoadingModal isActive={true} message={'Fetching data...'} /> }
   }
 
 }
