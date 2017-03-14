@@ -66,8 +66,17 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
   var lastTrueWindSpeed = 0.0
   var lastTrueWindDirection = 0.0
   
+  var bleFound = false
+  
   override func supportedEvents() -> [String]! {
-    return ["onBleState","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking","onFinalData"]
+    return ["onBleState","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking","onFinalData","timeout"]
+  }
+  
+  func timeout() {
+    if !bleFound {
+      self.sendEvent(withName: "timeout", body: [] )
+      bleFound = false
+    }
   }
   
   @objc
@@ -113,6 +122,9 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
   func onBleStatus(status: BluetoothStatus){
     switch status {
     case .on:
+      DispatchQueue.main.async(execute: {
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.timeout), userInfo: nil, repeats: false)
+      })
       self.sendEvent(withName: "onBleState", body: ["status":"on"] )
       break
     case .off:
@@ -131,6 +143,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
   
   
   func onVaavudBleFound(){
+    bleFound = true
     self.sendEvent(withName: "onVaavudBleFound", body: ["available":true])
   }
   

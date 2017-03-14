@@ -41,6 +41,7 @@ export default class Connecting extends Component {
     this.onBleState = this.onBleState.bind(this)
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
     this.onNewRead = this.onNewRead.bind(this)
+    this.timeout = this.timeout.bind(this)
 
   }
 
@@ -50,12 +51,20 @@ export default class Connecting extends Component {
     this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
     this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
     this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
+    this.state.myModuleEvt.addListener('timeout', this.timeout)
+
 
     NativeModules.VaavudBle.initBle()
   }
 
   componentWillUnmount() {
     this._removeCallbacks()
+  }
+
+  timeout() {
+    NativeModules.VaavudBle.onDisconnect()
+    this._removeCallbacks()
+    this.props.nav({ type: 'push', key: 'noBluetooth' })
   }
 
   _removeCallbacks() {

@@ -16,6 +16,7 @@ import Welcome from './welcome'
 import Bluetooth from './bluetooth'
 import Summary from './summary'
 import Connecting from './connecting'
+import NoBluetooth from './noBluetooth'
 
 
 const {
@@ -76,13 +77,11 @@ class Intro extends Component {
   }
 
   componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress',
-      () => this.handleBackAction())
+    BackAndroid.addEventListener('hardwareBackPress',this.handleBackAction)
   }
 
   componentWillUnmount() {
-    BackAndroid.removeEventListener('hardwareBackPress',
-      () => this.handleBackAction())
+    BackAndroid.removeEventListener('hardwareBackPress',this.handleBackAction)
   }
 
   render() {
@@ -109,6 +108,8 @@ class Intro extends Component {
         return <Bluetooth { ...propsComponet } nav={this._handleAction} />
       case 'summary':
         return <Summary { ...propsComponet } nav={this._handleAction} />
+      case 'noBluetooth':
+        return <NoBluetooth { ...propsComponet } nav={this._handleAction}  />
     }
   }
 }
