@@ -7,8 +7,10 @@ export function doLogin(credential) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       if (credential._type === 'password') {
-        firebase.auth().signInWithEmailAndPassword(credential.email, credential.password).catch(error => {
+        firebase.auth().signInWithEmailAndPassword(credential.email, credential.password).then(() => resolve())
+        .catch(error => {
           dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
+          resolve()
         })
       }
       else {

@@ -12,6 +12,9 @@ const en = {
   passwordInput:  'Your password',
   termsButton:    'Terms & conditions',
   privacyButton:  'Privacy',
+  success:        'Success',
+  finish:         'Finish',
+  batteryLevel:   'Battery level:',
 
   // Login screen
   loginButton:    'LOG IN',
@@ -52,6 +55,10 @@ const en = {
   // Newsfeed screens
   chooseHabour:   'Choose your harbour',
   letsgoButton:   'Let\'s go!',
+
+  // Bluetooth setup
+  deviceConnect:  'Vaavud ultrasonic connected and ready to work',
+
 }
 
 export default en

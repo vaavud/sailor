@@ -73,12 +73,7 @@ class SignUp extends Component {
       <SignupView
         onPressBack={this.props.pop}
         onPressSignup={this._doSignUp}
-        onPressTerms={
-          () => this.props.push({key: 'web', props:{url: 'https://vaavud.com/terms/'}})
-        }
-        onPressPrivacy={
-          () => this.props.push({key: 'web', props:{url: 'https://vaavud.com/privacy-policy/'}})
-        } />
+        />
     )
   }
 }

@@ -132,6 +132,7 @@ class WindHarbor extends Component {
       )
     }
 
+    //TODO update numbers when sliding
   _renderSlider(){
     return (
     <View style={{ alignItems: 'center' }}>
