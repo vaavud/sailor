@@ -132,7 +132,6 @@ class WindHarbor extends Component {
       )
     }
 
-    //TODO update numbers when sliding
   _renderSlider(){
     return (
     <View style={{ alignItems: 'center' }}>
@@ -149,7 +148,7 @@ class WindHarbor extends Component {
             values={[this.state.currentMinSpeed, this.state.currentMaxSpeed]}
             min={this.state.windMin}
             max={this.state.windMax}
-            onValuesChange={() => { }}
+            onValuesChange={(values) => {this.setState({ currentMinSpeed: values[0], currentMaxSpeed: values[1] })}}
             onValuesChangeFinish={(values) => {
               this.setState({ currentMinSpeed: values[0], currentMaxSpeed: values[1] })
             }}
