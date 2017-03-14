@@ -2,10 +2,10 @@
 import firebase from 'firebase'
 // import Realm from 'realm'
 import realm from '../store/realm'
-import { NO_HISTORY, HISTORY_LOADED } from '../constants/history'
+import { NO_HISTORY, HISTORY_LOADED,SESSION_DELETED } from '../constants/history'
 
-export function getSessions() {
-  return new Promise(function (resolve, reject) {
+const getSessions = () => {
+  return new Promise((resolve, reject) => {
 
     let uid = firebase.auth().currentUser.uid
     firebase.database()
@@ -41,3 +41,15 @@ export function getSessions() {
       })
   })
 }
+
+const deleteSession = sessionKey => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('session').child(sessionKey).remove()
+      dispatch({ type: SESSION_DELETED, sessionKey })
+    })
+  }
+}
+
+
+export { getSessions, deleteSession }

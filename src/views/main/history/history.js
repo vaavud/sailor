@@ -35,6 +35,12 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 
 import moment from 'moment'
 
+const ds = new ListView.DataSource({
+  rowHasChanged: (a, b) => a !== b,
+  sectionHeaderHasChanged: (a, b) => a !== b,
+})
+
+
 class HistoryView extends Component {
 
   static propType = {
@@ -43,10 +49,7 @@ class HistoryView extends Component {
 
   constructor(props) {
     super(props)
-    var ds = new ListView.DataSource({
-      rowHasChanged: (a, b) => a !== b,
-      sectionHeaderHasChanged: (a, b) => a !== b,
-    })
+
     var sections = this._sessionsToSections(props.sessions)
 
     this.state = {
@@ -59,6 +62,12 @@ class HistoryView extends Component {
     this._renderSubRow = this._renderSubRow.bind(this)
 
   }
+
+  componentWillReceiveProps(nextProps) {
+    let sections = this._sessionsToSections(nextProps.sessions)
+    this.setState({ dataSource: ds.cloneWithRowsAndSections(sections) })
+  }
+
 
   _sessionsToSections(sessions) {
     sessions.sort((a, b) => b.timeStart - a.timeStart)
@@ -136,11 +145,12 @@ class HistoryView extends Component {
     this.setState({ refreshing: false })
   }
 
-  _renderSubRow(data) {
+  _renderSubRow(data, secId, rowId, rowMap) {
     return (
       <View style={{ backgroundColor: Colors.vaavudRed, flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
         <TouchableOpacity onPress={() => {
-          console.log('delete', data.key)
+          rowMap[`${secId}${rowId}`].closeRow()
+          this.props.deleteSession(data.key)
         }}>
           <View>
             <Text style={{ color: 'white', marginRight: 15 }}>Delete</Text>
@@ -185,6 +195,7 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+
   }
 }
 

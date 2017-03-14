@@ -15,6 +15,8 @@ import { connect } from 'react-redux'
 const ic_empty = require('../../../../assets/icons/ic_empty.png')
 
 import NoHistory from '../../../components/NoHistory'
+import { deleteSession } from '../../../actions/history'
+
 
 class History extends Component {
 
@@ -38,6 +40,7 @@ class History extends Component {
         <HistoryView
           onNextPress={this.props.push}
           sessions={this.props.sessions}
+          deleteSession={this.props.deleteSession}
           onPop={this.props.pop} />
       )
     } else {
@@ -56,6 +59,7 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteSession: bindActionCreators(deleteSession, dispatch)
   }
 }
 
