@@ -2,7 +2,7 @@
 import firebase from 'firebase'
 import realm from '../store/realm'
 
-import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, FORECAST_FAILD, PROFILE_LOADED, NO_PROFILE } from '../constants/harbor'
+import { HARBOR_LOADED, NO_HARBOR, FORECAST_LOADED, FORECAST_FAILD, PROFILE_LOADED, NO_PROFILE, RELOAD_FORECAST } from '../constants/harbor'
 
 const google_Api_key = 'AIzaSyBcL4Hz1TeA52ZnrMDTRuo_Ff8wtZ7xY5E'
 const googleApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?'
@@ -29,16 +29,16 @@ export function getForecast(windMax, windMin, unit, token, subId) {
       .then(response => response.json())
       .then(forecast => {
         console.log(forecast)
-        if ('id' in forecast[0]) {
-          resolve({ type: FORECAST_LOADED, forecast: forecast[0] })
+        if ('id' in forecast) {
+          resolve({ type: FORECAST_LOADED, forecast: forecast })
 
-          console.log('forecast[0]', forecast[0])
+          console.log('forecast[0]', forecast)
 
           //Save forecast in Realm
           var fore = realm.objects('Forecast')
           realm.write(() => {
             realm.delete(fore)
-            realm.create('Forecast', { ...forecast[0] })
+            realm.create('Forecast', { ...forecast })
           })
 
         }
@@ -139,9 +139,26 @@ export function getProfile() {
   })
 }
 
+export function saveProfile(profile, reloadForecast) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
 
-export function saveHarbor(payload, profile, key) {
-  return function (dispatch, getState) {
+      let uid = firebase.auth().currentUser.uid
+
+      firebase.database().ref('user/' + uid + '/sailing').set(profile)
+      // Dispach profile information
+      dispatch({ type: PROFILE_LOADED, windMax: profile.maxSpeed, windMin: profile.minSpeed })
+      if (reloadForecast) {
+        dispatch({ type: RELOAD_FORECAST })
+      }
+      resolve()
+    })
+  }
+}
+
+
+export function saveHarbor(payload, key) {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
       let uid = firebase.auth().currentUser.uid
@@ -152,11 +169,11 @@ export function saveHarbor(payload, profile, key) {
       payload.uid = uid
       payload.lastFired = Date.now()
 
-      console.log(payload, profile)
+      console.log(payload)
 
-      firebase.database().ref('user/' + uid + '/sailing').set(profile)
-      // Dispach profile information
-      dispatch({ type: PROFILE_LOADED, windMax: profile.maxSpeed, windMin: profile.minSpeed })
+      // firebase.database().ref('user/' + uid + '/sailing').set(profile)
+      // // Dispach profile information
+      // dispatch({ type: PROFILE_LOADED, windMax: profile.maxSpeed, windMin: profile.minSpeed })
 
       let _key
 
@@ -183,8 +200,8 @@ export function saveHarbor(payload, profile, key) {
       // Save for offline
       realm.write(() => {
         let harbor = realm.objects('Harbor')
-        harbor[0].windMin = profile.minSpeed
-        harbor[0].windMax = profile.maxSpeed
+        harbor[0].windMin = getState().harbor.windMin
+        harbor[0].windMax = getState().harbor.windMin
         harbor[0].key = _key
         harbor[0].directions = payload.directions
         harbor[0].location = payload.location

@@ -1,10 +1,7 @@
 // @flow
 'use strict'
 
-import React, {
-  Component,
-  PropTypes
-} from 'react'
+import React, {Component,PropTypes} from 'react'
 
 import {
   View,
@@ -42,7 +39,7 @@ export default class SettingsView extends Component {
     updateSettings: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     windMin: PropTypes.number.isRequired,
-    windMax: PropTypes.number.isRequired,    
+    windMax: PropTypes.number.isRequired,
     isBleDeviceConnected: PropTypes.bool.isRequired,
     deviceSerialNo: PropTypes.string.isRequired,
     deviceBatteryLevel: PropTypes.number.isRequired,
@@ -58,7 +55,6 @@ export default class SettingsView extends Component {
 
 
   _getWindSpeedValue(e) {
-    console.log(e)
     switch (e) {
       case 'm/s':
         this.props.updateSettings('windSpeed', mSpeeedUnits.mps)
@@ -169,12 +165,11 @@ export default class SettingsView extends Component {
     const isFromSettings = {
       isFromSettings: true
     }
-    var harborProps = Object.assign(this.props.harbor, isFromSettings)
     return (
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
         <NormalText style={style.preferenceText} textContent={windMin + ' m/s to ' + windMax + 'm/s'} />
-        {this._renderLink('editPref', () => this.props.push({key: 'windHarbor', props: { ...harborProps }}))}
+        {this._renderLink('editPref', () => this.props.push({ key: 'windHarbor', props: { isFromSettings: true } }))}
       </View>
     )
   }

@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
 const {width, height} = Dimensions.get('window')
+
 const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
 
 const ASPECT_RATIO = width / height

@@ -4,7 +4,7 @@ import realm from '../store/realm'
 import { takeEvery, put, select, call } from 'redux-saga/effects'
 
 import { WORK_WITH_SERVER, STATUS, HOME_READY, SETUP } from '../constants/auth'
-import { HARBOR_LOADED } from '../constants/harbor'
+import { HARBOR_LOADED,RELOAD_FORECAST } from '../constants/harbor'
 
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
@@ -53,6 +53,7 @@ export function* historyDaemon() {
 function* forecastDeamonHandler() {
   if (yield select(online)) {
     const _harbor = yield select(harbor)
+    console.log(_harbor)
     const _settings = yield select(settings)
     const _token = yield select(token)
 
@@ -62,6 +63,10 @@ function* forecastDeamonHandler() {
 
 export function* forecastDeamon() {
   yield takeEvery(HARBOR_LOADED, forecastDeamonHandler)
+}
+
+export function* refreshForecastDeamon() {
+  yield takeEvery(RELOAD_FORECAST, forecastDeamonHandler)
 }
 
 

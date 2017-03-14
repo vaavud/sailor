@@ -21,6 +21,7 @@
     "react-native-radio-buttons": "0.14.0",
     "react-native-snackbar": "0.3.1",
     "react-native-vector-icons": "4.0.0",
+    "react-native-swipe-list-view": "0.4.0",
     "react-redux": "5.0.3",
     "realm": "1.0.2",
     "redux": "3.6.0",

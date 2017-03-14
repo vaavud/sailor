@@ -7,7 +7,7 @@ import {
   Dimensions
 } from 'react-native'
 
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 const imgHarbor = require('../../../../assets/pinMap.png')
 
 
@@ -41,7 +41,8 @@ class MapHarbor extends Component {
         },
         harbor: {
           name: ''
-        }
+        },
+        needsLoaction: true
       }
     }
     else {
@@ -53,12 +54,22 @@ class MapHarbor extends Component {
         },
         harborLocation: getCoordinate(props.componentProps.harbor.location),
         harbor: props.componentProps.harbor,
-        key: props.componentProps.harbor.key
+        key: props.componentProps.harbor.key,
+        needsLoaction: false
       }
     }
   }
 
   componentDidMount() {
+    if (this.state.needsLoaction) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let region = { ...this.state.region }
+        region.latitude = position.coords.latitude
+        region.longitude = position.coords.longitude
+        this.setState({ region })
+      }, (error) => alert(JSON.stringify(error)),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 })
+    }
 
   }
 
@@ -67,6 +78,7 @@ class MapHarbor extends Component {
   }
 
   render() {
+
     return (
       <SelectHabourView
         onPop={this.props.pop}

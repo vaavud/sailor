@@ -41,7 +41,7 @@ class History extends Component {
           onPop={this.props.pop} />
       )
     } else {
-      return <NoHistory/>
+      return <NoHistory />
     }
   }
 

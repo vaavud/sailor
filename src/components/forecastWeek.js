@@ -17,7 +17,10 @@ const Icon = createIconSetFromIcoMoon(icoMoonConfig)
 const {width} = Dimensions.get('window')
 
 const geoIcon = require('../../assets/geoIcon.png')
-const windIcontTemp = require('../../assets/windBlue.png')
+
+const windBlue = require('../../assets/windBlue.png')
+const windRed = require('../../assets/windRed.png')
+const windGray = require('../../assets/windGray.png')
 
 import { SpeedUnits, convertWindSpeed, convertTemp } from '../reactcommon/utils'
 
@@ -49,16 +52,22 @@ export default class ForecastWeek extends Component {
     )
   }
 
-  _renderSpeed(speed, direction) {
+  _renderSpeed(speed, direction,color) {
     return (
       <View style={{ flex: 0.4, alignItems: 'center' }} >
         <Image
           resizeMode="cover"
-          source={windIcontTemp}
+          source={this._colorToIcon(color)}
           style={[{ height: 45, width: 45, marginTop: 5 }, { transform: [{ 'rotate': `${direction}deg` }] }]} />
         <Text style={style.speedText}>{convertWindSpeed(speed, this.props.settings.windSpeed).toFixed(0)}</Text>
       </View>
     )
+  }
+
+  _colorToIcon(color){
+    if(color === '#7a868c')return windGray
+    else if(color === '#00a1e1')return windBlue 
+    else return windRed 
   }
 
 
@@ -75,7 +84,7 @@ export default class ForecastWeek extends Component {
     return (
       <View style={{ flex: 1 }} key={index} >
         {this._renderTemperature(spot.temperature, spot.icon)}
-        {this._renderSpeed(spot.windSpeed, spot.windDirection)}
+        {this._renderSpeed(spot.windSpeed, spot.windDirection,spot.color)}
         {this._renderDays(spot.day)}
       </View>
     )

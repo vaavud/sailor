@@ -37,6 +37,7 @@ export default class SelectHabourView extends Component {
     }
     this._onFinish = this._onFinish.bind(this)
     this.onRegionChange = this.onRegionChange.bind(this)
+    this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this)
   }
 
   static propTypes = {
@@ -52,18 +53,27 @@ export default class SelectHabourView extends Component {
     locationName: PropTypes.string.isRequired
   }
 
-  _stripName(name){
+  _stripName(name) {
     let index = name.indexOf(',')
     return index !== -1 ? name.substring(0, index) : name
   }
 
 
-  onRegionChange(region) {
+  onRegionChangeComplete(region) {
     nameByLatLon(region).then(name => {
       if (name.results.length > 0) {
         this.setState({ locationName: name.results[0].formatted_address, location: region })
       }
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ region: nextProps.region })
+    this.onRegionChangeComplete(nextProps.region)
+  }
+
+  onRegionChange(region) {
+    this.setState({ region })
   }
 
   // onMapPress(e) {
@@ -78,8 +88,11 @@ export default class SelectHabourView extends Component {
       <View style={style.mapContainer}>
         <MapView
           style={{ flex: 1 }}
-          onRegionChangeComplete={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
+          onRegionChange={this.onRegionChange}
+
           mapType="satellite"
+          region={this.state.region}
           initialRegion={this.state.region} />
         <Image source={imgHarbor} style={{ position: 'absolute', top: (height / 2) - 15, left: (width / 2) - 15 }} />
 

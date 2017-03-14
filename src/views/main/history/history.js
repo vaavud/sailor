@@ -12,7 +12,8 @@ import {
   RefreshControl,
   TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  Text
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -28,6 +29,9 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 import { SpeedUnits, convertWindSpeed } from '../../../reactcommon/utils'
+
+import { SwipeListView } from 'react-native-swipe-list-view'
+
 
 import moment from 'moment'
 
@@ -51,6 +55,8 @@ class HistoryView extends Component {
     }
 
     this._renderSectionHeader = this._renderSectionHeader.bind(this)
+    this._renderRow = this._renderRow.bind(this)
+    this._renderSubRow = this._renderSubRow.bind(this)
 
   }
 
@@ -72,7 +78,7 @@ class HistoryView extends Component {
     var rowData = sectionData[0]
     return (
       <View style={style.sectionHeader} >
-        <NormalLight style={{ flex: 1,fontSize: 12, color: 'white', fontWeight: 'bold' }}
+        <NormalLight style={{ flex: 1, fontSize: 12, color: 'white', fontWeight: 'bold' }}
           textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
         <NormalLight style={{ width: 40, textAlign: 'center', fontSize: 12, color: 'white' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
       </View>
@@ -117,8 +123,25 @@ class HistoryView extends Component {
     this.setState({ refreshing: false })
   }
 
-  render() {
+  _renderSubRow(data) {
     return (
+      <View>
+        
+      </View>
+      )
+  }
+
+  render() {
+    return (<SwipeListView
+      dataSource={this.state.dataSource}
+      renderRow={this._renderRow}
+      renderHiddenRow={this._renderSubRow}
+      renderSeparator={this._renderSeparator}
+      renderSectionHeader={this._renderSectionHeader}
+      leftOpenValue={75}
+      rightOpenValue={-75}
+    />)
+    /*return (
       <ListView
         dataSource={this.state.dataSource}
         refreshControl={
@@ -130,7 +153,7 @@ class HistoryView extends Component {
         renderSectionHeader={this._renderSectionHeader}
         style={style.list}
       />
-    )
+    )*/
   }
 }
 
