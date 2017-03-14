@@ -162,35 +162,41 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
       speeds.insert(CGPoint(x:Double(point.timestamp) , y: point.speed), at: 0)
       directions.insert(CGPoint(x: Double(point.timestamp), y:Double(point.direction)), at: 0)
     }
-
-    let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.0001, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
-    let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
-    let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
     
-    var avg : Double = 0
-    var max : Double = 0
-    var min = simplifiedSpeed.last!["windSpeed"]!
-//    let dir = simplifiedDirection.last!["windDirection"]!
-//    let _latlon = ["lat":latlon.last!.latitude,"lon":latlon.last!.longitude]
-
-    for s in simplifiedSpeed {
-      let v = s["windSpeed"]!
-      max = max < v ? v : max
-      min = min > v ? v : min
-      avg = avg + v
+    if points.count > 2 {
+      let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.0001, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
+      let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
+      let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
+      
+      var avg : Double = 0
+      var max : Double = 0
+      var min = simplifiedSpeed.last!["windSpeed"]!
+      //    let dir = simplifiedDirection.last!["windDirection"]!
+      //    let _latlon = ["lat":latlon.last!.latitude,"lon":latlon.last!.longitude]
+      
+      for s in simplifiedSpeed {
+        let v = s["windSpeed"]!
+        max = max < v ? v : max
+        min = min > v ? v : min
+        avg = avg + v
+      }
+      
+      
+      avg = avg / Double(simplifiedSpeed.count)
+      
+      //    session.windDirection = Int(dir)
+      //    session.windMax = max
+      //    session.windMean = avg
+      //    session.location = _latlon
+      //    session.timeEnd = Date().ticks
+      //    session.windMin = min
+      
+      self.sendEvent(withName: "onFinalData", body: ["measurementPoints":points.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection,"session": vaavudSDK.session.dict ] )
+      points = []
     }
     
+   
+
     
-    avg = avg / Double(simplifiedSpeed.count)
-    
-//    session.windDirection = Int(dir)
-//    session.windMax = max
-//    session.windMean = avg
-//    session.location = _latlon
-//    session.timeEnd = Date().ticks
-//    session.windMin = min
-    
-    self.sendEvent(withName: "onFinalData", body: ["measurementPoints":points.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection,"session": vaavudSDK.session.dict ] )
-    points = []
   }
 }

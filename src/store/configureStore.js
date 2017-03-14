@@ -2,7 +2,7 @@
 import thunkMiddleware from 'redux-thunk'
 
 // import createLogger from 'redux-logger'
-import { composeWithDevTools } from 'remote-redux-devtools'
+// import { composeWithDevTools } from 'remote-redux-devtools'
 
 
 
@@ -25,24 +25,24 @@ import { historyDaemon, forecastDeamon, sessionDeamon } from '../sagas/userdata'
 
 // const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
-const composeEnhancers = composeWithDevTools({ realtime: true, port: 8080, hostname: 'localhost' })
-
-const createStoreWithMiddleware = compose(
-  composeEnhancers(applyMiddleware(
-    // loggerMiddleware,
-    sagaMiddleware,
-    thunkMiddleware,
-  ))
-)
-
+// const composeEnhancers = composeWithDevTools({ realtime: true, port: 8080, hostname: 'localhost' })
 
 // const createStoreWithMiddleware = compose(
-//   applyMiddleware(
+//   composeEnhancers(applyMiddleware(
 //     // loggerMiddleware,
 //     sagaMiddleware,
 //     thunkMiddleware,
-//   )
+//   ))
 // )
+
+
+const createStoreWithMiddleware = compose(
+  applyMiddleware(
+    // loggerMiddleware,
+    sagaMiddleware,
+    thunkMiddleware,
+  )
+)
 
 
 export const store = createStore(combineReducers, createStoreWithMiddleware)
