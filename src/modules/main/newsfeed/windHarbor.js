@@ -14,7 +14,7 @@ import {
 import { SegmentedControls } from 'react-native-radio-buttons'
 
 import Button from '../../../reactcommon/components/button'
-import { convertWindSpeed } from '../../../reactcommon/utils'
+import { convertWindSpeed, SpeedUnitsUI, SpeedUnits, mSpeeedUnits, } from '../../../reactcommon/utils'
 import { forecastWindDirections } from '../../../reactcommon/forecastIcons'
 
 import Colors from '../../../../assets/colorTheme'
@@ -25,6 +25,9 @@ import { connect } from 'react-redux'
 
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { saveHarbor, saveProfile } from '../../../actions/harbor'
+
+import { updateSettings } from '../../../actions/settings'
+
 
 // let SelectorView = requireNativeComponent('SelectorViewSwift', WindHarbor)
 
@@ -104,14 +107,28 @@ class WindHarbor extends Component {
           }
         ]
       }
-
     }
-
-
-
 
     this._onFinish = this._onFinish.bind(this)
   }
+
+  _getWindSpeedValue(e) {
+    switch (e) {
+      case 'm/s':
+        this.props.updateSettings('windSpeed', mSpeeedUnits.mps)
+        break
+      case 'mph':
+        this.props.updateSettings('windSpeed', mSpeeedUnits.mph)
+        break
+      case 'km/h':
+        this.props.updateSettings('windSpeed', mSpeeedUnits.kmh)
+        break
+      case 'knots':
+        this.props.updateSettings('windSpeed', mSpeeedUnits.knots)
+        break
+    }
+  }
+
 
   componentDidMount() {
 
@@ -129,7 +146,7 @@ class WindHarbor extends Component {
     }
 
     if (this.state.isFromSettings) {
-      this.props.saveProfile(profile,true).then(() => this.props.pop())
+      this.props.saveProfile(profile, true).then(() => this.props.pop())
     }
     else {
       let harbor = {
@@ -137,7 +154,7 @@ class WindHarbor extends Component {
         name: this.state.name,
         directions: { N: true, E: true, W: true, S: true, NE: true, NW: true, SW: true, SE: true }
       }
-      this.props.saveProfile(profile,false)
+      this.props.saveProfile(profile, false)
         .then(this.props.saveHarbor(harbor, this.state.id))
         .then(() => this.props.pop(true))
     }
@@ -186,9 +203,9 @@ class WindHarbor extends Component {
         <Text style={textStyle.normal}>Your suggested wind range is </Text>
         <Text style={textStyle.normal}>
           from
-              <Text style={textStyle.normal} > {this.state.currentMinSpeed} </Text>
+              <Text style={textStyle.normal} > {convertWindSpeed(this.state.currentMinSpeed, this.props.settings.windSpeed).toFixed(0)} </Text>
           to
-              <Text style={textStyle.normal} > {this.state.currentMaxSpeed} </Text>
+              <Text style={textStyle.normal} > {convertWindSpeed(this.state.currentMaxSpeed, this.props.settings.windSpeed).toFixed(0)} </Text>
         </Text>
 
         <MultiSlider
@@ -197,15 +214,16 @@ class WindHarbor extends Component {
           min={this.state.windMin}
           max={this.state.windMax}
           onValuesChange={(values) => { this.setState({ currentMinSpeed: values[0], currentMaxSpeed: values[1] }) }}
-          onValuesChangeFinish={(values) => {
-            this.setState({ currentMinSpeed: values[0], currentMaxSpeed: values[1] })
-          }}
         />
 
         <Text style={{ ...textStyle.normal, textAlign: 'center' }} >{'Move the sliders\nto fine tune the range'}</Text>
       </View>
     )
   }
+
+  // onValuesChangeFinish={(values) => {
+  //           this.setState({ currentMinSpeed: values[0], currentMaxSpeed: values[1] })
+  //         }}
 
   _renderSegmented() {
     return (
@@ -215,11 +233,11 @@ class WindHarbor extends Component {
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
           backTint={Colors.segmentedTint}
-          options={['mps', 'kph', 'knot', 'mph']}
+          options={[SpeedUnitsUI.mps, SpeedUnitsUI.kmh, SpeedUnitsUI.mph, SpeedUnitsUI.knots]}
           allowFontScaling={false} // default: true
-          onSelection={(e, i) => console.log('TODO ')}
-          selectedOption={'mps'}
+          selectedOption={SpeedUnits[this.props.settings.windSpeed]}
           optionStyle={{ ...textStyle.normal }}
+          onSelection={(e, i) => this._getWindSpeedValue(e)}
           optionContainerStyle={style.segmentedControl}
           containerBorderWidth={2} />
       </View>
@@ -277,7 +295,9 @@ const mapReduxStoreToProps = (reduxStore) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveHarbor: bindActionCreators(saveHarbor, dispatch),
-    saveProfile: bindActionCreators(saveProfile, dispatch)
+    saveProfile: bindActionCreators(saveProfile, dispatch),
+    updateSettings: bindActionCreators(updateSettings, dispatch)
+
   }
 }
 
