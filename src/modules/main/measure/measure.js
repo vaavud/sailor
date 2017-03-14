@@ -104,7 +104,7 @@ class Measure extends Component {
         return this.props.saveSummary(summary)
       })
       .then(key => this.props.savePoints(data.measurementPoints, key))
-      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key } }))
+      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key,windMean: data.session.windMean } }))
   }
 
   onLocationWorking(location) {

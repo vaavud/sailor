@@ -33,7 +33,7 @@ import { SpeedUnits, convertWindSpeed } from '../../../reactcommon/utils'
 
 import { SwipeListView } from 'react-native-swipe-list-view'
 
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 import moment from 'moment'
 

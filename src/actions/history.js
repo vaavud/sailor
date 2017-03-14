@@ -2,7 +2,7 @@
 import firebase from 'firebase'
 // import Realm from 'realm'
 import realm from '../store/realm'
-import { NO_HISTORY, HISTORY_LOADED,SESSION_DELETED } from '../constants/history'
+import { NO_HISTORY, HISTORY_LOADED, SESSION_DELETED } from '../constants/history'
 
 const getSessions = () => {
   return new Promise((resolve, reject) => {

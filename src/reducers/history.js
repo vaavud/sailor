@@ -13,7 +13,6 @@ export default function history(state = initialState, action) {
     case NO_HISTORY:
       return { ...state, loading: false }
     case HISTORY_LOADED:
-      console.log(action.list)
       return { ...state, loading: false, sessions: action.list }
     case NEW_SESSION:
       let sessions = state.sessions

@@ -22,7 +22,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 import { getSummaryInformation } from '../../../actions/summary'
 
-import TestView from '../../../views/main/summary'
+import SummaryView from '../../../views/main/summary'
 
 import NoSummary from '../../../components/noSummary'
 import LoadingModal from '../../../components/loadingModal'
@@ -79,7 +79,7 @@ class Summary extends Component {
   render() {
     if (this.state.sessionFound){
       return (
-        <TestView
+        <SummaryView
           region={this.state.region}
           dateTime={this.state.startTime}
           locationName={this.props.componentProps.locationName}

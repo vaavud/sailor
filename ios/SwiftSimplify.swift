@@ -58,8 +58,12 @@ open class SwiftSimplify {
     // both algorithms combined for awesome performance
     let sqTolerance = (tolerance != nil ? tolerance! * tolerance! : 1.0)
     var result: [T] = (highQuality == true ? points : simplifyRadialDistance(points, tolerance: sqTolerance))
-    result = simplifyDouglasPeucker(result, tolerance: sqTolerance)
+    if result.count > 2 {
+      result = simplifyDouglasPeucker(result, tolerance: sqTolerance)
+    }
     return result
+    
+    
   }
   
   fileprivate class func simplifyRadialDistance<T>(_ points: [T], tolerance: Float!) -> [T] {
