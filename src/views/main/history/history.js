@@ -138,10 +138,16 @@ class HistoryView extends Component {
 
   _renderSubRow(data) {
     return (
-      <View>
-        
+      <View style={{ backgroundColor: Colors.vaavudRed, flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+        <TouchableOpacity onPress={() => {
+          console.log('delete', data.key)
+        }}>
+          <View>
+            <Text style={{ color: 'white', marginRight: 15 }}>Delete</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      )
+    )
   }
 
   render() {
@@ -151,7 +157,7 @@ class HistoryView extends Component {
       renderHiddenRow={this._renderSubRow}
       renderSeparator={this._renderSeparator}
       renderSectionHeader={this._renderSectionHeader}
-      leftOpenValue={75}
+      leftOpenValue={0}
       rightOpenValue={-75}
     />)
     /*return (
