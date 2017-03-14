@@ -100,7 +100,6 @@ export default class SummaryView extends Component {
   }
 
   _renderMapArea() { //this.props.tripCoordinates.coordinates
-    console.log('summ wooooot:::: ', this.props.tripCoordinates.coordinates)
 
     return (
       <View style={{ position: 'absolute', top: 0, left: 0, width, height, justifyContent: 'flex-end' }} >
