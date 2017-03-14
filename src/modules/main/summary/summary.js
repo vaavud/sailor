@@ -52,8 +52,8 @@ class Summary extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       coordinates: [],
-      startTime: props.componentProps.timeStart,
-      endTime: props.componentProps.timeEnd
+      startTime: 0,
+      endTime: 0
     }
   }
 
@@ -65,7 +65,9 @@ class Summary extends Component {
         windMax: summary.windMax,
         paths: summary.windSpeeds,
         coordinates: latslons,
-        directions: summary.windDirections
+        directions: summary.windDirections,
+        timeStart: summary.windSpeeds[0].timestamp,
+        timeEnd: summary.windSpeeds[summary.windSpeeds.length - 1].timestamp        
       })
     }).catch(err => {
       this.setState({ summaryLost: true })
