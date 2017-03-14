@@ -118,7 +118,7 @@ class WindHarbor extends Component {
   renderExplanation() {
       return (
         <View style={{height:150,marginTop:5,backgroundColor: Colors.container, borderRadius: 5}} >
-        
+
           <View style={{flexDirection: 'row' }}>
             <View style={{flex:0.5, margin:10}}>
               <Text style={{fontSize: 13, color: Colors.textColor ,backgroundColor: 'transparent',marginTop:3}}>Color explanation</Text>
@@ -179,20 +179,32 @@ class WindHarbor extends Component {
   }
 
   _renderButtons(){
-    return (
-      <View style={{justifyContent: 'flex-end' }} >
+    if (this.props.harbor.isFromSettings === true){
+      return (
+        <View style={{justifyContent: 'center' , marginBottom: 20}} >
           <Button
             textStyle={style.buttonText}
-            buttonStyle={style.bottonButtonNext} 
+            buttonStyle={style.bottonButtonNext}
+            title="Finish"
+            onPress={this._onFinish} />
+        </View>
+      )
+    } else {
+      return (
+     <View style={{justifyContent: 'flex-end' }} >
+          <Button
+            textStyle={style.buttonText}
+            buttonStyle={style.bottonButtonNext}
             title="Finish"
             onPress={this._onFinish} />
           <Button
             textStyle={{color: Colors.textColor}}
             buttonStyle={style.bottonButtonBack}
-            title="Back" 
+            title="Back"
             onPress={() => { this.props.pop() }} />
         </View>
-    )
+      )
+    }
   }
 
   render(){

@@ -36,7 +36,8 @@ class Settings extends Component {
         windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
-        push={this.props.push} />
+        push={this.props.push} 
+        harbor={this.props.harbor}/>
     )
   }
 }

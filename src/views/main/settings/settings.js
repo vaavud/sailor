@@ -166,11 +166,15 @@ export default class SettingsView extends Component {
       windMin,
       windMax
     } = this.props
+    const isFromSettings = {
+      isFromSettings: true
+    }
+    var harborProps = Object.assign(this.props.harbor, isFromSettings)
     return (
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
         <NormalText style={style.preferenceText} textContent={windMin + ' m/s to ' + windMax + 'm/s'} />
-        {this._renderLink('editPref', () => console.log('hit edit pref'))}
+        {this._renderLink('editPref', () => this.props.push({key: 'windHarbor', props: { ...harborProps }}))}
       </View>
     )
   }
