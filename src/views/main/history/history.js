@@ -9,6 +9,7 @@ import React, {
 import {
   ListView,
   View,
+  Dimensions,
   RefreshControl,
   TouchableOpacity,
   StyleSheet,
@@ -32,6 +33,7 @@ import { SpeedUnits, convertWindSpeed } from '../../../reactcommon/utils'
 
 import { SwipeListView } from 'react-native-swipe-list-view'
 
+const {width} = Dimensions.get('window')
 
 import moment from 'moment'
 
@@ -98,6 +100,7 @@ class HistoryView extends Component {
     }
     return (
       <TouchableOpacity style={style.row}
+        activeOpacity={1}
         onPress={() => this.props.onNextPress({
           key: 'summary', props: {
             sessionKey: data.key,
@@ -157,8 +160,9 @@ class HistoryView extends Component {
       renderHiddenRow={this._renderSubRow}
       renderSeparator={this._renderSeparator}
       renderSectionHeader={this._renderSectionHeader}
-      leftOpenValue={0}
-      rightOpenValue={-75}
+      disableRightSwipe={true}
+      rightOpenValue={width * - 0.2}
+      style={style.list}
     />)
     /*return (
       <ListView
