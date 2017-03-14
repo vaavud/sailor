@@ -14,11 +14,11 @@ import { connect } from 'react-redux'
 
 const { width, height } = Dimensions.get('window')
 
-const ASPECT_RATIO = width / height;
+const ASPECT_RATIO = width / height
 const LATITUDE = 55.66674646433456
 const LONGITUDE = 12.580140583275785
-const LATITUDE_DELTA = 0.0092;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const LATITUDE_DELTA = 0.0092
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 import { getSummaryInformation } from '../../../actions/summary'
 
@@ -51,15 +51,22 @@ class Summary extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      coordinates: []
+      coordinates: [],
+      startTime: props.componentProps.timeStart,
+      endTime: props.componentProps.timeEnd
     }
   }
 
   componentDidMount() {
     getSummaryInformation(this.state.sessionKey).then(summary => {
-      console.log('summ wooooot:::: ', summary)
       let latslons = summary.locations.map(latlon => getCoordinate(latlon))
-      this.setState({ sessionFound: true, windMin: summary.windMin, windMax: summary.windMax, paths: summary.windSpeeds, coordinates: latslons, directions: summary.windDirections })
+      this.setState({ sessionFound: true,
+        windMin: summary.windMin,
+        windMax: summary.windMax,
+        paths: summary.windSpeeds,
+        coordinates: latslons,
+        directions: summary.windDirections
+      })
     }).catch(err => {
       this.setState({ summaryLost: true })
     })
@@ -70,12 +77,12 @@ class Summary extends Component {
   }
 
   render() {
-    if (this.state.sessionFound)
+    if (this.state.sessionFound){
       return (
         <TestView
           region={this.state.region}
-          dateTime={1486053616211}
-          locationName={'Islands brygge'}
+          dateTime={this.state.startTime}
+          locationName={this.props.componentProps.locationName}
           tripCoordinates={{
             id: 1,
             coordinates: this.state.coordinates
@@ -84,11 +91,11 @@ class Summary extends Component {
           paths={this.state.paths}
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
           minWindSpeed={Math.floor(this.state.windMin)}
-          windAverage={5}
-          startTime={1488984269046}
-          endTime={1488984683159}
+          windAverage={this.props.componentProps.windMean.toFixed(1)}
+          startTime={this.state.startTime}
+          endTime={this.state.endTime}
           onPressBack={this.props.pop} />
-      )
+      )}
     else if (this.state.summaryLost) {
       return (
         <NoSummary pop={this.props.pop}/>

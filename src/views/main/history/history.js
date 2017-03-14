@@ -87,16 +87,29 @@ class HistoryView extends Component {
 
   _renderRow(data) {
     // TODO what if there is no location
+    const {
+      location
+    } = data
+    var locationString = '-'
+    if (location !== undefined) {
+      var lat = location.lat.toFixed(2) + '°'
+      var lon = location.lon.toFixed(2) + '°'
+      var locationString = 'Lat: ' + lat + ' Lon: ' + lon
+    }
     return (
       <TouchableOpacity style={style.row}
         onPress={() => this.props.onNextPress({
           key: 'summary', props: {
             sessionKey: data.key,
+            timeStart: data.timeStart,
+            timeEnd: data.timeEnd,
+            locationName: locationString,
+            windMean: data.windMean
           }
         })}>
         <View style={style.locationContainer}>
           <SmallText textContent={moment(data.timeStart).format('HH:mm')} />
-          <NormalText textContent={'Lat: 55.67° Lon: ‎12.56°'} />
+          <NormalText textContent={locationString} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
