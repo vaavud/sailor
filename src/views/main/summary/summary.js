@@ -17,8 +17,10 @@ import {
   Image
 } from 'react-native'
 
-import MapView from 'react-native-maps'
+import { connect } from 'react-redux'
 
+import MapView from 'react-native-maps'
+import { SpeedUnits, convertWindSpeed } from '../../../reactcommon/utils'
 import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
@@ -36,7 +38,7 @@ const { width, height } = Dimensions.get('window')
 
 const graphHeight = 150
 
-export default class SummaryView extends Component {
+class SummaryView extends Component {
 
   constructor(props) {
     super(props)
@@ -123,8 +125,6 @@ export default class SummaryView extends Component {
 
   _renderResultArea() {
     const {
-      startTime,
-      endTime,
       windAverage,
       maxWindSpeed
     } = this.props
@@ -134,9 +134,13 @@ export default class SummaryView extends Component {
     let time = timeEnd - timeStart
     var y = maxWindSpeed - 1
     return (
+      
       <View style={style.resultContainer} >
+        <View>
+        <SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
+      </View>
         <SmallText textContent={'Duration: ' + moment.utc(time).format('HH:mm:ss')} />
-        <SmallText textContent={'Avg: ' + windAverage + ' m/s'} />
+        <SmallText textContent={'Avg: ' + windAverage + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
       </View>
     )
   }
@@ -213,19 +217,22 @@ export default class SummaryView extends Component {
   }
 
   _renderWindSpeedPoints() {
-    const max = this.props.maxWindSpeed
-    const min = this.props.minWindSpeed
+    const max = convertWindSpeed(this.props.maxWindSpeed, this.props.settings.windSpeed).toFixed(0)
+    const min = 0
+    const mid = max / 2
     let render = []
-    for (let i = max; i >= min; i -= 1) {
-      if (i === max) {
-        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={'m/s'} />)
+    for (let i = 1; i < 4; i++){
+      if (i === 1){
+        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={max} />)
+      } else if (i === 2){
+        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={mid} />)
       } else {
-        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={i} />)
+        render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={min} />)
       }
     }
     return (
       <View style={style.windSpeedContainer}>
-        {render}
+          {render}
       </View>
     )
   }
@@ -242,6 +249,20 @@ export default class SummaryView extends Component {
     )
   }
 }
+
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(SummaryView)
 
 const style = StyleSheet.create({
   container: {
