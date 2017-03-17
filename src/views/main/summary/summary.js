@@ -140,7 +140,7 @@ class SummaryView extends Component {
         <SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
       </View>
         <SmallText textContent={'Duration: ' + moment.utc(time).format('HH:mm:ss')} />
-        <SmallText textContent={'Avg: ' + convertWindSpeed(windAverage, this.props.settings.windSpeed).toFixed(0) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
+        <SmallText textContent={'Avg: ' + convertWindSpeed(windAverage, this.props.settings.windSpeed).toFixed(1) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
       </View>
     )
   }

@@ -17,6 +17,8 @@ import {
   Dimensions
 } from 'react-native'
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import Colors from '../../../../assets/colorTheme'
 
 const { width } = Dimensions.get('window')
@@ -135,9 +137,26 @@ export default class TrueWindView extends Component {
     )
   }
 
+  _renderHeader = () => {
+    return (
+      <View style={style.headerContainer} >
+        <View style={style.headerLeft} >
+          <Icon.Button name="close-circle-outline" backgroundColor={Colors.vaavudRed}    onPress={this.props.testStop}>
+            Stop
+        </Icon.Button>
+        </View>
+        <View style={style.headerRight} >
+          <Text style={{fontSize:24}} >{this.props.batteryLevel + ' % '}</Text>
+          <Icon style={{fontSize:24}} name="battery" />
+        </View>
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={style.container}>
+        {this._renderHeader()}
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
         <Button title="Stop" onPress={this.props.testStop} />
@@ -151,11 +170,30 @@ const style = StyleSheet.create({
   container: {
     width,
     flex: 1,
-    paddingTop: 40,
     backgroundColor: Colors.background
+  },
+  headerContainer:{
+    flex: 1,
+    flexDirection: 'row',
+  },
+  headerLeft:{
+    flex: 2,
+    height: 100,
+    alignItems: 'flex-start',
+    paddingLeft: 20,
+    justifyContent: 'center',
+  },
+  headerRight:{
+    flex: 2,
+    flexDirection: 'row',
+    height: 100,
+    paddingRight: 20,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   compassContainer: {
     flex: 2,
+    marginTop: -100,
     justifyContent: 'center',
     alignItems: 'center',
   },
