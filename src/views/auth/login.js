@@ -188,7 +188,8 @@ export default class LoginView extends Component {
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
-        <LoadingModal isActive={this.state.isLoading} />
+        <LoadingModal isActive={this.state.isLoading}
+          message={'Processing request...'} />
       </Image>
     )
   }

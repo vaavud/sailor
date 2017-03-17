@@ -38,7 +38,7 @@ export default class LoadingModal extends Component {
             color={'white'}
             style={style.spinner}
             animating={true} />
-          <NormalText textContent={this.props.message}  />
+          <NormalText style={{color: 'white', textAlign: 'center'}} textContent={this.props.message}  />
           {this.props.children}
         </View>
       </View>
@@ -69,6 +69,7 @@ const style = StyleSheet.create({
     width: width - 40,
     height: height - 40,
     borderRadius: 40,
+    padding: 50,
     backgroundColor: Colors.vaavudBlue,
     justifyContent: 'center',
     alignItems: 'center'

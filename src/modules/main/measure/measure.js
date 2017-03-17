@@ -202,9 +202,7 @@ class Measure extends Component {
             <TrueWindView windHeading={this.state.trueWindDirection} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
             <ApparentWindView windHeading={this.state.windDirection} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
-          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...'} >
-            <NormalText textContent={'Note that processing time may vary depending on duration of the measument session'} />
-          </LoadingModal>
+          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measument session'} />
         </View>
       )
     }

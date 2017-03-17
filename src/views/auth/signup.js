@@ -302,7 +302,8 @@ export default class SignupView extends Component {
         {this._renderInputFields()}
         {this._renderSignupButton()}
         {this._renderTermsAndPrivacy()}
-        <LoadingModal isActive={this.state.isLoading} />
+        <LoadingModal isActive={this.state.isLoading}
+          message={'Processing request...'} />
       </Image>
     )
   }
