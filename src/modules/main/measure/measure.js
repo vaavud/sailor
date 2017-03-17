@@ -21,7 +21,7 @@ import Colors from '../../../../assets/colorTheme'
 
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 
-import {NormalText} from '../../../components/text'
+import { NormalText } from '../../../components/text'
 import LoadingModal from '../../../components/loadingModal'
 
 import {
@@ -50,7 +50,8 @@ class Measure extends Component {
       trueWindDirection: 0,
       trueWindSpeed: 0,
       trueLastWindDirection: 0,
-      isLoading: false
+      isLoading: false,
+      timeout: false
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
@@ -60,6 +61,10 @@ class Measure extends Component {
     this.onLocationWorking = this.onLocationWorking.bind(this)
     this._onStopMeasurement = this._onStopMeasurement.bind(this)
     this.onBleState = this.onBleState.bind(this)
+    this.timeout = this.timeout.bind(this)
+    this._jump = this._jump.bind(this)
+    this._tryAgin = this._tryAgin.bind(this)
+    this.removeLiteners = this.removeLiteners.bind(this)
   }
 
   componentDidMount() {
@@ -70,11 +75,19 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
     this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
     this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    this.state.myModuleEvt.addListener('timeout', this.timeout)
+
+
+
 
     NativeModules.VaavudBle.initBle()
   }
 
 
+  timeout() {
+    NativeModules.VaavudBle.onDisconnect()
+    this.setState({ timeout: true })
+  }
 
   onBleState(data) {
     switch (data.status) {
@@ -91,6 +104,9 @@ class Measure extends Component {
 
     let windMin = 0
 
+    this.removeLiteners()
+    this.setState({ myModuleEvt: null })
+
     this.props.saveSession(data.session)
       .then(key => {
         let summary = {
@@ -99,17 +115,17 @@ class Measure extends Component {
           windMax: data.session.windMax,
           speeds: data.speeds,
           directions: data.directions,
-          locations: data.locations
+          locations: data.locations,
+          fromHistory: false
         }
         return this.props.saveSummary(summary)
       })
       .then(key => this.props.savePoints(data.measurementPoints, key))
-      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key,windMean: data.session.windMean } }))
+      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key, windMean: data.session.windMean } }))
   }
 
   onLocationWorking(location) {
     if (location.available) {
-      console.log('Location working')
       this.setState({ locationReady: true })
     }
     else {
@@ -117,32 +133,19 @@ class Measure extends Component {
     }
   }
 
-  componentWillUnmount() {
-    // this._onStopMeasurement()
+  removeLiteners() {
+    this.state.myModuleEvt.removeAllListeners('onBleState')
+    this.state.myModuleEvt.removeAllListeners('onNewRead')
+    this.state.myModuleEvt.removeAllListeners('onReadyToWork')
+    this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
+    this.state.myModuleEvt.removeAllListeners('onLocationWorking')
+    this.state.myModuleEvt.removeAllListeners('onFinalData')
+    this.state.myModuleEvt.removeAllListeners('timeout')
   }
 
   _onStopMeasurement() {
-    this.setState({isLoading: true})
-    // navigator.geolocation.clearWatch(this.positionListener)
+    this.setState({ isLoading: true })
     NativeModules.VaavudBle.onDisconnect()
-    // // this.state.myModuleEvt.removeAllListeners('onBleConnected')
-    // // this.state.myModuleEvt.removeAllListeners('onStateHasChanged')
-    // this.state.myModuleEvt.removeAllListeners('onNewRead')
-    // this.state.myModuleEvt.removeAllListeners('onReadyToWork')
-    // this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
-
-    // if (!this.state.readyToWork) return
-
-    // this.props.endSession(this.state.points).then(res => {
-    //   if (res.success) {
-    //     this.props.push({ key: 'summary', props: { sessionKey: res.key } })
-
-    //     console.log('go to summary with key: ', res.key)
-    //   }
-    //   else {
-    //     console.log('go back, there was a problem with the server')
-    //   }
-    // })
   }
 
   onVaavudBleFound(ble) {
@@ -151,10 +154,6 @@ class Measure extends Component {
 
   onReadyToWork() {
     this.setState({ readyToWork: true })
-    // this.props.endSession()
-    // this.props.initSession().then(() => {
-    //   this.setState({ readyToWork: true })
-    // })
   }
 
   onNewRead(point) {
@@ -176,10 +175,20 @@ class Measure extends Component {
   _renderDotIndicator() {
     return (
       <PagerDotIndicator
-        dotStyle={{backgroundColor: Colors.vaavudBlue, opacity: 0.5}}
-        selectedDotStyle={{backgroundColor: Colors.vaavudBlue}}
+        dotStyle={{ backgroundColor: Colors.vaavudBlue, opacity: 0.5 }}
+        selectedDotStyle={{ backgroundColor: Colors.vaavudBlue }}
         pageCount={2} />
-    )  
+    )
+  }
+
+  _jump() {
+    this.removeLiteners()
+    this.props.jump('history')
+  }
+
+  _tryAgin() {
+    NativeModules.VaavudBle.initBle()
+    this.setState({ timeout: false })
   }
 
   render() {
@@ -201,7 +210,12 @@ class Measure extends Component {
     }
     else {
       return (
-        <ConnectingView isBleReady={this.state.isBleConnected} isLocationReady={this.state.locationReady} />
+        <ConnectingView
+          isBleReady={this.state.isBleConnected}
+          isLocationReady={this.state.locationReady}
+          jump={this._jump}
+          timeout={this.state.timeout}
+          tryAgain={this._tryAgin} />
       )
     }
   }

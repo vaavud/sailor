@@ -116,7 +116,8 @@ class HistoryView extends Component {
             timeStart: data.timeStart,
             timeEnd: data.timeEnd,
             locationName: locationString,
-            windMean: data.windMean
+            windMean: data.windMean,
+            fromHistory: true
           }
         })}>
         <View style={style.locationContainer}>

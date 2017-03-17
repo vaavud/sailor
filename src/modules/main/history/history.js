@@ -3,16 +3,11 @@
 'use strict'
 
 import React, { Component } from 'react'
-import {
-  View, Button, Image, Text
-} from 'react-native'
 
 import HistoryView from '../../../views/main/history'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-const ic_empty = require('../../../../assets/icons/ic_empty.png')
 
 import NoHistory from '../../../components/NoHistory'
 import { deleteSession } from '../../../actions/history'

@@ -5,7 +5,8 @@ import React from 'react'
 import {
   Newsfeed,
   MapHarbor,
-  WindHarbor} from './modules/main/newsfeed'
+  WindHarbor
+} from './modules/main/newsfeed'
 import History from './modules/main/history'
 import Measure from './modules/main/measure'
 import Map from './modules/main/map'
@@ -26,7 +27,7 @@ export const routes =
 
 export const defaultRoute = 'newsfeed'
 
-export function renderRoute(scene, push, pop) {
+export function renderRoute(scene, push, pop, jump) {
   var route = routes.filter(_route => _route.id === scene.route.key)[0]
-  return <route.component componentProps={scene.route.props} push={push} pop={pop} />
+  return <route.component componentProps={scene.route.props} push={push} pop={pop} jump={jump} />
 }
