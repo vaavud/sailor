@@ -25,12 +25,17 @@ class VaavudScene extends Component {
     // this._exit = this._exit.bind(this)
     this.popRoute = this._popRoute.bind(this)
     this.pushRoute = this._pushRoute.bind(this)
+    this.jumpRout = this._jumpRout.bind(this)
   }
 
   render() {
     return (
-      renderRoute(this.props.scene, this.pushRoute, this.popRoute)
+      renderRoute(this.props.scene, this.pushRoute, this.popRoute, this.jumpRout)
     )
+  }
+
+  _jumpRout(tabKey,resetRouter) {
+    this.props.navigate({ type: 'selectTab', tabKey })
   }
 
   _pushRoute(route) {

@@ -16,6 +16,8 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 
+import Button from '../../../reactcommon/components/button'
+
 const logo = require('../../../../assets/logo-login.png')
 const checkmark = require('../../../../assets/checkmark.png')
 
@@ -26,7 +28,7 @@ export default class ConnectingView extends Component {
     isLocationReady: PropTypes.bool.isRequired
   }
 
-  _renderHeader(){
+  _renderHeader() {
     return (
       <View style={style.headerContainer} >
         <Text style={style.headerText} >{'Preparing to start measuring'}</Text>
@@ -34,7 +36,7 @@ export default class ConnectingView extends Component {
     )
   }
 
-  _renderStatusSection(){
+  _renderStatusSection() {
     return (
       <View style={style.statusSection}>
         {this._renderLocationStatusRow()}
@@ -43,7 +45,7 @@ export default class ConnectingView extends Component {
     )
   }
 
-  _renderStatusIcon(isReady){
+  _renderStatusIcon(isReady) {
     return !isReady ?
       (
         <ActivityIndicator
@@ -57,7 +59,7 @@ export default class ConnectingView extends Component {
       )
   }
 
- _renderLocationStatusRow(){
+  _renderLocationStatusRow() {
     return (
       <View style={style.rowContainer} >
         <Text>{'Location service'}</Text>
@@ -66,7 +68,7 @@ export default class ConnectingView extends Component {
     )
   }
 
-  _renderDeviceStatusRow(){
+  _renderDeviceStatusRow() {
     return (
       <View style={style.rowContainer} >
         <Text>{'Device status'}</Text>
@@ -75,13 +77,33 @@ export default class ConnectingView extends Component {
     )
   }
 
-  render(){
+  _renderTimeOut() {
+    return (
+      <View>
+        <Text style={{ textAlign: 'center', width: 200, marginTop: 20, color: 'red', alignSelf: 'center' }}> Time out, we couldn't connect to your vaavud Ble </Text>
+        <Button title="Try Again"
+          buttonStyle={{ marginTop: 20, height: 40, width: 200, alignSelf: 'center', backgroundColor: Colors.vaavudBlue, justifyContent: 'center' }}
+          textStyle={{ color: 'white', textAlign: 'center' }}
+          onPress={this.props.tryAgain} />
+        <Button title="Cancel"
+          buttonStyle={{ marginTop: 10, height: 40, width: 200, alignSelf: 'center', justifyContent: 'center' }}
+          textStyle={{ color: 'black', textAlign: 'center' }}
+          onPress={this.props.jump} />
+      </View>
+    )
+  }
+
+  render() {
     return (
       <View style={style.container}>
         <Image style={style.logo}
           source={logo} />
         {this._renderHeader()}
         {this._renderStatusSection()}
+
+        {this.props.timeout ? this._renderTimeOut() : null}
+
+
       </View>
     )
   }
@@ -93,7 +115,7 @@ const style = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 50,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.background,
   },
   headerContainer: {
     padding: 40,

@@ -60,7 +60,7 @@ function createAppNavigationState() {
 // Next step.
 // Define what app navigation state shall be updated.
 function updateAppNavigationState(state, action) {
-  let {type} = action
+  let { type } = action
   if (type === 'BackAction' || type === 'back') {
     type = 'pop'
   }
@@ -70,7 +70,7 @@ function updateAppNavigationState(state, action) {
       // Push a route into the scenes stack.
       try {
         const route = action.route
-        const {tabs} = state
+        const { tabs } = state
         const tabKey = tabs.routes[tabs.index].key
         const scenes = state[tabKey]
         const nextScenes = NavigationStateUtils.push(scenes, route)
@@ -92,7 +92,7 @@ function updateAppNavigationState(state, action) {
     case 'popToRoot': {
 
       // Pops a route from the scenes stack.
-      const {tabs} = state
+      const { tabs } = state
       const tabKey = tabs.routes[tabs.index].key
       if (tabKey !== 'measure') {
         const scenes = state[tabKey]
@@ -113,7 +113,7 @@ function updateAppNavigationState(state, action) {
     case 'pop': {
 
       // Pops a route from the scenes stack.
-      const {tabs} = state
+      const { tabs } = state
       const tabKey = tabs.routes[tabs.index].key
       if (tabKey !== 'measure') {
         const scenes = state[tabKey]
@@ -137,15 +137,18 @@ function updateAppNavigationState(state, action) {
       previousKey = state.tabs.routes[state.tabs.index].key
       const scenes = state[previousKey]
       var nextScenes = scenes
-      // console.log('selectTab','previousKey',previousKey);
-      // if (previousKey === 'measure') {
-      //   nextScenes = NavigationStateUtils.pop(scenes)
-      //   // console.log('selectTab','PopScenes orig:',scenes,' pop: ',nextScenes)
-      // }
+
+      let _state = { ...state }
+
+      if (previousKey === 'measure') {
+        _state.measure.index = 0
+        _state.measure.routes = [{ key: 'measure' }]
+      }
+
       const tabs = NavigationStateUtils.jumpTo(state.tabs, tabKey)
       if (tabs !== state.tabs) {
         return {
-          ...state,
+          ..._state,
           tabs,
           [previousKey]: nextScenes,
         }
@@ -200,7 +203,7 @@ class Main extends Component {
       <VaavudNavigator
         appNavigationState={this.state}
         navigate={this._navigate}
-        />
+      />
     )
   }
 }

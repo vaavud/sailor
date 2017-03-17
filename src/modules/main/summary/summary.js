@@ -42,6 +42,7 @@ class Summary extends Component {
     super(props)
 
     this.state = {
+      fromHistory: props.componentProps.fromHistory,
       sessionKey: props.componentProps.sessionKey,
       sessionFound: false,
       summaryLost: false,
@@ -54,6 +55,8 @@ class Summary extends Component {
       coordinates: [],
       endTime: 0
     }
+
+    this.onBackPress = this.onBackPress.bind(this)
   }
 
   componentDidMount() {
@@ -78,6 +81,16 @@ class Summary extends Component {
 
   }
 
+  onBackPress() {
+    if (this.state.fromHistory) {
+      console.log(this.props)
+      this.props.pop()
+    }
+    else {
+      this.props.jump('history', true)
+    }
+  }
+
   render() {
     if (this.state.sessionFound) {
       return (
@@ -96,7 +109,7 @@ class Summary extends Component {
           windAverage={this.props.componentProps.windMean.toFixed(1)}
           startTime={this.state.timeStart}
           endTime={this.state.endTime}
-          onPressBack={this.props.pop} />
+          onPressBack={this.onBackPress} />
       )
     }
     else if (this.state.summaryLost) {
