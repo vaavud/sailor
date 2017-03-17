@@ -25,15 +25,18 @@ import {
 
 import Button from '../../../reactcommon/components/button'
 
+import { connect } from 'react-redux'
+
 import {
-  speed_conv, SpeedUnits, temp_conv, angle_conv, TempCUnits,
+  convertWindSpeed, SpeedUnits, temp_conv, angle_conv, TempCUnits,
+  speed_conv,
   angle_conv_inverse, temp_conv_inverse, SpeedUnitsUI, mSpeeedUnits
 } from '../../../reactcommon/utils'
 
 const isIos = Platform.OS === 'ios'
 
 
-export default class SettingsView extends Component {
+class SettingsView extends Component {
 
   static propTypes = {
     updateSettings: PropTypes.func.isRequired,
@@ -162,13 +165,10 @@ export default class SettingsView extends Component {
       windMin,
       windMax
     } = this.props
-    const isFromSettings = {
-      isFromSettings: true
-    }
     return (
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
-        <NormalText style={style.preferenceText} textContent={windMin + ' m/s to ' + windMax + 'm/s'} />
+        <NormalText style={style.preferenceText} textContent={convertWindSpeed(windMin, this.props.settings.windSpeed).toFixed(0) + ' to ' + convertWindSpeed(windMax, this.props.settings.windSpeed).toFixed(0) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
         {this._renderLink('editPref', () => this.props.push({ key: 'windHarbor', props: { isFromSettings: true } }))}
       </View>
     )
@@ -245,6 +245,20 @@ export default class SettingsView extends Component {
     )
   }
 }
+
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(SettingsView)
 
 const style = StyleSheet.create({
   container: {

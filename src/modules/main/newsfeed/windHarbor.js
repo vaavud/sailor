@@ -171,7 +171,7 @@ class WindHarbor extends Component {
               resizeMode="cover"
               source={forecastWindDirections[_spot[index].color]}
               style={[style.spotImageWind, { transform: [{ 'rotate': _spot[index].windDirection + 'deg' }] }]} />
-            <Text style={style.spotLable}>{_spot[index].windSpeed}</Text>
+            <Text style={style.windLable}>{_spot[index].windSpeed}</Text>
           </View>
           <Text style={[style.spotLable, { marginTop: 5 }]}>{_spot[index].day}</Text>
         </View>
@@ -367,6 +367,12 @@ const style = StyleSheet.create({
   spotLable: {
     fontSize: 11,
     color: Colors.textColor,
+    backgroundColor: 'transparent',
+    textAlign: 'center'
+  },
+  windLable: {
+    fontSize: 11,
+    color: 'white',
     backgroundColor: 'transparent',
     textAlign: 'center'
   },

@@ -16,6 +16,7 @@ import {
   Dimensions
 } from 'react-native'
 
+import LoadingModal from '../../components/loadingModal'
 import Button from '../../reactcommon/components/button'
 import Colors from '../../../assets/colorTheme'
 
@@ -47,6 +48,7 @@ export default class LoginView extends Component {
       email: '',
       password: '',
       keyboardShown: false,
+      isLoading: false
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
@@ -86,6 +88,7 @@ export default class LoginView extends Component {
   }
 
   _handleLoginPress() {
+    this.setState({isLoading: true})
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
@@ -185,6 +188,7 @@ export default class LoginView extends Component {
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
+        <LoadingModal isActive={this.state.isLoading} />
       </Image>
     )
   }
