@@ -116,7 +116,7 @@ export default class TrueWindView extends Component {
   }
 
   _renderGroundSpeed(groundSpeed) {
-    if (groundSpeed < 0){
+    if (groundSpeed < 0) {
       groundSpeed = 0.0
     }
     return (
@@ -141,13 +141,13 @@ export default class TrueWindView extends Component {
     return (
       <View style={style.headerContainer} >
         <View style={style.headerLeft} >
-          <Icon.Button name="close-circle-outline" backgroundColor={Colors.vaavudRed}    onPress={this.props.testStop}>
+          <Icon.Button name="close-circle-outline" backgroundColor={Colors.vaavudRed} onPress={this.props.testStop}>
             Stop
         </Icon.Button>
         </View>
         <View style={style.headerRight} >
-          <Text style={{fontSize:24}} >{this.props.batteryLevel + ' % '}</Text>
-          <Icon style={{fontSize:24}} name="battery" />
+          <Text style={{ fontSize: 24 }} >{this.props.batteryLevel + ' % '}</Text>
+          <Icon style={{ fontSize: 24 }} name="battery" />
         </View>
       </View>
     )
@@ -159,7 +159,6 @@ export default class TrueWindView extends Component {
         {this._renderHeader()}
         {this._renderCompass(this.props.lastWindHeading, this.props.windHeading)}
         {this._renderWindText()}
-        <Button title="Stop" onPress={this.props.testStop} />
         {this._renderSpeedContainer(this.props.velocity, this.props.windSpeed)}
       </View>
     )
@@ -172,18 +171,18 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background
   },
-  headerContainer:{
+  headerContainer: {
     flex: 1,
     flexDirection: 'row',
   },
-  headerLeft:{
+  headerLeft: {
     flex: 2,
     height: 100,
     alignItems: 'flex-start',
     paddingLeft: 20,
     justifyContent: 'center',
   },
-  headerRight:{
+  headerRight: {
     flex: 2,
     flexDirection: 'row',
     height: 100,

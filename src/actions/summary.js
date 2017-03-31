@@ -13,6 +13,9 @@ export function getSummaryInformation(sessionKey) {
 
       let s = summary[0]
 
+
+      console.log('summary from chache',s )
+
       let speeds = []
       let directions = []
       let locations = []

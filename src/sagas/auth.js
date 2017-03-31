@@ -51,7 +51,7 @@ function* verifyExistingUserHandler(action) {
 
   const { timeout, otherCall } = yield race({
     timeout: call(delay, 5000),
-    otherCall: call(getCurrentUser, action.uid) //Save in redux, so far its not needed. Just to validate if there is interenet
+    otherCall: call(getCurrentUser, action.uid) //Save in redux?, so far is not needed. Just to validate if there is interenet
   })
 
 
@@ -97,16 +97,13 @@ function* saveUserIfNeededHandler(data) {
       delete credential.token
       delete credential.type
       ref.set(credential)
-    } 
+    }
   })
 }
 
-export function* saveUserIfNeeded(){
-  yield takeEvery('SAVE_FB_USER',saveUserIfNeededHandler)
+export function* saveUserIfNeeded() {
+  yield takeEvery('SAVE_FB_USER', saveUserIfNeededHandler)
 }
-
-
-
 
 //
 // Put in redux information from cache

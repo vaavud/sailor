@@ -73,6 +73,7 @@ class Summary extends Component {
         timeEnd: summary.windSpeeds[summary.windSpeeds.length - 1].timestamp
       })
     }).catch(err => {
+      console.log('error summary', err)
       this.setState({ summaryLost: true })
     })
   }
@@ -108,6 +109,7 @@ class Summary extends Component {
           minWindSpeed={Math.floor(this.state.windMin)}
           windAverage={this.props.componentProps.windMean.toFixed(1)}
           startTime={this.state.timeStart}
+          settings={this.props.settings}
           endTime={this.state.endTime}
           onPressBack={this.onBackPress} />
       )
@@ -124,6 +126,7 @@ class Summary extends Component {
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
+    settings: reduxStore.settings
   }
 }
 

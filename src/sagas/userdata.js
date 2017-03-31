@@ -4,7 +4,7 @@ import realm from '../store/realm'
 import { takeEvery, put, select, call } from 'redux-saga/effects'
 
 import { WORK_WITH_SERVER, STATUS, HOME_READY, SETUP } from '../constants/auth'
-import { HARBOR_LOADED,RELOAD_FORECAST } from '../constants/harbor'
+import { HARBOR_LOADED, RELOAD_FORECAST } from '../constants/harbor'
 
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
@@ -25,6 +25,7 @@ function* historyDaemonHandler(action) {
   yield put(yield getBatteryLevel())
   yield put(yield getProfile())
   yield put(yield getSubscription())
+  yield put({ type: STATUS, status: 'Syncing cache...' })
   yield put(yield getSessions())
 
   let isSetupDone = yield introStatus()
@@ -42,13 +43,9 @@ export function* historyDaemon() {
 }
 
 
-
-
-//
 // once requested the getSubscription try to get forecast
 // 
 //
-
 
 function* forecastDeamonHandler() {
   if (yield select(online)) {
@@ -68,7 +65,6 @@ export function* forecastDeamon() {
 export function* refreshForecastDeamon() {
   yield takeEvery(RELOAD_FORECAST, forecastDeamonHandler)
 }
-
 
 
 //

@@ -51,7 +51,8 @@ class Measure extends Component {
       trueWindSpeed: 0,
       trueLastWindDirection: 0,
       isLoading: false,
-      timeout: false
+      timeout: false,
+      battery: '-'
     }
 
     this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
@@ -167,7 +168,8 @@ class Measure extends Component {
       velocity: point.velocity,
       trueWindDirection: point.trueWindDirection,
       trueWindSpeed: point.trueWindSpeed,
-      trueLastWindDirection: lastTrue
+      trueLastWindDirection: lastTrue,
+      battery: point.battery
     })
     // }
   }
@@ -199,10 +201,10 @@ class Measure extends Component {
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
             style={{ flex: 1 }} >
-            <TrueWindView windHeading={this.state.trueWindDirection} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
-            <ApparentWindView windHeading={this.state.windDirection} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <TrueWindView windHeading={this.state.trueWindDirection} batteryLevel={this.state.battery} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
+            <ApparentWindView windHeading={this.state.windDirection} batteryLevel={this.state.battery} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
-          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measument session'} />
+          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
         </View>
       )
     }
