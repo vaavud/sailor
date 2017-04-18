@@ -919,7 +919,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Vaavud Sailor" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Sailor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1511,7 +1511,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailorcom.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vaavud.sailor;
 				PRODUCT_NAME = sailing;
 				SWIFT_OBJC_BRIDGING_HEADER = "sailing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1543,7 +1543,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailorcom.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailor-com.vaavud.sailor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vaavud.sailor;
 				PRODUCT_NAME = sailing;
 				SWIFT_OBJC_BRIDGING_HEADER = "sailing-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -1656,7 +1656,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Vaavud Sailor" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Sailor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
