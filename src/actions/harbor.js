@@ -200,12 +200,19 @@ export function saveHarbor(payload, key) {
       // Save for offline
       realm.write(() => {
         let harbor = realm.objects('Harbor')
-        harbor[0].windMin = getState().harbor.windMin
-        harbor[0].windMax = getState().harbor.windMin
-        harbor[0].key = _key
-        harbor[0].directions = payload.directions
-        harbor[0].location = payload.location
-        harbor[0].name = payload.name
+        if (harbor[0] === undefined) {
+          harbor = realm.create('Harbor', {})
+        }
+        else {
+          harbor = harbor[0]
+        }
+
+        harbor.windMin = getState().harbor.windMin
+        harbor.windMax = getState().harbor.windMax
+        harbor.key = _key
+        harbor.directions = payload.directions
+        harbor.location = payload.location
+        harbor.name = payload.name
       })
 
       resolve()
