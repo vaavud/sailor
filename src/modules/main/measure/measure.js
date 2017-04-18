@@ -93,10 +93,10 @@ class Measure extends Component {
   onBleState(data) {
     switch (data.status) {
       case 'off':
-        Alert.alert('Bluetooth Error', 'Haha!! Einstein... you want to use a Bluetooth device with Bluetooth off!', [{ text: 'OK' }])
+        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON', [{ text: 'OK', onPress: () => this.setState({timeout:true})}])
         break
       case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'Come on! i promise you not to send all the information to our server :), give us authorization (go to settings and change it)', [{ text: 'OK' }])
+        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress: () => this.setState({timeout:true})}])
         break
     }
   }
