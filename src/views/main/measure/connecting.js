@@ -80,7 +80,7 @@ export default class ConnectingView extends Component {
   _renderTimeOut() {
     return (
       <View>
-        <Text style={{ textAlign: 'center', width: 200, marginTop: 20, color: 'red', alignSelf: 'center' }}> Time out, we couldn't connect to your vaavud Ble </Text>
+        <Text style={{ textAlign: 'center', width: 200, marginTop: 20, color: 'red', alignSelf: 'center' }}> Time out, we couldn't connect to your Vaavud Ultrasonic </Text>
         <Button title="Try Again"
           buttonStyle={{ marginTop: 20, height: 40, width: 200, alignSelf: 'center', backgroundColor: Colors.vaavudBlue, justifyContent: 'center' }}
           textStyle={{ color: 'white', textAlign: 'center' }}
