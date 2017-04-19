@@ -13,9 +13,6 @@ export function getSummaryInformation(sessionKey) {
 
       let s = summary[0]
 
-
-      console.log('summary from chache',s )
-
       let speeds = []
       let directions = []
       let locations = []
@@ -56,8 +53,6 @@ function getSummaryFromServer(sessionKey) {
     fetch(`${SERVER_URL}m-screen/${sessionKey}`)
       .then(response => response.json())
       .then(responseData => {
-
-        console.log('from server', responseData)
 
         if ('err' in responseData) {
           reject()

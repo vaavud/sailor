@@ -7,28 +7,28 @@ import { NEW_SESSION } from '../constants/history'
 // let SERVER_URL = 'http://52.30.86.52/apps/'
 let SERVER_URL = 'https://apps-dev.vaavud.com/'
 
-
 /*
   ::: USED IN :::
   measure [module]
   userData [saga]
 */
 
-export function saveSession(session, _key) {
-  return function (dispatch, getState) {
+export function justSaveSessionInFirebase(session, _key) {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('session').child(_key).set(session)
+    resolve()
+  })
+}
+
+
+export function saveSession(session) {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
       let uid = firebase.auth().currentUser.uid
       let deviceKey = 'UNTRASONIC'
 
-      let nodeRef
-      if (_key) {
-        nodeRef = firebase.database().ref('session').child(_key)
-      }
-      else {
-        nodeRef = firebase.database().ref('session').push()
-      }
-
+      let nodeRef = firebase.database().ref('session').push()
 
       session.uid = uid
       session.deviceKey = deviceKey
@@ -36,12 +36,11 @@ export function saveSession(session, _key) {
       delete session.windMin
       delete session.key
 
-      let key = _key === undefined ? nodeRef.key : _key
+      let key = nodeRef.key
 
       console.log('my key', key)
 
-      if (getState().app.online) {  //TODO 
-
+      if (getState().app.online) {
         nodeRef.set(session)
         realm.write(() => {
           console.log('saving session', { key, ...session, sent: true })
@@ -62,10 +61,9 @@ export function saveSession(session, _key) {
 }
 
 export function saveSummary(summary) {
-  return function (dispatch, getState) {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       realm.write(() => {
-        console.log('summary saving', summary)
         realm.create('Summary', summary)
         resolve(summary.key)
       })
@@ -75,13 +73,12 @@ export function saveSummary(summary) {
 
 function savePointsLocal(points, key) {
   realm.write(() => {
-    console.log('saving points...', { key, points })
     realm.create('SessionPoints', { key, points })
   })
 }
 
 export function savePoints(points, key) {
-  return function (dispatch, getState) {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       if (getState().app.online) {
         sendPoints(key, points).then(() => {
@@ -106,8 +103,6 @@ export function sendPoints(_key, points) {
     let obj = {}
     obj[_key] = points
 
-    console.log('summary', JSON.stringify(obj))
-
     fetch(`${SERVER_URL}addMeasurements`, {
       method: 'POST',
       body: JSON.stringify([obj])
@@ -115,9 +110,10 @@ export function sendPoints(_key, points) {
       .then(response => response.json())
       .then(responseData => {
 
-        console.log('responseData', responseData)
-
         if ('inserted' in responseData) {
+          resolve()
+        }
+        else if ('msg' in responseData && responseData.msg === 'Payload accepted, will take a few minutes to process') { //TODO change flags
           resolve()
         }
         else {

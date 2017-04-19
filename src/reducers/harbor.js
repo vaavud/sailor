@@ -32,8 +32,6 @@ export default function harbor(state = initialState, action) {
       return { ...state, forecast: action.forecast }
     case PROFILE_LOADED:
       return { ...state, windMax: action.windMax, windMin: action.windMin }
-    case FORECAST_LOADED:
-      return { ...state, forecast: action.forecast }
     case FORECAST_FAILD:
       return { ...state, forecastFaild: true }
     case LOGOUT:

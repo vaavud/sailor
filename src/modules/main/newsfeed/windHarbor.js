@@ -157,6 +157,7 @@ class WindHarbor extends Component {
       this.props.saveProfile(profile, false)
         .then(this.props.saveHarbor(harbor, this.state.id))
         .then(() => this.props.pop(true))
+        .catch(err => { console.log('err', err) })
     }
   }
 

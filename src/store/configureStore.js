@@ -5,7 +5,6 @@ import thunkMiddleware from 'redux-thunk'
 // import { composeWithDevTools } from 'remote-redux-devtools'
 
 
-
 import createSagaMiddleware from 'redux-saga'
 import { createStore, applyMiddleware, compose } from 'redux'
 import combineReducers from '../reducers/combine'
@@ -21,7 +20,7 @@ import { CHECK_AUTH, VERIFY_EXISTING_USER, TOKEN, STATUS } from '../constants/au
 //sagas
 import { verifyAuth, verifyExistingUser, workWithCache, saveUserIfNeeded } from '../sagas/auth'
 import { error } from '../sagas/utils'
-import { historyDaemon, forecastDeamon, sessionDeamon,refreshForecastDeamon } from '../sagas/userdata'
+import { historyDaemon, forecastDeamon, sessionDeamon, refreshForecastDeamon } from '../sagas/userdata'
 
 // const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()

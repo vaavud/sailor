@@ -53,6 +53,7 @@ const getSessions = () => {
               if (snap.val().deviceKey === 'UNTRASONIC') {
                 obj.key = snap.key
                 historyList.push(obj)
+                obj.sent = true
                 realm.create('Session', obj)
               }
             })

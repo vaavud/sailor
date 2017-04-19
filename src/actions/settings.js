@@ -26,6 +26,9 @@ export function logout(time) {
     return new Promise((resolve, reject) => {
 
       realm.write(() => {
+        let sessionPoints = realm.objects('SessionPoints')
+        realm.delete(sessionPoints)
+
         let _history = realm.objects('Session')
         realm.delete(_history)
 

@@ -32,14 +32,14 @@ export function getForecast(windMax, windMin, unit, token, subId) {
         if ('id' in forecast) {
           resolve({ type: FORECAST_LOADED, forecast: forecast })
 
-          console.log('forecast[0]', forecast)
-
           //Save forecast in Realm
           var fore = realm.objects('Forecast')
           realm.write(() => {
             realm.delete(fore)
             realm.create('Forecast', { ...forecast })
           })
+
+          console.log('forecast[0]', forecast)
 
         }
         else {
@@ -124,7 +124,7 @@ export function getProfile() {
               _profile[0].windMax = obj.maxSpeed
             }
             else {
-              realm.create('Harbor', { id: 1, windMin: obj.maxSpeed, windMax: obj.minSpeed })
+              realm.create('Harbor', { id: 1, windMin: obj.minSpeed, windMax: obj.maxSpeed })
             }
           })
           resolve({ type: PROFILE_LOADED, windMax: obj.maxSpeed, windMin: obj.minSpeed })
@@ -197,15 +197,23 @@ export function saveHarbor(payload, key) {
         name: payload.name
       })
 
+
       // Save for offline
       realm.write(() => {
         let harbor = realm.objects('Harbor')
-        harbor[0].windMin = getState().harbor.windMin
-        harbor[0].windMax = getState().harbor.windMin
-        harbor[0].key = _key
-        harbor[0].directions = payload.directions
-        harbor[0].location = payload.location
-        harbor[0].name = payload.name
+        if (harbor[0] === undefined) {
+          harbor = realm.create('Harbor', {})
+        }
+        else {
+          harbor = harbor[0]
+        }
+
+        harbor.windMin = getState().harbor.windMin
+        harbor.windMax = getState().harbor.windMax
+        harbor.key = _key
+        harbor.directions = payload.directions
+        harbor.location = payload.location
+        harbor.name = payload.name
       })
 
       resolve()

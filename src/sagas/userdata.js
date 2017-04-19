@@ -9,23 +9,22 @@ import { HARBOR_LOADED, RELOAD_FORECAST } from '../constants/harbor'
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
 import { harbor, settings, token, online } from '../selectors/common'
-import { saveSession, sendPoints } from '../actions/measure'
+import { justSaveSessionInFirebase, sendPoints } from '../actions/measure'
 import { introStatus, getBatteryLevel } from '../actions/bluetooth'
 
 
 
 //
 // try to get information from server and put them in redux
-// 
 //
 
 
 function* historyDaemonHandler(action) {
+  console.log('Normal FLow')
   yield put({ type: STATUS, status: 'Loading user information...' })
   yield put(yield getBatteryLevel())
   yield put(yield getProfile())
   yield put(yield getSubscription())
-  yield put({ type: STATUS, status: 'Syncing cache...' })
   yield put(yield getSessions())
 
   let isSetupDone = yield introStatus()
@@ -39,12 +38,11 @@ function* historyDaemonHandler(action) {
 }
 
 export function* historyDaemon() {
-  yield takeEvery(WORK_WITH_SERVER, historyDaemonHandler)
+  yield takeEvery('WORK_WITH_SERVER_POST_SYNC', historyDaemonHandler)
 }
 
-
+//
 // once requested the getSubscription try to get forecast
-// 
 //
 
 function* forecastDeamonHandler() {
@@ -72,66 +70,69 @@ export function* refreshForecastDeamon() {
 // if so, send them to the server
 //
 
-
-function deletePointsWraper(sessionPoint) {
-  return new Promise((resolve, reject) => {
-    realm.write(() => {
-      console.log('removing from local', sessionPoint.key)
-      realm.delete(sessionPoint)
-      resolve()
-    })
-  })
-}
-
-function updateSession(session) {
-  return new Promise((resolve, reject) => {
-    realm.write(() => {
-      console.log('sent to firebase', session.key)
-      session.sent = true
-      resolve()
-    })
-  })
-}
-
-
 function* sessionDeamonHandler() {
+  yield put({ type: STATUS, status: 'Syncing cache...' })
+
   if (yield select(online)) {
 
-    // let sessionPoints = realm.objects('SessionPoints')
+    let sessionPoints = [...realm.objects('SessionPoints').filtered('sent = false')]
 
-    // for (let i in sessionPoints) { //Get and save points
-    //   let sessionPoint = sessionPoints[i]
-    //   if (sessionPoint) {
-    //     let points = sessionPoint.points
-    //     let _points = []
+    for (let i in sessionPoints) { //Get and save points
+      let sessionPoint = sessionPoints[i]
+      if (sessionPoint) {
+        let currentPoints = realm.objects('SessionPoints').filtered(`key = "${sessionPoint.key}"`)
+        let points = currentPoints[0].points
+        let _points = []
 
-    //     for (let x in points) {
-    //       _points.push(points[x])
-    //     }
+        for (let x in points) {
+          _points.push(points[x])
+        }
 
-    //     try {
-    //       yield call(sendPoints, sessionPoint.key, _points)
-    //       yield call(deletePointsWraper, sessionPoint)
-    //     }
-    //     catch (e) {
-    //       console.log('error wa wa wa', e)
-    //     }
-    //   }
-    // }
+        console.log('sessionPoint', sessionPoint.key)
+        console.log('sessionPoint', _points)
 
-    // let currentSessions = realm.objects('Session').filtered('sent = false')
 
-    // for (let i in currentSessions) {//Get and sessions
-    //   let s = currentSessions[i]
-    //   if (s) {
-    //     let key = s.key
-    //     delete s.key
-    //     console.log('trying to send to firebase ', key)
-    //     yield call(saveSession, s, key)
-    //     yield call(updateSession, s)
-    //   }
-    // }
+        try {
+          yield call(sendPoints, sessionPoint.key, _points)
+          realm.write(() => {
+            realm.delete(currentPoints)
+          })
+        }
+        catch (e) {
+          console.log('error wa wa wa', e)
+        }
 
+        console.log('everything went fine!')
+      }
+    }
+
+
+    let objCopy = [...realm.objects('Session').filtered('sent = false')]
+
+    for (let i in objCopy) {//Get and sessions
+      let s = objCopy[i]
+      if (s) {
+        let currentSessions = realm.objects('Session').filtered(`key = "${s.key}"`)
+        let item = { ...currentSessions[0] }
+
+        let key = item.key
+        delete item.key
+        delete item.sent
+        console.log('trying to send to firebase ', key, item)
+        try {
+          yield call(justSaveSessionInFirebase, item, key)
+          realm.write(() => {
+            currentSessions[0].sent = true
+          })
+        }
+        catch (e) {
+          console.log('error wa wa wa', e)
+        }
+      }
+    }
+
+    console.log('DONE :D....')
+    yield put({ type: 'WORK_WITH_SERVER_POST_SYNC', status: 'Syncing cache...' })
   }
 }
 
