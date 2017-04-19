@@ -5,7 +5,7 @@ import realm from '../store/realm'
 import { NEW_SESSION } from '../constants/history'
 
 // let SERVER_URL = 'http://52.30.86.52/apps/'
-let SERVER_URL = 'https://apps-dev.vaavud.com/'
+let SERVER_URL = 'https://apps-api.vaavud.com/'
 
 /*
   ::: USED IN :::
