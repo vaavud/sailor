@@ -58,10 +58,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth Peripheral Usage</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Calendars Usage Description</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is needed to search for nearby peripherals.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is needed to search for nearby peripherals.</string>
+	<key>NSMainNibFile</key>
+	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Bold.ttf</string>
