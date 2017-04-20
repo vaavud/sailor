@@ -2,34 +2,29 @@ package com.sailing;
 
 import android.app.Application;
 
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.smixx.fabric.FabricPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
-import io.realm.react.RealmReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.azendoo.reactnativesnackbar.SnackbarPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.sailing.packages.VaavudPackage;
+import com.smixx.fabric.FabricPackage;
 import com.vaavud.vaavudSDK.core.location.LocationManager;
 
 import java.util.Arrays;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.react.RealmReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -49,10 +44,10 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(new MainReactPackage(),
-            new FabricPackage(),
-            new LinearGradientPackage(),
-            new ReactNativePermissionsPackage(),
-            new VectorIconsPackage(),
+              new FabricPackage(),
+              new LinearGradientPackage(),
+              new ReactNativePermissionsPackage(),
+              new VectorIconsPackage(),
               new RealmReactPackage(),
               new FBSDKPackage(mCallbackManager),
               new ReactNativeI18n(),
@@ -72,9 +67,10 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    FacebookSdk.sdkInitialize(getApplicationContext());
+    //FacebookSdk.sdkInitialize(getApplicationContext());
     // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
     LocationManager.getInstance().init(getApplicationContext());
+    Fabric.with(this, new Crashlytics());
   }
 }
