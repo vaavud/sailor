@@ -10,7 +10,8 @@ class Mounting extends Component {
 
 
   render = () => {
-    return <MountingView nav={this.props.nav} />
+    const { navigate } = this.props.navigation
+    return <MountingView navigate={navigate} />
   }
 
 }

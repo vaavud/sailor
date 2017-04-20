@@ -26,7 +26,7 @@ class IntroView extends Component {
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
             title={'NEXT'}
-            onPress={() => this.props.nav({ type: 'push', key: 'mounting' })} />
+            onPress={() => this.props.navigate('Mounting')} />
         </View>
       </View>
     )

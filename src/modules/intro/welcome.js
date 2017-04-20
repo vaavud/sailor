@@ -7,13 +7,11 @@ import {
   Dimensions,
   View,
   Text,
-  NativeModules,
-  NativeEventEmitter,
   StyleSheet,
   Image
 } from 'react-native'
 import Button from '../../reactcommon/components/button'
-import { HeadingText, NormalText} from '../../components/text'
+import { HeadingText, NormalText } from '../../components/text'
 
 import Colors from '../../../assets/colorTheme'
 const ic_bluetooth = require('../../../assets/icons/bluetooth.png')
@@ -36,7 +34,7 @@ import PopupDialog from 'react-native-popup-dialog'
 import Permissions from 'react-native-permissions'
 
 
-const {height, width} = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 class Welcome extends Component {
 
@@ -96,7 +94,8 @@ class Welcome extends Component {
   _permissions() {
     Permissions.getPermissionStatus('location').then(response => {
       if (response === 'authorized') {
-        this.props.nav({ type: 'push', key: 'connecting' })
+        const { navigate } = this.props.navigation
+        navigate('Connecting')
       }
       else {
         this.popupDialog.show()
@@ -107,7 +106,8 @@ class Welcome extends Component {
   _onContinue() {
     Permissions.requestPermission('location').then(location => {
       if (location === 'authorized') {
-        this.props.nav({ type: 'push', key: 'bluetooth' })
+        const { navigate } = this.props.navigation
+        navigate('Connecting')
       }
     })
   }
@@ -135,32 +135,32 @@ class Welcome extends Component {
     )
   }
 
-  _renderPopUpView(){
+  _renderPopUpView() {
     return (
       <Image style={style.popUpBg}
-      source={bgmap} >
+        source={bgmap} >
         <Image style={style.popUpContainer}
-        source={overlay} >
-        <View style={{flex: 1, alignItems: 'center'}} >
-          <HeadingText style={{textAlign: 'center', backgroundColor:'transparent', margin: 30}}
-            textContent={'Access your\nlocation'} />
-          <Image source={locactionLogo} />
-          <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
-            <Image source={buildingOne} />
-            <Image source={buildingTwo} />
-            <Image source={tree} />
+          source={overlay} >
+          <View style={{ flex: 1, alignItems: 'center' }} >
+            <HeadingText style={{ textAlign: 'center', backgroundColor: 'transparent', margin: 30 }}
+              textContent={'Access your\nlocation'} />
+            <Image source={locactionLogo} />
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+              <Image source={buildingOne} />
+              <Image source={buildingTwo} />
+              <Image source={tree} />
+            </View>
+            <NormalText style={{ textAlign: 'center', marginTop: 20 }}
+              textContent={'In order for you to use the ultrasonic, we need to access your location'} />
           </View>
-          <NormalText style={{textAlign: 'center', marginTop: 20 }}
-          textContent={'In order for you to use the ultrasonic, we need to access your location'} />
-        </View>
           <Button buttonStyle={style.popUpButton}
-          textStyle={style.popUpButtonText}
-          onPress={this._onContinue}
-          title="Accept" />
-        <Button buttonStyle={style.buttonSkip}
-          textStyle={style.buttonText}
-          onPress={() => this.popupDialog.dismiss()}
-          title="Do not allow" />
+            textStyle={style.popUpButtonText}
+            onPress={this._onContinue}
+            title="Accept" />
+          <Button buttonStyle={style.buttonSkip}
+            textStyle={style.buttonText}
+            onPress={() => this.popupDialog.dismiss()}
+            title="Do not allow" />
         </Image>
       </Image>
     )
@@ -170,7 +170,7 @@ class Welcome extends Component {
   _renderPopup() {
     return (<PopupDialog
       ref={(popupDialog) => { this.popupDialog = popupDialog }}
-        height={height}>
+      height={height}>
       {this._renderPopUpView()}
     </PopupDialog>)
   }
@@ -200,12 +200,12 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
   },
-  popUpBg:{
+  popUpBg: {
     flex: 1,
     width: width,
     height: height,
   },
-  popUpContainer:{
+  popUpContainer: {
     flex: 1,
     width: width,
     height: height,
@@ -235,7 +235,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.vaavudBlue,
   },
-  popUpButtonText:{
+  popUpButtonText: {
     fontSize: 16,
     textAlign: 'center',
     color: 'white'

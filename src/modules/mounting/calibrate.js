@@ -9,9 +9,12 @@ import {
 class Calibrate extends Component {
 
   render = () => {
-    return <CalibrateView nav={this.props.nav} />
+    const { navigate } = this.props.navigation
+    return <CalibrateView navigate={navigate} />
   }
 
 }
+
+
 
 export default Calibrate

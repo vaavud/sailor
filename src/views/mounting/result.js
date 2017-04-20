@@ -25,8 +25,8 @@ class ResultView extends Component {
         <View style={style.buttonContainer}>
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            title={'NEXT'}
-            onPress={() => {/* TODO save offset*/}} />
+            title={'FINISH'}
+            onPress={this.props.finish} />
         </View>
       </View>
     )

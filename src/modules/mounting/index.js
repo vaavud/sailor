@@ -1,4 +1,28 @@
-import React, {
+
+import Intro from './intro'
+import Mounting from './mounting'
+import Calibrate from './calibrate'
+import Result from './result'
+
+import { StackNavigator } from 'react-navigation'
+
+
+const MountingFlow = StackNavigator({
+  Intro: { screen: Intro },
+  Mounting: { screen: Mounting },
+  Calibrate: { screen: Calibrate },
+  Result: { screen: Result }
+}, {
+    headerMode: 'screen',
+    navigationOptions: {
+      headerVisible: false,
+    }
+  })
+
+export default MountingFlow
+
+
+/*import React, {
   Component } from 'react'
 
 import {
@@ -12,6 +36,8 @@ import Intro from './intro'
 import Mounting from './mounting'
 import Calibrate from './calibrate'
 import Result from './result'
+
+
 
 const {
   CardStack: NavigationCardStack,
@@ -139,4 +165,4 @@ class MountingGuide extends Component {
 
 }
 
-export default MountingGuide
+export default MountingGuide*/

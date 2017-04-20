@@ -1,16 +1,16 @@
 'use strict'
 
-import {
-  BackAndroid,
-  View,
-  NavigationExperimental,
-} from 'react-native'
+// import {
+//   BackAndroid,
+//   View,
+//   NavigationExperimental,
+// } from 'react-native'
 
-import { } from 'react-native'
+// import { } from 'react-native'
 
 
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// import React, { Component } from 'react'
+// import { connect } from 'react-redux'
 
 import Welcome from './welcome'
 import Bluetooth from './bluetooth'

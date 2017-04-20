@@ -7,11 +7,11 @@ import {
 } from '../../views/mounting/'
 
 class Intro extends Component {
-  componentDidMount = () => {
-    console.log('see props', this.props)
-  }
+
   render = () => {
-    return <IntroView nav={this.props.nav} />
+    const { navigate } = this.props.navigation
+
+    return <IntroView navigate={navigate} />
   }
 
 }

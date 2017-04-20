@@ -26,7 +26,7 @@ class CalibrateView extends Component {
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
             title={'NEXT'}
-            onPress={() => this.props.nav({ type: 'push', key: 'result' })} />
+            onPress={() => this.props.navigate('Result')} />
         </View>
       </View>
     )

@@ -1,17 +1,17 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { View } from 'react-native'
 import { connect } from 'react-redux'
 
 import Welcome from './modules/auth/welcome'
 import Main from './modules/main'
 import Intro from './modules/intro'
 import Loading from './modules/loading'
+import MountingFlow from './modules/mounting'
 
 
 //constants
-import { NEEDS_AUTH, HOME_READY, SETUP, LOADING } from './constants/auth'
+import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE } from './constants/auth'
 
 
 class SailorMain extends Component {
@@ -26,6 +26,8 @@ class SailorMain extends Component {
         return (<Welcome />)
       case HOME_READY:
         return (<Main />)
+      case CALIBRATE:
+        return <MountingFlow />
       case SETUP:
         return (<Intro />)
       case LOADING:

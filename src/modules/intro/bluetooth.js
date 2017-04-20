@@ -25,7 +25,6 @@ class Bluethooth extends Component {
 
   constructor(props) {
     super(props)
-
     this._finishSetup = this._finishSetup.bind(this)
   }
 
@@ -38,10 +37,14 @@ class Bluethooth extends Component {
   }
 
   _finishSetup() {
-    this.props.saveLastBLEStatus(this.props.point.battery).then(this.props.skipIntro)
+    const { params } = this.props.navigation.state
+
+    this.props.saveLastBLEStatus(params.battery).then(this.props.skipIntro)
   }
 
   render() {
+    const { params } = this.props.navigation.state
+
     return (
       <View style={style.container} >
         <Image source={correct} style={{ height: 90, width: 90 }} />
@@ -50,7 +53,7 @@ class Bluethooth extends Component {
         <NormalText style={style.description}
           textContent={I18n.t('deviceConnect')} />
         <NormalText style={style.description}
-          textContent={I18n.t('batteryLevel') + this.props.point.battery + ' %'} />
+          textContent={I18n.t('batteryLevel') + params.battery + ' %'} />
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}

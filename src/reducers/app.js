@@ -1,6 +1,14 @@
 
 
-import { IS_AUTH, NEEDS_AUTH, LOADING, ONLINE, LOGOUT, TOKEN, STATUS, OFFLINE, HOME_READY, SKIP_SETUP, SETUP, BATTERY } from '../constants/auth'
+import {
+  IS_AUTH, NEEDS_AUTH,
+  LOADING, ONLINE,
+  LOGOUT, TOKEN,
+  STATUS, OFFLINE,
+  HOME_READY, SKIP_SETUP,
+  SETUP, BATTERY,
+  CALIBRATE, SKIP_CALIBRATION
+} from '../constants/auth'
 
 var initialState = {
   uid: undefined,
@@ -15,7 +23,7 @@ var initialState = {
   battery: 'n/a'
 }
 
-export default function app(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case IS_AUTH:
       return { ...state, isAuth: true }
@@ -24,6 +32,8 @@ export default function app(state = initialState, action) {
     case SETUP:
       return { ...state, state: action.type }
     case SKIP_SETUP:
+      return { ...state, state: CALIBRATE }
+    case SKIP_CALIBRATION:
       return { ...state, state: HOME_READY }
     case NEEDS_AUTH:
       return { ...state, isAuth: false, state: action.type }

@@ -34,8 +34,6 @@ export default class Connecting extends Component {
       ble: 'connection...'
     }
 
-    console.log('props', props)
-
     this._removeCallbacks = this._removeCallbacks.bind(this)
     this.onLocationWorking = this.onLocationWorking.bind(this)
     this.onBleState = this.onBleState.bind(this)
@@ -64,7 +62,8 @@ export default class Connecting extends Component {
   timeout() {
     NativeModules.VaavudBle.onDisconnect()
     this._removeCallbacks()
-    this.props.nav({ type: 'push', key: 'noBluetooth' })
+    const { navigate } = this.props.navigation
+    navigate('NoBluetooth')
   }
 
   _removeCallbacks() {
@@ -79,10 +78,20 @@ export default class Connecting extends Component {
   onBleState(data) {
     switch (data.status) {
       case 'off':
-        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{ text: 'OK', onPress:() => {this.props.nav({ type: 'push', key: 'noBluetooth' })} }])
+        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
+          text: 'OK', onPress: () => {
+            const { navigate } = this.props.navigation
+            navigate('NoBluetooth')
+          }
+        }])
         break
       case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress:() => {this.props.nav({ type: 'push', key: 'noBluetooth' })} }])
+        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{
+          text: 'OK', onPress: () => {
+            const { navigate } = this.props.navigation
+            navigate('NoBluetooth')
+          }
+        }])
         break
     }
   }
@@ -104,7 +113,8 @@ export default class Connecting extends Component {
     NativeModules.VaavudBle.onDisconnect()
     this._removeCallbacks()
 
-    this.props.nav({ type: 'push', key: 'bluetooth', props: { point } })
+    const { navigate } = this.props.navigation
+    navigate('Bluetooth', point)
   }
 
 
@@ -117,7 +127,7 @@ export default class Connecting extends Component {
         <Text style={style.description} >{this.state.location}</Text>
         <Text style={style.description} >Vaavud BLE status</Text>
         <Text style={style.description} >{this.state.ble}</Text>
-        
+
       </View>
     )
   }

@@ -26,7 +26,7 @@ class MountingView extends Component {
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
             title={'NEXT'}
-            onPress={() => this.props.nav({ type: 'push', key: 'calibrate' })} />
+            onPress={() => this.props.navigate('Calibrate')} />
         </View>
       </View>
     )
