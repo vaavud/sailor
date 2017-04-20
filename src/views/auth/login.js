@@ -26,7 +26,7 @@ import {
 
 import I18n from '../../components/i18n'
 
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 var loginImage
 var loginLogo
@@ -36,10 +36,8 @@ var passwordInputLogo
 export default class LoginView extends Component {
 
   static propTypes = {
-    onPressSignup: PropTypes.func.isRequired,
     onPressLogin: PropTypes.func.isRequired,
     onPressFBLogin: PropTypes.func.isRequired,
-    onPressForgotPassword: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -57,7 +55,7 @@ export default class LoginView extends Component {
     this._handleStartShouldSetResponderCapture = this._handleStartShouldSetResponderCapture.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     loginImage = require('../../../assets/images/login-image.png')
     loginLogo = require('../../../assets/icons/logo.png')
     loginInputLogo = require('../../../assets/icons/profile.png')
@@ -66,17 +64,17 @@ export default class LoginView extends Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
   }
 
-  _keyboardDidShow () {
-    this.setState({keyboardShown: true})
+  _keyboardDidShow() {
+    this.setState({ keyboardShown: true })
   }
 
-  _keyboardDidHide () {
-    this.setState({keyboardShown: false})
+  _keyboardDidHide() {
+    this.setState({ keyboardShown: false })
   }
 
   _handleEmailInput(event) {
@@ -88,24 +86,24 @@ export default class LoginView extends Component {
   }
 
   _handleLoginPress() {
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true })
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
-  _handleStartShouldSetResponderCapture(evt){
+  _handleStartShouldSetResponderCapture(evt) {
     return this.state.keyboardShown
   }
 
-  _handleResponderRelease(evt){
+  _handleResponderRelease(evt) {
     Keyboard.dismiss()
   }
 
-  _renderInputFields(){
+  _renderInputFields() {
     return (
       <View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-            source={loginInputLogo}/>
+            source={loginInputLogo} />
           <TextInput style={style.input}
             autoFocus={false}
             autoCorrect={false}
@@ -123,9 +121,9 @@ export default class LoginView extends Component {
         </View>
         <View style={style.inputContainer}>
           <Image style={style.inputLogo}
-            source={passwordInputLogo}/>
+            source={passwordInputLogo} />
           <TextInput style={style.input}
-            ref={r => { this.SecondInput = r } }
+            ref={r => { this.SecondInput = r }}
             autoFocus={false}
             autoCorrect={false}
             keyboardType="default"
@@ -141,7 +139,7 @@ export default class LoginView extends Component {
     )
   }
 
-  _renderButtons(){
+  _renderButtons() {
     return (
       <View style={style.buttonContainer}>
         <Button buttonStyle={style.loginButton}
@@ -157,20 +155,16 @@ export default class LoginView extends Component {
   }
 
   _renderSignup() {
-    const {
-      onPressSignup,
-      onPressForgotPassword
-    } = this.props
     return (
       <View style={style.signupContainer}>
         <Button buttonStyle={style.signupForgotButton}
           textStyle={style.forgotButtonText}
           title={I18n.t('forgotPwButton')}
-          onPress={onPressForgotPassword} />
+          onPress={() => this.props.navigate('Forgot')} />
         <Button buttonStyle={style.signupForgotButton}
           textStyle={style.signupButtonText}
           title={I18n.t('signupButton')}
-          onPress={onPressSignup} />
+          onPress={() => this.props.navigate('SignUp')} />
       </View>
     )
   }
@@ -184,7 +178,7 @@ export default class LoginView extends Component {
         <Image style={style.logo}
           source={loginLogo}
           onStartShouldSetResponderCapture={this._handleStartShouldSetResponderCapture}
-          onResponderRelease={this._handleResponderRelease}/>
+          onResponderRelease={this._handleResponderRelease} />
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
@@ -213,7 +207,7 @@ const style = StyleSheet.create({
     marginBottom: 50
   },
   inputLogo: {
-    marginTop:15,
+    marginTop: 15,
     marginLeft: 5
   },
   inputContainer: {
@@ -235,7 +229,7 @@ const style = StyleSheet.create({
     justifyContent: 'space-between'
   },
   loginButton: {
-    width : width * 0.8 - 2,
+    width: width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
     margin: 10,
@@ -246,7 +240,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   fbButton: {
-    width : width * 0.8 - 2,
+    width: width * 0.8 - 2,
     borderWidth: 1,
     borderRadius: 5,
     margin: 10,
@@ -259,16 +253,16 @@ const style = StyleSheet.create({
   buttonText: {
     ...textStyle.normal,
     fontSize: 14,
-    textAlign:'center',
+    textAlign: 'center',
     color: Colors.vaavudBlue
   },
   fbButtonText: {
     ...textStyle.normal,
     fontSize: 14,
-    textAlign:'center',
+    textAlign: 'center',
     color: 'white'
   },
-  signupContainer:{
+  signupContainer: {
     justifyContent: 'space-between',
     flex: 1
   },

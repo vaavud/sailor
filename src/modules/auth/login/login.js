@@ -132,12 +132,12 @@ class Login extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <LoginView
+        navigate={navigate}
         onPressLogin={this._doLogin}
-        onPressSignup={this.props.SignUp}
-        onPressFBLogin={this._doLoginWithFacebook}
-        onPressForgotPassword={this.props.forgotPassword} />
+        onPressFBLogin={this._doLoginWithFacebook} />
     )
   }
 }

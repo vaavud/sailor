@@ -26,6 +26,7 @@
     "react-native-snackbar": "0.3.5",
     "react-native-swipe-list-view": "0.4.1",
     "react-native-vector-icons": "4.0.1",
+    "react-navigation": "^1.0.0-beta.8",
     "react-redux": "5.0.4",
     "realm": "1.2.0",
     "redux": "3.6.0",

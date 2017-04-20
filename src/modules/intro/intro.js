@@ -19,7 +19,27 @@ import Connecting from './connecting'
 import NoBluetooth from './noBluetooth'
 
 
-const {
+import { StackNavigator } from 'react-navigation'
+
+
+const IntroFlow = StackNavigator({
+  Welcome: { screen: Welcome },
+  Bluetooth: { screen: Bluetooth },
+  Summary: { screen: Summary },
+  Connecting: { screen: Connecting },
+  NoBluetooth: { screen: NoBluetooth }
+}, {
+    headerMode: 'screen',
+    navigationOptions: {
+      headerVisible: false,
+    }
+  })
+
+export default IntroFlow
+
+
+
+/*const {
   CardStack: NavigationCardStack,
   StateUtils: NavigationStateUtils,
 } = NavigationExperimental
@@ -126,4 +146,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(Intro)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(Intro)*/
