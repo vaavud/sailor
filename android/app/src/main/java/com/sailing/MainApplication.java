@@ -8,6 +8,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.smixx.fabric.FabricPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import io.realm.react.RealmReactPackage;
@@ -48,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(new MainReactPackage(),
+            new FabricPackage(),
             new LinearGradientPackage(),
             new ReactNativePermissionsPackage(),
             new VectorIconsPackage(),
