@@ -7,7 +7,8 @@ import {
   STATUS, OFFLINE,
   HOME_READY, SKIP_SETUP,
   SETUP, BATTERY,
-  CALIBRATE, SKIP_CALIBRATION
+  CALIBRATE, SKIP_CALIBRATION,
+  MEASUREMENT
 } from '../constants/auth'
 
 var initialState = {
@@ -35,6 +36,8 @@ export default (state = initialState, action) => {
       return { ...state, state: CALIBRATE }
     case SKIP_CALIBRATION:
       return { ...state, state: HOME_READY }
+    case MEASUREMENT:
+      return { ...state, state: MEASUREMENT }
     case NEEDS_AUTH:
       return { ...state, isAuth: false, state: action.type }
     case HOME_READY:

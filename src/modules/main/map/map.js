@@ -8,7 +8,8 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native'
 // import { View } from 'react-native'
 // import { bindActionCreators } from 'redux'
@@ -17,10 +18,12 @@ import LinearGradient from 'react-native-linear-gradient'
 import MapView from 'react-native-maps'
 import MapMarker from '../../../components/mapMarker'
 
-import { SpeedUnits} from '../../../reactcommon/utils'
+import { SpeedUnits } from '../../../reactcommon/utils'
 import { getMarkers } from '../../../actions/map'
 
 const { width } = Dimensions.get('window')
+import icons from '../../../reactcommon/icons'
+
 
 function getCoordinate(location) {
   return {
@@ -31,11 +34,19 @@ function getCoordinate(location) {
 
 class Map extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      markers: []
-    }
+
+  static navigationOptions = {
+    tabBarLabel: 'Map',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={icons.map}
+        style={{ tintColor }}
+      />
+    )
+  }
+
+  state = {
+    markers: []
   }
 
   componentDidMount() {
@@ -66,31 +77,32 @@ class Map extends Component {
   render() {
     return (
       <View style={style.container}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={this.state.region}
-        region={this.state.maxRegion}
-        onRegionChange={this.onRegionChange}
-        mapType="satellite" >
-        {Object.keys(this.state.markers).map(key => (
-          this._renderMarker(this.state.markers[key], key)
-        ))}
-      </MapView>
-      <LinearGradient
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={this.state.region}
+          region={this.state.maxRegion}
+          onRegionChange={this.onRegionChange}
+          mapType="satellite" >
+          {Object.keys(this.state.markers).map(key => (
+            this._renderMarker(this.state.markers[key], key)
+          ))}
+        </MapView>
+        <LinearGradient
           colors={['rgba(0,0,0,0)', 'black']}
-          style={{position:'absolute',
-            width:width,
-            height:40,
+          style={{
+            position: 'absolute',
+            width: width,
+            height: 40,
             flex: 1,
-            bottom:0,
+            bottom: 0,
           }}>
-          <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between', backgroundColor:'transparent'}}>
-            <Text style={{fontSize:16,color:'white', marginTop:10, marginLeft:30  }}> { SpeedUnits[this.props.settings.windSpeed]} </Text>
-            <Text style={{fontSize:16,color:'white',textAlign:'right', marginTop:10, marginRight:30  }}> {'24h'} </Text>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent' }}>
+            <Text style={{ fontSize: 16, color: 'white', marginTop: 10, marginLeft: 30 }}> {SpeedUnits[this.props.settings.windSpeed]} </Text>
+            <Text style={{ fontSize: 16, color: 'white', textAlign: 'right', marginTop: 10, marginRight: 30 }}> {'24h'} </Text>
           </View>
         </LinearGradient>
       </View>
-      )
+    )
   }
 
 }
@@ -107,7 +119,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const style = StyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
     top: 0,
     left: 0,

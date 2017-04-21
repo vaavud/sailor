@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Button
+  Image
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -12,20 +12,21 @@ import { connect } from 'react-redux'
 import { logout, updateSettings } from '../../../actions/settings'
 
 import SettingsView from '../../../views/main/settings'
+import icons from '../../../reactcommon/icons'
+
 
 
 class Settings extends Component {
 
-  constructor(props) {
-    super(props)
+  static navigationOptions = {
+    tabBarLabel: 'Settings',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={icons.settings}
+        style={{ tintColor }}
+      />
+    )
   }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
 
   render() {
     return (
@@ -36,8 +37,8 @@ class Settings extends Component {
         windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
-        push={this.props.push} 
-        harbor={this.props.harbor}/>
+        push={this.props.push}
+        harbor={this.props.harbor} />
     )
   }
 }

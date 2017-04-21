@@ -5,21 +5,17 @@ import { connect } from 'react-redux'
 
 import Welcome from './modules/auth/welcome'
 import Main from './modules/main'
+import Measurement from './modules/measure'
 import Intro from './modules/intro'
 import Loading from './modules/loading'
 import MountingFlow from './modules/mounting'
 
 
 //constants
-import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE } from './constants/auth'
+import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE, MEASUREMENT } from './constants/auth'
 
 
 class SailorMain extends Component {
-
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     switch (this.props.app.state) {
       case NEEDS_AUTH:
@@ -30,6 +26,8 @@ class SailorMain extends Component {
         return <MountingFlow />
       case SETUP:
         return (<Intro />)
+      case MEASUREMENT:
+        return (<Measurement />)
       case LOADING:
         return (<Loading />)
       default:

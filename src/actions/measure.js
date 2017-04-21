@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import realm from '../store/realm'
 
 import { NEW_SESSION } from '../constants/history'
+import { MEASUREMENT,SKIP_CALIBRATION } from '../constants/auth'
 
 // let SERVER_URL = 'http://52.30.86.52/apps/'
 let SERVER_URL = 'https://apps-dev.vaavud.com/'
@@ -13,15 +14,27 @@ let SERVER_URL = 'https://apps-dev.vaavud.com/'
   userData [saga]
 */
 
-export function justSaveSessionInFirebase(session, _key) {
+const justSaveSessionInFirebase = (session, _key) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref('session').child(_key).set(session)
     resolve()
   })
 }
 
+const goToMeasurement = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: MEASUREMENT })
+  }
+}
 
-export function saveSession(session) {
+const goToMain = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: SKIP_CALIBRATION })
+  }
+}
+
+
+const saveSession = session => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
@@ -60,7 +73,7 @@ export function saveSession(session) {
   }
 }
 
-export function saveSummary(summary) {
+const saveSummary = summary => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       realm.write(() => {
@@ -71,13 +84,13 @@ export function saveSummary(summary) {
   }
 }
 
-function savePointsLocal(points, key) {
+const savePointsLocal = (points, key) => {
   realm.write(() => {
     realm.create('SessionPoints', { key, points })
   })
 }
 
-export function savePoints(points, key) {
+const savePoints = (points, key) => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       if (getState().app.online) {
@@ -98,7 +111,7 @@ export function savePoints(points, key) {
 }
 
 
-export function sendPoints(_key, points) {
+const sendPoints = (_key, points) => {
   return new Promise((resolve, reject) => {
     let obj = {}
     obj[_key] = points
@@ -126,3 +139,5 @@ export function sendPoints(_key, points) {
       })
   })
 }
+
+export { goToMeasurement, sendPoints, savePoints, saveSummary, saveSession, justSaveSessionInFirebase, goToMain }
