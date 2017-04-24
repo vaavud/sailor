@@ -176,7 +176,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     
     if points.count > 2 {
       let simplifiedLocations = SwiftSimplify.simplify(latlon, tolerance: 0.0001, highQuality: false).map{["lat":$0.latitude,"lon":$0.longitude]}
-      let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.1, highQuality: false).map{$0.toSpeedDictionary}
+      let simplifiedSpeed = SwiftSimplify.simplify(speeds, tolerance: 0.5, highQuality: false).map{$0.toSpeedDictionary}
       let simplifiedDirection = SwiftSimplify.simplify(directions, tolerance: 22.5, highQuality: false).map{$0.toDirectionDictionary}
       
       var avg : Double = 0

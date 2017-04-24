@@ -14,7 +14,9 @@ import {
   StyleSheet,
   Platform,
   TouchableOpacity,
-  Image
+  Image,
+  InteractionManager,
+  Animated
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -40,9 +42,8 @@ const graphHeight = 150
 
 class SummaryView extends Component {
 
-  constructor(props) {
-    super(props)
-  }
+
+  state = { renderPlaceholderOnly: true }
 
   static propTypes = {
     dateTime: PropTypes.number.isRequired,
@@ -71,6 +72,12 @@ class SummaryView extends Component {
     windAverage: PropTypes.number.isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({ renderPlaceholderOnly: false })
+    })
   }
 
   _calculateY(value) {
@@ -136,8 +143,8 @@ class SummaryView extends Component {
     return (
       <View style={style.resultContainer} >
         <View>
-        <SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
-      </View>
+          <SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
+        </View>
         <SmallText textContent={'Duration: ' + moment.utc(time).format('HH:mm:ss')} />
         <SmallText textContent={'Avg: ' + convertWindSpeed(windAverage, this.props.settings.windSpeed) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
       </View>
@@ -166,6 +173,7 @@ class SummaryView extends Component {
     path = path.lineTo(this._calculateX(i) + 2, graphHeight)
 
     const d = path.close()
+
     return (
       <View style={style.graphContainer}>
         {this._renderWindSpeedPoints()}
@@ -176,7 +184,10 @@ class SummaryView extends Component {
           showsHorizontalScrollIndicator={false}
           style={{ flex: 1 }}>
           <Surface width={(this.props.paths.length - 2) * 4} height={graphHeight}>
-            <Shape d={d} stroke={'#0080b3'} fill={'#99d0e6'} strokeWidth={1} />
+            <Shape d={d}
+              stroke={'#0080b3'}
+              fill={'#99d0e6'}
+              strokeWidth={1} />
           </Surface>
           {this._renderGraphTimeGrid()}
         </ScrollView>
@@ -215,15 +226,25 @@ class SummaryView extends Component {
     )
   }
 
+
+  _renderWorkingView() {
+    return (
+      <View style={{ backgroundColor: Colors.vaavudBlue, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: 'white' }}> Working with data </Text>
+        <Text style={{ color: 'white' }}> please wait a moment... </Text>
+      </View>)
+
+  }
+
   _renderWindSpeedPoints() {
     const max = convertWindSpeed(this.props.maxWindSpeed, this.props.settings.windSpeed).toFixed(0)
     const min = 0
     const mid = max / 2
     let render = []
-    for (let i = 1; i < 4; i++){
-      if (i === 1){
+    for (let i = 1; i < 4; i++) {
+      if (i === 1) {
         render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={max} />)
-      } else if (i === 2){
+      } else if (i === 2) {
         render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={mid} />)
       } else {
         render.push(<SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={min} />)
@@ -231,12 +252,16 @@ class SummaryView extends Component {
     }
     return (
       <View style={style.windSpeedContainer}>
-          {render}
+        {render}
       </View>
     )
   }
 
   render() {
+    if (this.state.renderPlaceholderOnly) {
+      return this._renderWorkingView()
+    }
+
     return (
       <View style={style.container}>
         {this._renderMapArea()}
