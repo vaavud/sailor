@@ -12,7 +12,6 @@ class App extends Component {
   }
 
   render() {
-    Crashlytics.crash()
     return (
       <Provider store={store}>
         <Sailor />

@@ -22,7 +22,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 import { getSummaryInformation } from '../../../actions/summary'
 
-import SummaryView from '../../../views/main/summary'
+import SummaryView from '../../../views/main/summary' 
 
 import NoSummary from '../../../components/noSummary'
 import LoadingModal from '../../../components/loadingModal'
