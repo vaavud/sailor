@@ -18,7 +18,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import MapView from 'react-native-maps'
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 const imgHarbor = require('../../../../assets/icons/harbour-marker.png')
 
@@ -39,32 +39,36 @@ function getCoordinate(location, skew) {
   }
 }
 
+import icons from '../../../reactcommon/icons'
+
+
+
 class Newsfeed extends Component {
 
-  constructor(props) {
-    super(props)
+  static navigationOptions = {
+    tabBarLabel: 'Harbour',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={icons.newsfeed}
+        style={{ tintColor }}
+      />
+    )
+  }
 
-    this.state = {
-      region: {
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      }
+  state = {
+    region: {
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
     }
   }
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
 
   _renderEditBtn() {
     return (
       <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', top: 30, right: 10, backgroundColor: 'transparent' }}
         onPress={() => {
-          this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
+          const { navigate } = this.props.navigation
+          navigate('MapHarbor', this.props.harbor)
         }} >
         <Text style={{ marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
         <Icon style={{ fontSize: 16, color: 'white' }} name={'edit'} />
@@ -82,8 +86,9 @@ class Newsfeed extends Component {
     }
     else {
       if (!this.props.harbor.forecast) {
+        const { navigate } = this.props.navigation
         return (
-          <IntroView onNextPress={this.props.push} />
+          <IntroView onNextPress={navigate} />
         )
       }
       else {
@@ -94,7 +99,7 @@ class Newsfeed extends Component {
               pitchEnabled={false}
               scrollEnabled={false}
               zoomEnabled={false}
-              region={{...this.state.region,  ...getCoordinate(this.props.harbor.location, 0.02) }}
+              region={{ ...this.state.region, ...getCoordinate(this.props.harbor.location, 0.02) }}
               mapType="satellite" >
               <MapView.Marker coordinate={getCoordinate(this.props.harbor.location, 0)}>
                 <Image source={imgHarbor} />
@@ -108,9 +113,7 @@ class Newsfeed extends Component {
                   name={this.props.harbor.name}
                   days={this.props.harbor.forecast.days}
                   settings={this.props.settings}
-                  editHarbour={() => {
-                    this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-                  }} />
+                />
               </View>
               : null}
 

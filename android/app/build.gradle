@@ -154,6 +154,13 @@ repositories {
 }
 
 dependencies {
+    compile project(':realm')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-snackbar')
+    compile project(':react-native-maps')
+    compile project(':react-native-i18n')
+    compile project(':react-native-heading')
+    compile project(':react-native-fbsdk')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-permissions')
     compile(project(':react-native-snackbar')) {

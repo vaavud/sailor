@@ -31,8 +31,12 @@ class MapHarbor extends Component {
   constructor(props) {
     super(props)
 
-    if (props.componentProps.isNew) {
+    const { params, key } = props.navigation.state
+    console.log(key)
+
+    if (params.isNew) {
       this.state = {
+        keyRoot: key,
         region: {
           latitude: 52.51212,
           longitude: 10.21515,
@@ -47,14 +51,15 @@ class MapHarbor extends Component {
     }
     else {
       this.state = {
+        keyRoot: key,
         region: {
-          ...getCoordinate(props.componentProps.harbor.location),
+          ...getCoordinate(params.location),
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         },
-        harborLocation: getCoordinate(props.componentProps.harbor.location),
-        harbor: props.componentProps.harbor,
-        key: props.componentProps.harbor.key,
+        harborLocation: getCoordinate(params.location),
+        harbor: params,
+        key: params.key,
         needsLoaction: false
       }
     }
@@ -77,16 +82,19 @@ class MapHarbor extends Component {
 
   }
 
-  render() {
+  render = () => {
+    const { params } = this.props.navigation.state
+    const { navigate, goBack } = this.props.navigation
 
     return (
       <SelectHabourView
-        onPop={this.props.pop}
-        onPressSave={this.props.push}
+        onPop={() => goBack()}
+        onPressSave={navigate}
         location={this.state.harborLocation}
         locationName={this.state.harbor.name}
         id={this.state.key}
-        isNew={this.props.componentProps.isNew}
+        keyRoot={this.state.keyRoot}
+        isNew={params.isNew}
         region={this.state.region} />
     )
   }

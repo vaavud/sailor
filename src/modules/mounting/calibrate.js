@@ -6,12 +6,52 @@ import {
   CalibrateView,
 } from '../../views/mounting/'
 
-class Calibrate extends Component {
+import { DeviceEventEmitter } from 'react-native'
+import ReactNativeHeading from 'react-native-heading'
 
-  render = () => {
-    return <CalibrateView nav={this.props.nav} />
+
+export default class extends Component {
+
+  state = {
+    heading: 0
   }
 
-}
+  componentDidMount = () => {
+    ReactNativeHeading.start(1).then(didStart => {
+      console.log('started', didStart)
+      this.setState({ headingIsSupported: didStart })
+    })
+      .catch(err => console.log(err))
 
-export default Calibrate
+    DeviceEventEmitter.addListener('headingUpdated', this.headingUpdated)
+  }
+
+  componentWillUnmount = () => {
+
+  }
+
+  stop = () => {
+    ReactNativeHeading.stop()
+    DeviceEventEmitter.removeAllListeners('headingUpdated')
+  }
+
+  headingUpdated = data => {
+    this.setState({ heading: data.heading })
+    console.log('New heading is:', data.heading)
+  }
+
+
+  onNext = () => {
+    ReactNativeHeading.stop()
+    DeviceEventEmitter.removeAllListeners('headingUpdated')
+
+    const { navigate } = this.props.navigation
+    const { params } = this.props.navigation.state
+
+    navigate('Result', { headingFromBle: params.headingFromBle, headingFromPhone: this.state.heading })
+  }
+
+  render = () => {
+    return <CalibrateView onNext={this.onNext} heading={this.state.heading} />
+  }
+}

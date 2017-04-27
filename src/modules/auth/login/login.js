@@ -35,32 +35,29 @@ class Login extends Component {
 
   constructor(props) {
     super(props)
-    this._doLogin = this._doLogin.bind(this)
-    this._doLoginWithFacebook = this._doLoginWithFacebook.bind(this)
-    this.responseCallback = this.responseCallback.bind(this)
     this.state = {
       isLoading: false
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
 
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
 
   }
 
-  _doLogin(email, password) {
+  _doLogin = (email, password) => {
     if (email !== '' && password !== '') {
       const credential = {
         email: email,
         password: password,
         _type: 'password'
       }
-      this.setState({isLoading: true})
-      this.props.doLogin(credential).done(() => this.setState({isLoading: false}))
-      
+      this.setState({ isLoading: true })
+      this.props.doLogin(credential).catch(() => this.setState({ isLoading: false }))
+
     }
     else {
       this.props.showError({
@@ -70,7 +67,7 @@ class Login extends Component {
     }
   }
 
-  _doLoginWithFacebook() {
+  _doLoginWithFacebook = () => {
     LoginManager.logInWithReadPermissions(['email', 'public_profile']).then(result => {
       if (result.isCancelled) {
         // TODO handle fb login cancelled
@@ -88,7 +85,7 @@ class Login extends Component {
     })
   }
 
-  responseCallback(error, result) {
+  responseCallback = (error, result) => {
 
     if (error) {
       this.props.showError({ title: 'Facebook error', msg: 'Problems with facebook server' })
@@ -136,9 +133,11 @@ class Login extends Component {
     }
   }
 
-  render() {
+  render = () => {
+    const { navigate } = this.props.navigation
     return (
       <LoginView
+        navigate={navigate}
         onPressLogin={this._doLogin}
         onPressSignup={this.props.SignUp}
         onPressFBLogin={this._doLoginWithFacebook}

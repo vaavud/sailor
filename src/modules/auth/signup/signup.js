@@ -35,21 +35,22 @@ class SignUp extends Component {
     if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPW === '') {
       this.props.showError({
         title: I18n.t('errorTitle'),
-        msg: I18n.t('completeFields') })
+        msg: I18n.t('completeFields')
+      })
     }
     else if (password.length < 6) {
       this.props.showError({
         title: I18n.t('errorTitle'),
         msg: I18n.t('shortPasword')
       })
-    } else if (password !== confirmPW){
+    } else if (password !== confirmPW) {
       this.props.showError({
         title: I18n.t('errorTitle'),
         msg: I18n.t('matchPassword')
       })
     }
     // TODO validate email client side ?
-     else {
+    else {
       let credential = {
         created: Date.now(),
         activity: 'sailing',
@@ -61,19 +62,18 @@ class SignUp extends Component {
         password: password,
         type: 'password'
       }
-
-      console.log(credential)
-
       this.props.doSignUp(credential)
     }
   }
 
-  render(){
+  render() {
+    const { goBack } = this.props.navigation
+
     return (
       <SignupView
-        onPressBack={this.props.pop}
+        onPressBack={() => goBack()}
         onPressSignup={this._doSignUp}
-        />
+      />
     )
   }
 }

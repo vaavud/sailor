@@ -1,4 +1,4 @@
-'use strict'
+/*'use strict'
 
 import React, { Component, PropTypes } from 'react'
 
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Tab
+export default Tab*/

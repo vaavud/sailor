@@ -6,37 +6,35 @@ import React, { Component } from 'react'
 
 import HistoryView from '../../../views/main/history'
 
+import { Image } from 'react-native'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import NoHistory from '../../../components/NoHistory'
 import { deleteSession } from '../../../actions/history'
-
+import icons from '../../../reactcommon/icons'
 
 class History extends Component {
 
-  constructor(props) {
-    super(props)
-
+  static navigationOptions = {
+    tabBarLabel: 'History',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={icons.history}
+        style={{ tintColor }}
+      />
+    )
   }
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-
-  render() {
+  render = () => {
     if (this.props.sessions.length > 0) {
+      const { navigate } = this.props.navigation
       return (
         <HistoryView
-          onNextPress={this.props.push}
+          onNextPress={navigate}
           sessions={this.props.sessions}
-          deleteSession={this.props.deleteSession}
-          onPop={this.props.pop} />
+          deleteSession={this.props.deleteSession} />
       )
     } else {
       return <NoHistory />

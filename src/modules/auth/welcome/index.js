@@ -7,4 +7,4 @@
 
 import Welcome from './welcome'
 
-export default Welcome 
+export default Welcome

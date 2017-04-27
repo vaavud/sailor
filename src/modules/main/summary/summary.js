@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 
 const { width, height } = Dimensions.get('window')
@@ -21,6 +22,7 @@ const LATITUDE_DELTA = 0.0092
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 import { getSummaryInformation } from '../../../actions/summary'
+import { goToMain } from '../../../actions/measure'
 
 import SummaryView from '../../../views/main/summary' 
 
@@ -28,8 +30,7 @@ import NoSummary from '../../../components/noSummary'
 import LoadingModal from '../../../components/loadingModal'
 
 
-
-function getCoordinate(location) {
+const getCoordinate = location => {
   return {
     latitude: location.lat,
     longitude: location.lon
@@ -41,9 +42,11 @@ class Summary extends Component {
   constructor(props) {
     super(props)
 
+    const { params } = props.navigation.state
+
     this.state = {
-      fromHistory: props.componentProps.fromHistory,
-      sessionKey: props.componentProps.sessionKey,
+      fromHistory: params.fromHistory,
+      sessionKey: params.sessionKey,
       sessionFound: false,
       summaryLost: false,
       region: {
@@ -84,21 +87,24 @@ class Summary extends Component {
 
   onBackPress() {
     if (this.state.fromHistory) {
-      console.log(this.props)
-      this.props.pop()
+      const { goBack } = this.props.navigation
+      goBack()
     }
     else {
-      this.props.jump('history', true)
+      this.props.goToMain()
+      // this.props.jump('history', true)
     }
   }
 
   render() {
+    const { params } = this.props.navigation.state
+
     if (this.state.sessionFound) {
       return (
         <SummaryView
           region={this.state.region}
           dateTime={this.state.timeStart}
-          locationName={this.props.componentProps.locationName}
+          locationName={params.locationName}
           tripCoordinates={{
             id: 1,
             coordinates: this.state.coordinates
@@ -107,7 +113,7 @@ class Summary extends Component {
           paths={this.state.paths}
           maxWindSpeed={Math.ceil(this.state.windMax + 1)}
           minWindSpeed={Math.floor(this.state.windMin)}
-          windAverage={this.props.componentProps.windMean.toFixed(1)}
+          windAverage={params.windMean.toFixed(1)}
           startTime={this.state.timeStart}
           settings={this.props.settings}
           endTime={this.state.endTime}
@@ -115,8 +121,9 @@ class Summary extends Component {
       )
     }
     else if (this.state.summaryLost) {
+      const { goBack } = this.props.navigation
       return (
-        <NoSummary pop={this.props.pop} />
+        <NoSummary pop={goBack} />
       )
     }
     else { return <LoadingModal isActive={true} message={'Fetching data...'} /> }
@@ -132,6 +139,7 @@ const mapReduxStoreToProps = (reduxStore) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    goToMain: bindActionCreators(goToMain, dispatch)
   }
 }
 

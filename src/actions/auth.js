@@ -8,10 +8,10 @@ export function doLogin(credential) {
     return new Promise((resolve, reject) => {
       if (credential._type === 'password') {
         firebase.auth().signInWithEmailAndPassword(credential.email, credential.password).then(() => resolve())
-        .catch(error => {
-          dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
-          resolve()
-        })
+          .catch(error => {
+            dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
+            reject()
+          })
       }
       else {
       }
@@ -31,6 +31,7 @@ export function doSignUp(credential) {
           })
           .catch(error => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
+            reject()
           })
       }
       else if (credential.type === 'facebook') {
@@ -42,6 +43,7 @@ export function doSignUp(credential) {
           })
           .catch(err => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: 'There was an error with facebook' })
+            reject()
           })
       }
       else {

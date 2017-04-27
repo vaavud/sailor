@@ -10,12 +10,6 @@ const logo = require('../../assets/icons/logo.png')
 
 class Loading extends Component {
 
-  constructor(props) {
-    super(props)
-
-    
-  }
-
   render() {
     return (
       <View style={{ backgroundColor: Colors.vaavudBlue, flex: 1, justifyContent: 'center', alignItems: 'center' }} >

@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 
-import React, {Component,PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import {
   View,
@@ -169,7 +169,9 @@ class SettingsView extends Component {
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
         <NormalText style={style.preferenceText} textContent={convertWindSpeed(windMin, this.props.settings.windSpeed).toFixed(0) + ' to ' + convertWindSpeed(windMax, this.props.settings.windSpeed).toFixed(0) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
-        {this._renderLink('editPref', () => this.props.push({ key: 'windHarbor', props: { isFromSettings: true } }))}
+        {this._renderLink('editPref', () => {
+          this.props.push('WindHarbor', { isFromSettings: true })
+        })}
       </View>
     )
   }

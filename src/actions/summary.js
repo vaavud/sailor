@@ -10,10 +10,9 @@ export function getSummaryInformation(sessionKey) {
   return new Promise((resolve, reject) => {
     let summary = realm.objects('Summary').filtered(`key = "${sessionKey}"`)
     if (summary[0]) {
-
-      console.log('summary from server...', sessionKey)
-
       let { speeds, directions, locations, windMax, windMin } = summary[0]
+
+      console.log('summary from Realm...', sessionKey)
 
       let mSpeeds = []
       let mDirections = []
@@ -46,8 +45,22 @@ export function getSummaryInformation(sessionKey) {
     }
     else {
       console.log('summary from server...', sessionKey)
-      getSummaryFromServer(sessionKey).then(session => {
-        resolve(session)
+      getSummaryFromServer(sessionKey).then(mSummary => {
+
+        let s = {
+          key: mSummary.sessionId,
+          windMin: mSummary.windMin,
+          windMax: mSummary.windMax,
+          speeds: mSummary.windSpeeds,
+          directions: mSummary.windDirections,
+          locations: mSummary.locations
+        }
+
+        realm.write(() => {
+          realm.create('Summary', s)
+        })
+
+        resolve(mSummary)
       }).catch(err => reject(err))
     }
   })

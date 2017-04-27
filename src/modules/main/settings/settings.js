@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Button
+  Image
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -13,22 +13,24 @@ import { logout, updateSettings } from '../../../actions/settings'
 import { goToBleSetup } from '../../../actions/bluetooth'
 
 import SettingsView from '../../../views/main/settings'
+import icons from '../../../reactcommon/icons'
+
 
 
 class Settings extends Component {
 
-  constructor(props) {
-    super(props)
+  static navigationOptions = {
+    tabBarLabel: 'Settings',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={icons.settings}
+        style={{ tintColor }}
+      />
+    )
   }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <SettingsView
         updateSettings={this.props.updateSettings}
@@ -39,7 +41,7 @@ class Settings extends Component {
         battery={this.props.battery}
         push={this.props.push}
         goToSetup={this.props.goToBleSetup}
-        harbor={this.props.harbor}/>
+        harbor={this.props.harbor} />
     )
   }
 }

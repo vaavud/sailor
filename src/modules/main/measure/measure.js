@@ -14,7 +14,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import {
-  saveSession, saveSummary, savePoints
+  saveSession, saveSummary, savePoints, goToMain
 } from '../../../actions/measure'
 
 import Colors from '../../../../assets/colorTheme'
@@ -78,9 +78,6 @@ class Measure extends Component {
     this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
     this.state.myModuleEvt.addListener('timeout', this.timeout)
 
-
-
-
     NativeModules.VaavudBle.initBle()
   }
 
@@ -93,10 +90,10 @@ class Measure extends Component {
   onBleState(data) {
     switch (data.status) {
       case 'off':
-        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON', [{ text: 'OK', onPress: () => this.setState({timeout:true})}])
+        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON', [{ text: 'OK', onPress: () => this.setState({ timeout: true }) }])
         break
       case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress: () => this.setState({timeout:true})}])
+        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress: () => this.setState({ timeout: true }) }])
         break
     }
   }
@@ -122,7 +119,10 @@ class Measure extends Component {
         return this.props.saveSummary(summary)
       })
       .then(key => this.props.savePoints(data.measurementPoints, key))
-      .then(key => this.props.push({ key: 'summary', props: { sessionKey: key, windMean: data.session.windMean } }))
+      .then(key => {
+        const { navigate } = this.props.navigation
+        navigate('Summary', { sessionKey: key, windMean: data.session.windMean })
+      })
   }
 
   onLocationWorking(location) {
@@ -185,7 +185,8 @@ class Measure extends Component {
 
   _jump() {
     this.removeLiteners()
-    this.props.jump('history')
+    this.props.goToMain()
+    // this.props.jump('history')
   }
 
   _tryAgin() {
@@ -234,7 +235,8 @@ const mapDispatchToProps = (dispatch) => {
     // endSession: bindActionCreators(endSession, dispatch),
     saveSession: bindActionCreators(saveSession, dispatch),
     saveSummary: bindActionCreators(saveSummary, dispatch),
-    savePoints: bindActionCreators(savePoints, dispatch)
+    savePoints: bindActionCreators(savePoints, dispatch),
+    goToMain: bindActionCreators(goToMain, dispatch),
   }
 }
 

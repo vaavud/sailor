@@ -24,15 +24,16 @@ class Forgot extends Component {
 
   }
 
-  _sendResetMail(email){
+  _sendResetMail(email) {
     this.props.resetPassword(email)
   }
 
 
   render() {
+    const { goBack } = this.props.navigation
     return (
       <ForgotView
-        onPressBack={this.props.pop}
+        onPressBack={() => goBack()}
         onPressSendResetLink={this._sendResetMail}
         showError={this.props.showError} />
     )

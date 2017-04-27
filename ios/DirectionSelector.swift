@@ -168,7 +168,7 @@ extension CGPoint {
   }
 }
 
-let π = CGFloat(M_PI)
+let π = CGFloat(Double.pi)
 
 func mod(i: Int, _ n: Int) -> Int {
   return ((i % n) + n) % n

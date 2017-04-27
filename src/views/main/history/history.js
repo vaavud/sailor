@@ -110,15 +110,13 @@ class HistoryView extends Component {
     return (
       <TouchableOpacity style={style.row}
         activeOpacity={1}
-        onPress={() => this.props.onNextPress({
-          key: 'summary', props: {
-            sessionKey: data.key,
-            timeStart: data.timeStart,
-            timeEnd: data.timeEnd,
-            locationName: locationString,
-            windMean: data.windMean,
-            fromHistory: true
-          }
+        onPress={() => this.props.onNextPress('Summary', {
+          sessionKey: data.key,
+          timeStart: data.timeStart,
+          timeEnd: data.timeEnd,
+          locationName: locationString,
+          windMean: data.windMean,
+          fromHistory: true
         })}>
         <View style={style.locationContainer}>
           <SmallText textContent={moment(data.timeStart).format('HH:mm')} />

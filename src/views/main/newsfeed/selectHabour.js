@@ -76,13 +76,6 @@ export default class SelectHabourView extends Component {
     this.setState({ region })
   }
 
-  // onMapPress(e) {
-  //   if (this.state.location) { return }
-  //   this.setState({
-  //     location: e.nativeEvent.coordinate
-  //   })
-  // }
-
   _renderMap() {
     return (
       <View style={style.mapContainer}>
@@ -90,7 +83,6 @@ export default class SelectHabourView extends Component {
           style={{ flex: 1 }}
           onRegionChangeComplete={this.onRegionChangeComplete}
           onRegionChange={this.onRegionChange}
-
           mapType="satellite"
           region={this.state.region}
           initialRegion={this.state.region} />
@@ -153,7 +145,7 @@ export default class SelectHabourView extends Component {
       return
     }
 
-    this.props.onPressSave({ key: 'windHarbor', props: { ...this.state } })
+    this.props.onPressSave('WindHarbor', { ...this.state })
   }
 
   render() {
