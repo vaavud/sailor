@@ -86,8 +86,9 @@ class Login extends Component {
   }
 
   responseCallback = (error, result) => {
-
+    this.setState({isLoading: true})
     if (error) {
+      this.setState({isLoading: true})      
       this.props.showError({ title: 'Facebook error', msg: 'Problems with facebook server' })
     }
     else {
@@ -107,9 +108,10 @@ class Login extends Component {
               token: user.accessToken
             }
 
-            this.props.doSignUp(credential)
+            this.props.doSignUp(credential).catch(() => this.setState({isLoading: false}))
           }
           else {
+            this.setState({isLoading: false})
             this.props.showError({
               title: 'Facebook error',
               msg: 'Please allow email in facebook'
@@ -117,12 +119,14 @@ class Login extends Component {
           }
         }
         else {
+          this.setState({isLoading: false})
           this.props.showError({
             title: 'Facebook error',
             msg: 'Problems with facebook server'
           })
         }
       }).catch(error => {
+        this.setState({isLoading: false})
         console.log(error)
         this.props.showError({
           title: 'Facebook error',

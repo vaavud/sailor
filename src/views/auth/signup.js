@@ -49,7 +49,6 @@ export default class SignupView extends Component {
       password: '',
       confirmPW: '',
       keyboardShown: false,
-      isLoading: false
     }
     this._handleFirstNameInput = this._handleFirstNameInput.bind(this)
     this._handleLastNameInput = this._handleLastNameInput.bind(this)
@@ -112,7 +111,6 @@ export default class SignupView extends Component {
       password,
       confirmPW
     } = this.state
-    this.setState({isLoading: true})
     this.props.onPressSignup(firstName, lastName, email, password, confirmPW)
   }
 
@@ -302,7 +300,7 @@ export default class SignupView extends Component {
         {this._renderInputFields()}
         {this._renderSignupButton()}
         {this._renderTermsAndPrivacy()}
-        <LoadingModal isActive={this.state.isLoading}
+        <LoadingModal isActive={this.props.isLoading}
           message={'Processing request...'} />
       </Image>
     )
