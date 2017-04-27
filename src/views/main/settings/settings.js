@@ -174,6 +174,17 @@ class SettingsView extends Component {
     )
   }
 
+  _renderConnectBle() {
+    return (
+      <View style={style.prefernceContainer} >
+        <Button
+        textStyle={style.buttonText}
+        title={'Connect ultrasonic'}
+        onPress={this.props.goToSetup} />
+      </View>
+    )
+  }
+
   _renderShowColors() {
     return (
       <View style={style.segmentedContainer} >
@@ -238,6 +249,7 @@ class SettingsView extends Component {
         {this._renderTemperatureSelector()}
         {this._renderSectionHeader('prefrencesText')}
         {this._renderWindPrefrences()}
+        {this._renderConnectBle()}
         {this._renderDeviceStatus()}
         {this._renderSectionHeader('otherSection')}
         {this._renderOthersSection()}

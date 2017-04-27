@@ -4,12 +4,16 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text,
-  NativeEventEmitter,
-  NativeModules,
-  Image, StyleSheet, Alert, Dimensions
+  View,
+  Image,
+  StyleSheet,
+  Dimensions
 } from 'react-native'
-
+import {
+  NormalText,
+  HeadingText,
+  textStyle
+} from '../../components/text'
 import Button from '../../reactcommon/components/button'
 
 import Colors from '../../../assets/colorTheme'
@@ -18,7 +22,7 @@ const wrong = require('../../../assets/icons/cancel-1.png')
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-const { height, width } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 import { skipIntro } from '../../actions/bluetooth'
 
 
@@ -40,8 +44,8 @@ export class NoBluetooth extends Component {
     return (
       <View style={style.container} >
         <Image source={wrong} style={{ height: 90, width: 90 }} />
-        <Text style={style.heading} >Something went wrong</Text>
-        <Text style={style.description} >Vaavud ultrasonic not found. </Text>
+        <NormalText style={style.heading} textContent={'Something went wrong'}/>
+        <NormalText style={style.description} textContent={'Vaavud ultrasonic not found.'} />
         <View style={{ height: 120 }} >
           <Button buttonStyle={style.buttonSkip}
             textStyle={style.buttonTextSkip}
@@ -73,7 +77,7 @@ export default connect(mapReduxStoreToProps, mapDispatchToProps)(NoBluetooth)
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
@@ -97,7 +101,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     height: 40,
-    width: width - 40,
+    width: width - 80,
     marginTop: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -113,12 +117,12 @@ const style = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonTextSkip: {
-    fontSize: 16,
+    ...textStyle.normal,
     textAlign: 'center',
     color: Colors.inputTextColor
   },
   buttonText: {
-    fontSize: 16,
+    ...textStyle.normal,
     textAlign: 'center',
     color: Colors.vaavudBlue
   }

@@ -13,7 +13,11 @@ import {
   Image
 } from 'react-native'
 import Button from '../../reactcommon/components/button'
-import { HeadingText, NormalText} from '../../components/text'
+import {
+  HeadingText,
+  NormalText,
+  textStyle
+} from '../../components/text'
 
 import Colors from '../../../assets/colorTheme'
 const ic_bluetooth = require('../../../assets/icons/bluetooth.png')
@@ -116,8 +120,8 @@ class Welcome extends Component {
     return (
       <View style={style.container} >
         <Image source={ic_bluetooth} style={{ height: 90, width: 75 }} />
-        <Text style={style.heading} >Connect</Text>
-        <Text style={style.description} >{'Let’s connect your wind meter.\n Place it next to your phone and hit \n continue'}</Text>
+        <HeadingText style={style.heading} textContent={'Connect'} />
+        <NormalText style={style.description} textContent={'Let’s connect your wind meter.\nPlace it next to your phone and hit\ncontinue'} />
         <View style={{ height: 120 }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
@@ -195,7 +199,7 @@ export default connect(mapReduxStoreToProps, mapDispatchToProps)(Welcome)
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
@@ -220,7 +224,6 @@ const style = StyleSheet.create({
     marginTop: 10
   },
   description: {
-    fontSize: 15,
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
@@ -244,7 +247,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     height: 40,
-    width: width - 40,
+    width: width - 80,
     marginTop: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -260,12 +263,12 @@ const style = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonTextSkip: {
-    fontSize: 16,
+    ...textStyle.normal,
     textAlign: 'center',
     color: Colors.inputTextColor
   },
   buttonText: {
-    fontSize: 16,
+    ...textStyle.normal,
     textAlign: 'center',
     color: Colors.vaavudBlue
   }

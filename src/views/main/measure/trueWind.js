@@ -211,7 +211,7 @@ const style = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20,
+    height: 100,
     borderLeftWidth: 1,
     borderLeftColor: 'grey'
   },
@@ -219,6 +219,8 @@ const style = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
+    height: 100,
+
   },
   speedText: {
     fontSize: 30,

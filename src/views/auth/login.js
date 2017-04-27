@@ -48,7 +48,6 @@ export default class LoginView extends Component {
       email: '',
       password: '',
       keyboardShown: false,
-      isLoading: false
     }
     this._handleEmailInput = this._handleEmailInput.bind(this)
     this._handlePasswordInput = this._handlePasswordInput.bind(this)
@@ -88,7 +87,6 @@ export default class LoginView extends Component {
   }
 
   _handleLoginPress() {
-    this.setState({isLoading: true})
     this.props.onPressLogin(this.state.email, this.state.password)
   }
 
@@ -188,7 +186,7 @@ export default class LoginView extends Component {
         {this._renderInputFields()}
         {this._renderButtons()}
         {this._renderSignup()}
-        <LoadingModal isActive={this.state.isLoading}
+        <LoadingModal isActive={this.props.isLoading}
           message={'Processing request...'} />
       </Image>
     )
