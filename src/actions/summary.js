@@ -4,7 +4,7 @@
 
 import realm from '../store/realm'
 
-let SERVER_URL = 'https://apps-dev.vaavud.com/sailing/'
+let SERVER_URL = 'https://apps-api.vaavud.com/sailing/'
 
 export function getSummaryInformation(sessionKey) {
   return new Promise((resolve, reject) => {
