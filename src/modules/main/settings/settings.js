@@ -29,6 +29,7 @@ class Settings extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <SettingsView
         updateSettings={this.props.updateSettings}
@@ -37,7 +38,7 @@ class Settings extends Component {
         windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
-        push={this.props.push}
+        push={navigate}
         harbor={this.props.harbor} />
     )
   }

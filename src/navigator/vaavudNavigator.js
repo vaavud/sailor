@@ -1,4 +1,4 @@
-'use strict'
+/*'use strict'
 
 import React, { Component, PropTypes } from 'react'
 
@@ -223,4 +223,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(VaavudNavigator)
+export default connect(mapReduxStoreToProps, mapDispatchToProps)(VaavudNavigator)*/

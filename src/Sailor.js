@@ -17,6 +17,9 @@ import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE, MEASUREMENT } from '
 
 class SailorMain extends Component {
   render() {
+
+    // return <MountingFlow />
+
     switch (this.props.app.state) {
       case NEEDS_AUTH:
         return (<Welcome />)

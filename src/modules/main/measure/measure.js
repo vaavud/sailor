@@ -122,7 +122,6 @@ class Measure extends Component {
       .then(key => {
         const { navigate } = this.props.navigation
         navigate('Summary', { sessionKey: key, windMean: data.session.windMean })
-        // this.props.push({ key: 'summary', props: { sessionKey: key, windMean: data.session.windMean } })
       })
   }
 

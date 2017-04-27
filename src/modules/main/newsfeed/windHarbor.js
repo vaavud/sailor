@@ -27,6 +27,8 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { saveHarbor, saveProfile } from '../../../actions/harbor'
 
 import { updateSettings } from '../../../actions/settings'
+import { NavigationActions } from 'react-navigation'
+
 
 
 // let SelectorView = requireNativeComponent('SelectorViewSwift', WindHarbor)
@@ -41,7 +43,9 @@ class WindHarbor extends Component {
   constructor(props) {
     super(props)
 
-    if (props.componentProps.isFromSettings) {
+    const { params } = props.navigation.state
+
+    if (params.isFromSettings) {
 
       this.state = {
         windMin: 1,
@@ -83,9 +87,9 @@ class WindHarbor extends Component {
         isFromSettings: false,
         currentMinSpeed: props.harbor.windMin,
         currentMaxSpeed: props.harbor.windMax,
-        latlon: { lat: props.componentProps.location.latitude, lon: props.componentProps.location.longitude },
-        name: props.componentProps.locationName,
-        id: props.componentProps.id,
+        latlon: { lat: params.location.latitude, lon: params.location.longitude },
+        name: params.locationName,
+        id: params.id,
         dommyData: [
           {
             color: '#7a868c',
@@ -145,8 +149,10 @@ class WindHarbor extends Component {
       maxSpeed: this.state.currentMaxSpeed
     }
 
+    const { goBack } = this.props.navigation
+
     if (this.state.isFromSettings) {
-      this.props.saveProfile(profile, true).then(() => this.props.pop())
+      this.props.saveProfile(profile, true).then(() => goBack())
     }
     else {
       let harbor = {
@@ -156,7 +162,11 @@ class WindHarbor extends Component {
       }
       this.props.saveProfile(profile, false)
         .then(this.props.saveHarbor(harbor, this.state.id))
-        .then(() => this.props.pop(true))
+        .then(() => {
+          const { params } = this.props.navigation.state
+          
+          goBack(params.keyRoot)
+        })
         .catch(err => { console.log('err', err) })
     }
   }
@@ -257,6 +267,7 @@ class WindHarbor extends Component {
         </View>
       )
     } else {
+      const { goBack } = this.props.navigation
       return (
         <View style={{ justifyContent: 'flex-end' }} >
           <Button
@@ -268,7 +279,7 @@ class WindHarbor extends Component {
             textStyle={{ color: Colors.textColor }}
             buttonStyle={style.bottonButtonBack}
             title="Back"
-            onPress={() => { this.props.pop() }} />
+            onPress={() => goBack()} />
         </View>
       )
     }

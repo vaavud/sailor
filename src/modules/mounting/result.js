@@ -15,7 +15,8 @@ import { skipCalibration } from '../../actions/calibrate'
 class Result extends Component {
 
   render = () => {
-    return <ResultView finish={this.props.skipCalibration} />
+    const { params } = this.props.navigation.state
+    return <ResultView finish={this.props.skipCalibration} headingBle={params.headingFromBle} headingPhone={params.headingFromPhone} />
   }
 }
 

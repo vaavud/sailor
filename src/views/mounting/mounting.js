@@ -21,12 +21,13 @@ class MountingView extends Component {
       <View style={style.container} >
         <View style={style.innerContainer} >
           <NormalText textContent={'mounting on a boat'} />
+          <NormalText textContent={'Direction from the vaavud ble ' + this.props.heading} />
         </View>
         <View style={style.buttonContainer}>
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
             title={'NEXT'}
-            onPress={() => this.props.navigate('Calibrate')} />
+            onPress={() => this.props.navigate('Calibrate', { headingFromBle: this.props.heading })} />
         </View>
       </View>
     )

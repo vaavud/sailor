@@ -90,7 +90,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
         self.points.insert(MeasurementPoint(speed: data.windSpeed, direction: data.windDirection, location: latlon, timestamp: Date().ticks), at: 0)
       }
       
-      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery, "velocity": self.lastVelocity, "trueWindSpeed": self.lastTrueWindSpeed, "trueWindDirection": self.lastTrueWindDirection] )
+      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery, "velocity": self.lastVelocity, "trueWindSpeed": self.lastTrueWindSpeed, "trueWindDirection": self.lastTrueWindDirection, "compass":data.compass] )
     }
     
     vaavudSDK.bluetoothExtraCallback = { data in

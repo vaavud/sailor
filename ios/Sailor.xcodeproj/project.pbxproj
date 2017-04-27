@@ -16,6 +16,7 @@
 		0724C09A1EA8B9B3006902B5 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0981EA8B9B3006902B5 /* Crashlytics.framework */; };
 		0724C09B1EA8B9B3006902B5 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0991EA8B9B3006902B5 /* Fabric.framework */; };
 		0724C0C71EA8BCF1006902B5 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0C61EA8BCE6006902B5 /* libSMXCrashlytics.a */; };
+		07473B0D1EAF463000CBDFE2 /* libReactNativeHeading.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07473B041EAF462200CBDFE2 /* libReactNativeHeading.a */; };
 		0BEC3833F13B447594645B3F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E82F7877AE6F4B2B805EEF0D /* EvilIcons.ttf */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -120,6 +121,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
 			remoteInfo = SMXCrashlytics;
+		};
+		07473B031EAF462200CBDFE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07473AE21EAF462200CBDFE2 /* ReactNativeHeading.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
+			remoteInfo = ReactNativeHeading;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -409,6 +417,7 @@
 		0724C0981EA8B9B3006902B5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0724C0991EA8B9B3006902B5 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0724C0C11EA8BCE6006902B5 /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
+		07473AE21EAF462200CBDFE2 /* ReactNativeHeading.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeHeading.xcodeproj; path = "../node_modules/react-native-heading/ReactNativeHeading.xcodeproj"; sourceTree = "<group>"; };
 		07DA044BF2D9401DB1A567EA /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		09A4CBF3A1EB40CBA7C0D82D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
@@ -492,6 +501,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07473B0D1EAF463000CBDFE2 /* libReactNativeHeading.a in Frameworks */,
 				0724C0C71EA8BCF1006902B5 /* libSMXCrashlytics.a in Frameworks */,
 				2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */,
 				2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */,
@@ -592,6 +602,14 @@
 			isa = PBXGroup;
 			children = (
 				0724C0C61EA8BCE6006902B5 /* libSMXCrashlytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		07473AE31EAF462200CBDFE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				07473B041EAF462200CBDFE2 /* libReactNativeHeading.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -820,6 +838,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				07473AE21EAF462200CBDFE2 /* ReactNativeHeading.xcodeproj */,
 				0724C0C11EA8BCE6006902B5 /* SMXCrashlytics.xcodeproj */,
 				2B1C6ED51E2FAECF00AF4A10 /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -1020,6 +1039,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 07473AE31EAF462200CBDFE2 /* Products */;
+					ProjectRef = 07473AE21EAF462200CBDFE2 /* ReactNativeHeading.xcodeproj */;
+				},
+				{
 					ProductGroup = 2B1952D71E6D8F0200425A5E /* Products */;
 					ProjectRef = 86CEE11460394A33A0E18752 /* ReactNativePermissions.xcodeproj */;
 				},
@@ -1105,6 +1128,13 @@
 			fileType = archive.ar;
 			path = libSMXCrashlytics.a;
 			remoteRef = 0724C0C51EA8BCE6006902B5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07473B041EAF462200CBDFE2 /* libReactNativeHeading.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeHeading.a;
+			remoteRef = 07473B031EAF462200CBDFE2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {

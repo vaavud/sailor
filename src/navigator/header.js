@@ -1,4 +1,4 @@
-'use strict'
+/*'use strict'
 
 import React, { Component } from 'react'
 
@@ -51,4 +51,4 @@ class VaavudHeader extends Component {
   }
 }
 
-export default VaavudHeader
+export default VaavudHeader*/

@@ -20,7 +20,9 @@ class ResultView extends Component {
     return (
       <View style={style.container} >
         <View style={style.innerContainer} >
-          <NormalText textContent={'mounting/calibrating guide intro'} />
+          <NormalText textContent={'mounting/calibrating Result'} />
+          <NormalText textContent={'Heading from  Ble ' + this.props.headingBle} />
+          <NormalText textContent={'Heading from phone ' + this.props.headingPhone} />
         </View>
         <View style={style.buttonContainer}>
           <Button buttonStyle={style.button}

@@ -46,7 +46,7 @@ import icons from '../../../reactcommon/icons'
 class Newsfeed extends Component {
 
   static navigationOptions = {
-    tabBarLabel: 'Harboar',
+    tabBarLabel: 'Harbour',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.newsfeed}
@@ -68,7 +68,6 @@ class Newsfeed extends Component {
       <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', top: 30, right: 10, backgroundColor: 'transparent' }}
         onPress={() => {
           const { navigate } = this.props.navigation
-          console.log(this.props.navigation)
           navigate('MapHarbor', this.props.harbor)
         }} >
         <Text style={{ marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
@@ -87,8 +86,9 @@ class Newsfeed extends Component {
     }
     else {
       if (!this.props.harbor.forecast) {
+        const { navigate } = this.props.navigation
         return (
-          <IntroView onNextPress={this.props.push} />
+          <IntroView onNextPress={navigate} />
         )
       }
       else {
@@ -113,9 +113,7 @@ class Newsfeed extends Component {
                   name={this.props.harbor.name}
                   days={this.props.harbor.forecast.days}
                   settings={this.props.settings}
-                  editHarbour={() => {
-                    this.props.push({ key: 'mapHarbor', props: { harbor: this.props.harbor } })
-                  }} />
+                />
               </View>
               : null}
 
