@@ -4,12 +4,16 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text,
-  Image, StyleSheet
+  View,
+  Image,
+  StyleSheet
 } from 'react-native'
 
 import Button from '../../reactcommon/components/button'
-import { NormalText } from '../../components/text'
+import {
+  NormalText,
+  textStyle
+} from '../../components/text'
 import I18n from '../../components/i18n'
 
 import Colors from '../../../assets/colorTheme'
@@ -83,7 +87,7 @@ export default connect(mapReduxStoreToProps, mapDispatchToProps)(Bluethooth)
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
@@ -97,14 +101,14 @@ const style = StyleSheet.create({
     marginBottom: 20
   },
   description: {
-    fontSize: 15,
+    fontSize: 22,
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
     marginTop: 10
   },
   button: {
-    flex: 2,
+    flex: 1,
     borderWidth: 1,
     borderRadius: 5,
     margin: 50,
@@ -115,7 +119,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
-    fontSize: 16,
+    ...textStyle.normal,
     textAlign: 'center',
     color: Colors.vaavudBlue
   }

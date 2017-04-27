@@ -4,18 +4,27 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text,
+  ActivityIndicator,
+  View,
+  Text,
   NativeEventEmitter,
   NativeModules,
-  Image, StyleSheet, Alert
+  Image,
+  StyleSheet,
+  Alert
 } from 'react-native'
+
+import {
+  NormalText,
+  HeadingText
+} from '../../components/text'
 
 import Button from '../../reactcommon/components/button'
 
 import Colors from '../../../assets/colorTheme'
-const correct = require('../../../assets/icons/correct.png')
+const ic_bluetooth = require('../../../assets/icons/bluetooth.png')
 
-
+const checkmark = require('../../../assets/checkmark.png')
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
 
@@ -30,8 +39,8 @@ export default class Connecting extends Component {
     this.state = {
       myModuleEvt,
       readyToWork: false,
-      location: 'connection...',
-      ble: 'connection...'
+      location: false,
+      ble: false
     }
 
     console.log('props', props)
@@ -79,21 +88,21 @@ export default class Connecting extends Component {
   onBleState(data) {
     switch (data.status) {
       case 'off':
-        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{ text: 'OK', onPress:() => {this.props.nav({ type: 'push', key: 'noBluetooth' })} }])
+        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{ text: 'OK', onPress: () => { this.props.nav({ type: 'push', key: 'noBluetooth' }) } }])
         break
       case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress:() => {this.props.nav({ type: 'push', key: 'noBluetooth' })} }])
+        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress: () => { this.props.nav({ type: 'push', key: 'noBluetooth' }) } }])
         break
     }
   }
 
   onLocationWorking(location) {
-    this.setState({ location: 'Connected' })
+    this.setState({ location: true })
 
   }
 
   onVaavudBleFound(ble) {
-    this.setState({ ble: 'Connected' })
+    this.setState({ ble: true })
   }
 
   onReadyToWork() {
@@ -107,8 +116,61 @@ export default class Connecting extends Component {
     this.props.nav({ type: 'push', key: 'bluetooth', props: { point } })
   }
 
+  _renderStatusSection() {
+    return (
+      <View style={style.statusSection}>
+        {this._renderLocationStatusRow()}
+        {this._renderDeviceStatusRow()}
+      </View>
+    )
+  }
+
+  _renderLocationStatusRow() {
+    return (
+      <View style={style.rowContainer} >
+        <NormalText style={style.statusText} textContent={'Location status'} />
+        {this._renderStatusIcon(this.state.location)}
+      </View>
+    )
+  }
+
+  _renderDeviceStatusRow() {
+    return (
+      <View style={style.rowContainer} >
+        <NormalText style={style.statusText} textContent={'Utrasonic status'} />
+        {this._renderStatusIcon(this.state.ble)}
+      </View>
+    )
+  }
+
+
+  _renderStatusIcon(isReady) {
+    return !isReady ?
+      (
+        <ActivityIndicator
+          animating={true}
+          color="#ffffff" />
+      )
+      :
+      (
+        <Image
+          style={style.checkmark}
+          source={checkmark} />
+      )
+  }
 
   render() {
+    return (
+      <View style={style.container} >
+        <Image source={ic_bluetooth} style={{ height: 90, width: 75 }} />
+        <HeadingText style={style.heading} textContent={'Connecting'} />
+        {this._renderStatusSection()}
+
+      </View>
+    )
+  }
+
+  /*render() {
     return (
       <View style={style.container} >
         <Image source={correct} style={{ height: 90, width: 90 }} />
@@ -120,7 +182,7 @@ export default class Connecting extends Component {
         
       </View>
     )
-  }
+  }*/
 
 }
 
@@ -141,7 +203,7 @@ export default class Connecting extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.vaavudBlue
@@ -152,7 +214,6 @@ const style = StyleSheet.create({
     color: 'white',
     backgroundColor: 'transparent',
     marginTop: 10,
-    marginBottom: 20
   },
   description: {
     fontSize: 15,
@@ -176,5 +237,27 @@ const style = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: Colors.vaavudBlue
+  },
+  statusSection: {
+    width: '80%',
+    padding: 20,
+    marginTop: 20,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.1)'
+  },
+  statusText: {
+    fontSize: 20,
+    color: 'white',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    justifyContent: 'space-between',
+  },
+  checkmark: {
+    width: 20,
+    height: 20,
+    alignSelf: 'center',
+    tintColor: 'white'
   }
 })

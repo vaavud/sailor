@@ -38,6 +38,9 @@ class Login extends Component {
     this._doLogin = this._doLogin.bind(this)
     this._doLoginWithFacebook = this._doLoginWithFacebook.bind(this)
     this.responseCallback = this.responseCallback.bind(this)
+    this.state = {
+      isLoading: false
+    }
   }
 
   componentDidMount() {
@@ -55,7 +58,9 @@ class Login extends Component {
         password: password,
         _type: 'password'
       }
-      this.props.doLogin(credential)
+      this.setState({isLoading: true})
+      this.props.doLogin(credential).done(() => this.setState({isLoading: false}))
+      
     }
     else {
       this.props.showError({
@@ -137,7 +142,8 @@ class Login extends Component {
         onPressLogin={this._doLogin}
         onPressSignup={this.props.SignUp}
         onPressFBLogin={this._doLoginWithFacebook}
-        onPressForgotPassword={this.props.forgotPassword} />
+        onPressForgotPassword={this.props.forgotPassword}
+        isLoading={this.state.isLoading} />
     )
   }
 }

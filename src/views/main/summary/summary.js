@@ -293,7 +293,10 @@ const style = StyleSheet.create({
   backButtonStyle: {
     position: 'absolute',
     top: Platform.OS === 'ios' ? 25 : 15,
-    left: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    left: 0,
   },
   dateText: {
     color: 'black',

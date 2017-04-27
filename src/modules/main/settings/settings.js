@@ -10,6 +10,7 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { logout, updateSettings } from '../../../actions/settings'
+import { goToBleSetup } from '../../../actions/bluetooth'
 
 import SettingsView from '../../../views/main/settings'
 
@@ -36,7 +37,8 @@ class Settings extends Component {
         windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
-        push={this.props.push} 
+        push={this.props.push}
+        goToSetup={this.props.goToBleSetup}
         harbor={this.props.harbor}/>
     )
   }
@@ -53,7 +55,8 @@ const mapReduxStoreToProps = (reduxStore) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: bindActionCreators(logout, dispatch),
-    updateSettings: bindActionCreators(updateSettings, dispatch)
+    updateSettings: bindActionCreators(updateSettings, dispatch),
+    goToBleSetup: bindActionCreators(goToBleSetup, dispatch)
   }
 }
 

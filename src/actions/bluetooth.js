@@ -27,6 +27,12 @@ export function introStatus() {
   })
 }
 
+export function goToBleSetup(){
+  return (dispatch, getState) => {
+    dispatch({type: 'SETUP'})
+  }
+}
+
 export function saveLastBLEStatus(battery) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {

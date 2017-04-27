@@ -14,7 +14,7 @@ const en = {
   privacyButton:  'Privacy',
   success:        'Success',
   finish:         'Finish',
-  batteryLevel:   'Battery level:',
+  batteryLevel:   'Battery level: ',
 
   // Login screen
   loginButton:    'LOG IN',
