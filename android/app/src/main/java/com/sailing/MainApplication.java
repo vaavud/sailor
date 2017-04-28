@@ -57,16 +57,10 @@ public class MainApplication extends Application implements ReactApplication {
             new MapsPackage(),
             new ReactNativeI18n(),
             new ReactNativeHeadingPackage(),
-            new FBSDKPackage(),
               new FabricPackage(),
               new LinearGradientPackage(),
               new ReactNativePermissionsPackage(),
-              new VectorIconsPackage(),
-              new RealmReactPackage(),
               new FBSDKPackage(mCallbackManager),
-              new ReactNativeI18n(),
-              new SnackbarPackage(),
-              new MapsPackage(),
               new VaavudPackage()
       );
     }
