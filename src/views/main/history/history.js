@@ -110,7 +110,7 @@ class HistoryView extends Component {
     return (
       <TouchableOpacity style={style.row}
         activeOpacity={1}
-        onPress={() => this.props.onNextPress('Summary', {
+        onPress={() => this.props.onNextPress.navigate('Summary', {
           sessionKey: data.key,
           timeStart: data.timeStart,
           timeEnd: data.timeEnd,

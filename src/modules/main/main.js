@@ -1,11 +1,20 @@
 'use strict'
-
+import React, { Component } from 'react'
+import {
+  View
+} from 'react-native'
 import { Newsfeed, MapHarbor, WindHarbor } from './newsfeed'
 import Map from './map'
 import History from './history'
 import Settings from './settings'
 import Summary from './summary'
 import Dommy from './dommy'
+
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
+import icoMoonConfig from '../../reactcommon/components/selection.json'
+import Colors from '../../../assets/colorTheme'
+
+const VaavudIcon = createIconSetFromIcoMoon(icoMoonConfig)
 
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
@@ -23,9 +32,25 @@ const MainFlow = TabNavigator({
     }
   })
 
+
+const SailorMain = (props) => {
+  console.log(props)
+  return (
+    <View style={{ flex: 1 }} >
+      <MainFlow screenProps={props} />
+      <View
+        style={{ backgroundColor: Colors.vaavudBlue, position: 'absolute', bottom: -20, height: 80, width: 80, alignItems: 'center', alignSelf: 'center', borderRadius: 40, paddingTop: 20 }}
+        pointerEvents={'box-none'}>
+        <VaavudIcon name="logo" size={30} color="white" />
+      </View >
+    </View>
+  )
+}
+
+
 const SecondFlow = StackNavigator({
   Home: {
-    screen: MainFlow
+    screen: SailorMain
   },
   MapHarbor: { screen: MapHarbor },
   WindHarbor: { screen: WindHarbor },
@@ -38,7 +63,8 @@ const SecondFlow = StackNavigator({
   })
 
 
-export default MainFlow
+
+export default SecondFlow
 
 
 

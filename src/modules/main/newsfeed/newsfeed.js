@@ -68,7 +68,8 @@ class Newsfeed extends Component {
       <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', top: 30, right: 10, backgroundColor: 'transparent' }}
         onPress={() => {
           const { navigate } = this.props.navigation
-          navigate('MapHarbor', this.props.harbor)
+          //navigate('MapHarbor', this.props.harbor
+          this.props.screenProps.navigation.navigate('MapHarbor', this.props.harbor)
         }} >
         <Text style={{ marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
         <Icon style={{ fontSize: 16, color: 'white' }} name={'edit'} />
@@ -88,7 +89,7 @@ class Newsfeed extends Component {
       if (!this.props.harbor.forecast) {
         const { navigate } = this.props.navigation
         return (
-          <IntroView onNextPress={navigate} />
+          <IntroView navigation={this.props.screenProps.navigation} />
         )
       }
       else {

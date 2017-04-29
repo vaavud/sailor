@@ -38,7 +38,10 @@ export default class IntroView extends Component {
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            onPress={() => this.props.onNextPress('MapHarbor', { isNew: true })}
+            onPress={() => {
+              const { navigate } = this.props.navigation
+              navigate('MapHarbor', {isNew:true})
+            }}
             title={I18n.t('letsgoButton')} />
         </View>
       </Image>

@@ -29,10 +29,9 @@ class History extends Component {
 
   render = () => {
     if (this.props.sessions.length > 0) {
-      const { navigate } = this.props.navigation
       return (
         <HistoryView
-          onNextPress={navigate}
+          onNextPress={this.props.screenProps.navigation}
           sessions={this.props.sessions}
           deleteSession={this.props.deleteSession} />
       )
