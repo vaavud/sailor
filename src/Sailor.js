@@ -19,24 +19,24 @@ import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE, MEASUREMENT } from '
 class SailorMain extends Component {
   render() {
 
-    // return <MountingFlow />
+    return <MountingFlow />
 
-    switch (this.props.app.state) {
-      case NEEDS_AUTH:
-        return (<Welcome />)
-      case HOME_READY:
-        return (<Main />)
-      case CALIBRATE:
-        return <MountingFlow />
-      case SETUP:
-        return (<Intro />)
-      case MEASUREMENT:
-        return (<Measurement />)
-      case LOADING:
-        return (<Loading />)
-      default:
-        return (<Welcome />)
-    }
+    // switch (this.props.app.state) {
+    //   case NEEDS_AUTH:
+    //     return (<Welcome />)
+    //   case HOME_READY:
+    //     return (<Main />)
+    //   case CALIBRATE:
+    //     return <MountingFlow />
+    //   case SETUP:
+    //     return (<Intro />)
+    //   case MEASUREMENT:
+    //     return (<Measurement />)
+    //   case LOADING:
+    //     return (<Loading />)
+    //   default:
+    //     return (<Welcome />)
+    // }
   }
 }
 

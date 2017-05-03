@@ -2,6 +2,10 @@ import {
   StyleSheet
 } from 'react-native'
 
+import {
+  textStyle
+} from '../../components/text'
+
 import color from '../../../assets/colorTheme'
 
 const style = StyleSheet.create({
@@ -16,6 +20,21 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  heading: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10,
+    marginBottom: 20
+  },
+  description: {
+    fontSize: 22,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10
   },
   button: {
     flex: 1,
@@ -32,6 +51,7 @@ const style = StyleSheet.create({
     flexDirection: 'row'
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 16,
     textAlign: 'center',
     color: color.vaavudBlue

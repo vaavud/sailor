@@ -7,17 +7,34 @@ import {
 } from '../../views/mounting'
 
 import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  Text,
   NativeEventEmitter,
   NativeModules,
   Alert,
   View,
-  Button,
-  Text
+  StyleSheet
 } from 'react-native'
 
-import PopupDialog from 'react-native-popup-dialog'
+import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog'
 
+import Button from '../../reactcommon/components/button'
+import color from '../../../assets/colorTheme'
+import {
+  HeadingText,
+  textStyle
+} from '../../components/text'
 
+const logo = require('../../../assets/icons/logo.png')
+const compass = require('../../../assets/images/compass.png')
+const compassHand = require('../../../assets/images/test_compass.png')
+const arrow = require('../../../assets/icons/rotate-arrow.png')
+const { width } = Dimensions.get('window')
+const compassSize = width * 0.8
 class Mounting extends Component {
 
   state = {
@@ -25,11 +42,13 @@ class Mounting extends Component {
     loading: true,
     onDeviceFound: false,
     compassOuput: 0,
+    lastCompassOutput: 0,
     calibrated: false
   }
 
   constructor(props) {
     super(props)
+    this.animatedValue = new Animated.Value(0)
     this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
   }
 
@@ -83,21 +102,32 @@ class Mounting extends Component {
   }
 
   onReading = data => {
+    var x = this.state.compassOuput
+    this.setState({ lastCompassOutput: x })
     this.setState({ compassOuput: data.compass })
   }
 
   _renderPopUpView = () => {
     return (
-      <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center', backgroundColor: 'gray' }}>
-
-        <Text style={{ fontSize: 25 }} > Please rotate the Ultrasonic device 3 times </Text>
-
-        <Button style={{ height: 50, marginTop: 20 }} onPress={() => {
-          NativeModules.VaavudBle.calibrateCompass(false)
-          this.popupDialog.dismiss()
-          this.setState({ calibrated: true })
-        }} title="Done rotating" />
-
+      <View style={style.popupContainer} >
+        <View style={style.popupTopContainer} >
+          <Image source={arrow} style={{ tintColor: 'white', marginBottom: 20 }} />
+          <HeadingText style={{ textAlign: 'center', color: 'white' }} textContent={'Please rotate the Ultrasonic device at least 3 times to calibrate the compass... \nThen press OK'} />
+        </View>
+        <View style={style.popupBottomContainer} >
+          <Button textStyle={{
+            ...textStyle.normal,
+            fontSize: 22,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            color: 'white'
+          }} onPress={() => {
+            NativeModules.VaavudBle.calibrateCompass(false)
+            this.popupDialog.dismiss()
+            this.setState({ calibrated: true })
+          }} title="OK" />
+        </View>
       </View>
     )
 
@@ -105,26 +135,105 @@ class Mounting extends Component {
 
   renderPopup = () => {
     return (<PopupDialog
-      ref={(popupDialog) => { this.popupDialog = popupDialog }} >
+      ref={(popupDialog) => { this.popupDialog = popupDialog }}
+      dialogStyle={style.popup}
+      width={'80%'}
+      height={'80%'} >
       {this._renderPopUpView()}
     </PopupDialog>)
   }
 
+  animateNewHeading() {
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue, {
+        toValue: 1,
+        duration: 250,
+        easing: Easing.linear
+      }
+    ).start()
+  }
+
+  _crazyMod(a, n) {
+    return a - Math.floor(a / n) * n
+  }
+
+
+  _renderCompass(lastHeading, newHeading) {
+    var l = lastHeading
+    var n = newHeading
+    newHeading = (this._crazyMod((n - l) + 180, 360) - 180) + l
+    this.animateNewHeading()
+    const animate = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [lastHeading + 'deg', newHeading + 'deg']
+    })
+    return (
+      <View style={style.compassContainer} >
+        <Image style={{ width: compassSize, height: compassSize }}
+          source={compass}
+        />
+        <Animated.Image
+          resizeMode={'contain'}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 13,
+            width: compassSize - 26,
+            height: compassSize - 26,
+            transform: [{ 'rotate': animate }]
+          }}
+          source={compassHand} />
+      </View>
+    )
+  }
 
   render = () => {
 
     if (this.state.loading) {
       return (
-        <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-          <Text> Connecting to Ultrasonic.... </Text>
+        <View style={style.container}>
+          <View style={style.innerContainer}>
+            <Image source={logo} style={{ marginBottom: 20 }} />
+            <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
+            <ActivityIndicator color={'white'} size={'large'} animating={true} />
+          </View>
         </View>
       )
     }
 
     const { navigate } = this.props.navigation
 
-
     return (
+      <View style={style.container}>
+        {this._renderCompass(this.state.lastCompassOutput, this.state.compassOuput)}
+        <View style={style.bottomContainer}>
+          <HeadingText style={style.compassText} textContent={'Calibrate the Ultrasonic compass to get a stable heading'} />
+          <View style={style.buttonContainer}>
+            <Button buttonStyle={style.button}
+              textStyle={style.buttonText}
+              title={this.state.calibrated ? 'RETRY CALIBRATION' : 'CALIBRATE'}
+              onPress={() => {
+                NativeModules.VaavudBle.calibrateCompass(true)
+                this.popupDialog.show()
+              }}
+            />
+          </View>
+          <View style={style.buttonContainer} >
+            {this.state.calibrated ? <Button buttonStyle={style.button}
+              textStyle={style.buttonText}
+              title={'NEXT'}
+              onPress={() => {
+                NativeModules.VaavudBle.onDisconnect()
+                navigate('Result')
+              }}
+            /> : null}
+          </View>
+        </View>
+        {this.renderPopup()}
+      </View>
+    )
+    /*return (
       <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
 
         <Text style={{ fontSize: 25 }} > {this.state.compassOuput} </Text>
@@ -141,15 +250,96 @@ class Mounting extends Component {
         {this.renderPopup()}
 
       </View>
-    )
+    )*/
+
 
     // const { navigate } = this.props.navigation
     // return <MountingView navigate={navigate} heading={this.state.heading} />
   }
-
-
-
-
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 40,
+    paddingTop: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.vaavudBlue,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  heading: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10,
+    marginBottom: 20
+  },
+  buttonContainer: {
+    flexDirection: 'row'
+  },
+  compassText: {
+    fontSize: 22,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10,
+    marginBottom: 20
+  },
+  calibrateContainer: {
+    flex: 1,
+    backgroundColor: color.vaavudBlue,
+  },
+  button: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 40,
+    justifyContent: 'center',
+    borderColor: 'white',
+    backgroundColor: 'white',
+    marginTop: 15,
+  },
+  compassContainer: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomContainer: {
+    flex: 2,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  popup: {
+    padding: 20,
+    paddingTop: 60,
+    borderRadius: 10,
+    backgroundColor: color.vaavudBlue
+  },
+  popupContainer: {
+    flex: 1,
+  },
+  popupTopContainer: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  popupBottomContainer: {
+    flex: 2,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  buttonText: {
+    ...textStyle.normal,
+    fontSize: 16,
+    textAlign: 'center',
+    color: color.vaavudBlue
+  }
+})
 
 export default Mounting
