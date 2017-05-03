@@ -90,7 +90,7 @@ class VaavudBle: RCTEventEmitter  {
   var bleFound = false
   
   override func supportedEvents() -> [String]! {
-    return ["onBluetoothOff","onNoDeviceFound","onDeviceFound","onReading","onCompleted","timeout", "onLocationFound","onFinalData"]
+    return ["onBluetoothOff","onNoDeviceFound","onDeviceFound","onReading","onCompleted","timeout", "onLocationFound","onFinalData","onCharacteristicEnable"]
   }
   
   
@@ -143,7 +143,6 @@ class VaavudBle: RCTEventEmitter  {
     
     
     return Ultrasonic(windDirection: h2, windSpeed: _h1, compass: h7, battery: h3, temperature: h4)
-    
   }
   
   
@@ -260,6 +259,27 @@ class VaavudBle: RCTEventEmitter  {
   private func respSimpleData(val: String) {
     let data = self.workWithRowData(val: val)
     self.sendEvent(withName: "onReading", body: data.toDic )
+  }
+  
+  
+  @objc
+  func addOffset(_ offset: NSNumber) {
+
+    var myInt :UInt16 = UInt16(offset.int16Value)
+    let myIntData = Data(bytes: &myInt, count: MemoryLayout.size(ofValue: myInt))
+    
+    let _ = self.bleController.addOffset(activate: myIntData)
+      .subscribe(onNext: {
+        print($0.value)
+        print("Enable sensors") //TODO
+      }, onError: {
+        print("Enable error") //TODO
+        print($0)
+      }, onCompleted: {
+        self.sendEvent(withName: "onCharacteristicEnable", body: [] )
+        self.bleController.readOffSet()
+      })
+    
   }
   
   

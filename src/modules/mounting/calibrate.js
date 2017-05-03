@@ -7,13 +7,19 @@ import {
 } from '../../views/mounting/'
 
 import {
-  View, Button,
+  View,
   Text, NativeEventEmitter,
-  NativeModules, Alert
+  NativeModules, Alert, Dimensions, Image, TouchableOpacity
 } from 'react-native'
 
 import { DeviceEventEmitter } from 'react-native'
 import ReactNativeHeading from 'react-native-heading'
+import Colors from '../../../assets/colorTheme'
+import Button from '../../reactcommon/components/button'
+
+const { width, height } = Dimensions.get('window')
+const compass = require('../../../assets/icons/compass.png')
+const info = require('../../../assets/icons/info.png')
 
 
 export default class extends Component {
@@ -36,6 +42,7 @@ export default class extends Component {
     this.myModuleEvt.addListener('onReading', this.onReading)
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
+    this.myModuleEvt.addListener('onCharacteristicEnable', this.onCharacteristicEnable)
 
     DeviceEventEmitter.addListener('headingUpdated', this.headingUpdated)
 
@@ -62,10 +69,18 @@ export default class extends Component {
     this.myModuleEvt.removeAllListeners('onReading')
     this.myModuleEvt.removeAllListeners('timeout')
     this.myModuleEvt.removeAllListeners('onCompleted')
+    this.myModuleEvt.removeAllListeners('onCharacteristicEnable')
   }
 
   onCompleted = () => {
-    console.log('onCompleted')
+    console.log('on completed')
+  }
+
+  onCharacteristicEnable = () => {
+    const { goBack } = this.props.navigation
+
+    alert('Alignment saved')
+    goBack()
   }
 
   onBluetoothOff = () => {
@@ -117,11 +132,9 @@ export default class extends Component {
   }
 
   _onResult = () => {
-    const { goBack } = this.props.navigation
-
-    let text = this.distance(this.state.compassBle, this.state.heading) + ' degrees offset'
-    alert(text)
-    goBack()
+    let offset = this.distance(this.state.heading, this.state.compassBle)
+    let off = parseInt(offset, 10)
+    NativeModules.VaavudBle.addOffset(off)
   }
 
   render = () => {
@@ -135,27 +148,41 @@ export default class extends Component {
     }
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: Colors.vaavudBlue }}>
 
-        <Text style={{ marginTop: 20 }}> Align your phone to the head of your boat  </Text>
+        <View style={{ width, height: 80, flexDirection: 'row', marginTop: 20 }}>
+          <View style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
+            <Image source={compass} style={{ width: 50, height: 50, transform: [{ rotate: this.state.heading + 'deg' }] }} />
+          </View>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
+            <Image source={info} style={{ width: 30, height: 30 }} />
+          </TouchableOpacity>
+        </View>
 
-        <Text style={{ marginTop: 20 }}> your Compas {this.state.heading} </Text>
-        <Text style={{ marginTop: 20 }}> Ble Compas {this.state.compassBle} </Text>
+        <View style={{ flex: 1 }} />
 
-        <Text style={{ marginTop: 20 }}> Clic Done when you information displayed is correct. </Text>
+        <View style={{ width, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+          <Text style={{ color: 'white' }}> Align your phone to the head of your boat  </Text>
+          <Text style={{ marginBottom: 20, color: 'white' }}> Clic Done when you information displayed is correct. </Text>
 
-        <Button title={'Done'} onPress={this._onResult} />
-
-      </View>
+          <Button buttonStyle={{ width: width - 40, height: 40, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
+            textStyle={{ color: Colors.vaavudBlue, fontSize: 18 }}
+            title={'Done'}
+            onPress={this._onResult} />
+          <Button buttonStyle={{ width: width - 40, height: 40, marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center' }}
+            textStyle={{ color: 'white', fontSize: 18 }}
+            title={'Cancel'}
+            onPress={() => { this.props.navigation.goBack() }} />
+        </View>
+      </View >
     )
-
 
     // return <CalibrateView onNext={this.onNext} heading={this.state.heading} />
   }
 
   distance = (alpha, beta) => {
-    let phi = (360 + (beta - alpha)) % 360        // This is either the distance or 360 - distance
-    // let distance = phi > 180 ?  -phi : phi
+    let phi = (360 + (beta - alpha)) % 360
     return phi
   }
 
