@@ -28,6 +28,7 @@ export function doSignUp(credential) {
           .then(user => {
             console.log(user.uid)
             setUserCredential(user.uid, credential)
+            resolve()
           })
           .catch(error => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: error.code })
@@ -40,6 +41,7 @@ export function doSignUp(credential) {
         firebase.auth().signInWithCredential(_cFacebook)
           .then(user => {
             dispatch({ type: 'SAVE_FB_USER', credential, uid: user.uid })
+            resolve()
           })
           .catch(err => {
             dispatch({ type: DISPLAY_ERROR, title: 'Authentication error', code: 'There was an error with facebook' })

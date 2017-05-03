@@ -154,13 +154,9 @@ repositories {
 }
 
 dependencies {
-    compile project(':realm')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-snackbar')
-    compile project(':react-native-maps')
     compile project(':react-native-i18n')
     compile project(':react-native-heading')
-    compile project(':react-native-fbsdk')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-permissions')
     compile(project(':react-native-snackbar')) {
@@ -199,6 +195,7 @@ dependencies {
         exclude module: 'appcompat-v7'
         exclude module: 'play-services-location'
     }
+    compile 'com.facebook.fresco:animated-gif:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.2.0'

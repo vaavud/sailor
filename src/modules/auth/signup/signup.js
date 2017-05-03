@@ -21,6 +21,9 @@ class SignUp extends Component {
   constructor(props) {
     super(props)
     this._doSignUp = this._doSignUp.bind(this)
+    this.state = {
+      isLoading: false
+    }
   }
 
   componentDidMount() {
@@ -62,7 +65,8 @@ class SignUp extends Component {
         password: password,
         type: 'password'
       }
-      this.props.doSignUp(credential)
+      this.setState({isLoading: true})
+      this.props.doSignUp(credential).catch(() => this.setState({isLoading: false}))
     }
   }
 
@@ -73,6 +77,7 @@ class SignUp extends Component {
       <SignupView
         onPressBack={() => goBack()}
         onPressSignup={this._doSignUp}
+        isLoading={this.state.isLoading}
       />
     )
   }
