@@ -3,12 +3,12 @@ import realm from '../store/realm'
 import firebase from 'firebase'
 
 import { LOGOUT } from '../constants/auth'
-import { SETTING_UPDATED } from '../constants/settings'
+import { SETTING_UPDATED,ALIGNING_DEVICE } from '../constants/settings'
 import { AsyncStorage } from 'react-native'
 
 
-export function updateSettings(key, value) {
-  return function (dispatch, getState) {
+const updateSettings = (key, value) => {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
       realm.write(() => {
@@ -20,9 +20,8 @@ export function updateSettings(key, value) {
   }
 }
 
-
-export function logout(time) {
-  return function (dispatch, getState) {
+const logout = time => {
+  return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
 
       realm.write(() => {
@@ -48,3 +47,6 @@ export function logout(time) {
     })
   }
 }
+
+
+export {logout,updateSettings}

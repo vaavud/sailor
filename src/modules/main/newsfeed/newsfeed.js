@@ -41,12 +41,10 @@ function getCoordinate(location, skew) {
 
 import icons from '../../../reactcommon/icons'
 
-
-
 class Newsfeed extends Component {
 
   static navigationOptions = {
-    tabBarLabel: 'Harbour',
+    tabBarLabel: 'Harbor',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.newsfeed}

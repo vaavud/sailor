@@ -10,7 +10,7 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { logout, updateSettings } from '../../../actions/settings'
-import { goToBleSetup } from '../../../actions/bluetooth'
+import { goToBleSetup, doneIntro } from '../../../actions/bluetooth'
 
 import SettingsView from '../../../views/main/settings'
 import icons from '../../../reactcommon/icons'
@@ -40,7 +40,9 @@ class Settings extends Component {
         settings={this.props.settings}
         battery={this.props.battery}
         push={this.props.push}
+        goToAlignUltrasonic={() => navigate('Alignment')}
         goToSetup={this.props.goToBleSetup}
+        calibrateBle={this.props.doneIntro}
         harbor={this.props.harbor} />
     )
   }
@@ -58,7 +60,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     logout: bindActionCreators(logout, dispatch),
     updateSettings: bindActionCreators(updateSettings, dispatch),
-    goToBleSetup: bindActionCreators(goToBleSetup, dispatch)
+    goToBleSetup: bindActionCreators(goToBleSetup, dispatch),
+    doneIntro: bindActionCreators(doneIntro, dispatch),
   }
 }
 

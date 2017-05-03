@@ -11,6 +11,8 @@ import {
   MEASUREMENT
 } from '../constants/auth'
 
+import {ALIGNING_DEVICE} from '../constants/settings'
+
 var initialState = {
   uid: undefined,
   deviceId: undefined,

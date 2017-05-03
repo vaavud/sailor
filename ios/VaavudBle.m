@@ -20,11 +20,11 @@
 //RCT_EXTERN_METHOD(startReading:(RCTResponseSenderBlock)callback)
 //RCT_EXTERN_METHOD(stopReading:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(initBle)
-RCT_EXTERN_METHOD(onConnect)
+RCT_EXTERN_METHOD(readRowData:(BOOL)fromSDK offset:(nonnull NSNumber *)offset)
+RCT_EXTERN_METHOD(readOnce)
+RCT_EXTERN_METHOD(calibrateCompass: (BOOL)on)
 RCT_EXTERN_METHOD(onDisconnect)
-RCT_EXTERN_METHOD(isVaavudBleConnected)
-
+RCT_EXTERN_METHOD(onStopSdk)
 
 @end
 

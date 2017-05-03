@@ -2,18 +2,28 @@
 
 import { AsyncStorage } from 'react-native'
 
-import { SKIP_SETUP } from '../constants/auth'
+import { HOME_READY, SKIP_SETUP } from '../constants/auth'
 
-export function skipIntro() {
+//SKIP_SETUP
+
+const skipIntro = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       AsyncStorage.setItem('bleSetup', 'true')
+      dispatch({ type: HOME_READY })
+    })
+  }
+}
+
+const doneIntro = () => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
       dispatch({ type: SKIP_SETUP })
     })
   }
 }
 
-export function introStatus() {
+const introStatus = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('bleSetup').then(status => {
       console.log(status)
@@ -27,13 +37,13 @@ export function introStatus() {
   })
 }
 
-export function goToBleSetup(){
+const goToBleSetup = () => {
   return (dispatch, getState) => {
-    dispatch({type: 'SETUP'})
+    dispatch({ type: 'SETUP' })
   }
 }
 
-export function saveLastBLEStatus(battery) {
+const saveLastBLEStatus = battery => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       AsyncStorage.setItem('bleSetup', 'true')
@@ -44,7 +54,7 @@ export function saveLastBLEStatus(battery) {
   }
 }
 
-export function getBatteryLevel() {
+const getBatteryLevel = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('battery').then(battery => {
       if (battery !== null) {
@@ -56,3 +66,5 @@ export function getBatteryLevel() {
     })
   })
 }
+
+export { getBatteryLevel, saveLastBLEStatus, goToBleSetup, introStatus, doneIntro, skipIntro }

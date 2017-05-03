@@ -31,100 +31,172 @@ const checkmark = require('../../../assets/checkmark.png')
 
 export default class Connecting extends Component {
 
+  state = {
+    error: '',
+    loading: true,
+    ble: false,
+    compassOuput: 0,
+    location: true
+  }
+
   constructor(props) {
     super(props)
-
-    const myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
-
-    this.state = {
-      myModuleEvt,
-      readyToWork: false,
-      location: false,
-      ble: false
-    }
-
-    this._removeCallbacks = this._removeCallbacks.bind(this)
-    this.onLocationWorking = this.onLocationWorking.bind(this)
-    this.onBleState = this.onBleState.bind(this)
-    this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
-    this.onNewRead = this.onNewRead.bind(this)
-    this.timeout = this.timeout.bind(this)
-
+    this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
   }
 
-  componentDidMount() {
-    this.state.myModuleEvt.addListener('onBleState', this.onBleState)
-    this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
-    this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
-    this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
-    this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
-    this.state.myModuleEvt.addListener('timeout', this.timeout)
+  componentDidMount = () => {
+    this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
+    this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
+    this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
+    this.myModuleEvt.addListener('onReading', this.onReading)
+    this.myModuleEvt.addListener('timeout', this.timeout)
+    this.myModuleEvt.addListener('onCompleted', this.onCompleted)
 
-
-    NativeModules.VaavudBle.initBle()
+    NativeModules.VaavudBle.readOnce()
   }
 
-  componentWillUnmount() {
-    this._removeCallbacks()
-  }
-
-  timeout() {
+  componentWillUnmount = () => {
     NativeModules.VaavudBle.onDisconnect()
     this._removeCallbacks()
+  }
+
+  timeout = () => {
+    console.log('timeOut')
+  }
+
+  _removeCallbacks = () => {
+    this.myModuleEvt.removeAllListeners('onBluetoothOff')
+    this.myModuleEvt.removeAllListeners('onNoDeviceFound')
+    this.myModuleEvt.removeAllListeners('onDeviceFound')
+    this.myModuleEvt.removeAllListeners('onReading')
+    this.myModuleEvt.removeAllListeners('timeout')
+    this.myModuleEvt.removeAllListeners('onCompleted')
+  }
+
+  onCompleted = () => {
+    console.log('onCompleted')
+  }
+
+  onBluetoothOff = () => {
+    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
+      text: 'OK', onPress: () => { }
+    }])
+  }
+
+  onNoDeviceFound = () => {
+    Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
+      text: 'OK', onPress: () => { }
+    }])
+  }
+
+  onDeviceFound = () => {
+    this.setState({ ble: true, loading: false })
+  }
+
+  onReading = data => {
+
     const { navigate } = this.props.navigation
-    navigate('NoBluetooth')
-  }
-
-  _removeCallbacks() {
-    this.state.myModuleEvt.removeAllListeners('onBleState')
-    this.state.myModuleEvt.removeAllListeners('onLocationWorking')
-    this.state.myModuleEvt.removeAllListeners('onNewRead')
-    this.state.myModuleEvt.removeAllListeners('onReadyToWork')
-    this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
-  }
-
-
-  onBleState(data) {
-    switch (data.status) {
-      case 'off':
-        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
-          text: 'OK', onPress: () => {
-            const { navigate } = this.props.navigation
-            navigate('NoBluetooth')
-          }
-        }])
-        break
-      case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{
-          text: 'OK', onPress: () => {
-            const { navigate } = this.props.navigation
-            navigate('NoBluetooth')
-          }
-        }])
-        break
-    }
-  }
-
-  onLocationWorking(location) {
-    this.setState({ location: true })
-
-  }
-
-  onVaavudBleFound(ble) {
-    this.setState({ ble: true })
-  }
-
-  onReadyToWork() {
-
-  }
-
-  onNewRead(point) {
+    navigate('Bluetooth', data)
     NativeModules.VaavudBle.onDisconnect()
     this._removeCallbacks()
-
-    const { navigate } = this.props.navigation
-    navigate('Bluetooth', point)
   }
+
+
+
+
+  // constructor(props) {
+  //   super(props)
+
+  //   const myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
+
+  //   this.state = {
+  //     myModuleEvt,
+  //     readyToWork: false,
+  //     location: false,
+  //     ble: false
+  //   }
+
+  //   this._removeCallbacks = this._removeCallbacks.bind(this)
+  //   this.onLocationWorking = this.onLocationWorking.bind(this)
+  //   this.onBleState = this.onBleState.bind(this)
+  //   this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
+  //   this.onNewRead = this.onNewRead.bind(this)
+  //   this.timeout = this.timeout.bind(this)
+
+  // }
+
+  // componentDidMount() {
+  //   this.state.myModuleEvt.addListener('onBleState', this.onBleState)
+  //   this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
+  //   this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
+  //   this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
+  //   this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
+  //   this.state.myModuleEvt.addListener('timeout', this.timeout)
+
+
+  //   NativeModules.VaavudBle.initBle()
+  // }
+
+  // componentWillUnmount() {
+  //   this._removeCallbacks()
+  // }
+
+  // timeout() {
+  //   NativeModules.VaavudBle.onDisconnect()
+  //   this._removeCallbacks()
+  //   const { navigate } = this.props.navigation
+  //   navigate('NoBluetooth')
+  // }
+
+  // _removeCallbacks() {
+  //   this.state.myModuleEvt.removeAllListeners('onBleState')
+  //   this.state.myModuleEvt.removeAllListeners('onLocationWorking')
+  //   this.state.myModuleEvt.removeAllListeners('onNewRead')
+  //   this.state.myModuleEvt.removeAllListeners('onReadyToWork')
+  //   this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
+  // }
+
+
+  // onBleState(data) {
+  //   switch (data.status) {
+  //     case 'off':
+  //       Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
+  //         text: 'OK', onPress: () => {
+  //           const { navigate } = this.props.navigation
+  //           navigate('NoBluetooth')
+  //         }
+  //       }])
+  //       break
+  //     case 'unauthorized':
+  //       Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{
+  //         text: 'OK', onPress: () => {
+  //           const { navigate } = this.props.navigation
+  //           navigate('NoBluetooth')
+  //         }
+  //       }])
+  //       break
+  //   }
+  // }
+
+  // onLocationWorking(location) {
+  //   this.setState({ location: true })
+
+  // }
+
+  // onVaavudBleFound(ble) {
+  //   this.setState({ ble: true })
+  // }
+
+  // onReadyToWork() {
+  // }
+
+  // onNewRead(point) {
+  //   NativeModules.VaavudBle.onDisconnect()
+  //   this._removeCallbacks()
+
+  //   const { navigate } = this.props.navigation
+  //   navigate('Bluetooth', point)
+  // }
 
   _renderStatusSection() {
     return (

@@ -6,6 +6,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import {
+  View, Text, Button
+}
+  from 'react-native'
+
+import {
   ResultView
 } from '../../views/mounting/'
 
@@ -16,7 +21,16 @@ class Result extends Component {
 
   render = () => {
     const { params } = this.props.navigation.state
-    return <ResultView finish={this.props.skipCalibration} headingBle={params.headingFromBle} headingPhone={params.headingFromPhone} />
+
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text> Congratulations.... </Text>
+        <Button title={'Finish'} onPress={this.props.skipCalibration} />
+      </View >
+    )
+
+
+    // return <ResultView finish={this.props.skipCalibration} headingBle={params.headingFromBle} headingPhone={params.headingFromPhone} />
   }
 }
 

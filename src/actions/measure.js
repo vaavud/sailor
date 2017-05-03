@@ -39,7 +39,7 @@ const saveSession = session => {
     return new Promise((resolve, reject) => {
 
       let uid = firebase.auth().currentUser.uid
-      let deviceKey = 'UNTRASONIC'
+      let deviceKey = 'ULTRASONIC'
 
       let nodeRef = firebase.database().ref('session').push()
 

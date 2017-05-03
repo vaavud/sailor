@@ -22,7 +22,7 @@ const correct = require('../../../assets/icons/correct.png')
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { saveLastBLEStatus, skipIntro } from '../../actions/bluetooth'
+import { saveLastBLEStatus, doneIntro } from '../../actions/bluetooth'
 
 
 class Bluethooth extends Component {
@@ -42,8 +42,7 @@ class Bluethooth extends Component {
 
   _finishSetup() {
     const { params } = this.props.navigation.state
-
-    this.props.saveLastBLEStatus(params.battery).then(this.props.skipIntro)
+    this.props.saveLastBLEStatus(params.battery).then(this.props.doneIntro)
   }
 
   render() {
@@ -79,7 +78,7 @@ const mapReduxStoreToProps = (reduxStore) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveLastBLEStatus: bindActionCreators(saveLastBLEStatus, dispatch),
-    skipIntro: bindActionCreators(skipIntro, dispatch),
+    doneIntro: bindActionCreators(doneIntro, dispatch),
 
   }
 }

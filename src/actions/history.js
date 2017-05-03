@@ -25,9 +25,6 @@ const saveSessionInCache = () => {
 }
 
 
-
-
-
 const getSessions = () => {
   return new Promise((resolve, reject) => {
 
@@ -50,7 +47,7 @@ const getSessions = () => {
 
             snapshot.forEach(snap => {
               var obj = snap.val()
-              if (snap.val().deviceKey === 'UNTRASONIC') {
+              if (snap.val().windMeter === 'Ultrasonic') {
                 obj.key = snap.key
                 historyList.push(obj)
                 obj.sent = true

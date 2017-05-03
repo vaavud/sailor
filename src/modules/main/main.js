@@ -6,6 +6,7 @@ import History from './history'
 import Settings from './settings'
 import Summary from './summary'
 import Dommy from './dommy'
+import Alignment from '../mounting/calibrate'
 
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
@@ -18,8 +19,7 @@ const MainFlow = TabNavigator({
 }, {
     lazyLoad: true,
     tabBarOptions: {
-      activeTintColor: '#D12A2f',
-      test: () => { console.log('asdasdas') }
+      activeTintColor: '#D12A2f'
     }
   })
 
@@ -30,6 +30,7 @@ const SecondFlow = StackNavigator({
   MapHarbor: { screen: MapHarbor },
   WindHarbor: { screen: WindHarbor },
   Summary: { screen: Summary },
+  Alignment: { screen: Alignment },
 }, {
     headerMode: 'screen',
     navigationOptions: {
@@ -38,7 +39,19 @@ const SecondFlow = StackNavigator({
   })
 
 
-export default MainFlow
+
+/*class SailorMain extends Component {
+  render() {
+    <View>
+      <SecondFlow />
+      <OurButton />
+    </View>
+  }
+}*/
+
+
+
+export default SecondFlow
 
 
 

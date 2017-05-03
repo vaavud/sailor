@@ -20,7 +20,7 @@ class IntroView extends Component {
     return (
       <View style={style.container} >
         <View style={style.innerContainer} >
-          <NormalText textContent={'mounting/calibrating guide intro'} />
+          <NormalText textContent={'Welcome....'} />
         </View>
         <View style={style.buttonContainer}>
           <Button buttonStyle={style.button}

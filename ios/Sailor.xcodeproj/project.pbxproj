@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -15,6 +16,10 @@
 		0724C09A1EA8B9B3006902B5 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0981EA8B9B3006902B5 /* Crashlytics.framework */; };
 		0724C09B1EA8B9B3006902B5 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0991EA8B9B3006902B5 /* Fabric.framework */; };
 		0724C0C71EA8BCF1006902B5 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0C61EA8BCE6006902B5 /* libSMXCrashlytics.a */; };
+		073B17BA1EB7713C00F8F1E4 /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B17B91EB7713C00F8F1E4 /* RxBluetoothKit.framework */; };
+		073B17BB1EB7713C00F8F1E4 /* RxBluetoothKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 073B17B91EB7713C00F8F1E4 /* RxBluetoothKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		073B17BD1EB7714500F8F1E4 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B17BC1EB7714500F8F1E4 /* RxSwift.framework */; };
+		073B17BE1EB7714500F8F1E4 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 073B17BC1EB7714500F8F1E4 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		07473B0D1EAF463000CBDFE2 /* libReactNativeHeading.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07473B041EAF462200CBDFE2 /* libReactNativeHeading.a */; };
 		0BEC3833F13B447594645B3F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E82F7877AE6F4B2B805EEF0D /* EvilIcons.ttf */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -35,7 +40,7 @@
 		2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1C6EDB1E2FAECF00AF4A10 /* libART.a */; };
 		2B1C6F6C1E31160C00AF4A10 /* VaavudBle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6B1E31160C00AF4A10 /* VaavudBle.swift */; };
 		2B1C6F6E1E31166200AF4A10 /* VaavudBle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */; };
-		2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */; };
+		2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2B1EE5031E5AEEA400C9561C /* VaavudSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1EE4FF1E5AEE7F00C9561C /* VaavudSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B1EE5421E5B171200C9561C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1EE5411E5B171100C9561C /* utils.swift */; };
 		2B436F861E28FE9A00C0E250 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B436F821E28FE9A00C0E250 /* Bolts.framework */; };
@@ -396,7 +401,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				073B17BB1EB7713C00F8F1E4 /* RxBluetoothKit.framework in Embed Frameworks */,
 				2B1EE5031E5AEEA400C9561C /* VaavudSDK.framework in Embed Frameworks */,
+				073B17BE1EB7714500F8F1E4 /* RxSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,9 +420,13 @@
 		00E356EE1AD99517003FC87E /* sailingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sailingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* sailingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sailingTests.m; sourceTree = "<group>"; };
+		07067D791EB3AFA100D37C69 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sailor-fgkjrwzexfucbrdqjrwryawfnelk/Build/Products/Debug-iphoneos/RxSwift.framework"; sourceTree = "<group>"; };
+		07067DA11EB3AFAB00D37C69 /* RxBluetoothKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBluetoothKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sailor-fgkjrwzexfucbrdqjrwryawfnelk/Build/Products/Debug-iphoneos/RxBluetoothKit.framework"; sourceTree = "<group>"; };
 		0724C0981EA8B9B3006902B5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0724C0991EA8B9B3006902B5 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0724C0C11EA8BCE6006902B5 /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
+		073B17B91EB7713C00F8F1E4 /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		073B17BC1EB7714500F8F1E4 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07473AE21EAF462200CBDFE2 /* ReactNativeHeading.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeHeading.xcodeproj; path = "../node_modules/react-native-heading/ReactNativeHeading.xcodeproj"; sourceTree = "<group>"; };
 		07DA044BF2D9401DB1A567EA /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		09A4CBF3A1EB40CBA7C0D82D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -444,7 +455,6 @@
 		2B1C6F6D1E31166200AF4A10 /* VaavudBle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VaavudBle.m; sourceTree = "<group>"; };
 		2B1EE4D41E5AEE7E00C9561C /* VaavudSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VaavudSDK.xcodeproj; path = "../../vaavud-ios-sdk/VaavudSDK.xcodeproj"; sourceTree = "<group>"; };
 		2B1EE5411E5B171100C9561C /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
-		2B436F811E28FE0500C0E250 /* sailing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sailing.entitlements; path = sailing/sailing.entitlements; sourceTree = "<group>"; };
 		2B436F821E28FE9A00C0E250 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -505,6 +515,7 @@
 				2B1EE5021E5AEEA400C9561C /* VaavudSDK.framework in Frameworks */,
 				2B1C6EFA1E2FAEF000AF4A10 /* libART.a in Frameworks */,
 				2B436F881E28FE9A00C0E250 /* FBSDKLoginKit.framework in Frameworks */,
+				073B17BA1EB7713C00F8F1E4 /* RxBluetoothKit.framework in Frameworks */,
 				2B436F861E28FE9A00C0E250 /* Bolts.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -523,6 +534,7 @@
 				78C0B4F6080A467B8711BDD9 /* libRNI18n.a in Frameworks */,
 				46E059A8C586411E8C2CBC14 /* libRCTFBSDK.a in Frameworks */,
 				218FB478E52044E5B9684B29 /* libRealmReact.a in Frameworks */,
+				073B17BD1EB7714500F8F1E4 /* RxSwift.framework in Frameworks */,
 				426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */,
 				6EF7D8F05FB5481FB7ED3257 /* libz.tbd in Frameworks */,
 				2BDD5B46CCFD457DA0480BCC /* libAirMaps.a in Frameworks */,
@@ -657,7 +669,6 @@
 				2B436F831E28FE9A00C0E250 /* FBSDKCoreKit.framework */,
 				2B436F841E28FE9A00C0E250 /* FBSDKLoginKit.framework */,
 				2B436F851E28FE9A00C0E250 /* FBSDKShareKit.framework */,
-				2B436F811E28FE0500C0E250 /* sailing.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -827,6 +838,8 @@
 		78E562956F124D16B76C43EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07067DA11EB3AFAB00D37C69 /* RxBluetoothKit.framework */,
+				07067D791EB3AFA100D37C69 /* RxSwift.framework */,
 				2B1735DF1E2E3CFD003DC5A7 /* libstdc++.tbd */,
 				1B3953F755AF4EA595AC4FB6 /* libc++.tbd */,
 				07DA044BF2D9401DB1A567EA /* libz.tbd */,
@@ -876,6 +889,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				073B17BC1EB7714500F8F1E4 /* RxSwift.framework */,
+				073B17B91EB7713C00F8F1E4 /* RxBluetoothKit.framework */,
 				0724C0981EA8B9B3006902B5 /* Crashlytics.framework */,
 				0724C0991EA8B9B3006902B5 /* Fabric.framework */,
 				13B07FAE1A68108700A75B9A /* sailing */,

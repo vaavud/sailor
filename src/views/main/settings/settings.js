@@ -180,9 +180,22 @@ class SettingsView extends Component {
     return (
       <View style={style.prefernceContainer} >
         <Button
-        textStyle={style.buttonText}
-        title={'Connect ultrasonic'}
-        onPress={this.props.goToSetup} />
+          textStyle={style.buttonText}
+          title={'Connect ultrasonic'}
+          onPress={this.props.goToSetup} />
+
+        <Button
+          textStyle={style.buttonText}
+          title={'Calibrate ble'}
+          onPress={this.props.calibrateBle} />
+
+        <Button
+          textStyle={style.buttonText}
+          title={'Align Ultrasonic/Boat'}
+          onPress={this.props.goToAlignUltrasonic} />
+
+
+
       </View>
     )
   }

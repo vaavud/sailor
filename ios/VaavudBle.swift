@@ -11,11 +11,33 @@ import Foundation
 import CoreBluetooth
 import CoreLocation
 import VaavudSDK
+import RxSwift
+
+
+struct Ultrasonic {
+  let windDirection: Int
+  let windSpeed: Double
+  let compass: Int
+  let battery: Int
+  let temperature: Int
+  
+  
+  var toDic: [String:Any] {
+    var d : [String:Any] = [:]
+    d["windDirection"] = windDirection
+    d["windSpeed"] = windSpeed
+    d["compass"] = compass
+    d["battery"] = battery
+    d["temperature"] = temperature
+    
+    return d
+  }
+}
 
 
 struct Session {
   let timeStart: UInt64
-  let windMeter = "sleipnir" //TODO
+  let windMeter = "Ultrasonic" //TODO
   var timeEnd: UInt64?
   var windMax: Double?
   var windMean: Double?
@@ -40,14 +62,11 @@ struct Session {
   
 }
 
-
-
 struct MeasurementPoint {
   let speed: Double
   let direction: Int
   let location: CLLocationCoordinate2D
   let timestamp: UInt64
-  
   
   var toDic: [String:Any] {
     return ["windSpeed": speed, "windDirection": direction, "location": ["lat":location.latitude, "lon": location.longitude], "timestamp":timestamp]
@@ -56,8 +75,10 @@ struct MeasurementPoint {
 
 
 @objc(VaavudBle)
-class VaavudBle: RCTEventEmitter,IBluetoothManager {
+class VaavudBle: RCTEventEmitter  {
   
+  let bleController = BluetoothController()
+  var bluetoothListener: BluetoothListener!
   let vaavudSDK = VaavudSDK.shared
   var lastLatLon : CLLocationCoordinate2D?
   var points : [MeasurementPoint] = []
@@ -69,32 +90,147 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
   var bleFound = false
   
   override func supportedEvents() -> [String]! {
-    return ["onBleState","onNewRead","onReadyToWork","onVaavudBleFound","onLocationWorking","onFinalData","timeout"]
+    return ["onBluetoothOff","onNoDeviceFound","onDeviceFound","onReading","onCompleted","timeout", "onLocationFound","onFinalData"]
   }
   
-  func timeout() {
-    if !bleFound {
-      self.sendEvent(withName: "timeout", body: [] )
-      bleFound = false
-    }
+  
+  func workWithRowData(val: String) -> Ultrasonic {
+    
+    //    print(val)
+    
+    //Speed
+    let s10 = val.substring(from: 0, to: 1)
+    let s11 = val.substring(from: 2, to: 3)
+    let h1 = Int(s11.appending(s10), radix: 16)
+    let _h1 = Double(h1!) / 100
+    
+    //    print("speed: \(_h1)")
+    
+    //Direction
+    let s20 = val.substring(from: 4, to: 5)
+    let s21 = val.substring(from: 6, to: 7)
+    let h2 = Int(s21.appending(s20), radix: 16)!
+//    print("Direction: \(h2)")
+    
+    //Battery
+    let s30 = val.substring(from: 8, to: 9)
+    let h3 = Int(s30, radix: 16)! * 10
+//    print("Battery: \(h3)")
+    
+    //    //Temperature
+    let s40 = val.substring(from: 10, to: 11)
+    let h4 = Int(s40, radix: 16)! - 100
+    //    print("Temperataure: \(h4)")
+    //
+    //
+    //    //Escora
+    //    let s50 = val.substring(from: 12, to: 13)
+    //    let h5 = Int(s50, radix: 16)! - 90
+    //    print("Escora: \(h5)")
+    //
+    //
+    //    //Cabeceo
+    //    let s60 = val.substring(from: 14, to: 15)
+    //    let h6 = Int(s60, radix: 16)! - 90
+    //    print("Cabeceo: \(h6)")
+    
+    
+    //Compass
+    let s70 = val.substring(from: 16, to: 17)
+    let s71 = val.substring(from: 18, to: 19)
+    let h7 = Int(s71.appending(s70) , radix: 16)!
+    //    print("Compass: \(h7)")
+    
+    
+    return Ultrasonic(windDirection: h2, windSpeed: _h1, compass: h7, battery: h3, temperature: h4)
+    
+  }
+  
+  
+  
+  private func findUltrasonic() {
+    
+    let _ = self.bleController.onConnectDevice()
+      .subscribe(onError: {
+        self.sendEvent(withName: "onNoDeviceFound", body: [] )
+        print($0)
+      }, onCompleted: {
+        self.sendEvent(withName: "onDeviceFound", body: [] )
+        self.bleController.activateSensores()
+      })
+  }
+  
+  
+  
+  @objc
+  func readOnce() {
+    let _ = bleController.onVerifyBle()
+      .subscribe(onError: {
+        self.sendEvent(withName: "onBluetoothOff", body: [] )
+        print($0)
+      }, onCompleted: {
+        print("this is fine")
+        self.findUltrasonic()
+      })
+    
+    
+    let _ = self.bleController.onreadOnce()
+      .subscribe(onNext: {
+        let val = $0.value?.hexEncodedString()
+        let data = self.workWithRowData(val: val!)
+        self.sendEvent(withName: "onReading", body: data.toDic )
+      }, onError: {
+        print("6")
+        print($0)
+      }, onCompleted: {
+        print($0)
+      })
   }
   
   @objc
-  func initBle() {
+  func readRowData(_ fromSdk:Bool, offset:Int) {
     
-    vaavudSDK.startWithBluetooth(listener: self)
+    let _ = bleController.onVerifyBle()
+      .subscribe(onError: {
+        self.sendEvent(withName: "onBluetoothOff", body: [] )
+        print($0)
+      }, onCompleted: {
+        self.findUltrasonic()
+      })
+    
+    if fromSdk {
+      vaavudSDK.startWithBluetooth()
+      bluetoothListener = vaavudSDK
+      initSkdListeners()
+    }
+    
+    let _ = self.bleController.readRowData()
+      .subscribe(onNext: {
+        let val = $0.value?.hexEncodedString()
+        
+        if fromSdk {
+          self.respWithSdk(val: val!)
+        }
+        else {
+          self.respSimpleData(val: val!)
+        }
+      }, onError: {
+        print("6")
+        print($0)
+      }, onCompleted: {
+        print($0)
+      })
+  }
+  
+  
+  private func initSkdListeners() {
     
     vaavudSDK.bluetoothCallback =  { data in
-      
       if let latlon = self.lastLatLon {
         self.points.insert(MeasurementPoint(speed: data.windSpeed, direction: data.windDirection, location: latlon, timestamp: Date().ticks), at: 0)
       }
       
-      self.sendEvent(withName: "onNewRead", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery, "velocity": self.lastVelocity, "trueWindSpeed": self.lastTrueWindSpeed, "trueWindDirection": self.lastTrueWindDirection, "compass":data.compass] )
-    }
-    
-    vaavudSDK.bluetoothExtraCallback = { data in
-      print(data)
+      self.sendEvent(withName: "onReading", body: ["windSpeed":data.windSpeed, "windDirection": data.windDirection, "battery": data.battery, "velocity": self.lastVelocity, "trueWindSpeed": self.lastTrueWindSpeed, "trueWindDirection": self.lastTrueWindDirection, "compass":data.compass] )
     }
     
     vaavudSDK.trueWindSpeedCallback = {data in
@@ -102,7 +238,6 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     }
     
     vaavudSDK.trueWindDirectionCallback = {data in
-      print(data.direction)
       self.lastTrueWindDirection = data.direction
     }
     
@@ -113,52 +248,41 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     
     vaavudSDK.locationCallback =  { data in
       self.lastLatLon = data.coordinate
-      self.sendEvent(withName: "onLocationWorking", body: [] )
     }
-    
   }
   
   
-  func onBleStatus(status: BluetoothStatus){
-    switch status {
-    case .on:
-      DispatchQueue.main.async(execute: {
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.timeout), userInfo: nil, repeats: false)
+  private func respWithSdk(val: String) {
+    let data = self.workWithRowData(val: val)
+    bluetoothListener.newReading(event: BluetoothEvent(windSpeed: data.windSpeed, windDirection: data.windDirection, battery: data.battery, compass: Double(data.compass)))
+  }
+  
+  private func respSimpleData(val: String) {
+    let data = self.workWithRowData(val: val)
+    self.sendEvent(withName: "onReading", body: data.toDic )
+  }
+  
+  
+  @objc
+  func calibrateCompass(_ on: Bool) {
+    let bytes : [UInt8] = on ? [0x01] : [0x00]
+    let data = Data(bytes:bytes)
+    
+    let _ = self.bleController.calibrationCompass(activate: data)
+      .subscribe(onNext: { _ in
+        print("Enable sensors")
+      }, onError: {
+        print("Enable error")
+        print($0)
+      }, onCompleted: {
+        print("done with sensors")
+        print($0)
       })
-      self.sendEvent(withName: "onBleState", body: ["status":"on"] )
-      break
-    case .off:
-      self.sendEvent(withName: "onBleState", body: ["status":"off"] )
-      break
-    case .unauthorized:
-      self.sendEvent(withName: "onBleState", body: ["status":"unauthorized"] )
-      break
-    }
   }
-  
-  
-  func onBleReadyToWork(){
-    self.sendEvent(withName: "onReadyToWork", body: [] )
-  }
-  
-  
-  func onVaavudBleFound(){
-    bleFound = true
-    self.sendEvent(withName: "onVaavudBleFound", body: ["available":true])
-  }
-  
   
   @objc
-  func isVaavudBleConnected() {
-  }
-  
-  
-  @objc
-  func onConnect() {}
-  
-  @objc
-  func onDisconnect(){
-    
+  func onStopSdk(){
+    self.bleController.onDispose()
     
     vaavudSDK.stop()
     
@@ -166,7 +290,7 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
     var latlon : [CLLocationCoordinate2D] = []
     var speeds : [CGPoint] = []
     var directions : [CGPoint] = []
-
+    
     
     for point in points {
       latlon.insert(point.location, at: 0)
@@ -205,9 +329,11 @@ class VaavudBle: RCTEventEmitter,IBluetoothManager {
       self.sendEvent(withName: "onFinalData", body: ["measurementPoints":points.map{$0.toDic},"locations":simplifiedLocations,"speeds":simplifiedSpeed,"directions":simplifiedDirection,"session": vaavudSDK.session.dict ] )
       points = []
     }
-    
-   
-
-    
+  }
+  
+  @objc
+  func onDisconnect() {
+    self.bleController.onDispose()
+    self.sendEvent(withName: "onCompleted", body: [] )
   }
 }

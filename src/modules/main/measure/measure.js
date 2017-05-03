@@ -33,72 +33,101 @@ import {
 
 class Measure extends Component {
 
+
+  state = {
+    readyToWork: false,
+    isBleConnected: false,
+    windSpeed: 0,
+    windDirection: 0,
+    lastWindDirection: 0,
+    locationReady: true,
+    velocity: 0,
+    trueWindDirection: 0,
+    trueWindSpeed: 0,
+    trueLastWindDirection: 0,
+    isLoading: false,
+    timeout: false,
+    battery: '-'
+  }
+
   constructor(props) {
     super(props)
-
-    const myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
-
-    this.state = {
-      myModuleEvt,
-      readyToWork: false,
-      isBleConnected: false,
-      windSpeed: 0,
-      windDirection: 0,
-      lastWindDirection: 0,
-      locationReady: true,
-      velocity: 0,
-      trueWindDirection: 0,
-      trueWindSpeed: 0,
-      trueLastWindDirection: 0,
-      isLoading: false,
-      timeout: false,
-      battery: '-'
-    }
-
-    this.onVaavudBleFound = this.onVaavudBleFound.bind(this)
-    this.onReadyToWork = this.onReadyToWork.bind(this)
-    this.onNewRead = this.onNewRead.bind(this)
-    this.onFinalData = this.onFinalData.bind(this)
-    this.onLocationWorking = this.onLocationWorking.bind(this)
-    this._onStopMeasurement = this._onStopMeasurement.bind(this)
-    this.onBleState = this.onBleState.bind(this)
-    this.timeout = this.timeout.bind(this)
-    this._jump = this._jump.bind(this)
-    this._tryAgin = this._tryAgin.bind(this)
-    this.removeLiteners = this.removeLiteners.bind(this)
+    this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
   }
 
-  componentDidMount() {
-    // this.state.myModuleEvt.addListener('onBleConnected', this.onBleConnected)
-    this.state.myModuleEvt.addListener('onBleState', this.onBleState)
-    this.state.myModuleEvt.addListener('onNewRead', this.onNewRead)
-    this.state.myModuleEvt.addListener('onReadyToWork', this.onReadyToWork)
-    this.state.myModuleEvt.addListener('onVaavudBleFound', this.onVaavudBleFound)
-    this.state.myModuleEvt.addListener('onLocationWorking', this.onLocationWorking)
-    this.state.myModuleEvt.addListener('onFinalData', this.onFinalData)
-    this.state.myModuleEvt.addListener('timeout', this.timeout)
+  componentDidMount = () => {
+    this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
+    this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
+    this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
+    this.myModuleEvt.addListener('onReading', this.onReading)
+    this.myModuleEvt.addListener('timeout', this.timeout)
+    this.myModuleEvt.addListener('onCompleted', this.onCompleted)
+    this.myModuleEvt.addListener('onFinalData', this.onFinalData)
 
-    NativeModules.VaavudBle.initBle()
+
+    NativeModules.VaavudBle.readRowData(true, 0)
   }
 
+  componentWillUnmount = () => {
+    NativeModules.VaavudBle.onDisconnect()
+    this.removeLiteners()
+  }
 
-  timeout() {
+  timeout = () => {
+    console.log('timeOut')
+  }
+
+  removeLiteners = () => {
+    this.myModuleEvt.removeAllListeners('onBluetoothOff')
+    this.myModuleEvt.removeAllListeners('onNoDeviceFound')
+    this.myModuleEvt.removeAllListeners('onDeviceFound')
+    this.myModuleEvt.removeAllListeners('onReading')
+    this.myModuleEvt.removeAllListeners('timeout')
+    this.myModuleEvt.removeAllListeners('onCompleted')
+    this.myModuleEvt.removeAllListeners('onFinalData')
+  }
+
+  onCompleted = () => {
+
+  }
+
+  onBluetoothOff = () => {
+    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
+      text: 'OK', onPress: () => { }
+    }])
+  }
+
+  onNoDeviceFound = () => {
     NativeModules.VaavudBle.onDisconnect()
     this.setState({ timeout: true })
+
+    Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
+      text: 'OK', onPress: () => {
+
+      }
+    }])
   }
 
-  onBleState(data) {
-    switch (data.status) {
-      case 'off':
-        Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON', [{ text: 'OK', onPress: () => this.setState({ timeout: true }) }])
-        break
-      case 'unauthorized':
-        Alert.alert('Bluetooth Error', 'In order to take a measurement please enable the Bluetooth permission.', [{ text: 'OK', onPress: () => this.setState({ timeout: true }) }])
-        break
-    }
+  onDeviceFound = () => {
+    this.setState({ isBleConnected: true, readyToWork: true })
   }
 
-  onFinalData(data) {
+  onReading = point => {
+    let last = this.state.windDirection
+    let lastTrue = this.state.trueWindDirection
+    this.setState({
+      windSpeed: point.windSpeed,
+      windDirection: point.windDirection,
+      lastWindDirection: last,
+      velocity: point.velocity,
+      trueWindDirection: point.trueWindDirection,
+      trueWindSpeed: point.trueWindSpeed,
+      trueLastWindDirection: lastTrue,
+      battery: point.battery
+    })
+  }
+
+  onFinalData = data => {
 
     let windMin = 0
 
@@ -125,56 +154,21 @@ class Measure extends Component {
       })
   }
 
-  onLocationWorking(location) {
-    if (location.available) {
-      this.setState({ locationReady: true })
-    }
-    else {
-      console.log('please eneble your location')
-    }
-  }
+  // onLocationWorking = location => {
+  //   if (location.available) {
+  //     this.setState({ locationReady: true })
+  //   }
+  //   else {
+  //     console.log('please eneble your location')
+  //   }
+  // }
 
-  removeLiteners() {
-    this.state.myModuleEvt.removeAllListeners('onBleState')
-    this.state.myModuleEvt.removeAllListeners('onNewRead')
-    this.state.myModuleEvt.removeAllListeners('onReadyToWork')
-    this.state.myModuleEvt.removeAllListeners('onVaavudBleFound')
-    this.state.myModuleEvt.removeAllListeners('onLocationWorking')
-    this.state.myModuleEvt.removeAllListeners('onFinalData')
-    this.state.myModuleEvt.removeAllListeners('timeout')
-  }
-
-  _onStopMeasurement() {
+  _onStopMeasurement = () => {
     this.setState({ isLoading: true })
-    NativeModules.VaavudBle.onDisconnect()
+    NativeModules.VaavudBle.onStopSdk()
   }
 
-  onVaavudBleFound(ble) {
-    this.setState({ isBleConnected: true })
-  }
-
-  onReadyToWork() {
-    this.setState({ readyToWork: true })
-  }
-
-  onNewRead(point) {
-    // if (this.state.locationReady) {
-    let last = this.state.windDirection
-    let lastTrue = this.state.trueWindDirection
-    this.setState({
-      windSpeed: point.windSpeed,
-      windDirection: point.windDirection,
-      lastWindDirection: last,
-      velocity: point.velocity,
-      trueWindDirection: point.trueWindDirection,
-      trueWindSpeed: point.trueWindSpeed,
-      trueLastWindDirection: lastTrue,
-      battery: point.battery
-    })
-    // }
-  }
-
-  _renderDotIndicator() {
+  _renderDotIndicator = () => {
     return (
       <PagerDotIndicator
         dotStyle={{ backgroundColor: Colors.vaavudBlue, opacity: 0.5 }}
@@ -183,18 +177,18 @@ class Measure extends Component {
     )
   }
 
-  _jump() {
+  _jump = () => {
     this.removeLiteners()
     this.props.goToMain()
     // this.props.jump('history')
   }
 
-  _tryAgin() {
+  _tryAgin = () => {
     NativeModules.VaavudBle.initBle()
     this.setState({ timeout: false })
   }
 
-  render() {
+  render = () => {
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
