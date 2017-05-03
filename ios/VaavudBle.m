@@ -22,6 +22,7 @@
 
 RCT_EXTERN_METHOD(readRowData:(BOOL)fromSDK offset:(nonnull NSNumber *)offset)
 RCT_EXTERN_METHOD(readOnce)
+RCT_EXTERN_METHOD(addOffset: (nonnull NSNumber *)offset)
 RCT_EXTERN_METHOD(calibrateCompass: (BOOL)on)
 RCT_EXTERN_METHOD(onDisconnect)
 RCT_EXTERN_METHOD(onStopSdk)
