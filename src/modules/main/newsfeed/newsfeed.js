@@ -5,7 +5,6 @@
 import React, { PureComponent } from 'react'
 import {
   View,
-  Button,
   Text,
   Dimensions,
   Image,
@@ -122,7 +121,6 @@ class Newsfeed extends PureComponent {
 }
 
 const mapReduxStoreToProps = (reduxStore) => {
-
   return {
     harbor: reduxStore.harbor,
     settings: reduxStore.settings

@@ -48,7 +48,7 @@ export default class extends Component {
     DeviceEventEmitter.addListener('headingUpdated', this.headingUpdated)
 
     ReactNativeHeading.start(1).catch(err => console.log(err))
-    NativeModules.VaavudBle.readRowData(false, 0)
+    NativeModules.VaavudBle.readRowData(false, {})
   }
 
   componentWillUnmount = () => {

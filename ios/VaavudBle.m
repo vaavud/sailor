@@ -20,7 +20,7 @@
 //RCT_EXTERN_METHOD(startReading:(RCTResponseSenderBlock)callback)
 //RCT_EXTERN_METHOD(stopReading:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(readRowData:(BOOL)fromSDK offset:(nonnull NSNumber *)offset)
+RCT_EXTERN_METHOD(readRowData:(BOOL)fromSDK offset:(nonnull NSDictionary *directions)offset)
 RCT_EXTERN_METHOD(readOnce)
 RCT_EXTERN_METHOD(addOffset: (nonnull NSNumber *)offset)
 RCT_EXTERN_METHOD(calibrateCompass: (BOOL)on)

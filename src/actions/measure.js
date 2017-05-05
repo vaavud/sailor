@@ -1,6 +1,7 @@
 
 import firebase from 'firebase'
 import realm from '../store/realm'
+import { AsyncStorage } from 'react-native'
 
 import { NEW_SESSION } from '../constants/history'
 import { MEASUREMENT, SKIP_CALIBRATION } from '../constants/auth'
@@ -14,13 +15,24 @@ let SERVER_URL = 'https://apps-api.vaavud.com/'
   userData [saga]
 */
 
+const offlineOffset = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('offset').then(d => {
+      let data = JSON.parse(d)
+      resolve({ type: 'UPDATE_OFFSET', data })
+    })
+  })
+}
 
 const fetchOffset = () => {
-  fetch(`${SERVER_URL}sailing/compass-offset`)
-    .then(response => response.json())
-    .then(responseData => {
-      return { type: 'UPDATE_OFFSET', responseData }
-    })
+  return new Promise((resolve, reject) => {
+    fetch(`${SERVER_URL}sailing/compass-offset`)
+      .then(response => response.json())
+      .then(responseData => {
+        AsyncStorage.setItem('offset', JSON.stringify(responseData))
+        resolve({ type: 'UPDATE_OFFSET', data: responseData })
+      })
+  })
 }
 
 
@@ -151,4 +163,4 @@ const sendPoints = (_key, points) => {
   })
 }
 
-export { goToMeasurement, sendPoints, savePoints, saveSummary, saveSession, justSaveSessionInFirebase, goToMain }
+export { goToMeasurement, sendPoints, savePoints, saveSummary, saveSession, justSaveSessionInFirebase, goToMain, fetchOffset, offlineOffset }

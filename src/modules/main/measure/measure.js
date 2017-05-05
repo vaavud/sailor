@@ -37,7 +37,8 @@ import {
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
-    windUnit: reduxStore.settings.windSpeed
+    windUnit: reduxStore.settings.windSpeed,
+    offset: reduxStore.offset.data
   }
 }
 
@@ -88,7 +89,7 @@ export default class extends Component {
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
 
 
-    NativeModules.VaavudBle.readRowData(true, 0)
+    NativeModules.VaavudBle.readRowData(true, this.props.offset)
   }
 
   componentWillUnmount = () => {
@@ -208,7 +209,7 @@ export default class extends Component {
   }
 
   _tryAgin = () => {
-    NativeModules.VaavudBle.readRowData(true, 0)
+    NativeModules.VaavudBle.readRowData(true, {})
     this.setState({ timeout: false })
   }
 

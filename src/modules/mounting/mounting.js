@@ -60,7 +60,7 @@ class Mounting extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
 
-    NativeModules.VaavudBle.readRowData(false, 0)
+    NativeModules.VaavudBle.readRowData(false, {})
   }
 
   componentWillUnmount = () => {

@@ -13,7 +13,7 @@ import { NO_HISTORY, HISTORY_LOADED } from '../constants/history'
 import { HARBOR_LOADED, PROFILE_LOADED, FORECAST_LOADED } from '../constants/harbor'
 import { SETTINGS_LOADED } from '../constants/settings'
 
-
+import { offlineOffset } from '../actions/measure'
 import { getCurrentUser } from '../actions/auth'
 
 
@@ -35,8 +35,6 @@ function* verifyAuthHandler(action) {
 export function* verifyAuth() {
   yield takeEvery(CHECK_AUTH, verifyAuthHandler)
 }
-
-
 
 
 //
@@ -69,7 +67,9 @@ function* verifyExistingUserHandler(action) {
   yield put({ type: SETTINGS_LOADED, settings })
 
   if (timeout) { //Loading information from Realm
+
     yield put({ type: STATUS, status: 'Working offline' })
+    yield put(yield offlineOffset())
     yield put({ type: OFFLINE })
     yield put({ type: WORK_WITH_CACHE })
   }

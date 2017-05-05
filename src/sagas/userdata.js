@@ -9,7 +9,7 @@ import { HARBOR_LOADED, RELOAD_FORECAST } from '../constants/harbor'
 import { getSessions } from '../actions/history'
 import { getSubscription, getProfile, getForecast } from '../actions/harbor'
 import { harbor, settings, token, online } from '../selectors/common'
-import { justSaveSessionInFirebase, sendPoints } from '../actions/measure'
+import { justSaveSessionInFirebase, sendPoints, fetchOffset } from '../actions/measure'
 import { introStatus, getBatteryLevel } from '../actions/bluetooth'
 
 
@@ -26,6 +26,7 @@ function* historyDaemonHandler(action) {
   yield put(yield getProfile())
   yield put(yield getSubscription())
   yield put(yield getSessions())
+  yield put(yield fetchOffset())
 
   let isSetupDone = yield introStatus()
 

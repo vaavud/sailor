@@ -102,14 +102,14 @@ class VaavudBle: RCTEventEmitter  {
     let s10 = val.substring(from: 0, to: 1)
     let s11 = val.substring(from: 2, to: 3)
     let h1 = Int(s11.appending(s10), radix: 16)
-    let _h1 = Double(h1!) / 100
+    let windSpeed = Double(h1!) / 100
     
     //    print("speed: \(_h1)")
     
     //Direction
     let s20 = val.substring(from: 4, to: 5)
     let s21 = val.substring(from: 6, to: 7)
-    let h2 = Int(s21.appending(s20), radix: 16)!
+    let windDirection = Int(s21.appending(s20), radix: 16)!
 //    print("Direction: \(h2)")
     
     //Battery
@@ -138,11 +138,11 @@ class VaavudBle: RCTEventEmitter  {
     //Compass
     let s70 = val.substring(from: 16, to: 17)
     let s71 = val.substring(from: 18, to: 19)
-    let h7 = Int(s71.appending(s70) , radix: 16)!
+    let compass = Int(s71.appending(s70) , radix: 16)!
+    
     //    print("Compass: \(h7)")
     
-    
-    return Ultrasonic(windDirection: h2, windSpeed: _h1, compass: h7, battery: h3, temperature: h4)
+    return Ultrasonic(windDirection: windDirection, windSpeed: windSpeed, compass: compass, battery: h3, temperature: h4)
   }
   
   
@@ -187,7 +187,9 @@ class VaavudBle: RCTEventEmitter  {
   }
   
   @objc
-  func readRowData(_ fromSdk:Bool, offset:Int) {
+  func readRowData(_ fromSdk:Bool, offset:[String:Any]) {
+    
+    print(offset)
     
     let _ = bleController.onVerifyBle()
       .subscribe(onError: {
@@ -198,7 +200,7 @@ class VaavudBle: RCTEventEmitter  {
       })
     
     if fromSdk {
-      vaavudSDK.startWithBluetooth()
+      vaavudSDK.startWithBluetooth(offset:offset)
       bluetoothListener = vaavudSDK
       initSkdListeners()
     }
@@ -251,7 +253,7 @@ class VaavudBle: RCTEventEmitter  {
   }
   
   
-  private func respWithSdk(val: String) {
+  private func respWithSdk(val: String ) {
     let data = self.workWithRowData(val: val)
     bluetoothListener.newReading(event: BluetoothEvent(windSpeed: data.windSpeed, windDirection: data.windDirection, battery: data.battery, compass: Double(data.compass)))
   }
@@ -270,7 +272,7 @@ class VaavudBle: RCTEventEmitter  {
     
     let _ = self.bleController.addOffset(activate: myIntData)
       .subscribe(onNext: {
-        print($0.value)
+        print($0.value ?? 0)
         print("Enable sensors") //TODO
       }, onError: {
         print("Enable error") //TODO
