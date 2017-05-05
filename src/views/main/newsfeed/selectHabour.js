@@ -192,7 +192,7 @@ const style = StyleSheet.create({
     padding: 10,
   },
   bottonButtonBack: {
-    height: 50,
+    height: 40,
     marginTop: 10,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -202,7 +202,7 @@ const style = StyleSheet.create({
   },
   bottonButtonNext: {
     width: width - 80,
-    height: 50,
+    height: 40,
     marginTop: 10,
     alignSelf: 'center',
     justifyContent: 'center',

@@ -42,7 +42,7 @@ import icons from '../../../reactcommon/icons'
 class Newsfeed extends PureComponent {
 
   static navigationOptions = {
-    tabBarLabel: 'Harbor',
+    tabBarLabel: 'Harbour',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.newsfeed}

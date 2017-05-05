@@ -159,7 +159,7 @@ export default class extends Component {
             <Image source={compass} style={{ width: 50, height: 50, transform: [{ rotate: this.state.heading + 'deg' }] }} />
           </View>
           <View style={{ flex: 1 }} />
-          <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} onPress={() => { }} >
+          <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} onPress={() => {/* TODO info button*/ }} >
             <Image source={info} style={{ width: 30, height: 30, tintColor: 'white' }} />
           </TouchableOpacity>
         </View>
@@ -168,15 +168,15 @@ export default class extends Component {
           <Image source={boat} style={{ tintColor: 'white' }} />
         </View>
 
-        <View style={{ width, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-          <Text style={{ color: 'white' }}> Align your phone to the head of your boat  </Text>
-          <Text style={{ marginBottom: 20, color: 'white' }}> Click done when you information displayed is correct. </Text>
+        <View style={{ width, padding: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+          <Text style={{ color: 'white', textAlign: 'center' }}> Align your phone to the head of your boat  </Text>
+          <Text style={{ marginBottom: 20, color: 'white', textAlign: 'center'}}> Click done when you information displayed is correct. </Text>
 
-          <Button buttonStyle={{ width: width - 40, height: 40, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
+          <Button buttonStyle={{ width: width - 80, height: 40, borderRadius: 5, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
             textStyle={{ color: Colors.vaavudBlue, fontSize: 18 }}
             title={'Done'}
             onPress={this._onResult} />
-          <Button buttonStyle={{ width: width - 40, height: 40, marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center' }}
+          <Button buttonStyle={{ height: 40, marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center' }}
             textStyle={{ color: 'white', fontSize: 18 }}
             title={'Cancel'}
             onPress={() => { this.props.navigation.goBack() }} />

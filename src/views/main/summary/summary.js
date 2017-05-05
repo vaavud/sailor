@@ -323,6 +323,9 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 50,
+    transform: [{
+      scale: 0.8
+    }],
     left: 0,
   },
   dateText: {

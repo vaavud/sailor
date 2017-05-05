@@ -20,7 +20,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog'
+import PopupDialog from 'react-native-popup-dialog'
 
 import Button from '../../reactcommon/components/button'
 import color from '../../../assets/colorTheme'
@@ -33,7 +33,7 @@ const logo = require('../../../assets/icons/logo.png')
 const compass = require('../../../assets/images/compass.png')
 const compassHand = require('../../../assets/images/test_compass.png')
 const arrow = require('../../../assets/icons/rotate-arrow.png')
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 const compassSize = width * 0.8
 class Mounting extends Component {
 
@@ -119,7 +119,7 @@ class Mounting extends Component {
     return (
       <View style={style.popupContainer} >
         <View style={style.popupTopContainer} >
-          <Image source={arrow} style={{ tintColor: 'white', marginBottom: 20 }} />
+          <Image source={arrow} style={{ tintColor: 'white', marginBottom: 20, transform:[{rotate: '90deg'}] }} />
           <HeadingText style={{ textAlign: 'center', color: 'white' }} textContent={'Please rotate the Ultrasonic device at least 3 times to calibrate the compass... \nThen press OK'} />
         </View>
         <View style={style.popupBottomContainer} >
@@ -145,8 +145,8 @@ class Mounting extends Component {
     return (<PopupDialog
       ref={(popupDialog) => { this.popupDialog = popupDialog }}
       dialogStyle={style.popup}
-      width={'80%'}
-      height={'80%'} >
+      width={width - 40}
+      height={height - 40} >
       {this._renderPopUpView()}
     </PopupDialog>)
   }
@@ -281,7 +281,7 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   heading: {
-    fontSize: 40,
+    fontSize: 28,
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
@@ -296,7 +296,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 20
   },
   calibrateContainer: {
@@ -326,7 +326,7 @@ const style = StyleSheet.create({
   popup: {
     padding: 20,
     paddingTop: 60,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: color.vaavudBlue
   },
   popupContainer: {
