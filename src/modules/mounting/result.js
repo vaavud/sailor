@@ -32,9 +32,16 @@ class Result extends Component {
           <NormalText style={style.heading}
             textContent={'SUCCESS'} />
           <NormalText style={style.description}
-            textContent={'You have now successfully calibrated your Vaavud Ultrasonic'} />
+            textContent={'You have now successfully calibrated your Vaavud Ultrasonic.'} />
+          <NormalText style={style.description}
+            textContent={'You are now ready to mount your Ultrasonic.'} />
+          <NormalText style={style.description}
+            textContent={'When mounting is completed please launch \n"Align Ultrasonic"\nfrom settings.'} />
         </View>
-        <View style={style.innerContainer} >
+        <View style={{
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }} >
           <View style={{ flexDirection: 'row' }} >
             <Button buttonStyle={style.button}
               textStyle={style.buttonText}

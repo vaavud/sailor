@@ -28,7 +28,7 @@ class IntroView extends Component {
         <View style={style.innerContainer} >
           <Image source={logo} style={{ marginBottom: 20 }} />
           <HeadingText style={style.heading} textContent={'Let\'s calibrate the Vaavud Ultrasonic'} />
-          <NormalText style={style.description} textContent={'Please stay close to the device and follow instructions'} />
+          <NormalText style={style.description} textContent={'Please stay close to the device and follow instructions before mounting'} />
         </View>
         <View style={style.buttonContainer}>
           <Button buttonStyle={style.button}

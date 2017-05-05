@@ -8,16 +8,21 @@ import React, {
 
 import {
   ActivityIndicator,
+  Dimensions,
   View,
   Text,
   Image,
   StyleSheet
 } from 'react-native'
 
+import {
+  textStyle
+} from '../../../components/text'
+
 import Colors from '../../../../assets/colorTheme'
 
 import Button from '../../../reactcommon/components/button'
-
+const {width} = Dimensions.get('window')
 const logo = require('../../../../assets/logo-login.png')
 const checkmark = require('../../../../assets/checkmark.png')
 
@@ -49,7 +54,8 @@ export default class ConnectingView extends Component {
     return !isReady ?
       (
         <ActivityIndicator
-          animating={true} />
+          animating={true}
+          color="#ffffff"  />
       )
       :
       (
@@ -62,7 +68,7 @@ export default class ConnectingView extends Component {
   _renderLocationStatusRow() {
     return (
       <View style={style.rowContainer} >
-        <Text>{'Location service'}</Text>
+        <Text style={style.statusText} >{'Location service'}</Text>
         {this._renderStatusIcon(this.props.isLocationReady)}
       </View>
     )
@@ -71,7 +77,7 @@ export default class ConnectingView extends Component {
   _renderDeviceStatusRow() {
     return (
       <View style={style.rowContainer} >
-        <Text>{'Device status'}</Text>
+        <Text style={style.statusText} >{'Device status'}</Text>
         {this._renderStatusIcon(this.props.isBleReady)}
       </View>
     )
@@ -80,14 +86,15 @@ export default class ConnectingView extends Component {
   _renderTimeOut() {
     return (
       <View>
-        <Text style={{ textAlign: 'center', width: 200, marginTop: 20, color: 'red', alignSelf: 'center' }}> Time out, we couldn't connect to your Vaavud Ultrasonic </Text>
+        <Text style={{ ...textStyle.normal, fontSize: 14, textAlign: 'center', width: width - 80, marginTop: 20, color: 'white', alignSelf: 'center' }}> {'We couldn\'t connect to your\nVaavud Ultrasonic.'}</Text>
+        <Text style={{...textStyle.normal, fontSize: 14, textAlign: 'center', width: width - 80, marginTop: 5, color: 'white', alignSelf: 'center' }}> {'Please make sure bluetooth is\nturned ON'}</Text>
         <Button title="Try Again"
-          buttonStyle={{ marginTop: 20, height: 40, width: 200, alignSelf: 'center', backgroundColor: Colors.vaavudBlue, justifyContent: 'center' }}
-          textStyle={{ color: 'white', textAlign: 'center' }}
+          buttonStyle={{ marginTop: 20,borderRadius: 5, height: 40, width: width - 80, alignSelf: 'center', backgroundColor: 'white', justifyContent: 'center' }}
+          textStyle={{...textStyle.normal, color: Colors.vaavudBlue, textAlign: 'center' }}
           onPress={this.props.tryAgain} />
         <Button title="Cancel"
-          buttonStyle={{ marginTop: 10, height: 40, width: 200, alignSelf: 'center', justifyContent: 'center' }}
-          textStyle={{ color: 'black', textAlign: 'center' }}
+          buttonStyle={{marginTop: 10, height: 40, width: width - 80, alignSelf: 'center', justifyContent: 'center' }}
+          textStyle={{...textStyle.normal, color: 'white', textAlign: 'center' }}
           onPress={this.props.jump} />
       </View>
     )
@@ -113,22 +120,30 @@ export default class ConnectingView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 50,
-    backgroundColor: Colors.background,
-  },
-  headerContainer: {
     padding: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 50,
+    backgroundColor: Colors.vaavudBlue,
   },
   headerText: {
-    fontSize: 20,
+    ...textStyle.normal,
+    fontSize: 28,
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center'
   },
   statusSection: {
+    width: width - 80,
     padding: 20,
+    marginTop: 20,
     borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.5)'
+    backgroundColor: 'rgba(255,255,255,0.1)'
+  },
+  statusText: {
+    ...textStyle.normal,
+    fontSize: 15,
+    color: 'white',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -143,6 +158,6 @@ const style = StyleSheet.create({
     width: 20,
     height: 20,
     alignSelf: 'center',
-    tintColor: 'green'
+    tintColor: 'white'
   }
 })

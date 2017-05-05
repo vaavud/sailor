@@ -333,7 +333,7 @@ const style = StyleSheet.create({
     height: 40,
   },
   bottonButtonBack: {
-    height: 50,
+    height: 40,
     marginTop: 10,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -342,7 +342,7 @@ const style = StyleSheet.create({
     borderRadius: 5
   },
   bottonButtonNext: {
-    height: 50,
+    height: 40,
     marginTop: 10,
     justifyContent: 'center',
     backgroundColor: Colors.vaavudBlue,

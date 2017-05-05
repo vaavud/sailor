@@ -22,7 +22,7 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   heading: {
-    fontSize: 40,
+    fontSize: 28,
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
@@ -30,7 +30,7 @@ const style = StyleSheet.create({
     marginBottom: 20
   },
   description: {
-    fontSize: 22,
+    fontSize: 16,
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',

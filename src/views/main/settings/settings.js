@@ -4,6 +4,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import {
+  Dimensions,
   View,
   Linking,
   ScrollView,
@@ -12,6 +13,7 @@ import {
   Text,
 } from 'react-native'
 
+import PopupDialog from 'react-native-popup-dialog'
 import { SegmentedControls } from 'react-native-radio-buttons'
 
 import Colors from '../../../../assets/colorTheme'
@@ -20,6 +22,7 @@ import I18n from '../../../components/i18n'
 
 import {
   NormalText,
+  HeadingText,
   textStyle
 } from '../../../components/text'
 
@@ -33,6 +36,7 @@ import {
   angle_conv_inverse, temp_conv_inverse, SpeedUnitsUI, mSpeeedUnits
 } from '../../../reactcommon/utils'
 
+const { width, height} = Dimensions.get('window')
 const isIos = Platform.OS === 'ios'
 
 
@@ -169,9 +173,43 @@ class SettingsView extends Component {
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
         <NormalText style={style.preferenceText} textContent={convertWindSpeed(windMin, this.props.settings.windSpeed).toFixed(0) + ' to ' + convertWindSpeed(windMax, this.props.settings.windSpeed).toFixed(0) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
-        {this._renderLink('editPref', () => { 
+        {this._renderLink('editPref', () => {
           this.props.push('WindHarbor', { isFromSettings: true })
         })}
+      </View>
+    )
+  }
+
+  _renderWarningPopup = () => {
+    return (
+      <View style={style.popupContainer} >
+        <View style={style.popupInnerContainer} >
+          <HeadingText style={{ textAlign: 'center', color: 'white', fontWeight:'bold' }} textContent={'IMPORTANT'} />
+          <HeadingText style={{ textAlign: 'center', color: 'white', marginTop: 10, fontSize: 18 }} textContent={'Please be aware that to\nre-calibrate Vaavud Ultrasonic you need to be able to rotate the device.'} />
+          <HeadingText style={{ textAlign: 'center', color: 'white', marginTop: 20, fontSize: 18 }} textContent={'Please note that launching\nre-calibration deletes the current calibration.'} />
+          </View>
+          <View style={{flexDirection: 'row'}} >
+          <Button
+          buttonStyle={{flex: 1, justifyContent: 'center', marginBottom: 30, height: 40, borderRadius: 5, backgroundColor: 'white'}}
+            textStyle={{
+            ...textStyle.normal,
+            fontSize: 16,
+            textAlign: 'center',
+            color: Colors.vaavudBlue
+          }} onPress={() => {
+            this.popupDialog.dismiss()
+            this.props.calibrateBle()
+          }} title="CALIBRATE" />
+          </View>
+          <Button textStyle={{
+            ...textStyle.normal,
+            fontSize: 16,
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            color: 'white'
+          }} onPress={() => {
+            this.popupDialog.dismiss()
+          }} title="CANCEL" />
       </View>
     )
   }
@@ -180,17 +218,29 @@ class SettingsView extends Component {
     return (
       <View style={style.prefernceContainer} >
         <Button
+          buttonStyle={{marginBottom: 10}}
           textStyle={style.buttonText}
-          title={'Calibrate ble'}
-          onPress={this.props.calibrateBle} />
+          title={'Calibrate Ultrasonic'}
+          onPress={() => this.popupDialog.show()} />
 
         <Button
           textStyle={style.buttonText}
-          title={'Align Ultrasonic/Boat'}
+          title={'Align Ultrasonic'}
           onPress={this.props.goToAlignUltrasonic} />
       </View>
     )
   }
+
+  _renderPopup = () => {
+    return (<PopupDialog
+      ref={(popupDialog) => { this.popupDialog = popupDialog }}
+      dialogStyle={style.popup}
+      width={width - 40}
+      height={height - 89} >
+      {this._renderWarningPopup()}
+    </PopupDialog>)
+  }
+
 
   _renderShowColors() {
     return (
@@ -219,7 +269,7 @@ class SettingsView extends Component {
     return (
       <View style={style.deviceStatusContainer} >
         <View style={style.deviceStatusInnerContainer} >
-          {this._renderDeviceText('BLE.', 'Vaavud ble')}
+          {this._renderDeviceText('Ultrasonic.', ' ')}
           {this._renderDeviceText('Battery level', this.props.battery + '%')}
         </View>
       </View>
@@ -249,18 +299,21 @@ class SettingsView extends Component {
 
   render() {
     return (
+      <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}} >
       <ScrollView style={style.container} >
         {this._renderSectionHeader('unitText')}
         {this._renderWindspeedSelector()}
-        {this._renderDirectionSelector()}
+        {/*{this._renderDirectionSelector()}*/}
         {this._renderTemperatureSelector()}
         {this._renderSectionHeader('prefrencesText')}
         {this._renderWindPrefrences()}
         {this._renderConnectBle()}
-        {this._renderDeviceStatus()}
+        {/*{this._renderDeviceStatus()}*/}
         {this._renderSectionHeader('otherSection')}
         {this._renderOthersSection()}
       </ScrollView>
+        {this._renderPopup()}
+      </View>
     )
   }
 }
@@ -336,11 +389,28 @@ const style = StyleSheet.create({
     ...textStyle.normal,
     marginTop: 10,
     marginBottom: 10,
-    fontSize: 20,
     color: Colors.vaavudBlue
   },
   otherSectionContainer: {
     margin: 30,
+    alignItems: 'center'
+  },
+  popup: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: Colors.vaavudBlue
+  },
+  popupContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  popupInnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center'
   }
 })

@@ -65,7 +65,7 @@ const style = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 5,
-    margin: 50,
+    margin: 20,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
