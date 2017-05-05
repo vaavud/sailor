@@ -86,14 +86,22 @@ class Mounting extends Component {
   }
 
   onBluetoothOff = () => {
+    const { goBack } = this.props.navigation
+
     Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
-      text: 'OK', onPress: () => { }
+      text: 'OK', onPress: () => {
+        goBack()
+      }
     }])
   }
 
   onNoDeviceFound = () => {
+    const { goBack } = this.props.navigation
+
     Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
-      text: 'OK', onPress: () => { }
+      text: 'OK', onPress: () => {
+        goBack()
+      }
     }])
   }
 

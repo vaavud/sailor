@@ -2,7 +2,7 @@
 
 'use strict'
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import HistoryView from '../../../views/main/history'
 
@@ -15,7 +15,21 @@ import NoHistory from '../../../components/NoHistory'
 import { deleteSession } from '../../../actions/history'
 import icons from '../../../reactcommon/icons'
 
-class History extends Component {
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    isloading: reduxStore.history.loading,
+    sessions: reduxStore.history.sessions,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteSession: bindActionCreators(deleteSession, dispatch)
+  }
+}
+
+@connect(mapReduxStoreToProps, mapDispatchToProps)
+export default class extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'History',
@@ -43,17 +57,3 @@ class History extends Component {
 
 }
 
-const mapReduxStoreToProps = (reduxStore) => {
-  return {
-    isloading: reduxStore.history.loading,
-    sessions: reduxStore.history.sessions,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSession: bindActionCreators(deleteSession, dispatch)
-  }
-}
-
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(History)

@@ -2,7 +2,7 @@
 
 'use strict'
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   View,
   Button,
@@ -11,8 +11,6 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
-
-// let SelectorView = requireNativeComponent('SelectorViewSwift', Newsfeed)
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -41,7 +39,7 @@ function getCoordinate(location, skew) {
 
 import icons from '../../../reactcommon/icons'
 
-class Newsfeed extends Component {
+class Newsfeed extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'Harbor',

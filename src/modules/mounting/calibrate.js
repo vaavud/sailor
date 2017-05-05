@@ -17,9 +17,10 @@ import ReactNativeHeading from 'react-native-heading'
 import Colors from '../../../assets/colorTheme'
 import Button from '../../reactcommon/components/button'
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 const compass = require('../../../assets/icons/compass.png')
 const info = require('../../../assets/icons/info.png')
+const boat = require('../../../assets/images/boat.png')
 
 
 export default class extends Component {
@@ -79,8 +80,11 @@ export default class extends Component {
   onCharacteristicEnable = () => {
     const { goBack } = this.props.navigation
 
-    alert('Alignment saved')
-    goBack()
+    Alert.alert('Bluetooth', 'Information saved.', [{
+      text: 'OK', onPress: () => {
+        goBack()
+      }
+    }])
   }
 
   onBluetoothOff = () => {
@@ -155,16 +159,18 @@ export default class extends Component {
             <Image source={compass} style={{ width: 50, height: 50, transform: [{ rotate: this.state.heading + 'deg' }] }} />
           </View>
           <View style={{ flex: 1 }} />
-          <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
-            <Image source={info} style={{ width: 30, height: 30 }} />
+          <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} onPress={() => { }} >
+            <Image source={info} style={{ width: 30, height: 30, tintColor: 'white' }} />
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1 }} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} >
+          <Image source={boat} style={{ tintColor: 'white' }} />
+        </View>
 
         <View style={{ width, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
           <Text style={{ color: 'white' }}> Align your phone to the head of your boat  </Text>
-          <Text style={{ marginBottom: 20, color: 'white' }}> Clic Done when you information displayed is correct. </Text>
+          <Text style={{ marginBottom: 20, color: 'white' }}> Click done when you information displayed is correct. </Text>
 
           <Button buttonStyle={{ width: width - 40, height: 40, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
             textStyle={{ color: Colors.vaavudBlue, fontSize: 18 }}

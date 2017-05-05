@@ -10,35 +10,9 @@ import Intro from './modules/intro'
 import Loading from './modules/loading'
 import MountingFlow from './modules/mounting'
 
-
-
 //constants
 import { NEEDS_AUTH, HOME_READY, SETUP, LOADING, CALIBRATE, MEASUREMENT } from './constants/auth'
 
-
-class SailorMain extends Component {
-  render() {
-
-    return <MountingFlow />
-
-    // switch (this.props.app.state) {
-    //   case NEEDS_AUTH:
-    //     return (<Welcome />)
-    //   case HOME_READY:
-    //     return (<Main />)
-    //   case CALIBRATE:
-    //     return <MountingFlow />
-    //   case SETUP:
-    //     return (<Intro />)
-    //   case MEASUREMENT:
-    //     return (<Measurement />)
-    //   case LOADING:
-    //     return (<Loading />)
-    //   default:
-    //     return (<Welcome />)
-    // }
-  }
-}
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
@@ -50,5 +24,27 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+@connect(mapReduxStoreToProps, mapDispatchToProps)
+export default class extends Component {
+  render() {
 
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(SailorMain)
+    // return <MountingFlow />
+
+    switch (this.props.app.state) {
+      case NEEDS_AUTH:
+        return (<Welcome />)
+      case HOME_READY:
+        return (<Main />)
+      case CALIBRATE:
+        return <MountingFlow />
+      case SETUP:
+        return (<MountingFlow />)
+      case MEASUREMENT:
+        return (<Measurement />)
+      case LOADING:
+        return (<Loading />)
+      default:
+        return (<Welcome />)
+    }
+  }
+}

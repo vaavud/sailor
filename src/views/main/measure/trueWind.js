@@ -122,17 +122,18 @@ export default class TrueWindView extends Component {
     return (
       <View style={style.groundSpeedContainer} >
         <Text>{'Ground speed'}</Text>
-        <Text style={style.speedText}>{groundSpeed.toFixed(1)}</Text>
+        <Text style={style.speedText}>{groundSpeed}</Text>
+        <Text>{this.props.windUnit}</Text>
       </View>
     )
   }
 
-  _renderWindSpeed(windSpeed) {
+  _renderWindSpeed = windSpeed => {
     return (
       <View style={style.windSpeedContainer} >
         <Text>{'Wind speed'}</Text>
-        <Text style={style.speedText} >{windSpeed.toFixed(1)}</Text>
-        <Text>{'m/s'}</Text>
+        <Text style={style.speedText} >{windSpeed}</Text>
+        <Text>{this.props.windUnit}</Text>
       </View>
     )
   }

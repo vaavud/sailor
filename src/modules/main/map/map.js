@@ -2,7 +2,7 @@
 
 'use strict'
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import {
   Dimensions,
@@ -32,7 +32,7 @@ function getCoordinate(location) {
   }
 }
 
-class Map extends Component {
+class Map extends PureComponent {
 
 
   static navigationOptions = {

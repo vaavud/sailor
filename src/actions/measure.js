@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import realm from '../store/realm'
 
 import { NEW_SESSION } from '../constants/history'
-import { MEASUREMENT,SKIP_CALIBRATION } from '../constants/auth'
+import { MEASUREMENT, SKIP_CALIBRATION } from '../constants/auth'
 
 // let SERVER_URL = 'http://52.30.86.52/apps/'
 let SERVER_URL = 'https://apps-api.vaavud.com/'
@@ -13,6 +13,16 @@ let SERVER_URL = 'https://apps-api.vaavud.com/'
   measure [module]
   userData [saga]
 */
+
+
+const fetchOffset = () => {
+  fetch(`${SERVER_URL}sailing/compass-offset`)
+    .then(response => response.json())
+    .then(responseData => {
+      return { type: 'UPDATE_OFFSET', responseData }
+    })
+}
+
 
 const justSaveSessionInFirebase = (session, _key) => {
   return new Promise((resolve, reject) => {
@@ -39,12 +49,13 @@ const saveSession = session => {
     return new Promise((resolve, reject) => {
 
       let uid = firebase.auth().currentUser.uid
-      let deviceKey = 'ULTRASONIC'
+      let deviceKey = 'Ultrasonic'
 
       let nodeRef = firebase.database().ref('session').push()
 
       session.uid = uid
       session.deviceKey = deviceKey
+      session.windMeter = 'Ultrasonic'
 
       delete session.windMin
       delete session.key

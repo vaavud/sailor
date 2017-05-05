@@ -169,7 +169,7 @@ class SettingsView extends Component {
       <View style={style.prefernceContainer} >
         <NormalText style={style.preferenceText} textContent={'Your preferred wind range is'} />
         <NormalText style={style.preferenceText} textContent={convertWindSpeed(windMin, this.props.settings.windSpeed).toFixed(0) + ' to ' + convertWindSpeed(windMax, this.props.settings.windSpeed).toFixed(0) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
-        {this._renderLink('editPref', () => {
+        {this._renderLink('editPref', () => { 
           this.props.push('WindHarbor', { isFromSettings: true })
         })}
       </View>
@@ -181,11 +181,6 @@ class SettingsView extends Component {
       <View style={style.prefernceContainer} >
         <Button
           textStyle={style.buttonText}
-          title={'Connect ultrasonic'}
-          onPress={this.props.goToSetup} />
-
-        <Button
-          textStyle={style.buttonText}
           title={'Calibrate ble'}
           onPress={this.props.calibrateBle} />
 
@@ -193,9 +188,6 @@ class SettingsView extends Component {
           textStyle={style.buttonText}
           title={'Align Ultrasonic/Boat'}
           onPress={this.props.goToAlignUltrasonic} />
-
-
-
       </View>
     )
   }

@@ -136,6 +136,8 @@ class SummaryView extends Component {
       maxWindSpeed
     } = this.props
 
+    
+
     let timeStart = this.props.paths[0].timestamp
     let timeEnd = this.props.paths[this.props.paths.length - 1].timestamp
     let time = timeEnd - timeStart
@@ -146,7 +148,7 @@ class SummaryView extends Component {
           <SmallText style={{ marginRight: 5, textAlign: 'center', backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
         </View>
         <SmallText textContent={'Duration: ' + moment.utc(time).format('HH:mm:ss')} />
-        <SmallText textContent={'Avg: ' + convertWindSpeed(windAverage, this.props.settings.windSpeed) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
+        <SmallText textContent={'Avg: ' + parseFloat(convertWindSpeed(windAverage, this.props.settings.windSpeed)).toFixed(1) + ' ' + SpeedUnits[this.props.settings.windSpeed]} />
       </View>
     )
   }

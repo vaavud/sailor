@@ -31,8 +31,31 @@ import {
 } from '../../../views/main/measure'
 
 
-class Measure extends Component {
+import {
+  SpeedUnits, convertWindSpeed
+} from '../../../reactcommon/utils'
 
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    windUnit: reduxStore.settings.windSpeed
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // initSession: bindActionCreators(initSession, dispatch),
+    // endSession: bindActionCreators(endSession, dispatch),
+    saveSession: bindActionCreators(saveSession, dispatch),
+    saveSummary: bindActionCreators(saveSummary, dispatch),
+    savePoints: bindActionCreators(savePoints, dispatch),
+    goToMain: bindActionCreators(goToMain, dispatch)
+  }
+}
+
+
+
+@connect(mapReduxStoreToProps, mapDispatchToProps)
+export default class extends Component {
 
   state = {
     readyToWork: false,
@@ -92,6 +115,7 @@ class Measure extends Component {
   }
 
   onBluetoothOff = () => {
+    this.setState({ timeout: true })
     Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
       text: 'OK', onPress: () => { }
     }])
@@ -184,11 +208,15 @@ class Measure extends Component {
   }
 
   _tryAgin = () => {
-    NativeModules.VaavudBle.initBle()
+    NativeModules.VaavudBle.readRowData(true, 0)
     this.setState({ timeout: false })
   }
 
   render = () => {
+    let windUnit = SpeedUnits[this.props.windUnit]
+    let windSpeed = convertWindSpeed(this.state.windSpeed, this.props.windUnit).toFixed(1)
+    let trueWindSpeed = convertWindSpeed(this.state.trueWindSpeed, this.props.windUnit).toFixed(1)
+    let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
       return (
@@ -196,8 +224,8 @@ class Measure extends Component {
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
             style={{ flex: 1 }} >
-            <TrueWindView windHeading={this.state.trueWindDirection} batteryLevel={this.state.battery} velocity={this.state.velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={this.state.trueWindSpeed} testStop={this._onStopMeasurement} />
-            <ApparentWindView windHeading={this.state.windDirection} batteryLevel={this.state.battery} velocity={this.state.velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={this.state.windSpeed} testStop={this._onStopMeasurement} />
+            <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement} />
+            <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement} />
           </IndicatorViewPager>
           <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
         </View>
@@ -214,24 +242,4 @@ class Measure extends Component {
       )
     }
   }
-
 }
-
-const mapReduxStoreToProps = (reduxStore) => {
-  return {
-
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // initSession: bindActionCreators(initSession, dispatch),
-    // endSession: bindActionCreators(endSession, dispatch),
-    saveSession: bindActionCreators(saveSession, dispatch),
-    saveSummary: bindActionCreators(saveSummary, dispatch),
-    savePoints: bindActionCreators(savePoints, dispatch),
-    goToMain: bindActionCreators(goToMain, dispatch),
-  }
-}
-
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(Measure)

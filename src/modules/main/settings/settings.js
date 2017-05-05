@@ -2,7 +2,7 @@
 
 'use strict'
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Image
 } from 'react-native'
@@ -16,8 +16,26 @@ import SettingsView from '../../../views/main/settings'
 import icons from '../../../reactcommon/icons'
 
 
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings,
+    harbor: reduxStore.harbor,
+    battery: reduxStore.app.battery
+  }
+}
 
-class Settings extends Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: bindActionCreators(logout, dispatch),
+    updateSettings: bindActionCreators(updateSettings, dispatch),
+    goToBleSetup: bindActionCreators(goToBleSetup, dispatch),
+    doneIntro: bindActionCreators(doneIntro, dispatch),
+  }
+}
+
+
+@connect(mapReduxStoreToProps, mapDispatchToProps)
+export default class extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'Settings',
@@ -39,7 +57,7 @@ class Settings extends Component {
         windMax={this.props.harbor.windMax}
         settings={this.props.settings}
         battery={this.props.battery}
-        push={this.props.push}
+        push={navigate}
         goToAlignUltrasonic={() => navigate('Alignment')}
         goToSetup={this.props.goToBleSetup}
         calibrateBle={this.props.doneIntro}
@@ -48,21 +66,3 @@ class Settings extends Component {
   }
 }
 
-const mapReduxStoreToProps = (reduxStore) => {
-  return {
-    settings: reduxStore.settings,
-    harbor: reduxStore.harbor,
-    battery: reduxStore.app.battery
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: bindActionCreators(logout, dispatch),
-    updateSettings: bindActionCreators(updateSettings, dispatch),
-    goToBleSetup: bindActionCreators(goToBleSetup, dispatch),
-    doneIntro: bindActionCreators(doneIntro, dispatch),
-  }
-}
-
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(Settings)
