@@ -70,8 +70,8 @@ const style = StyleSheet.create({
     backgroundColor: Colors.vaavudBlue
   },
   innerContainer: {
-    flex: 2,
-    justifyContent: 'flex-end',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   heading: {

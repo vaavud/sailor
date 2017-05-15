@@ -42,6 +42,7 @@ class Newsfeed extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'Harbour',
+    header: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.newsfeed}

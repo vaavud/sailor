@@ -17,9 +17,33 @@ const MainFlow = TabNavigator({
   History: { screen: History },
   Settings: { screen: Settings },
 }, {
-    lazyLoad: true,
+    lazy: true,
+    tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: '#D12A2f'
+      activeTintColor: '#D12A2f',
+      inactiveTintColor: '#666',
+      upperCaseLabel: false,
+      style: {
+        height: 50, // Default tab bar height in iOS 10
+        borderTopColor: 'rgba(0, 0, 0, .2)',
+        backgroundColor: '#f4f4f4'
+      },
+      tabStyle: {
+        padding: 0,
+        height: 50,
+        justifyContent: 'center',
+      },
+      labelStyle: {
+        fontSize: 10
+      },
+      iconStyle: {
+        flexGrow: 1,
+        marginTop: 5,
+      },
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      },
+      showIcon: true,
     }
   })
 
@@ -34,7 +58,7 @@ const SecondFlow = StackNavigator({
 }, {
     headerMode: 'screen',
     navigationOptions: {
-      headerVisible: false,
+      header: null,
     }
   })
 

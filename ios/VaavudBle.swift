@@ -200,7 +200,7 @@ class VaavudBle: RCTEventEmitter  {
       })
     
     if fromSdk {
-      vaavudSDK.startWithBluetooth(offset:offset)
+      vaavudSDK.startWithBluetooth()
       bluetoothListener = vaavudSDK
       initSkdListeners()
     }

@@ -37,6 +37,7 @@ class Map extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'Map',
+    header: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.map}

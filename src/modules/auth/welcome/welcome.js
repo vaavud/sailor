@@ -49,7 +49,7 @@ const Welcome = StackNavigator({
 }, {
     headerMode: 'screen',
     navigationOptions: {
-      headerVisible: false,
+      header: null,
     }
   })
 

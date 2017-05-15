@@ -33,6 +33,7 @@ export default class extends PureComponent {
 
   static navigationOptions = {
     tabBarLabel: 'History',
+    header: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icons.history}
