@@ -64,7 +64,7 @@ export default class extends Component {
     windSpeed: 0,
     windDirection: 0,
     lastWindDirection: 0,
-    locationReady: true,
+    locationReady: undefined,
     velocity: 0,
     trueWindDirection: 0,
     trueWindSpeed: 0,
@@ -80,6 +80,7 @@ export default class extends Component {
   }
 
   componentDidMount = () => {
+    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
@@ -98,7 +99,10 @@ export default class extends Component {
   }
 
   timeout = () => {
-    console.log('timeOut')
+    this.setState({ timeout: true })
+    Alert.alert('Connection Error', 'Please check both Location and the Bluetooth ON.', [{
+      text: 'OK', onPress: () => { }
+    }])
   }
 
   removeLiteners = () => {
@@ -179,14 +183,14 @@ export default class extends Component {
       })
   }
 
-  // onLocationWorking = location => {
-  //   if (location.available) {
-  //     this.setState({ locationReady: true })
-  //   }
-  //   else {
-  //     console.log('please eneble your location')
-  //   }
-  // }
+  onLocationFound = location => {
+    if (location) {
+      this.setState({ locationReady: true })
+    }
+    else {
+      this.setState({ locationReady: false })
+    }
+  }
 
   _onStopMeasurement = () => {
     this.setState({ isLoading: true })

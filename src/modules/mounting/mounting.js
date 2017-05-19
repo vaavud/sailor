@@ -110,6 +110,7 @@ class Mounting extends Component {
   }
 
   onReading = data => {
+    console.log('Compass Data:',data)
     var x = this.state.compassOuput
     this.setState({ lastCompassOutput: x })
     this.setState({ compassOuput: data.compass })

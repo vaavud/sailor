@@ -5,7 +5,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.sailing.bridges.VaavudSDKBridge;
+import com.sailing.bridges.VaavudBLE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ public class VaavudPackage implements ReactPackage {
 
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new VaavudSDKBridge(reactContext));
+        modules.add(new VaavudBLE(reactContext));
 
         return modules;
     }

@@ -1,62 +1,51 @@
 package com.sailing.bridges;
 
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-
-/**
- * Created by juan on 13/02/2017.
- */
-
-/**
- * Created by juan on 21/01/16.
- */
-
-
 import android.content.Context;
 import android.util.Log;
-import android.util.Pair;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.vaavud.vaavudSDK.Config;
-import com.vaavud.vaavudSDK.VaavudSDK;
-
 import com.vaavud.vaavudSDK.core.VaavudError;
-import com.vaavud.vaavudSDK.core.aegir.ble.BleMessages;
-import com.vaavud.vaavudSDK.core.listener.DirectionListener;
-import com.vaavud.vaavudSDK.core.listener.SpeedListener;
+import com.vaavud.vaavudSDK.core.aegir.AegirController;
 import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
 import com.vaavud.vaavudSDK.core.location.LocationManager;
-import com.vaavud.vaavudSDK.core.model.MeasurementPoint;
-import com.vaavud.vaavudSDK.core.model.event.DirectionEvent;
 import com.vaavud.vaavudSDK.core.model.event.LocationEvent;
-import com.vaavud.vaavudSDK.core.model.event.SpeedEvent;
-import com.vaavud.vaavudSDK.model.MeasurementSession;
+import com.vaavud.vaavudSDK.model.MeasurementData;
 import com.vaavud.vaavudSDK.model.WindMeter;
-import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
-import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.logging.StreamHandler;
 
-public class VaavudSDKBridge extends ReactContextBaseJavaModule implements VaavudDataListener {
+/**
+ * Created by juan on 13/02/2017.
+ * <p>
+ * Created by juan on 21/01/16.
+ */
+/**
+ * Created by juan on 21/01/16.
+ */
+
+public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataListener {
 
     private static final String TAG = "VaavudAPI";
-    private VaavudSDK vaavudSDK;
+    private AegirController aegirSDK;
     private Context mContext;
     private DeviceEventManagerModule.RCTDeviceEventEmitter module;
-    private MeasurementSession session;
+    private MeasurementData data;
 
-    public VaavudSDKBridge(ReactApplicationContext reactContext) {
+    public VaavudBLE(ReactApplicationContext reactContext) {
         super(reactContext);
-        mContext = reactContext.getApplicationContext();
-        initSDK();
+        mContext = reactContext.getBaseContext();
+//        initSDK();
     }
 
     @Override
@@ -106,52 +95,53 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Vaavu
     }
 
     private void initSDK(){
-        if (vaavudSDK==null) {
-            vaavudSDK = VaavudSDK.init(mContext);
-            vaavudSDK.setListener(this);
+        if (aegirSDK==null) {
+            aegirSDK = AegirController.init(getCurrentActivity());
         }
     }
 
     private void initEmmiter(){
         if (module == null) {
             module = getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
+            aegirSDK.setVaavudDataListener(this);
         }
     }
 
-    @ReactMethod
-    public void initBle(){
-        Log.d(TAG, "initBle from React");
+    private void initBle(){
         initSDK();
         initEmmiter();
-        Config config = new Config(null);
-        config.setWindMeter(WindMeter.AEGIR);
-        vaavudSDK.setConfig(config);
-        LocationManager.getInstance().connect();
-        try {
-            vaavudSDK.initBLE(getCurrentActivity());
-            emitData("onReadyToWork",null);
-        } catch (VaavudError vaavudError) {
-            emitData("onError",null);
-        }
+    }
+
+
+    @ReactMethod
+    public void readRowData(boolean fromSDK,ReadableMap map){
+        initBle();
+        aegirSDK.onStartSDK(null,readableMapToHashMap(map),fromSDK);
+//        Log.d(TAG,"readRowData");
 
     }
 
     @ReactMethod
-    public void onConnect() {
+    public void onStartSDK(ReadableMap map){
         Log.d(TAG, "Starting from React");
-        initSDK();
-        initEmmiter();
-        try {
-            session = vaavudSDK.startSession();
-        } catch (VaavudError vaavudError) {
-            emitData("onError",null);
-        }
+        initBle();
+        aegirSDK.onStartSDK(null,readableMapToHashMap(map),false);
+        data = aegirSDK.startSession();
     }
+
+    @ReactMethod
+    public void onStopSDK(){
+        Log.d(TAG, "Stoping from React");
+        initBle();
+        aegirSDK.onStopSDK();
+        data = aegirSDK.startSession();
+    }
+
 
     @ReactMethod
     public void isVaavudBLEConnected(){
         WritableMap map = new WritableNativeMap();
-        if (VaavudSDK.init(mContext).isAegirAvailable()){
+        if (aegirSDK.isConnected()){
             map.putBoolean("available",true);
         }else{
             map.putBoolean("available",false);
@@ -163,36 +153,31 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Vaavu
     public void onDisconnect() {
 //        Log.d(TAG, "Stoping from React");
 //        LocationManager.getInstance().onPause();
-        if (vaavudSDK != null) {
-            try {
-                MeasurementSession session = vaavudSDK.stopSession();
-                WritableMap map = new WritableNativeMap();
-                map.putDouble("timeStart", session.getStartTime());
-                map.putDouble("timeEnd", session.getEndTime());
-                map.putDouble("windMax", session.getWindMax());
-                map.putDouble("windMean", session.getWindMean());
-                map.putDouble("trueWindMax", session.getTrueWindMax());
-                map.putDouble("trueWindMean", session.getTrueWindMean());
-                if (session.getWindDirection() != -1) {
-                    map.putString("windMeter", WindMeter.SLEIPNIR.name());
-                    map.putDouble("windDirection", session.getWindDirection());
-                    map.putDouble("trueWindDirection", session.getTrueWindDirection());
-                } else {
-                    map.putString("windMeter", WindMeter.MJOLNIR.name());
-                }
+        if (aegirSDK != null) {
+            data.stop();
+            WritableMap map = new WritableNativeMap();
+            map.putDouble("timeStart", data.getStartTime());
+            map.putDouble("timeEnd", data.getEndTime());
+            map.putDouble("windMax", data.getWindMax());
+            map.putDouble("windMean", data.getWindMean());
+            map.putDouble("trueWindMax", data.getTrueWindMax());
+            map.putDouble("trueWindMean", data.getTrueWindMean());
+            if (data.getMeanWindDirection() != -1) {
+                map.putString("windMeter", WindMeter.SLEIPNIR.name());
+                map.putDouble("windDirection", data.getMeanWindDirection());
+                map.putDouble("trueWindDirection", data.getMeanTrueWindDirection());
+            } else {
+                map.putString("windMeter", WindMeter.MJOLNIR.name());
+            }
 //                LocationEvent locationEvent = session.getLastLocationEvent();
 //                if (LocationManager.getInstance().getLastLocation() != null) {
 //                    Log.e("latlon",LocationManager.getInstance().getLastLocation().toString());
-                WritableMap locationMap = new WritableNativeMap();
-                locationMap.putDouble("lat", 0.0);//session.getLastLocationEvent().getLocation().getLatitude());
-                locationMap.putDouble("lon", 0.0);//session.getLastLocationEvent().getLocation().getLongitude());
-                map.putMap("location", locationMap);
+            WritableMap locationMap = new WritableNativeMap();
+            locationMap.putDouble("lat", data.getLastLocationEvent().getLocation().getLatitude());
+            locationMap.putDouble("lon", data.getLastLocationEvent().getLocation().getLongitude());
+            map.putMap("location", locationMap);
 //                }
-                emitData("onFinalData",map);
-            } catch (VaavudError vaavudError) {
-//                callback.reject(vaavudError);
-                emitData("onError",null);
-            }
+            emitData("onFinalData",map);
         }
 
 
@@ -206,10 +191,11 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Vaavu
     }
 
     @Override
-    public void onNewData(HashMap data) {
+    public void onNewData(String message,HashMap data) {
 //        WritableMap map = Arguments.createMap();
 //        map = (WritableMap)data;
-        emitData((String)data.get("message"),hashMapToWritableMap((HashMap<String,Object>)data.get("data")));
+        Log.d(TAG,"Data: "+data.toString());
+        emitData(message,hashMapToWritableMap(data));
     }
 
 //    @Override
@@ -243,6 +229,36 @@ public class VaavudSDKBridge extends ReactContextBaseJavaModule implements Vaavu
             }
         }
         return map;
+    }
+
+    private HashMap<String,Object> readableMapToHashMap(ReadableMap map){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        if (!map.keySetIterator().hasNextKey()) {
+            ReadableMapKeySetIterator it = map.keySetIterator();
+            while (it.hasNextKey()){
+                String next = (String) it.nextKey();
+                Log.d(TAG,map.getType(next).name());
+//                switch (map.getType(next)){
+//
+//                    case "java.lang.Boolean":
+//                        map.putBoolean(next,(boolean)hash.get(next));
+//                        break;
+//                    case "java.lang.Integer":
+//                        map.putInt(next,(int)hash.get(next));
+//                        break;
+//                    case "java.lang.Double":
+//                        map.putDouble(next,(double)hash.get(next));
+//                        break;
+//                    case "java.lang.String":
+//                        map.putString(next,(String)hash.get(next));
+//                        break;
+//                    case "com.facebook.react.bridge.WritableNativeMap":
+//                        map.putMap(next,(WritableMap) hash.get(next));
+//                        break;
+//                }
+            }
+        }
+        return hashMap;
     }
 
     @Override

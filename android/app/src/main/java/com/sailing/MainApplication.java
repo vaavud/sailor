@@ -9,19 +9,13 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import io.realm.react.RealmReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.azendoo.reactnativesnackbar.SnackbarPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
-import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.sailing.packages.VaavudPackage;
@@ -78,7 +72,6 @@ public class MainApplication extends Application implements ReactApplication {
     //FacebookSdk.sdkInitialize(getApplicationContext());
     // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
-    LocationManager.getInstance().init(getApplicationContext());
     Fabric.with(this, new Crashlytics());
   }
 }
