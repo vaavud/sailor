@@ -7,6 +7,9 @@ import {
   NativeEventEmitter,
   NativeModules,
   Alert,
+  Dimensions,
+  Image,
+  StyleSheet,
   View,
 } from 'react-native'
 
@@ -20,8 +23,13 @@ import {
 import Colors from '../../../../assets/colorTheme'
 
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
-
-import { NormalText } from '../../../components/text'
+import Permissions from 'react-native-permissions'
+import PopupDialog from 'react-native-popup-dialog'
+import {
+  NormalText,
+  HeadingText,
+  textStyle
+} from '../../../components/text'
 import LoadingModal from '../../../components/loadingModal'
 
 import {
@@ -34,6 +42,16 @@ import {
 import {
   SpeedUnits, convertWindSpeed
 } from '../../../reactcommon/utils'
+
+import Button from '../../../reactcommon/components/button'
+const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
+const buildingOne = require('../../../../assets/icons/ico-bulding-1.png')
+const buildingTwo = require('../../../../assets/icons/ico-building-2.png')
+const tree = require('../../../../assets/icons/ico-tree-1.png')
+const bgmap = require('../../../../assets/images/bgmap.png')
+const overlay = require('../../../../assets/images/overlay.png')
+
+const { height, width } = Dimensions.get('window')
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
@@ -64,7 +82,7 @@ export default class extends Component {
     windSpeed: 0,
     windDirection: 0,
     lastWindDirection: 0,
-    locationReady: true,
+    locationReady: undefined,
     velocity: 0,
     trueWindDirection: 0,
     trueWindSpeed: 0,
@@ -80,6 +98,7 @@ export default class extends Component {
   }
 
   componentDidMount = () => {
+    this._permissions()
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
@@ -87,8 +106,6 @@ export default class extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
-
-
     NativeModules.VaavudBle.readRowData(true, this.props.offset)
   }
 
@@ -213,6 +230,64 @@ export default class extends Component {
     this.setState({ timeout: false })
   }
 
+  _permissions() {
+    Permissions.getPermissionStatus('location').then(response => {
+      if (response === 'authorized') {
+        console.log('location status is auth')
+      }
+      else {
+        this.popupDialog.show()
+      }
+    })
+  }
+
+  _onContinue() {
+    Permissions.requestPermission('location').then(location => {
+      if (location === 'authorized') {
+        console.log('user accepts')
+      }
+    })
+  }
+
+  _renderPopUpView() {
+    return (
+      <Image style={style.popUpBg}
+        source={bgmap} >
+        <Image style={style.popUpContainer}
+          source={overlay} >
+          <View style={{ flex: 1, alignItems: 'center' }} >
+            <HeadingText style={{ textAlign: 'center', backgroundColor: 'transparent', margin: 30 }}
+              textContent={'Access your\nlocation'} />
+            <Image source={locactionLogo} />
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+              <Image source={buildingOne} />
+              <Image source={buildingTwo} />
+              <Image source={tree} />
+            </View>
+            <NormalText style={{ textAlign: 'center', marginTop: 20 }}
+              textContent={'In order for you to use the ultrasonic, we need to access your location'} />
+          </View>
+          <Button buttonStyle={style.popUpButton}
+            textStyle={style.popUpButtonText}
+            onPress={this._onContinue}
+            title="Accept" />
+          <Button buttonStyle={style.buttonSkip}
+            textStyle={style.buttonText}
+            onPress={() => this.popupDialog.dismiss()}
+            title="Do not allow" />
+        </Image>
+      </Image>
+    )
+  }
+
+  _renderPopup() {
+    return (<PopupDialog
+      ref={(popupDialog) => { this.popupDialog = popupDialog }}
+      height={height}>
+      {this._renderPopUpView()}
+    </PopupDialog>)
+  }
+
   render = () => {
     let windUnit = SpeedUnits[this.props.windUnit]
     let windSpeed = convertWindSpeed(this.state.windSpeed, this.props.windUnit).toFixed(1)
@@ -234,13 +309,59 @@ export default class extends Component {
     }
     else {
       return (
-        <ConnectingView
-          isBleReady={this.state.isBleConnected}
-          isLocationReady={this.state.locationReady}
-          jump={this._jump}
-          timeout={this.state.timeout}
-          tryAgain={this._tryAgin} />
+        <View style={{flex: 1}} >
+          <ConnectingView
+            isBleReady={this.state.isBleConnected}
+            isLocationReady={this.state.locationReady}
+            jump={this._jump}
+            timeout={this.state.timeout}
+            tryAgain={this._tryAgin} />
+          {this._renderPopup()}
+        </View>
       )
     }
   }
 }
+
+const style = StyleSheet.create({
+  popUpBg: {
+    flex: 1,
+    width: width,
+    height: height,
+  },
+  popUpContainer: {
+    flex: 1,
+    width: width,
+    height: height,
+    padding: 30,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  popUpButton: {
+    borderRadius: 5,
+    height: 40,
+    width: width - 40,
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.vaavudBlue,
+  },
+  popUpButtonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white'
+  },
+  buttonSkip: {
+    height: 40,
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: 'white',
+    backgroundColor: 'transparent',
+  },
+  buttonText: {
+    ...textStyle.normal,
+    textAlign: 'center',
+    color: Colors.vaavudBlue
+  }
+})
