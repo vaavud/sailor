@@ -98,11 +98,8 @@ export default class extends Component {
   }
 
   componentDidMount = () => {
-<<<<<<< HEAD
-    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
-=======
     this._permissions()
->>>>>>> 5bc2b6a9c41d3acfbd8bf9dd537763df7de177b1
+    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
@@ -119,6 +116,7 @@ export default class extends Component {
   }
 
   timeout = () => {
+    this.popupDialog.dismiss()
     this.setState({ timeout: true })
     Alert.alert('Connection Error', 'Please check both Location and the Bluetooth ON.', [{
       text: 'OK', onPress: () => { }
@@ -240,7 +238,8 @@ export default class extends Component {
   _permissions() {
     Permissions.getPermissionStatus('location').then(response => {
       if (response === 'authorized') {
-        console.log('location status is auth')
+        // User has already authorized location
+        this.setState({ locationReady: true })
       }
       else {
         this.popupDialog.show()
@@ -251,7 +250,10 @@ export default class extends Component {
   _onContinue() {
     Permissions.requestPermission('location').then(location => {
       if (location === 'authorized') {
-        console.log('user accepts')
+        // User authorized location
+        this.setState({ locationReady: true })
+      } else {
+        this.timeout()
       }
     })
   }
@@ -280,7 +282,9 @@ export default class extends Component {
             title="Accept" />
           <Button buttonStyle={style.buttonSkip}
             textStyle={style.buttonText}
-            onPress={() => this.popupDialog.dismiss()}
+            onPress={() => {
+              this.timeout()
+            }}
             title="Do not allow" />
         </Image>
       </Image>
@@ -302,7 +306,7 @@ export default class extends Component {
     let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
-      return (
+      /*return (
         <View style={{ flex: 1 }}>
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
@@ -312,11 +316,26 @@ export default class extends Component {
           </IndicatorViewPager>
           <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
         </View>
+      )*/
+      return (
+        <View style={{ position: 'absolute', top: 0, left: 0, width: width, height: height }}>
+          <IndicatorViewPager
+            indicator={this._renderDotIndicator()}
+            style={{ flex: 1 }} >
+            <View>
+              <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement} />
+            </View>
+            <View>
+              <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement} />
+            </View>
+          </IndicatorViewPager>
+          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
+        </View>
       )
     }
     else {
       return (
-        <View style={{flex: 1}} >
+        <View style={{ flex: 1 }} >
           <ConnectingView
             isBleReady={this.state.isBleConnected}
             isLocationReady={this.state.locationReady}
