@@ -98,11 +98,8 @@ export default class extends Component {
   }
 
   componentDidMount = () => {
-<<<<<<< HEAD
-    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
-=======
     this._permissions()
->>>>>>> 5bc2b6a9c41d3acfbd8bf9dd537763df7de177b1
+    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)

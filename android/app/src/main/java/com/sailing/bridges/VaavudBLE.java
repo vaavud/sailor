@@ -12,18 +12,15 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.vaavud.vaavudSDK.Config;
 import com.vaavud.vaavudSDK.core.VaavudError;
 import com.vaavud.vaavudSDK.core.aegir.AegirController;
 import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
-import com.vaavud.vaavudSDK.core.location.LocationManager;
-import com.vaavud.vaavudSDK.core.model.event.LocationEvent;
+import com.vaavud.vaavudSDK.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.model.MeasurementData;
 import com.vaavud.vaavudSDK.model.WindMeter;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.logging.StreamHandler;
 
 /**
  * Created by juan on 13/02/2017.
@@ -122,6 +119,16 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     }
 
     @ReactMethod
+    public void addOffset(int offset){
+        aegirSDK.addOffset(offset);
+    }
+
+    @ReactMethod
+    public void calibrateCompass(boolean enable){
+        aegirSDK.calibrateCompass(enable);
+    }
+
+    @ReactMethod
     public void onStartSDK(ReadableMap map){
         Log.d(TAG, "Starting from React");
         initBle();
@@ -132,9 +139,8 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     @ReactMethod
     public void onStopSDK(){
         Log.d(TAG, "Stoping from React");
-        initBle();
         aegirSDK.onStopSDK();
-        data = aegirSDK.startSession();
+        data = aegirSDK.stopSession();
     }
 
 
@@ -153,7 +159,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     public void onDisconnect() {
 //        Log.d(TAG, "Stoping from React");
 //        LocationManager.getInstance().onPause();
-        if (aegirSDK != null) {
+        if (aegirSDK != null && data != null ) {
             data.stop();
             WritableMap map = new WritableNativeMap();
             map.putDouble("timeStart", data.getStartTime());
