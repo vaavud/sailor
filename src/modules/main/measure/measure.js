@@ -99,6 +99,18 @@ export default class extends Component {
 
   componentDidMount = () => {
     this._permissions()
+    // this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
+    // this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
+    // this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
+    // this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
+    // this.myModuleEvt.addListener('onReading', this.onReading)
+    // this.myModuleEvt.addListener('timeout', this.timeout)
+    // this.myModuleEvt.addListener('onCompleted', this.onCompleted)
+    // this.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    // NativeModules.VaavudBle.readRowData(true, this.props.offset)
+  }
+
+  activateListeners = () => {
     this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
@@ -112,7 +124,7 @@ export default class extends Component {
 
   componentWillUnmount = () => {
     NativeModules.VaavudBle.onDisconnect()
-    this.removeLiteners()
+    this.removeListeners()
   }
 
   timeout = () => {
@@ -123,7 +135,7 @@ export default class extends Component {
     }])
   }
 
-  removeLiteners = () => {
+  removeListeners = () => {
     this.myModuleEvt.removeAllListeners('onBluetoothOff')
     this.myModuleEvt.removeAllListeners('onNoDeviceFound')
     this.myModuleEvt.removeAllListeners('onDeviceFound')
@@ -178,7 +190,7 @@ export default class extends Component {
 
     let windMin = 0
 
-    this.removeLiteners()
+    this.removeListeners()
     this.setState({ myModuleEvt: null })
 
     this.props.saveSession(data.session)
@@ -225,7 +237,7 @@ export default class extends Component {
   }
 
   _jump = () => {
-    this.removeLiteners()
+    this.removeListeners()
     this.props.goToMain()
     // this.props.jump('history')
   }
@@ -240,6 +252,7 @@ export default class extends Component {
       if (response === 'authorized') {
         // User has already authorized location
         this.setState({ locationReady: true })
+        this.activateListeners()
       }
       else {
         this.popupDialog.show()
@@ -252,8 +265,9 @@ export default class extends Component {
       if (location === 'authorized') {
         // User authorized location
         this.setState({ locationReady: true })
+        this.activateListeners()
       } else {
-        this.timeout()
+        this.props.goToMain()
       }
     })
   }
@@ -283,7 +297,7 @@ export default class extends Component {
           <Button buttonStyle={style.buttonSkip}
             textStyle={style.buttonText}
             onPress={() => {
-              this.timeout()
+              this.props.goToMain()
             }}
             title="Do not allow" />
         </Image>

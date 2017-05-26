@@ -43,10 +43,7 @@ export default class ApparentWindView extends Component {
   static propTypes = {
     lastWindHeading: PropTypes.number.isRequired,
     windHeading: PropTypes.number.isRequired,
-    windSpeed: PropTypes.number.isRequired,
-    windSpeedUnit: PropTypes.number.isRequired,
     groundSpeed: PropTypes.number, // optional =) default will be N/A
-    groundSpeedUnit: PropTypes.number.isRequired,
     testStop: PropTypes.func.isRequired
   }
 
