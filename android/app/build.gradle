@@ -88,7 +88,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.sailing"
+        applicationId "com.vaavud.sailing"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
@@ -205,6 +205,8 @@ dependencies {
         exclude module: 'appcompat-v7'
         exclude module: 'play-services-location'
     }
+
+    compile 'com.goebl:simplify:1.0.0'
     compile 'com.facebook.fresco:animated-gif:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     //noinspection GradleCompatible

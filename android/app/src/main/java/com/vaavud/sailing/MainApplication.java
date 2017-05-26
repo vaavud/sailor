@@ -1,4 +1,4 @@
-package com.sailing;
+package com.vaavud.sailing;
 
 import android.app.Application;
 
@@ -18,9 +18,9 @@ import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.sailing.packages.VaavudPackage;
+import com.sailing.BuildConfig;
+import com.vaavud.sailing.packages.VaavudPackage;
 import com.smixx.fabric.FabricPackage;
-import com.vaavud.vaavudSDK.core.location.LocationManager;
 
 import java.util.Arrays;
 import java.util.List;

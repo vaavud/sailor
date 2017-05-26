@@ -1,4 +1,4 @@
-package com.sailing.bridges;
+package com.vaavud.sailing.bridges;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,11 +1,11 @@
-package com.sailing.packages;
+package com.vaavud.sailing.packages;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.sailing.bridges.VaavudBLE;
+import com.vaavud.sailing.bridges.VaavudBLE;
 
 import java.util.ArrayList;
 import java.util.Collections;
