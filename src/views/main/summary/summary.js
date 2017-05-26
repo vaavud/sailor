@@ -136,7 +136,7 @@ class SummaryView extends Component {
       maxWindSpeed
     } = this.props
 
-    
+
 
     let timeStart = this.props.paths[0].timestamp
     let timeEnd = this.props.paths[this.props.paths.length - 1].timestamp
@@ -155,7 +155,11 @@ class SummaryView extends Component {
 
   _renderGraphArea() {
     if (this.props.paths.length < 3) {
-      return null
+      return (
+        <View style={style.emptyGraphContainer}>
+          <SmallText style={style.emptyGraphText} textContent={'This measurement doesn\'t contain enough\n measurment points to draw a graph'} />
+        </View>
+      )
     }
     let i = 0
     let path = Path().moveTo(0, graphHeight).lineTo(this.props.minWindSpeed, this._calculateY(this.props.paths[i].windSpeed))
@@ -355,6 +359,25 @@ const style = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,1)',
     height: graphHeight + 40,
     justifyContent: 'center',
+  },
+  emptyGraphContainer: {
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    bottom: 10,
+    left: 10,
+    width: width - 20,
+    padding: 10,
+    paddingBottom: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    backgroundColor: 'rgba(255,255,255,1)',
+    height: graphHeight + 40,
+    justifyContent: 'center',
+  },
+  emptyGraphText: {
+    textAlign: 'center',
+    fontSize: 16
   },
   graphTimeText: {
     textAlign: 'center'

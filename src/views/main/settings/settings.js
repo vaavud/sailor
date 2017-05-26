@@ -47,9 +47,9 @@ class SettingsView extends Component {
     logout: PropTypes.func.isRequired,
     windMin: PropTypes.number.isRequired,
     windMax: PropTypes.number.isRequired,
-    isBleDeviceConnected: PropTypes.bool.isRequired,
-    deviceSerialNo: PropTypes.string.isRequired,
-    deviceBatteryLevel: PropTypes.number.isRequired,
+    isBleDeviceConnected: PropTypes.bool,
+    deviceSerialNo: PropTypes.string,
+    deviceBatteryLevel: PropTypes.number,
   }
 
   _getTemperatureValue(e) {

@@ -8,6 +8,7 @@ import React, {
 import {
   View,
   ActivityIndicator,
+  Platform,
   Image,
   StyleSheet,
   Dimensions
@@ -19,7 +20,7 @@ import Colors from '../../assets/colorTheme'
 
 const logo = require('../../assets/icons/logo.png')
 const {width, height} = Dimensions.get('window')
-
+const isAndroid = Platform.OS === 'android' ? true : false
 export default class LoadingModal extends Component {
 
   static propTypes = {
@@ -62,12 +63,10 @@ const style = StyleSheet.create({
   },
   innerContainer:{
     position: 'absolute',
-    top: 20,
+    top: isAndroid ? 20 : 20,
     left: 20,
-    bottom: 20,
-    right: 20,
     width: width - 40,
-    height: height - 40,
+    height: isAndroid ? height - 60 : height - 40,
     borderRadius: 40,
     padding: 50,
     backgroundColor: Colors.vaavudBlue,

@@ -154,68 +154,68 @@ repositories {
 }
 
 dependencies {
-    compile(project(':react-native-vector-icons')){
+    implementation(project(':react-native-vector-icons')){
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-    compile(project(':react-native-i18n')){
+    implementation(project(':react-native-i18n')){
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-    compile(project(':react-native-heading')){
+    implementation(project(':react-native-heading')){
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-    compile(project(':react-native-linear-gradient')){
+    implementation(project(':react-native-linear-gradient')){
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-    compile(project(':react-native-permissions')){
+    implementation(project(':react-native-permissions')){
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-    compile(project(':react-native-snackbar')) {
+    implementation(project(':react-native-snackbar')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'
         exclude module: 'design'
     }
-    compile(project(':react-native-vector-icons')) {
+    implementation(project(':react-native-vector-icons')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'support-v4'
     }
-    compile(project(':react-native-maps')) {
+    implementation(project(':react-native-maps')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'play-services-base'
         exclude module: 'play-services-maps'
         exclude module: 'support-v4'
     }
-    compile(project(':realm')) {
+    implementation(project(':realm')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'support-v4'
     }
-    compile(project(':react-native-fbsdk')) {
+    implementation(project(':react-native-fbsdk')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'
     }
-    compile(project(':react-native-i18n')) {
+    implementation(project(':react-native-i18n')) {
         exclude group: 'com.facebook.react', module: 'react-native'
         exclude module: 'support-v4'
     }
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.facebook.react:react-native:+"  // From node_modules
-    compile project(':react-native-fabric')
-    compile(project(path: ':VaavudSDK')) {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-fabric')
+    implementation(project(path: ':VaavudSDK')) {
         exclude module: 'appcompat-v7'
         exclude module: 'play-services-location'
     }
-    compile 'com.facebook.fresco:animated-gif:1.0.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    implementation 'com.facebook.fresco:animated-gif:1.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:4.+'
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile "com.google.android.gms:play-services-base:10.2.0"
-    compile "com.google.android.gms:play-services-maps:10.2.0"
-    compile 'com.google.android.gms:play-services-location:10.2.0'
+    implementation 'com.android.support:appcompat-v7:25.2.0'
+    implementation 'com.android.support:support-v4:25.2.0'
+    implementation 'com.android.support:design:25.2.0'
+    implementation "com.google.android.gms:play-services-base:10.2.0"
+    implementation "com.google.android.gms:play-services-maps:10.2.0"
+    implementation 'com.google.android.gms:play-services-location:10.2.0'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true
     }
 }
