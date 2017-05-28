@@ -79,7 +79,7 @@ export default class ApparentWindView extends Component {
             source={compass}
           />
           <Animated.Image
-            resizeMode={'contain'}
+            resizeMode={'cover'}
             style={{
               position: 'absolute',
               top: 13,

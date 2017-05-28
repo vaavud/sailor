@@ -83,7 +83,7 @@ export default class TrueWindView extends Component {
             source={compass}
           />
           <Animated.Image
-            resizeMode={'contain'}
+            resizeMode={'cover'}
             style={{
               position: 'absolute',
               top: 13,
