@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import MapView from 'react-native-maps'
 import MapMarker from '../../../components/mapMarker'
-
+import { textStyle } from '../../../components/text'
 import { SpeedUnits } from '../../../reactcommon/utils'
 import { getMarkers } from '../../../actions/map'
 
@@ -97,8 +97,8 @@ class Map extends PureComponent {
             bottom: 0,
           }}>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent' }}>
-            <Text style={{ fontSize: 16, color: 'white', marginTop: 10, marginLeft: 30 }}> {SpeedUnits[this.props.settings.windSpeed]} </Text>
-            <Text style={{ fontSize: 16, color: 'white', textAlign: 'right', marginTop: 10, marginRight: 30 }}> {'24h'} </Text>
+            <Text style={{ ...textStyle.normal, fontSize: 16, color: 'white', marginTop: 10, marginLeft: 30 }}> {SpeedUnits[this.props.settings.windSpeed]} </Text>
+            <Text style={{ ...textStyle.normal, fontSize: 16, color: 'white', textAlign: 'right', marginTop: 10, marginRight: 30 }}> {'24h'} </Text>
           </View>
         </LinearGradient>
       </View>

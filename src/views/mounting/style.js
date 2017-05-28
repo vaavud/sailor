@@ -22,6 +22,7 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   heading: {
+    ...textStyle.normal,
     fontSize: 28,
     textAlign: 'center',
     color: 'white',
@@ -30,6 +31,7 @@ const style = StyleSheet.create({
     marginBottom: 20
   },
   description: {
+    ...textStyle.normal,    
     fontSize: 16,
     textAlign: 'center',
     color: 'white',

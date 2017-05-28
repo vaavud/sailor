@@ -271,12 +271,14 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   signupButtonText: {
+    ...textStyle.normal,
     fontSize: 14,
     textAlign: 'center',
     backgroundColor: 'transparent',
     color: 'white'
   },
   forgotButtonText: {
+    ...textStyle.normal,
     fontSize: 14,
     textAlign: 'center',
     backgroundColor: 'transparent',

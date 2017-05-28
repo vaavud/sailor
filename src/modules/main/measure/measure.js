@@ -44,6 +44,7 @@ import {
 } from '../../../reactcommon/utils'
 
 import Button from '../../../reactcommon/components/button'
+
 const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
 const buildingOne = require('../../../../assets/icons/ico-bulding-1.png')
 const buildingTwo = require('../../../../assets/icons/ico-building-2.png')
@@ -70,8 +71,6 @@ const mapDispatchToProps = (dispatch) => {
     goToMain: bindActionCreators(goToMain, dispatch)
   }
 }
-
-
 
 @connect(mapReduxStoreToProps, mapDispatchToProps)
 export default class extends Component {
@@ -151,8 +150,10 @@ export default class extends Component {
 
   onBluetoothOff = () => {
     this.setState({ timeout: true })
-    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
-      text: 'OK', onPress: () => { }
+    Alert.alert('Bluetooth Error', 'Please go to settings and turn Bluetooth ON.', [{
+      text: 'OK', onPress: () => {
+        // TODO: with this event?
+       }
     }])
   }
 
@@ -387,6 +388,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.vaavudBlue,
   },
   popUpButtonText: {
+    ...textStyle.normal,
     fontSize: 16,
     textAlign: 'center',
     color: 'white'

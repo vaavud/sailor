@@ -27,7 +27,7 @@ import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
 import Colors from '../../../../assets/colorTheme'
-import { SmallText } from '../../../components/text'
+import { SmallText, textStyle } from '../../../components/text'
 
 const {
   Shape,
@@ -69,7 +69,7 @@ class SummaryView extends Component {
       timestamp: PropTypes.number.isRequired,
       windSpeed: PropTypes.number.isRequired,
     })).isRequired,
-    windAverage: PropTypes.number.isRequired,
+    windAverage: PropTypes.string.isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
   }
@@ -219,7 +219,7 @@ class SummaryView extends Component {
         render.push(
           <View style={style.topGrid}
             pointerEvents="box-none" >
-            <Text style={{ fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
+            <Text style={{ ...textStyle.normal, fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
             <SmallText style={{ backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
           </View>
         )
@@ -236,8 +236,8 @@ class SummaryView extends Component {
   _renderWorkingView() {
     return (
       <View style={{ backgroundColor: Colors.vaavudBlue, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: 'white' }}> Working with data </Text>
-        <Text style={{ color: 'white' }}> please wait a moment... </Text>
+        <Text style={{ ...textStyle.normal, color: 'white' }}> Working with data </Text>
+        <Text style={{ ...textStyle.normal, color: 'white' }}> please wait a moment... </Text>
       </View>)
 
   }
@@ -333,10 +333,12 @@ const style = StyleSheet.create({
     left: 0,
   },
   dateText: {
+    ...textStyle.normal,
     color: 'black',
     margin: 5,
   },
   locationText: {
+    ...textStyle.normal,
     color: 'black',
     fontSize: 20
   },
@@ -376,10 +378,12 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   emptyGraphText: {
+    ...textStyle.normal,
     textAlign: 'center',
     fontSize: 16
   },
   graphTimeText: {
+    ...textStyle.normal,
     textAlign: 'center'
   },
   windSpeedContainer: {

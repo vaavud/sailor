@@ -3,19 +3,27 @@
 'use strict'
 
 import React, { Component } from 'react'
+
 import {
-  View, Image, Text, StyleSheet, Dimensions, Linking
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Linking
 } from 'react-native'
+
 import {
   textStyle
 } from './text'
+
 import Button from '../reactcommon/components/button'
 import Colors from '../../assets/colorTheme'
 
 
 const ic_noPoint = require('../../assets/icons/ic_pointLost.png')
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 
 export default class NoSummary extends Component {
@@ -59,6 +67,7 @@ const style = StyleSheet.create({
     marginTop: 20
   },
   message: {
+    ...textStyle.normal,
     width: width - 80,
     textAlign: 'center',
     color: '#5F5F5F',

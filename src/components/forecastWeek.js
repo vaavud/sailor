@@ -65,9 +65,9 @@ export default class ForecastWeek extends Component {
   }
 
   _colorToIcon(color){
-    if(color === '#7a868c')return windGray
-    else if(color === '#00a1e1')return windBlue 
-    else return windRed 
+    if (color === '#7a868c') {return windGray}
+    else if (color === '#00a1e1') {return windBlue}
+    else {return windRed}
   }
 
 
@@ -150,13 +150,25 @@ const style = StyleSheet.create({
     width, height: 20
   },
   headerTitle: {
-    flex: 1, flexDirection: 'row', alignItems: 'center'
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   headerDescription: {
-    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   speedText: {
-    fontSize: 12, color: '#fff', backgroundColor: 'transparent', textAlign: 'center', position: 'absolute', top: 20, width: width / 7
+    ...textStyle.normal,
+    fontSize: 12,
+    color: '#fff',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    position: 'absolute',
+    top: 20,
+    width: width / 7
   },
   img: {
     width: 15, height: 15, tintColor: '#263238'

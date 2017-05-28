@@ -1,3 +1,4 @@
+/* TODO: clean unsused component
 import React, {
   Component
 } from 'react'
@@ -36,4 +37,4 @@ class ResultView extends Component {
 
 }
 
-export default ResultView
+export default ResultView*/
