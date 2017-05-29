@@ -18,7 +18,7 @@ import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.sailing.BuildConfig;
+import com.vaavud.sailing.BuildConfig;
 import com.vaavud.sailing.packages.VaavudPackage;
 import com.smixx.fabric.FabricPackage;
 
@@ -51,11 +51,11 @@ public class MainApplication extends Application implements ReactApplication {
             new MapsPackage(),
             new ReactNativeI18n(),
             new ReactNativeHeadingPackage(),
-              new FabricPackage(),
-              new LinearGradientPackage(),
-              new ReactNativePermissionsPackage(),
-              new FBSDKPackage(mCallbackManager),
-              new VaavudPackage()
+            new FabricPackage(),
+            new LinearGradientPackage(),
+            new ReactNativePermissionsPackage(),
+            new FBSDKPackage(mCallbackManager),
+            new VaavudPackage()
       );
     }
   };
