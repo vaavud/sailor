@@ -16,13 +16,13 @@
     "react": "16.0.0-alpha.3",
     "react-native": "0.43.4",
     "react-native-fabric": "0.4.1",
-    "react-native-fbsdk": "0.5.0",
+    "react-native-fbsdk": "0.6.0",
     "react-native-heading": "1.1.1",
     "react-native-i18n": "1.0.0",
     "react-native-linear-gradient": "2.0.0",
     "react-native-maps": "0.13.1",
     "react-native-permissions": "0.2.7",
-    "react-native-popup-dialog": "0.7.28",
+    "react-native-popup-dialog": "0.7.29",
     "react-native-radio-buttons": "0.14.0",
     "react-native-snackbar": "0.3.6",
     "react-native-swipe-list-view": "0.4.1",
@@ -33,7 +33,7 @@
     "redux": "3.6.0",
     "redux-saga": "0.15.3",
     "redux-thunk": "2.2.0",
-    "rn-viewpager": "1.2.2"
+    "rn-viewpager": "1.2.3"
   },
   "devDependencies": {
     "babel-eslint": "7.2.3",
