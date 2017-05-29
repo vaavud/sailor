@@ -31,12 +31,18 @@ import Button from '../../../reactcommon/components/button'
 import { connect } from 'react-redux'
 
 import {
-  convertWindSpeed, SpeedUnits, temp_conv, angle_conv, TempCUnits,
-  speed_conv,
-  angle_conv_inverse, temp_conv_inverse, SpeedUnitsUI, mSpeeedUnits
+  convertWindSpeed,
+  SpeedUnits,
+  temp_conv,
+  angle_conv,
+  TempCUnits,
+  angle_conv_inverse,
+  temp_conv_inverse,
+  SpeedUnitsUI,
+  mSpeeedUnits
 } from '../../../reactcommon/utils'
 
-const { width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 const isIos = Platform.OS === 'ios'
 
 
@@ -47,9 +53,9 @@ class SettingsView extends Component {
     logout: PropTypes.func.isRequired,
     windMin: PropTypes.number.isRequired,
     windMax: PropTypes.number.isRequired,
-    isBleDeviceConnected: PropTypes.bool.isRequired,
-    deviceSerialNo: PropTypes.string.isRequired,
-    deviceBatteryLevel: PropTypes.number.isRequired,
+    isBleDeviceConnected: PropTypes.bool,
+    deviceSerialNo: PropTypes.string,
+    deviceBatteryLevel: PropTypes.number,
   }
 
   _getTemperatureValue(e) {
@@ -107,7 +113,7 @@ class SettingsView extends Component {
   _renderWindspeedSelector() {
     return (
       <View style={style.segmentedContainer} >
-        <Text>{I18n.t('windSpeed')}</Text>
+        <Text style={textStyle.normal} >{I18n.t('windSpeed')}</Text>
         <SegmentedControls style={style.segmentedControl} //WindSpeed
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
@@ -127,7 +133,7 @@ class SettingsView extends Component {
   _renderDirectionSelector() {
     return (
       <View style={style.segmentedContainer} >
-        <Text>{I18n.t('direction')}</Text>
+        <Text style={textStyle.normal}>{I18n.t('direction')}</Text>
         <SegmentedControls style={style.segmentedControl} //WindSpeed
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
@@ -147,7 +153,7 @@ class SettingsView extends Component {
   _renderTemperatureSelector() {
     return (
       <View style={style.segmentedContainer} >
-        <Text>{I18n.t('temperature')}</Text>
+        <Text style={textStyle.normal}>{I18n.t('temperature')}</Text>
         <SegmentedControls //Temperature
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
@@ -184,30 +190,21 @@ class SettingsView extends Component {
     return (
       <View style={style.popupContainer} >
         <View style={style.popupInnerContainer} >
-          <HeadingText style={{ textAlign: 'center', color: 'white', fontWeight:'bold' }} textContent={'IMPORTANT'} />
-          <HeadingText style={{ textAlign: 'center', color: 'white', marginTop: 10, fontSize: 18 }} textContent={'Please be aware that to\nre-calibrate Vaavud Ultrasonic you need to be able to rotate the device.'} />
-          <HeadingText style={{ textAlign: 'center', color: 'white', marginTop: 20, fontSize: 18 }} textContent={'Please note that launching\nre-calibration deletes the current calibration.'} />
-          </View>
-          <View style={{flexDirection: 'row'}} >
+          <HeadingText style={style.popupImpText} textContent={'IMPORTANT'} />
+          <HeadingText style={style.popupHeadingOne} textContent={'Please be aware that to\nre-calibrate Vaavud Ultrasonic you need to be able to rotate the device.'} />
+          <HeadingText style={style.popupHeadingTwo} textContent={'Please note that launching\nre-calibration deletes the current calibration.'} />
+        </View>
+        <View style={{ flexDirection: 'row' }} >
           <Button
-          buttonStyle={{flex: 1, justifyContent: 'center', marginBottom: 30, height: 40, borderRadius: 5, backgroundColor: 'white'}}
-            textStyle={{
-            ...textStyle.normal,
-            fontSize: 16,
-            textAlign: 'center',
-            color: Colors.vaavudBlue
-          }} onPress={() => {
-            this.popupDialog.dismiss()
-            this.props.calibrateBle()
-          }} title="CALIBRATE" />
-          </View>
-          <Button textStyle={{
-            ...textStyle.normal,
-            fontSize: 16,
-            textAlign: 'center',
-            backgroundColor: 'transparent',
-            color: 'white'
-          }} onPress={() => {
+            buttonStyle={style.popupButtonCalibrate}
+            textStyle={style.popupButtonCalibrateText} onPress={() => {
+              this.popupDialog.dismiss()
+              this.props.calibrateBle()
+            }}
+            title="CALIBRATE" />
+        </View>
+        <Button textStyle={style.popupButtonCnacelText}
+          onPress={() => {
             this.popupDialog.dismiss()
           }} title="CANCEL" />
       </View>
@@ -216,13 +213,11 @@ class SettingsView extends Component {
 
   _renderConnectBle() {
     return (
-      <View style={style.prefernceContainer} >
+      <View style={style.otherSectionContainer} >
         <Button
-          buttonStyle={{marginBottom: 10}}
           textStyle={style.buttonText}
           title={'Calibrate Ultrasonic'}
           onPress={() => this.popupDialog.show()} />
-
         <Button
           textStyle={style.buttonText}
           title={'Align Ultrasonic'}
@@ -232,56 +227,59 @@ class SettingsView extends Component {
   }
 
   _renderPopup = () => {
-    return (<PopupDialog
-      ref={(popupDialog) => { this.popupDialog = popupDialog }}
-      dialogStyle={style.popup}
-      width={width - 40}
-      height={height - 89} >
-      {this._renderWarningPopup()}
-    </PopupDialog>)
-  }
-
-
-  _renderShowColors() {
     return (
-      <View style={style.segmentedContainer} >
-        <Text>{I18n.t('showColors')}</Text>
-        <SegmentedControls //Temperature
-          tint={Colors.segmSelectedTint}
-          selectedTint={Colors.segmentedTint}
-          backTint={Colors.segmentedTint}
-          options={['Yes', 'No']}
-          allowFontScaling={false} // default: true
-          onSelection={(e, i) => console.log('TODO')}
-          selectedOption={'Yes'}
-          optionStyle={{ ...textStyle.normal }}
-          optionContainerStyle={style.segmentedControl}
-          containerBorderWidth={isIos ? 1 : 2}
-        />
-      </View>
+      <PopupDialog
+        ref={(popupDialog) => { this.popupDialog = popupDialog }}
+        dialogStyle={style.popup}
+        width={width - 40}
+        height={height - 89} >
+        {this._renderWarningPopup()}
+      </PopupDialog>
     )
   }
 
-  _renderDeviceStatus() {
-    const {
-      isBleDeviceConnected
-    } = this.props
-    return (
-      <View style={style.deviceStatusContainer} >
-        <View style={style.deviceStatusInnerContainer} >
-          {this._renderDeviceText('Ultrasonic.', ' ')}
-          {this._renderDeviceText('Battery level', this.props.battery + '%')}
+  /* TODO: clean up
+    _renderShowColors() {
+      return (
+        <View style={style.segmentedContainer} >
+          <Text>{I18n.t('showColors')}</Text>
+          <SegmentedControls //Temperature
+            tint={Colors.segmSelectedTint}
+            selectedTint={Colors.segmentedTint}
+            backTint={Colors.segmentedTint}
+            options={['Yes', 'No']}
+            allowFontScaling={false} // default: true
+            onSelection={(e, i) => console.log('TODO')}
+            selectedOption={'Yes'}
+            optionStyle={{ ...textStyle.normal }}
+            optionContainerStyle={style.segmentedControl}
+            containerBorderWidth={isIos ? 1 : 2}
+          />
         </View>
-      </View>
-    )
-  }
+      )
+    }*/
+
+  /* TODO: clean up
+    _renderDeviceStatus() {
+      const {
+        isBleDeviceConnected
+      } = this.props
+      return (
+        <View style={style.deviceStatusContainer} >
+          <View style={style.deviceStatusInnerContainer} >
+            {this._renderDeviceText('Ultrasonic.', ' ')}
+            {this._renderDeviceText('Battery level', this.props.battery + '%')}
+          </View>
+        </View>
+      )
+    }*/
 
   _handleClickLink(link) {
     Linking.canOpenURL(link).then(
       Linking.openURL(link),
-      //TODO handle reject
+      //TODO: handle reject
     ).catch((error) => {
-      //TODO error handling
+      //TODO: error handling
     })
   }
 
@@ -299,19 +297,20 @@ class SettingsView extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}} >
-      <ScrollView style={style.container} >
-        {this._renderSectionHeader('unitText')}
-        {this._renderWindspeedSelector()}
-        {/*{this._renderDirectionSelector()}*/}
-        {this._renderTemperatureSelector()}
-        {this._renderSectionHeader('prefrencesText')}
-        {this._renderWindPrefrences()}
-        {this._renderConnectBle()}
-        {/*{this._renderDeviceStatus()}*/}
-        {this._renderSectionHeader('otherSection')}
-        {this._renderOthersSection()}
-      </ScrollView>
+      <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'white' }} >
+        <ScrollView style={style.container} >
+          {this._renderSectionHeader('unitText')}
+          {this._renderWindspeedSelector()}
+          {this._renderTemperatureSelector()}
+          {this._renderSectionHeader('prefrencesText')}
+          {this._renderWindPrefrences()}
+          <View style={style.sectionHeader} >
+            <NormalText textContent={'Ultrasonic'} />
+          </View>
+          {this._renderConnectBle()}
+          {this._renderSectionHeader('otherSection')}
+          {this._renderOthersSection()}
+        </ScrollView>
         {this._renderPopup()}
       </View>
     )
@@ -379,6 +378,7 @@ const style = StyleSheet.create({
   prefernceContainer: {
     flex: 1,
     marginTop: 10,
+    marginBottom: 10,
     alignItems: 'center'
   },
   preferenceText: {
@@ -387,12 +387,12 @@ const style = StyleSheet.create({
   },
   buttonText: {
     ...textStyle.normal,
-    marginTop: 10,
-    marginBottom: 10,
+    margin: 15,
     color: Colors.vaavudBlue
   },
   otherSectionContainer: {
-    margin: 30,
+    margin: 20,
+    marginTop: 10,
     alignItems: 'center'
   },
   popup: {
@@ -412,5 +412,43 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  popupImpText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  popupHeadingOne: {
+    textAlign: 'center',
+    color: 'white',
+    marginTop: 10,
+    fontSize: 18
+  },
+  popupHeadingTwo: {
+    textAlign: 'center',
+    color: 'white',
+    marginTop: 20,
+    fontSize: 18
+  },
+  popupButtonCalibrate: {
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: 30,
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: 'white'
+  },
+  popupButtonCalibrateText: {
+    ...textStyle.normal,
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.vaavudBlue
+  },
+  popupButtonCnacelText: {
+    ...textStyle.normal,
+    fontSize: 16,
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'white'
   }
 })

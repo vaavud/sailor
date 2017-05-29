@@ -7,21 +7,34 @@ import {
 } from '../../views/mounting/'
 
 import {
+  ActivityIndicator,
   View,
-  Text, NativeEventEmitter,
-  NativeModules, Alert, Dimensions, Image, TouchableOpacity
+  Text,
+  NativeEventEmitter,
+  NativeModules,
+  Alert,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native'
+
+import {
+  HeadingText,
+  textStyle
+} from '../../components/text'
 
 import { DeviceEventEmitter } from 'react-native'
 import ReactNativeHeading from 'react-native-heading'
 import Colors from '../../../assets/colorTheme'
 import Button from '../../reactcommon/components/button'
+import color from '../../../assets/colorTheme'
 
 const { width } = Dimensions.get('window')
 const compass = require('../../../assets/icons/compass.png')
 const info = require('../../../assets/icons/info.png')
 const boat = require('../../../assets/images/boat.png')
-
+const logo = require('../../../assets/icons/logo.png')
 
 export default class extends Component {
 
@@ -89,7 +102,7 @@ export default class extends Component {
 
   onBluetoothOff = () => {
     const { goBack } = this.props.navigation
-    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
+    Alert.alert('Bluetooth Error', 'Please go to settings and turn Bluetooth ON.', [{
       text: 'OK', onPress: () => {
         goBack()
       }
@@ -99,7 +112,7 @@ export default class extends Component {
   onNoDeviceFound = () => {
     const { goBack } = this.props.navigation
 
-    Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
+    Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try again later.', [{
       text: 'OK', onPress: () => {
         goBack()
       }
@@ -145,8 +158,12 @@ export default class extends Component {
 
     if (this.state.isLoading) {
       return (
-        <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-          <Text> Connecting to Ultrasonic.... </Text>
+        <View style={style.container}>
+          <View style={style.innerContainer}>
+            <Image source={logo} style={{ marginBottom: 20 }} />
+            <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
+            <ActivityIndicator color={'white'} size={'large'} animating={true} />
+          </View>
         </View>
       )
     }
@@ -169,15 +186,15 @@ export default class extends Component {
         </View>
 
         <View style={{ width, padding: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-          <Text style={{ color: 'white', textAlign: 'center' }}> Align your phone to the head of your boat  </Text>
-          <Text style={{ marginBottom: 20, color: 'white', textAlign: 'center'}}> Click done when you information displayed is correct. </Text>
+          <Text style={{ ...textStyle.normal, color: 'white', textAlign: 'center' }}> Align your phone to the head of your boat  </Text>
+          <Text style={{ ...textStyle.normal, marginBottom: 20, color: 'white', textAlign: 'center'}}> Click done when you information displayed is correct. </Text>
 
           <Button buttonStyle={{ width: width - 80, height: 40, borderRadius: 5, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
-            textStyle={{ color: Colors.vaavudBlue, fontSize: 18 }}
+            textStyle={{ ...textStyle.normal, color: Colors.vaavudBlue, fontSize: 18 }}
             title={'Done'}
             onPress={this._onResult} />
           <Button buttonStyle={{ height: 40, marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center' }}
-            textStyle={{ color: 'white', fontSize: 18 }}
+            textStyle={{ ...textStyle.normal, color: 'white', fontSize: 18 }}
             title={'Cancel'}
             onPress={() => { this.props.navigation.goBack() }} />
         </View>
@@ -191,6 +208,28 @@ export default class extends Component {
     let phi = (360 + (beta - alpha)) % 360
     return phi
   }
-
-
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 40,
+    paddingTop: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.vaavudBlue,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  heading: {
+    fontSize: 28,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: 10,
+    marginBottom: 20
+  },
+})

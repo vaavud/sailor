@@ -197,7 +197,7 @@ class WindHarbor extends Component {
 
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 0.5, margin: 10 }}>
-            <Text style={{ fontSize: 13, color: Colors.textColor, backgroundColor: 'transparent', marginTop: 3 }}>Color explanation</Text>
+            <Text style={{ ...textStyle.normal, fontSize: 13, color: Colors.textColor, backgroundColor: 'transparent', marginTop: 3 }}>Color explanation</Text>
           </View>
         </View>
         <View style={{ height: 1, backgroundColor: '#80a4b3' }} />
@@ -239,7 +239,7 @@ class WindHarbor extends Component {
   _renderSegmented() {
     return (
       <View style={style.segmentedContainer} >
-        <Text>{'Unit'}</Text>
+        <Text style={textStyle.normal}>{'Unit'}</Text>
         <SegmentedControls style={style.segmentedControl}
           tint={Colors.segmSelectedTint}
           selectedTint={Colors.segmentedTint}
@@ -350,6 +350,7 @@ const style = StyleSheet.create({
     borderRadius: 5
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'center',
@@ -377,12 +378,14 @@ const style = StyleSheet.create({
     top: 0
   },
   spotLable: {
+    ...textStyle.normal,
     fontSize: 11,
     color: Colors.textColor,
     backgroundColor: 'transparent',
     textAlign: 'center'
   },
   windLable: {
+    ...textStyle.normal,    
     fontSize: 11,
     color: 'white',
     backgroundColor: 'transparent',

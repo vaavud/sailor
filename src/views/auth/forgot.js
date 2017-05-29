@@ -19,7 +19,7 @@ import {
   Dimensions
 } from 'react-native'
 
-
+import {textStyle} from '../../components/text'
 import I18n from '../../components/i18n'
 import LoadingModal from '../../components/loadingModal'
 import Button from '../../reactcommon/components/button'
@@ -238,6 +238,7 @@ const style = StyleSheet.create({
     marginVertical: 20
   },
   text: {
+    ...textStyle.normal,
     fontSize: 14,
     lineHeight: 20,
     backgroundColor: 'transparent',
@@ -246,6 +247,7 @@ const style = StyleSheet.create({
     color: 'white'
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 16,
     textAlign: 'center',
     color: Colors.vaavudBlue

@@ -14,6 +14,8 @@ import {
   StyleSheet
 } from 'react-native'
 
+import {textStyle} from '../../../components/text'
+
 import MapView from 'react-native-maps'
 
 import Button from '../../../reactcommon/components/button'
@@ -211,6 +213,7 @@ const style = StyleSheet.create({
     borderRadius: 5
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'center',

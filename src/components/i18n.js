@@ -12,7 +12,7 @@ I18n.fallbacks = true
 
 I18n.translations = {
   en: en,
-  da: da
+  da: en
 }
 
 export default I18n

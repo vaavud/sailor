@@ -44,6 +44,7 @@ import {
 } from '../../../reactcommon/utils'
 
 import Button from '../../../reactcommon/components/button'
+
 const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
 const buildingOne = require('../../../../assets/icons/ico-bulding-1.png')
 const buildingTwo = require('../../../../assets/icons/ico-building-2.png')
@@ -71,8 +72,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-
-
 @connect(mapReduxStoreToProps, mapDispatchToProps)
 export default class extends Component {
 
@@ -99,6 +98,18 @@ export default class extends Component {
 
   componentDidMount = () => {
     this._permissions()
+    // this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
+    // this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
+    // this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
+    // this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
+    // this.myModuleEvt.addListener('onReading', this.onReading)
+    // this.myModuleEvt.addListener('timeout', this.timeout)
+    // this.myModuleEvt.addListener('onCompleted', this.onCompleted)
+    // this.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    // NativeModules.VaavudBle.readRowData(true, this.props.offset)
+  }
+
+  activateListeners = () => {
     this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
@@ -112,7 +123,7 @@ export default class extends Component {
 
   componentWillUnmount = () => {
     NativeModules.VaavudBle.onDisconnect()
-    this.removeLiteners()
+    this.removeListeners()
   }
 
   timeout = () => {
@@ -123,7 +134,7 @@ export default class extends Component {
     }])
   }
 
-  removeLiteners = () => {
+  removeListeners = () => {
     this.myModuleEvt.removeAllListeners('onBluetoothOff')
     this.myModuleEvt.removeAllListeners('onNoDeviceFound')
     this.myModuleEvt.removeAllListeners('onDeviceFound')
@@ -139,8 +150,10 @@ export default class extends Component {
 
   onBluetoothOff = () => {
     this.setState({ timeout: true })
-    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
-      text: 'OK', onPress: () => { }
+    Alert.alert('Bluetooth Error', 'Please go to settings and turn Bluetooth ON.', [{
+      text: 'OK', onPress: () => {
+        // TODO: with this event?
+       }
     }])
   }
 
@@ -178,7 +191,7 @@ export default class extends Component {
 
     let windMin = 0
 
-    this.removeLiteners()
+    this.removeListeners()
     this.setState({ myModuleEvt: null })
 
     this.props.saveSession(data.session)
@@ -225,7 +238,7 @@ export default class extends Component {
   }
 
   _jump = () => {
-    this.removeLiteners()
+    this.removeListeners()
     this.props.goToMain()
     // this.props.jump('history')
   }
@@ -240,6 +253,7 @@ export default class extends Component {
       if (response === 'authorized') {
         // User has already authorized location
         this.setState({ locationReady: true })
+        this.activateListeners()
       }
       else {
         this.popupDialog.show()
@@ -252,8 +266,9 @@ export default class extends Component {
       if (location === 'authorized') {
         // User authorized location
         this.setState({ locationReady: true })
+        this.activateListeners()
       } else {
-        this.timeout()
+        this.props.goToMain()
       }
     })
   }
@@ -283,7 +298,7 @@ export default class extends Component {
           <Button buttonStyle={style.buttonSkip}
             textStyle={style.buttonText}
             onPress={() => {
-              this.timeout()
+              this.props.goToMain()
             }}
             title="Do not allow" />
         </Image>
@@ -373,6 +388,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.vaavudBlue,
   },
   popUpButtonText: {
+    ...textStyle.normal,
     fontSize: 16,
     textAlign: 'center',
     color: 'white'

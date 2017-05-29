@@ -5,6 +5,10 @@ import {
   Platform
 } from 'react-native'
 
+import {
+  textStyle
+} from './text'
+
 import React, { Component } from 'react'
 
 import map_markers from '../reactcommon/markerIcons'
@@ -70,6 +74,7 @@ const styles = {
     justifyContent: 'center',
   },
   speed: {
+    ...textStyle.normal,
     color: 'white',
     fontSize: 13,
     textAlign: 'center',

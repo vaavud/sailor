@@ -2,9 +2,9 @@ import React, {
   Component
 } from 'react'
 
-import {
-  MountingView
-} from '../../views/mounting'
+// import {
+//   MountingView
+// } from '../../views/mounting'
 
 import {
   ActivityIndicator,
@@ -12,7 +12,6 @@ import {
   Dimensions,
   Easing,
   Image,
-  Text,
   NativeEventEmitter,
   NativeModules,
   Alert,
