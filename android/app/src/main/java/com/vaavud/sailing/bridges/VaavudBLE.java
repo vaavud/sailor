@@ -12,13 +12,19 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.goebl.simplify.PointExtractor;
 import com.vaavud.vaavudSDK.core.VaavudError;
 import com.vaavud.vaavudSDK.core.aegir.AegirController;
 import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
+import com.vaavud.vaavudSDK.model.LatLng;
 import com.vaavud.vaavudSDK.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.model.MeasurementData;
 import com.vaavud.vaavudSDK.model.WindMeter;
+import com.vaavud.vaavudSDK.model.event.SpeedEvent;
+import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
+import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -37,7 +43,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     private AegirController aegirSDK;
     private Context mContext;
     private DeviceEventManagerModule.RCTDeviceEventEmitter module;
-    private MeasurementData data;
+    private MeasurementData mdata;
 
     public VaavudBLE(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -133,14 +139,34 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         Log.d(TAG, "Starting from React");
         initBle();
         aegirSDK.onStartSDK(null,readableMapToHashMap(map),false);
-        data = aegirSDK.startSession();
+        aegirSDK.startSession();
     }
 
     @ReactMethod
     public void onStopSDK(){
         Log.d(TAG, "Stoping from React");
         aegirSDK.onStopSDK();
-        data = aegirSDK.stopSession();
+        mdata = aegirSDK.stopSession();
+
+        ArrayList<HashMap<String,Double>> simplifiedLocation = new ArrayList<>();
+        ArrayList<HashMap<String,Double>> simplifiedSpeed = new ArrayList<>();
+        ArrayList<HashMap<String,Integer>> simplifiedDirection = new ArrayList<>();
+
+//        Location[] coords = mdata.getLocations(); // the array of your "original" points
+//
+//        Simplify<LatLng> simplify = new Simplify<LatLng>(new LatLng[0], latLngPointExtractor);
+//
+//        LatLng[] simplified = simplify.simplify(coords, 20f, false);
+
+
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("points",mdata.getMeasurementPoints());
+        data.put("locations",simplifiedLocation);
+        data.put("speeds",simplifiedSpeed);
+        data.put("directions",simplifiedDirection);
+
+        emitData("onFinalData",hashMapToWritableMap(data));
     }
 
 
@@ -159,32 +185,10 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     public void onDisconnect() {
 //        Log.d(TAG, "Stoping from React");
 //        LocationManager.getInstance().onPause();
-        if (aegirSDK != null && data != null ) {
-            data.stop();
-            WritableMap map = new WritableNativeMap();
-            map.putDouble("timeStart", data.getStartTime());
-            map.putDouble("timeEnd", data.getEndTime());
-            map.putDouble("windMax", data.getWindMax());
-            map.putDouble("windMean", data.getWindMean());
-            map.putDouble("trueWindMax", data.getTrueWindMax());
-            map.putDouble("trueWindMean", data.getTrueWindMean());
-            if (data.getMeanWindDirection() != -1) {
-                map.putString("windMeter", WindMeter.SLEIPNIR.name());
-                map.putDouble("windDirection", data.getMeanWindDirection());
-                map.putDouble("trueWindDirection", data.getMeanTrueWindDirection());
-            } else {
-                map.putString("windMeter", WindMeter.MJOLNIR.name());
-            }
-//                LocationEvent locationEvent = session.getLastLocationEvent();
-//                if (LocationManager.getInstance().getLastLocation() != null) {
-//                    Log.e("latlon",LocationManager.getInstance().getLastLocation().toString());
-            WritableMap locationMap = new WritableNativeMap();
-            locationMap.putDouble("lat", data.getLastLocationEvent().getLocation().getLatitude());
-            locationMap.putDouble("lon", data.getLastLocationEvent().getLocation().getLongitude());
-            map.putMap("location", locationMap);
-//                }
-            emitData("onFinalData",map);
+        if (aegirSDK != null) {
+            aegirSDK.onDisconnect();
         }
+        emitData("onCompleted", hashMapToWritableMap(new HashMap<String,Object>()));
 
 
     }
@@ -200,7 +204,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     public void onNewData(String message,HashMap data) {
 //        WritableMap map = Arguments.createMap();
 //        map = (WritableMap)data;
-        Log.d(TAG,"Data: "+data.toString());
+//        Log.d(TAG,"Data: "+data.toString());
         emitData(message,hashMapToWritableMap(data));
     }
 
@@ -227,6 +231,9 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
                         break;
                     case "java.lang.String":
                         map.putString(next,(String)hash.get(next));
+                        break;
+                    case "java.util.HashMap<K,V>":
+                        map.putMap(next,(WritableMap) hash.get(next));
                         break;
                     case "com.facebook.react.bridge.WritableNativeMap":
                         map.putMap(next,(WritableMap) hash.get(next));
@@ -271,4 +278,41 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     public void onError(VaavudError error) {
 
     }
+
+    private static PointExtractor<LatLng> latLngPointExtractor = new PointExtractor<LatLng>() {
+        @Override
+        public double getX(LatLng point) {
+            return point.getLatitude() * 1000000;
+        }
+
+        @Override
+        public double getY(LatLng point) {
+            return point.getLongitude() * 1000000;
+        }
+    };
+
+    private static PointExtractor<TrueSpeedEvent> speedPointExtractor = new PointExtractor<TrueSpeedEvent>() {
+        @Override
+        public double getX(TrueSpeedEvent point) {
+            return point.getTime();
+        }
+
+        @Override
+        public double getY(TrueSpeedEvent point) {
+            return point.getTrueSpeed();
+        }
+    };
+
+    private static PointExtractor<TrueDirectionEvent> directionPointExtractor = new PointExtractor<TrueDirectionEvent>() {
+        @Override
+        public double getX(TrueDirectionEvent point) {
+            return point.getTime();
+        }
+
+        @Override
+        public double getY(TrueDirectionEvent point) {
+            return point.getTrueDirection();
+        }
+    };
+
 }
