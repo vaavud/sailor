@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -19,14 +22,14 @@ import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
 import com.vaavud.vaavudSDK.model.LatLng;
 import com.vaavud.vaavudSDK.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.model.MeasurementData;
-import com.vaavud.vaavudSDK.model.WindMeter;
-import com.vaavud.vaavudSDK.model.event.SpeedEvent;
 import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
 import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by juan on 13/02/2017.
@@ -39,16 +42,17 @@ import java.util.Iterator;
 
 public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataListener {
 
-    private static final String TAG = "VaavudAPI";
+    private static final String TAG = "VaavudBle";
     private AegirController aegirSDK;
     private Context mContext;
+    private ReactContext reactContext;
     private DeviceEventManagerModule.RCTDeviceEventEmitter module;
     private MeasurementData mdata;
 
-    public VaavudBLE(ReactApplicationContext reactContext) {
-        super(reactContext);
-        mContext = reactContext.getBaseContext();
-//        initSDK();
+    public VaavudBLE(ReactApplicationContext _reactContext) {
+        super(_reactContext);
+        mContext = _reactContext.getBaseContext();
+        reactContext = _reactContext;
     }
 
     @Override
@@ -56,57 +60,25 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         return "VaavudBle";
     }
 
-//    @Override
-//    public void speedChanged(SpeedEvent event) {
-//        WritableMap data = Arguments.createMap();
-//        data.putDouble("time", event.getTime());
-//        data.putDouble("speed", event.getSpeed());
-//        data.putDouble("windMean",session.getWindMean());
-//        emitData(data);
-//    }
-//
-//    @Override
-//    public void trueSpeedChanged(TrueSpeedEvent event) {
-//        WritableMap data = Arguments.createMap();
-//        data.putDouble("time", event.getTime());
-//        data.putDouble("trueSpeed", event.getTrueSpeed());
-//        data.putDouble("windMean",session.getWindMean());
-//        emitData(data);
-//
-//    }
-//
-//    @Override
-//    public void newDirectionEvent(DirectionEvent event) {
-//        WritableMap data = Arguments.createMap();
-//        data.putDouble("time", event.getTime());
-//        data.putDouble("direction", event.getDirection());
-//        emitData(data);
-//    }
-//
-//    @Override
-//    public void trueDirectionEvent(TrueDirectionEvent event) {
-//        WritableMap data = Arguments.createMap();
-//        data.putDouble("time", event.getTime());
-//        data.putDouble("trueDirection", event.getTrueDirection());
-//        emitData(data);
-//
-//    }
+    private void emitData(final String event, final WritableMap data) {
+        Log.d(TAG, "Emit: " + event + " " + this.toString());
+        getReactApplicationContext()
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(event,data);
 
-    private void emitData(String event, WritableMap data) {
-        Log.d(TAG, "Emit: " + event + " " );
-        module.emit(event, data);
+
     }
 
     private void initSDK(){
         if (aegirSDK==null) {
             aegirSDK = AegirController.init(getCurrentActivity());
+            aegirSDK.setVaavudDataListener(this);
         }
     }
 
     private void initEmmiter(){
         if (module == null) {
-            module = getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
-            aegirSDK.setVaavudDataListener(this);
+            module = reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
         }
     }
 
@@ -117,33 +89,37 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
 
     @ReactMethod
-    public void readRowData(boolean fromSDK,ReadableMap map){
+    public void readRowData(boolean fromSDK, ReadableMap map, Promise callback){
+        Log.d(TAG, "Read Row Data from React "+this.toString());
         initBle();
-        aegirSDK.onStartSDK(null,readableMapToHashMap(map),fromSDK);
+        aegirSDK.onStartSDK("D4:8D:36:A5:73:35",readableMapToHashMap(map),fromSDK);
+        if (fromSDK) aegirSDK.startSession();
 //        Log.d(TAG,"readRowData");
-
+        callback.resolve(null);
     }
 
     @ReactMethod
-    public void addOffset(int offset){
+    public void addOffset(int offset, Promise callback){
         aegirSDK.addOffset(offset);
+        callback.resolve(null);
     }
 
     @ReactMethod
-    public void calibrateCompass(boolean enable){
+    public void calibrateCompass(boolean enable, Promise callback){
         aegirSDK.calibrateCompass(enable);
+        callback.resolve(null);
     }
 
     @ReactMethod
-    public void onStartSDK(ReadableMap map){
+    public void onStartSDK(ReadableMap map, Promise callback){
         Log.d(TAG, "Starting from React");
         initBle();
-        aegirSDK.onStartSDK(null,readableMapToHashMap(map),false);
-        aegirSDK.startSession();
+        aegirSDK.onStartSDK(null,readableMapToHashMap(map),true);
+        callback.resolve(aegirSDK.startSession());
     }
 
     @ReactMethod
-    public void onStopSDK(){
+    public void onStopSDK(Promise callback){
         Log.d(TAG, "Stoping from React");
         aegirSDK.onStopSDK();
         mdata = aegirSDK.stopSession();
@@ -167,11 +143,12 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         data.put("directions",simplifiedDirection);
 
         emitData("onFinalData",hashMapToWritableMap(data));
+        callback.resolve(null);
     }
 
 
     @ReactMethod
-    public void isVaavudBLEConnected(){
+    public void isVaavudBLEConnected(Promise callback){
         WritableMap map = new WritableNativeMap();
         if (aegirSDK.isConnected()){
             map.putBoolean("available",true);
@@ -179,18 +156,17 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
             map.putBoolean("available",false);
         }
         emitData("onVaavudBLEFound",map);
+        callback.resolve(null);
     }
 
     @ReactMethod
-    public void onDisconnect() {
-//        Log.d(TAG, "Stoping from React");
-//        LocationManager.getInstance().onPause();
+    public void onDisconnect(Promise callback) {
+        Log.d(TAG, "Stoping from React");
         if (aegirSDK != null) {
             aegirSDK.onDisconnect();
         }
         emitData("onCompleted", hashMapToWritableMap(new HashMap<String,Object>()));
-
-
+        callback.resolve(null);
     }
 
     @Override
@@ -201,7 +177,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     }
 
     @Override
-    public void onNewData(String message,HashMap data) {
+    public void onNewData(final String message,final HashMap data) {
 //        WritableMap map = Arguments.createMap();
 //        map = (WritableMap)data;
 //        Log.d(TAG,"Data: "+data.toString());

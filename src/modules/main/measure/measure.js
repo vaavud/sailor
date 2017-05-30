@@ -45,6 +45,9 @@ import {
 
 import Button from '../../../reactcommon/components/button'
 
+import {VaavudBle} from 'NativeModules'
+
+
 const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
 const buildingOne = require('../../../../assets/icons/ico-bulding-1.png')
 const buildingTwo = require('../../../../assets/icons/ico-building-2.png')
@@ -93,7 +96,7 @@ export default class extends Component {
 
   constructor(props) {
     super(props)
-    this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
+    this.myModuleEvt = new NativeEventEmitter(VaavudBle)
   }
 
   componentDidMount = () => {
@@ -118,11 +121,12 @@ export default class extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
-    NativeModules.VaavudBle.readRowData(true, this.props.offset)
+    console.log("Functions available",VaavudBle)
+    VaavudBle.readRowData(true, this.props.offset)
   }
 
   componentWillUnmount = () => {
-    NativeModules.VaavudBle.onDisconnect()
+    VaavudBle.onDisconnect()
     this.removeListeners()
   }
 
@@ -158,7 +162,7 @@ export default class extends Component {
   }
 
   onNoDeviceFound = () => {
-    NativeModules.VaavudBle.onDisconnect()
+    VaavudBle.onDisconnect()
     this.setState({ timeout: true })
 
     Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
@@ -173,15 +177,16 @@ export default class extends Component {
   }
 
   onReading = point => {
+    console.log("onReading",point)
     let last = this.state.windDirection
     let lastTrue = this.state.trueWindDirection
     this.setState({
-      windSpeed: point.windSpeed,
-      windDirection: point.windDirection,
+      windSpeed: Number(point.windSpeed),
+      windDirection: Number(point.windDirection),
       lastWindDirection: last,
-      velocity: point.velocity,
-      trueWindDirection: point.trueWindDirection,
-      trueWindSpeed: point.trueWindSpeed,
+      velocity: Number(point.velocity),
+      trueWindDirection: Number(point.trueWindDirection),
+      trueWindSpeed: Number(point.trueWindSpeed),
       trueLastWindDirection: lastTrue,
       battery: point.battery
     })
@@ -224,8 +229,10 @@ export default class extends Component {
   }
 
   _onStopMeasurement = () => {
+    console.log('_onStopMeasurement: ',this,VaavudBle)
+    VaavudBle.onStopSdk()
     this.setState({ isLoading: true })
-    NativeModules.VaavudBle.onStopSdk()
+    
   }
 
   _renderDotIndicator = () => {
@@ -243,8 +250,8 @@ export default class extends Component {
     // this.props.jump('history')
   }
 
-  _tryAgin = () => {
-    NativeModules.VaavudBle.readRowData(true, {})
+  _tryAgain = () => {
+    VaavudBle.readRowData(true, {})
     this.setState({ timeout: false })
   }
 
@@ -338,10 +345,10 @@ export default class extends Component {
             indicator={this._renderDotIndicator()}
             style={{ flex: 1 }} >
             <View>
-              <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement} />
+              <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement.bind(this)} />
             </View>
             <View>
-              <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement} />
+              <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement.bind(this)} />
             </View>
           </IndicatorViewPager>
           <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
@@ -356,7 +363,7 @@ export default class extends Component {
             isLocationReady={this.state.locationReady}
             jump={this._jump}
             timeout={this.state.timeout}
-            tryAgain={this._tryAgin} />
+            tryAgain={this._tryAgain} />
           {this._renderPopup()}
         </View>
       )
