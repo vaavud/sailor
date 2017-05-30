@@ -306,7 +306,7 @@ class VaavudBle: RCTEventEmitter  {
   func onStopSdk(){
     self.bleController.onDispose()
     
-    vaavudSDK.stop()
+    let _ = vaavudSDK.stop()
     
     
     var latlon : [CLLocationCoordinate2D] = []

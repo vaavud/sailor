@@ -67,7 +67,7 @@ const saveSession = session => {
 
       session.uid = uid
       session.deviceKey = deviceKey
-      session.windMeter = 'Ultrasonic'
+      session.windMeter = 'sleipnir'
 
       delete session.windMin
       delete session.key

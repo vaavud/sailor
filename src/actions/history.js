@@ -47,7 +47,7 @@ const getSessions = () => {
 
             snapshot.forEach(snap => {
               var obj = snap.val()
-              if (snap.val().windMeter === 'Ultrasonic') {
+              if (snap.val().deviceKey === 'Ultrasonic') {
                 obj.key = snap.key
                 historyList.push(obj)
                 obj.sent = true
