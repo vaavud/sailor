@@ -1,3 +1,4 @@
+/* TODO: clenaup unused component
 import React, {
   Component
 } from 'react'
@@ -35,4 +36,4 @@ class MountingView extends Component {
 
 }
 
-export default MountingView
+export default MountingView*/

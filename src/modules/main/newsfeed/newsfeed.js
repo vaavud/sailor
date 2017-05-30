@@ -13,7 +13,7 @@ import {
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import {textStyle} from '../../../components/text'
 import MapView from 'react-native-maps'
 const { width, height } = Dimensions.get('window')
 
@@ -65,7 +65,7 @@ class Newsfeed extends PureComponent {
           const { navigate } = this.props.navigation
           navigate('MapHarbor', this.props.harbor)
         }} >
-        <Text style={{ marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
+        <Text style={{ ...textStyle.normal, marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
         <Icon style={{ fontSize: 16, color: 'white' }} name={'edit'} />
       </TouchableOpacity>
     )
@@ -75,7 +75,7 @@ class Newsfeed extends PureComponent {
     if (this.props.harbor.loading) {
       return (
         <View style={{ flex: 1 }}>
-          <Text style={{ color: 'white', marginTop: 50, fontSize: 22 }}> Loading </Text>
+          <Text style={{ ...textStyle.normal, color: 'white', marginTop: 50, fontSize: 22 }}> Loading </Text>
         </View>
       )
     }

@@ -16,6 +16,7 @@ import {
   Dimensions
 } from 'react-native'
 
+import {textStyle} from '../../../components/text'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Colors from '../../../../assets/colorTheme'
@@ -43,10 +44,7 @@ export default class ApparentWindView extends Component {
   static propTypes = {
     lastWindHeading: PropTypes.number.isRequired,
     windHeading: PropTypes.number.isRequired,
-    windSpeed: PropTypes.number.isRequired,
-    windSpeedUnit: PropTypes.number.isRequired,
     groundSpeed: PropTypes.number, // optional =) default will be N/A
-    groundSpeedUnit: PropTypes.number.isRequired,
     testStop: PropTypes.func.isRequired
   }
 
@@ -82,7 +80,7 @@ export default class ApparentWindView extends Component {
             source={compass}
           />
           <Animated.Image
-            resizeMode={'contain'}
+            resizeMode={'cover'}
             style={{
               position: 'absolute',
               top: 13,
@@ -120,9 +118,9 @@ export default class ApparentWindView extends Component {
   _renderGroundSpeed(groundSpeed) {
     return (
       <View style={style.groundSpeedContainer} >
-        <Text>{'Ground speed'}</Text>
+        <Text style={textStyle.normal} >{'Ground speed'}</Text>
         <Text style={style.speedText}>{groundSpeed}</Text>
-        <Text>{this.props.windUnit}</Text>
+        <Text style={textStyle.normal}>{this.props.windUnit}</Text>
       </View>
     )
   }
@@ -130,9 +128,9 @@ export default class ApparentWindView extends Component {
   _renderWindSpeed(windSpeed) {
     return (
       <View style={style.windSpeedContainer} >
-        <Text>{'Wind speed'}</Text>
-        <Text style={style.speedText} >{windSpeed}</Text>
-        <Text>{this.props.windUnit}</Text>
+        <Text style={textStyle.normal}>{'Wind speed'}</Text>
+        <Text style={style.speedText}  >{windSpeed}</Text>
+        <Text style={textStyle.normal} >{this.props.windUnit}</Text>
       </View>
     )
   }
@@ -142,11 +140,11 @@ export default class ApparentWindView extends Component {
       <View style={style.headerContainer} >
         <View style={style.headerLeft} >
           <Icon.Button name="close-circle-outline" backgroundColor={Colors.vaavudRed} onPress={this.props.testStop}>
-            Stop
+            <Text style={{...textStyle.normal, color: 'white'}} >Stop</Text>
         </Icon.Button>
         </View>
         <View style={style.headerRight} >
-          <Text style={{ fontSize: 24 }} >{this.props.batteryLevel + ' % '}</Text>
+          <Text style={{ ...textStyle.normal, fontSize: 24 }} >{this.props.batteryLevel + ' % '}</Text>
           <Icon style={{ fontSize: 24 }} name="battery" />
         </View>
       </View>
@@ -201,6 +199,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   windText: {
+    ...textStyle.normal,
     fontSize: 26
   },
   speedContainer: {
@@ -222,6 +221,7 @@ const style = StyleSheet.create({
     height: 100,
   },
   speedText: {
+    ...textStyle.normal,
     fontSize: 30,
     fontWeight: 'bold'
   }

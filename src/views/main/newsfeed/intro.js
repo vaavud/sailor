@@ -14,6 +14,8 @@ import {
   Dimensions
 } from 'react-native'
 
+import {textStyle} from '../../../components/text'
+
 import Colors from '../../../../assets/colorTheme'
 import Button from '../../../reactcommon/components/button'
 import I18n from '../../../components/i18n'
@@ -55,6 +57,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.background
   },
   heading: {
+    ...textStyle.normal,
     fontSize: 40,
     textAlign: 'center',
     color: 'white',
@@ -73,6 +76,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 16,
     textAlign: 'center',
     color: Colors.vaavudBlue

@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
-
+import {textStyle} from '../components/text'
 import Colors from '../../assets/colorTheme'
 const logo = require('../../assets/icons/logo.png')
 
@@ -16,7 +16,7 @@ class Loading extends Component {
         <Image source={logo} style={{
           width: 110, height: 80, marginBottom: 25
         }} />
-        <Text style={{ color: 'white' }}>{this.props.status}</Text>
+        <Text style={{ ...textStyle.normal, color: 'white' }}>{this.props.status}</Text>
       </View>)
   }
 }

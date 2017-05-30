@@ -17,6 +17,8 @@ import {
   Dimensions
 } from 'react-native'
 
+import {textStyle} from '../../../components/text'
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Colors from '../../../../assets/colorTheme'
@@ -83,7 +85,7 @@ export default class TrueWindView extends Component {
             source={compass}
           />
           <Animated.Image
-            resizeMode={'contain'}
+            resizeMode={'cover'}
             style={{
               position: 'absolute',
               top: 13,
@@ -121,9 +123,9 @@ export default class TrueWindView extends Component {
     }
     return (
       <View style={style.groundSpeedContainer} >
-        <Text>{'Ground speed'}</Text>
+        <Text style={textStyle.normal} >{'Ground speed'}</Text>
         <Text style={style.speedText}>{groundSpeed}</Text>
-        <Text>{this.props.windUnit}</Text>
+        <Text style={textStyle.normal} >{this.props.windUnit}</Text>
       </View>
     )
   }
@@ -131,9 +133,9 @@ export default class TrueWindView extends Component {
   _renderWindSpeed = windSpeed => {
     return (
       <View style={style.windSpeedContainer} >
-        <Text>{'Wind speed'}</Text>
+        <Text style={textStyle.normal} >{'Wind speed'}</Text>
         <Text style={style.speedText} >{windSpeed}</Text>
-        <Text>{this.props.windUnit}</Text>
+        <Text style={textStyle.normal} >{this.props.windUnit}</Text>
       </View>
     )
   }
@@ -142,13 +144,13 @@ export default class TrueWindView extends Component {
     return (
       <View style={style.headerContainer} >
         <View style={style.headerLeft} >
-          <Icon.Button name="close-circle-outline" backgroundColor={Colors.vaavudRed} onPress={this.props.testStop}>
-            Stop
+          <Icon.Button name="close-circle-outline" style={textStyle.normal} backgroundColor={Colors.vaavudRed} onPress={this.props.testStop}>
+            <Text style={{...textStyle.normal, color: 'white'}} >Stop</Text>
         </Icon.Button>
         </View>
         <View style={style.headerRight} >
-          <Text style={{ fontSize: 24 }} >{this.props.batteryLevel + ' % '}</Text>
-          <Icon style={{ fontSize: 24 }} name="battery" />
+          <Text style={{ ...textStyle.normal, fontSize: 24 }} >{this.props.batteryLevel + ' % '}</Text>
+          <Icon style={{ ...textStyle.normal, fontSize: 24 }} name="battery" />
         </View>
       </View>
     )
@@ -202,6 +204,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   windText: {
+    ...textStyle.normal,
     fontSize: 26
   },
   speedContainer: {
@@ -224,6 +227,7 @@ const style = StyleSheet.create({
 
   },
   speedText: {
+    ...textStyle.normal,
     fontSize: 30,
     fontWeight: 'bold'
   }

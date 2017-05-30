@@ -7,6 +7,9 @@ import {
   NativeEventEmitter,
   NativeModules,
   Alert,
+  Dimensions,
+  Image,
+  StyleSheet,
   View,
 } from 'react-native'
 
@@ -20,8 +23,13 @@ import {
 import Colors from '../../../../assets/colorTheme'
 
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
-
-import { NormalText } from '../../../components/text'
+import Permissions from 'react-native-permissions'
+import PopupDialog from 'react-native-popup-dialog'
+import {
+  NormalText,
+  HeadingText,
+  textStyle
+} from '../../../components/text'
 import LoadingModal from '../../../components/loadingModal'
 
 import {
@@ -34,6 +42,20 @@ import {
 import {
   SpeedUnits, convertWindSpeed
 } from '../../../reactcommon/utils'
+
+import Button from '../../../reactcommon/components/button'
+
+import {VaavudBle} from 'NativeModules'
+
+
+const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
+const buildingOne = require('../../../../assets/icons/ico-bulding-1.png')
+const buildingTwo = require('../../../../assets/icons/ico-building-2.png')
+const tree = require('../../../../assets/icons/ico-tree-1.png')
+const bgmap = require('../../../../assets/images/bgmap.png')
+const overlay = require('../../../../assets/images/overlay.png')
+
+const { height, width } = Dimensions.get('window')
 
 const mapReduxStoreToProps = (reduxStore) => {
   return {
@@ -53,8 +75,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-
-
 @connect(mapReduxStoreToProps, mapDispatchToProps)
 export default class extends Component {
 
@@ -64,7 +84,7 @@ export default class extends Component {
     windSpeed: 0,
     windDirection: 0,
     lastWindDirection: 0,
-    locationReady: true,
+    locationReady: undefined,
     velocity: 0,
     trueWindDirection: 0,
     trueWindSpeed: 0,
@@ -76,10 +96,24 @@ export default class extends Component {
 
   constructor(props) {
     super(props)
-    this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
+    this.myModuleEvt = new NativeEventEmitter(VaavudBle)
   }
 
   componentDidMount = () => {
+    this._permissions()
+    // this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
+    // this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
+    // this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
+    // this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
+    // this.myModuleEvt.addListener('onReading', this.onReading)
+    // this.myModuleEvt.addListener('timeout', this.timeout)
+    // this.myModuleEvt.addListener('onCompleted', this.onCompleted)
+    // this.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    // NativeModules.VaavudBle.readRowData(true, this.props.offset)
+  }
+
+  activateListeners = () => {
+    this.myModuleEvt.addListener('onLocationFound', this.onLocationFound)
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
@@ -87,21 +121,24 @@ export default class extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
-
-
-    NativeModules.VaavudBle.readRowData(true, this.props.offset)
+    console.log("Functions available",VaavudBle)
+    VaavudBle.readRowData(true, this.props.offset)
   }
 
   componentWillUnmount = () => {
-    NativeModules.VaavudBle.onDisconnect()
-    this.removeLiteners()
+    VaavudBle.onDisconnect()
+    this.removeListeners()
   }
 
   timeout = () => {
-    console.log('timeOut')
+    this.popupDialog.dismiss()
+    this.setState({ timeout: true })
+    Alert.alert('Connection Error', 'Please check both Location and the Bluetooth ON.', [{
+      text: 'OK', onPress: () => { }
+    }])
   }
 
-  removeLiteners = () => {
+  removeListeners = () => {
     this.myModuleEvt.removeAllListeners('onBluetoothOff')
     this.myModuleEvt.removeAllListeners('onNoDeviceFound')
     this.myModuleEvt.removeAllListeners('onDeviceFound')
@@ -117,13 +154,15 @@ export default class extends Component {
 
   onBluetoothOff = () => {
     this.setState({ timeout: true })
-    Alert.alert('Bluetooth Error', 'Please turn the Bluetooth ON.', [{
-      text: 'OK', onPress: () => { }
+    Alert.alert('Bluetooth Error', 'Please go to settings and turn Bluetooth ON.', [{
+      text: 'OK', onPress: () => {
+        // TODO: with this event?
+       }
     }])
   }
 
   onNoDeviceFound = () => {
-    NativeModules.VaavudBle.onDisconnect()
+    VaavudBle.onDisconnect()
     this.setState({ timeout: true })
 
     Alert.alert('Bluetooth Error', 'We could not find your Ultrasonic, try later.', [{
@@ -138,15 +177,16 @@ export default class extends Component {
   }
 
   onReading = point => {
+    console.log("onReading",point)
     let last = this.state.windDirection
     let lastTrue = this.state.trueWindDirection
     this.setState({
-      windSpeed: point.windSpeed,
-      windDirection: point.windDirection,
+      windSpeed: Number(point.windSpeed),
+      windDirection: Number(point.windDirection),
       lastWindDirection: last,
-      velocity: point.velocity,
-      trueWindDirection: point.trueWindDirection,
-      trueWindSpeed: point.trueWindSpeed,
+      velocity: Number(point.velocity),
+      trueWindDirection: Number(point.trueWindDirection),
+      trueWindSpeed: Number(point.trueWindSpeed),
       trueLastWindDirection: lastTrue,
       battery: point.battery
     })
@@ -156,7 +196,7 @@ export default class extends Component {
 
     let windMin = 0
 
-    this.removeLiteners()
+    this.removeListeners()
     this.setState({ myModuleEvt: null })
 
     this.props.saveSession(data.session)
@@ -179,18 +219,20 @@ export default class extends Component {
       })
   }
 
-  // onLocationWorking = location => {
-  //   if (location.available) {
-  //     this.setState({ locationReady: true })
-  //   }
-  //   else {
-  //     console.log('please eneble your location')
-  //   }
-  // }
+  onLocationFound = location => {
+    if (location) {
+      this.setState({ locationReady: true })
+    }
+    else {
+      this.setState({ locationReady: false })
+    }
+  }
 
   _onStopMeasurement = () => {
+    console.log('_onStopMeasurement: ',this,VaavudBle)
+    VaavudBle.onStopSdk()
     this.setState({ isLoading: true })
-    NativeModules.VaavudBle.onStopSdk()
+    
   }
 
   _renderDotIndicator = () => {
@@ -203,14 +245,80 @@ export default class extends Component {
   }
 
   _jump = () => {
-    this.removeLiteners()
+    this.removeListeners()
     this.props.goToMain()
     // this.props.jump('history')
   }
 
-  _tryAgin = () => {
-    NativeModules.VaavudBle.readRowData(true, {})
+  _tryAgain = () => {
+    VaavudBle.readRowData(true, {})
     this.setState({ timeout: false })
+  }
+
+  _permissions() {
+    Permissions.getPermissionStatus('location').then(response => {
+      if (response === 'authorized') {
+        // User has already authorized location
+        this.setState({ locationReady: true })
+        this.activateListeners()
+      }
+      else {
+        this.popupDialog.show()
+      }
+    })
+  }
+
+  _onContinue() {
+    Permissions.requestPermission('location').then(location => {
+      if (location === 'authorized') {
+        // User authorized location
+        this.setState({ locationReady: true })
+        this.activateListeners()
+      } else {
+        this.props.goToMain()
+      }
+    })
+  }
+
+  _renderPopUpView() {
+    return (
+      <Image style={style.popUpBg}
+        source={bgmap} >
+        <Image style={style.popUpContainer}
+          source={overlay} >
+          <View style={{ flex: 1, alignItems: 'center' }} >
+            <HeadingText style={{ textAlign: 'center', backgroundColor: 'transparent', margin: 30 }}
+              textContent={'Access your\nlocation'} />
+            <Image source={locactionLogo} />
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+              <Image source={buildingOne} />
+              <Image source={buildingTwo} />
+              <Image source={tree} />
+            </View>
+            <NormalText style={{ textAlign: 'center', marginTop: 20 }}
+              textContent={'In order for you to use the ultrasonic, we need to access your location'} />
+          </View>
+          <Button buttonStyle={style.popUpButton}
+            textStyle={style.popUpButtonText}
+            onPress={this._onContinue}
+            title="Accept" />
+          <Button buttonStyle={style.buttonSkip}
+            textStyle={style.buttonText}
+            onPress={() => {
+              this.props.goToMain()
+            }}
+            title="Do not allow" />
+        </Image>
+      </Image>
+    )
+  }
+
+  _renderPopup() {
+    return (<PopupDialog
+      ref={(popupDialog) => { this.popupDialog = popupDialog }}
+      height={height}>
+      {this._renderPopUpView()}
+    </PopupDialog>)
   }
 
   render = () => {
@@ -220,7 +328,7 @@ export default class extends Component {
     let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
-      return (
+      /*return (
         <View style={{ flex: 1 }}>
           <IndicatorViewPager
             indicator={this._renderDotIndicator()}
@@ -230,17 +338,79 @@ export default class extends Component {
           </IndicatorViewPager>
           <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
         </View>
+      )*/
+      return (
+        <View style={{ position: 'absolute', top: 0, left: 0, width: width, height: height }}>
+          <IndicatorViewPager
+            indicator={this._renderDotIndicator()}
+            style={{ flex: 1 }} >
+            <View>
+              <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement.bind(this)} />
+            </View>
+            <View>
+              <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement.bind(this)} />
+            </View>
+          </IndicatorViewPager>
+          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
+        </View>
       )
     }
     else {
       return (
-        <ConnectingView
-          isBleReady={this.state.isBleConnected}
-          isLocationReady={this.state.locationReady}
-          jump={this._jump}
-          timeout={this.state.timeout}
-          tryAgain={this._tryAgin} />
+        <View style={{ flex: 1 }} >
+          <ConnectingView
+            isBleReady={this.state.isBleConnected}
+            isLocationReady={this.state.locationReady}
+            jump={this._jump}
+            timeout={this.state.timeout}
+            tryAgain={this._tryAgain} />
+          {this._renderPopup()}
+        </View>
       )
     }
   }
 }
+
+const style = StyleSheet.create({
+  popUpBg: {
+    flex: 1,
+    width: width,
+    height: height,
+  },
+  popUpContainer: {
+    flex: 1,
+    width: width,
+    height: height,
+    padding: 30,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  popUpButton: {
+    borderRadius: 5,
+    height: 40,
+    width: width - 40,
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.vaavudBlue,
+  },
+  popUpButtonText: {
+    ...textStyle.normal,
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white'
+  },
+  buttonSkip: {
+    height: 40,
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderColor: 'white',
+    backgroundColor: 'transparent',
+  },
+  buttonText: {
+    ...textStyle.normal,
+    textAlign: 'center',
+    color: Colors.vaavudBlue
+  }
+})

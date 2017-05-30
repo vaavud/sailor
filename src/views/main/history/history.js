@@ -25,7 +25,8 @@ import {
   SmallBold,
   NormalLight,
   NormalBold,
-  HeadingBold
+  HeadingBold,
+  textStyle
 } from '../../../components/text'
 
 import Colors from '../../../../assets/colorTheme'
@@ -155,7 +156,7 @@ class HistoryView extends Component {
           this.props.deleteSession(data.key)
         }}>
           <View>
-            <Text style={{ color: 'white', marginRight: 15 }}>Delete</Text>
+            <Text style={{ ...textStyle.normal, color: 'white', marginRight: 15 }}>Delete</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -225,9 +226,11 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   smalltext: {
+    ...textStyle.normal,
     fontSize: 8
   },
   windText: {
+    ...textStyle.normal,
     fontSize: 18,
     fontWeight: 'bold'
   },

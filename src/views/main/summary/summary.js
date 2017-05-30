@@ -27,7 +27,7 @@ import moment from 'moment'
 
 import ReactART from 'ReactNativeART'
 import Colors from '../../../../assets/colorTheme'
-import { SmallText } from '../../../components/text'
+import { SmallText, textStyle } from '../../../components/text'
 
 const {
   Shape,
@@ -69,7 +69,7 @@ class SummaryView extends Component {
       timestamp: PropTypes.number.isRequired,
       windSpeed: PropTypes.number.isRequired,
     })).isRequired,
-    windAverage: PropTypes.number.isRequired,
+    windAverage: PropTypes.string.isRequired,
     minWindSpeed: PropTypes.number.isRequired,
     maxWindSpeed: PropTypes.number.isRequired
   }
@@ -136,7 +136,7 @@ class SummaryView extends Component {
       maxWindSpeed
     } = this.props
 
-    
+
 
     let timeStart = this.props.paths[0].timestamp
     let timeEnd = this.props.paths[this.props.paths.length - 1].timestamp
@@ -155,7 +155,11 @@ class SummaryView extends Component {
 
   _renderGraphArea() {
     if (this.props.paths.length < 3) {
-      return null
+      return (
+        <View style={style.emptyGraphContainer}>
+          <SmallText style={style.emptyGraphText} textContent={'This measurement doesn\'t contain enough\n measurment points to draw a graph'} />
+        </View>
+      )
     }
     let i = 0
     let path = Path().moveTo(0, graphHeight).lineTo(this.props.minWindSpeed, this._calculateY(this.props.paths[i].windSpeed))
@@ -215,7 +219,7 @@ class SummaryView extends Component {
         render.push(
           <View style={style.topGrid}
             pointerEvents="box-none" >
-            <Text style={{ fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
+            <Text style={{ ...textStyle.normal, fontSize: 20, color: '#0080b3', transform: [{ 'rotate': x + 'deg' }] }} >{'↑'}</Text>
             <SmallText style={{ backgroundColor: 'transparent', color: '#0080b3', fontWeight: 'bold' }} textContent={moment(this.props.paths[i].timestamp).format('LT')} />
           </View>
         )
@@ -232,8 +236,8 @@ class SummaryView extends Component {
   _renderWorkingView() {
     return (
       <View style={{ backgroundColor: Colors.vaavudBlue, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: 'white' }}> Working with data </Text>
-        <Text style={{ color: 'white' }}> please wait a moment... </Text>
+        <Text style={{ ...textStyle.normal, color: 'white' }}> Working with data </Text>
+        <Text style={{ ...textStyle.normal, color: 'white' }}> please wait a moment... </Text>
       </View>)
 
   }
@@ -329,10 +333,12 @@ const style = StyleSheet.create({
     left: 0,
   },
   dateText: {
+    ...textStyle.normal,
     color: 'black',
     margin: 5,
   },
   locationText: {
+    ...textStyle.normal,
     color: 'black',
     fontSize: 20
   },
@@ -356,7 +362,28 @@ const style = StyleSheet.create({
     height: graphHeight + 40,
     justifyContent: 'center',
   },
+  emptyGraphContainer: {
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    bottom: 10,
+    left: 10,
+    width: width - 20,
+    padding: 10,
+    paddingBottom: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    backgroundColor: 'rgba(255,255,255,1)',
+    height: graphHeight + 40,
+    justifyContent: 'center',
+  },
+  emptyGraphText: {
+    ...textStyle.normal,
+    textAlign: 'center',
+    fontSize: 16
+  },
   graphTimeText: {
+    ...textStyle.normal,
     textAlign: 'center'
   },
   windSpeedContainer: {

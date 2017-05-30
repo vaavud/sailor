@@ -361,6 +361,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
+    ...textStyle.normal,
     fontSize: 14,
     textAlign:'center',
     color: Colors.vaavudBlue

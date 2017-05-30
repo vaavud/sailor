@@ -13,7 +13,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 const MainFlow = TabNavigator({
   Newsfeed: { screen: Newsfeed },
   Map: { screen: Map },
-  ' ': { screen: Dommy },
+  Measure: { screen: Dommy },
   History: { screen: History },
   Settings: { screen: Settings },
 }, {

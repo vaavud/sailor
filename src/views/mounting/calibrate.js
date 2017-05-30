@@ -1,3 +1,4 @@
+/* TODO: clean unused component
 import React, {
   Component
 } from 'react'
@@ -36,4 +37,4 @@ class CalibrateView extends Component {
 
 }
 
-export default CalibrateView
+export default CalibrateView*/
