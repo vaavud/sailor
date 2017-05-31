@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
-        AegirController.init(this).onActivityResult(requestCode,resultCode,data);
+        AegirController.init(this,this).onActivityResult(requestCode,resultCode,data);
     }
     /**
      * Returns the name of the main component registered from JavaScript.

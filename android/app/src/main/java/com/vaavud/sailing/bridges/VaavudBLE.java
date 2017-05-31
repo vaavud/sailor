@@ -12,24 +12,30 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.UiThreadUtil;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.goebl.simplify.PointExtractor;
+import com.goebl.simplify.Simplify;
 import com.vaavud.vaavudSDK.core.VaavudError;
 import com.vaavud.vaavudSDK.core.aegir.AegirController;
 import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
 import com.vaavud.vaavudSDK.model.LatLng;
 import com.vaavud.vaavudSDK.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.model.MeasurementData;
+import com.vaavud.vaavudSDK.model.event.SpeedEvent;
 import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
 import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+import java.util.Date;
 
 /**
  * Created by juan on 13/02/2017.
@@ -49,6 +55,8 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     private DeviceEventManagerModule.RCTDeviceEventEmitter module;
     private MeasurementData mdata;
 
+    private long lastEvent = 0;
+
     public VaavudBLE(ReactApplicationContext _reactContext) {
         super(_reactContext);
         mContext = _reactContext.getBaseContext();
@@ -61,17 +69,14 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
     }
 
     private void emitData(final String event, final WritableMap data) {
-        Log.d(TAG, "Emit: " + event + " " + this.toString());
-        getReactApplicationContext()
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(event,data);
-
-
+        long time = new Date().getTime();
+//        Log.d(TAG, "Time: "+time+ " Emit: " + event + " " + this.toString());
+        module.emit(event, data);
     }
 
     private void initSDK(){
         if (aegirSDK==null) {
-            aegirSDK = AegirController.init(getCurrentActivity());
+            aegirSDK = AegirController.init(reactContext,reactContext.getCurrentActivity());
             aegirSDK.setVaavudDataListener(this);
         }
     }
@@ -90,9 +95,9 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
     @ReactMethod
     public void readRowData(boolean fromSDK, ReadableMap map, Promise callback){
-        Log.d(TAG, "Read Row Data from React "+this.toString());
+        //Log.d(TAG, "Read Row Data from React "+this.toString());
         initBle();
-        aegirSDK.onStartSDK("D4:8D:36:A5:73:35",readableMapToHashMap(map),fromSDK);
+        aegirSDK.onStartSDK(null,readableMapToHashMap(map),fromSDK);
         if (fromSDK) aegirSDK.startSession();
 //        Log.d(TAG,"readRowData");
         callback.resolve(null);
@@ -112,40 +117,44 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
     @ReactMethod
     public void onStartSDK(ReadableMap map, Promise callback){
-        Log.d(TAG, "Starting from React");
+        //Log.d(TAG, "Starting from React");
         initBle();
         aegirSDK.onStartSDK(null,readableMapToHashMap(map),true);
         callback.resolve(aegirSDK.startSession());
     }
 
+
     @ReactMethod
-    public void onStopSDK(Promise callback){
-        Log.d(TAG, "Stoping from React");
+    public void onStopSdk(){
+        //Log.d(TAG, "Stoping from React");
         aegirSDK.onStopSDK();
         mdata = aegirSDK.stopSession();
 
-        ArrayList<HashMap<String,Double>> simplifiedLocation = new ArrayList<>();
-        ArrayList<HashMap<String,Double>> simplifiedSpeed = new ArrayList<>();
-        ArrayList<HashMap<String,Integer>> simplifiedDirection = new ArrayList<>();
+        ArrayList<WritableMap> simplifiedLocation = new ArrayList<>();
+        ArrayList<WritableMap> simplifiedSpeed = new ArrayList<>();
+        ArrayList<WritableMap> simplifiedDirection = new ArrayList<>();
 
-//        Location[] coords = mdata.getLocations(); // the array of your "original" points
-//
-//        Simplify<LatLng> simplify = new Simplify<LatLng>(new LatLng[0], latLngPointExtractor);
-//
-//        LatLng[] simplified = simplify.simplify(coords, 20f, false);
+        LatLng[] coords = mdata.getLocationsArray(); // the array of your "original" points
+        TrueSpeedEvent[] speeds = mdata.getTrueWindSpeedsArray();
+        TrueDirectionEvent[] directions = mdata.getTrueWindDirectionsArray();
 
+        Simplify<LatLng> simplifyLatLng = new Simplify<LatLng>(new LatLng[0], latLngPointExtractor);
+        Simplify<TrueSpeedEvent> simplifyTrueSpeed = new Simplify<TrueSpeedEvent>(new TrueSpeedEvent[0], speedPointExtractor);
+        Simplify<TrueDirectionEvent> simplifyTrueDirection = new Simplify<TrueDirectionEvent>(new TrueDirectionEvent[0], directionPointExtractor);
 
+        LatLng[] simplifiedLatLng = simplifyLatLng.simplify(coords, 0.0001f, false);
+        TrueSpeedEvent[] simplifiedTrueSpeed = simplifyTrueSpeed.simplify(speeds, 0.5f, false);
+        TrueDirectionEvent[] simplifiedTrueDirection = simplifyTrueDirection.simplify(directions, 22.5f, false);
 
         HashMap<String, Object> data = new HashMap<>();
-        data.put("points",mdata.getMeasurementPoints());
-        data.put("locations",simplifiedLocation);
-        data.put("speeds",simplifiedSpeed);
-        data.put("directions",simplifiedDirection);
+        data.put("points",mdata.getMeasurementPointsArray());
+        data.put("locations",simplifiedLatLng);
+        data.put("speeds",simplifiedTrueSpeed);
+        data.put("directions",simplifiedTrueDirection);
 
         emitData("onFinalData",hashMapToWritableMap(data));
-        callback.resolve(null);
+//        callback.resolve(null);
     }
-
 
     @ReactMethod
     public void isVaavudBLEConnected(Promise callback){
@@ -161,7 +170,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
     @ReactMethod
     public void onDisconnect(Promise callback) {
-        Log.d(TAG, "Stoping from React");
+        //Log.d(TAG, "Stoping from React");
         if (aegirSDK != null) {
             aegirSDK.onDisconnect();
         }
@@ -195,6 +204,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
             Iterator it = hash.keySet().iterator();
             while (it.hasNext()){
                 String next = (String) it.next();
+                Log.d(TAG,next + " " + hash.get(next).getClass().getName());
                 switch (hash.get(next).getClass().getName()){
                     case "java.lang.Boolean":
                         map.putBoolean(next,(boolean)hash.get(next));
@@ -203,13 +213,20 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
                         map.putInt(next,(int)hash.get(next));
                         break;
                     case "java.lang.Double":
+                        //Log.d(TAG,next + " "+ (double)hash.get(next));
                         map.putDouble(next,(double)hash.get(next));
                         break;
                     case "java.lang.String":
                         map.putString(next,(String)hash.get(next));
                         break;
-                    case "java.util.HashMap<K,V>":
-                        map.putMap(next,(WritableMap) hash.get(next));
+                    case "java.lang.Object[]":
+                        map.putArray(next,Arguments.fromJavaArgs((Object[]) hash.get(next)));
+                        break;
+                    case "java.util.ArrayList":
+                        map.putArray(next,arrayListToWritableArray((ArrayList<Object>)hash.get(next)));
+                        break;
+                    case "java.util.HashMap":
+                        map.putMap(next,hashMapToWritableMap((HashMap<String,Object>)hash.get(next)));
                         break;
                     case "com.facebook.react.bridge.WritableNativeMap":
                         map.putMap(next,(WritableMap) hash.get(next));
@@ -220,13 +237,51 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         return map;
     }
 
+    private WritableArray arrayListToWritableArray(ArrayList<Object> array){
+
+        WritableNativeArray arguments = new WritableNativeArray();
+        for (int i = 0; i < array.size(); i++) {
+          Object argument = array.get(i);
+          if (argument == null) {
+            arguments.pushNull();
+            continue;
+          }
+          Class argumentClass = argument.getClass();
+          if (argumentClass == Boolean.class) {
+                arguments.pushBoolean(((Boolean) argument).booleanValue());
+          } else if (argumentClass == Integer.class) {
+                arguments.pushDouble(((Integer) argument).doubleValue());
+          } else if (argumentClass == Double.class) {
+                arguments.pushDouble(((Double) argument).doubleValue());
+          } else if (argumentClass == Float.class) {
+                arguments.pushDouble(((Float) argument).doubleValue());
+          } else if (argumentClass == String.class) {
+                arguments.pushString(argument.toString());
+          } else if (argumentClass == ArrayList.class) {
+                arguments.pushArray(arrayListToWritableArray((ArrayList<Object>) argument));
+          } else if (argumentClass == HashMap.class){
+                arguments.pushMap(hashMapToWritableMap((HashMap<String,Object>) argument));
+          } else if (argumentClass == WritableNativeMap.class) {
+                arguments.pushMap((WritableNativeMap) argument);
+          } else if (argumentClass == WritableNativeArray.class) {
+                arguments.pushArray((WritableNativeArray) argument);
+          } else {
+            throw new RuntimeException("Cannot convert argument of type " + argumentClass);
+          }
+        }
+        return arguments;
+
+
+
+    }
+
     private HashMap<String,Object> readableMapToHashMap(ReadableMap map){
         HashMap<String,Object> hashMap = new HashMap<>();
         if (!map.keySetIterator().hasNextKey()) {
             ReadableMapKeySetIterator it = map.keySetIterator();
             while (it.hasNextKey()){
                 String next = (String) it.nextKey();
-                Log.d(TAG,map.getType(next).name());
+                //Log.d(TAG,map.getType(next).name());
 //                switch (map.getType(next)){
 //
 //                    case "java.lang.Boolean":
