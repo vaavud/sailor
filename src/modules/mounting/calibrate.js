@@ -15,8 +15,10 @@ import {
   Alert,
   Dimensions,
   Image,
+  Animated,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Easing
 } from 'react-native'
 
 import {
@@ -39,6 +41,7 @@ const logo = require('../../../assets/icons/logo.png')
 export default class extends Component {
 
   state = {
+    lastHeading:0,
     heading: 0,
     compassBle: 0,
     isLoading: true
@@ -46,6 +49,7 @@ export default class extends Component {
 
   constructor(props) {
     super(props)
+    this.animatedValue = new Animated.Value(0)
     this.myModuleEvt = new NativeEventEmitter(NativeModules.VaavudBle)
   }
 
@@ -134,7 +138,9 @@ export default class extends Component {
   }
 
   headingUpdated = data => {
-    this.setState({ heading: data.heading.toFixed(1) })
+    console.log('Heading',data,this.state.lastHeading,this.state.heading)
+    var lastHeading = this.state.heading
+    this.setState({ lastHeading, heading: Number(data)})
   }
 
 
@@ -152,6 +158,35 @@ export default class extends Component {
     let offset = this.distance(this.state.heading, this.state.compassBle)
     let off = parseInt(offset, 10)
     NativeModules.VaavudBle.addOffset(off)
+  }
+
+  _renderCompass = () => {
+    this.animateNewHeading()
+    var newHeading = (this._crazyMod((this.state.heading - this.state.lastHeading) + 180, 360) - 180) + this.state.lastHeading
+    const animate = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [this.state.lastHeading + 'deg', newHeading + 'deg']
+    })
+    return (
+      <View style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
+        <Animated.Image source={compass} style={{ width: 50, height: 50, transform: [{ 'rotate' : animate }] }} />
+      </View>
+    )
+  }
+
+  animateNewHeading() {
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue, {
+        toValue: 1,
+        duration: 250,
+        easing: Easing.linear
+      }
+    ).start()
+  }
+
+  _crazyMod(a, n) {
+    return a - Math.floor(a / n) * n
   }
 
   render = () => {
@@ -172,9 +207,7 @@ export default class extends Component {
       <View style={{ flex: 1, backgroundColor: Colors.vaavudBlue }}>
 
         <View style={{ width, height: 80, flexDirection: 'row', marginTop: 20 }}>
-          <View style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
-            <Image source={compass} style={{ width: 50, height: 50, transform: [{ rotate: this.state.heading + 'deg' }] }} />
-          </View>
+          {this._renderCompass()}
           <View style={{ flex: 1 }} />
           <TouchableOpacity style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} onPress={() => {/* TODO info button*/ }} >
             <Image source={info} style={{ width: 30, height: 30, tintColor: 'white' }} />
@@ -198,7 +231,7 @@ export default class extends Component {
             title={'Cancel'}
             onPress={() => { this.props.navigation.goBack() }} />
         </View>
-      </View >
+      </View>
     )
 
     // return <CalibrateView onNext={this.onNext} heading={this.state.heading} />
