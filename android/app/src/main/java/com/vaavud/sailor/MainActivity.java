@@ -1,4 +1,4 @@
-package com.vaavud.sailing;
+package com.vaavud.sailor;
 
 import android.content.Intent;
 import android.os.Bundle;

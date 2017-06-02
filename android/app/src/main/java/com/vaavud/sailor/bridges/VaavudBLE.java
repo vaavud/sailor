@@ -1,4 +1,4 @@
-package com.vaavud.sailing.bridges;
+package com.vaavud.sailor.bridges;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,7 +11,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
-import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -25,16 +24,12 @@ import com.vaavud.vaavudSDK.core.listener.VaavudDataListener;
 import com.vaavud.vaavudSDK.model.LatLng;
 import com.vaavud.vaavudSDK.model.event.LocationEvent;
 import com.vaavud.vaavudSDK.model.MeasurementData;
-import com.vaavud.vaavudSDK.model.event.SpeedEvent;
 import com.vaavud.vaavudSDK.model.event.TrueDirectionEvent;
 import com.vaavud.vaavudSDK.model.event.TrueSpeedEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 import java.util.Date;
 
 /**

@@ -88,7 +88,7 @@ android {
     buildToolsVersion "26.0.0-rc2"
 
     defaultConfig {
-        applicationId "com.vaavud.sailing"
+        applicationId "com.vaavud.sailor"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
