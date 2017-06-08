@@ -13,7 +13,7 @@ import {
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {textStyle} from '../../../components/text'
+import { textStyle } from '../../../components/text'
 import MapView from 'react-native-maps'
 const { width, height } = Dimensions.get('window')
 
@@ -62,7 +62,7 @@ class Newsfeed extends PureComponent {
     return (
       <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', top: 30, right: 10, backgroundColor: 'transparent' }}
         onPress={() => {
-          const { navigate } = this.props.navigation
+          const { navigate } = this.props.screenProps.navigation
           navigate('MapHarbor', this.props.harbor)
         }} >
         <Text style={{ ...textStyle.normal, marginRight: 5, fontSize: 16, color: 'white' }}>{'Edit'}</Text>
@@ -81,7 +81,7 @@ class Newsfeed extends PureComponent {
     }
     else {
       if (!this.props.harbor.forecast) {
-        const { navigate } = this.props.navigation
+        const { navigate } = this.props.screenProps.navigation
         return (
           <IntroView onNextPress={navigate} />
         )
@@ -95,7 +95,7 @@ class Newsfeed extends PureComponent {
               scrollEnabled={false}
               zoomEnabled={false}
               region={{ ...this.state.region, ...getCoordinate(this.props.harbor.location, 0.02) }}
-              mapType="satellite" >
+              mapType={'satellite'} >
               <MapView.Marker coordinate={getCoordinate(this.props.harbor.location, 0)}>
                 <Image source={imgHarbor} />
               </MapView.Marker>

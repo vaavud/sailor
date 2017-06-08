@@ -28,7 +28,6 @@ export function getForecast(windMax, windMin, unit, token, subId) {
     fetch(request)
       .then(response => response.json())
       .then(forecast => {
-        console.log(forecast)
         if ('id' in forecast) {
           resolve({ type: FORECAST_LOADED, forecast: forecast })
 
@@ -38,8 +37,6 @@ export function getForecast(windMax, windMin, unit, token, subId) {
             realm.delete(fore)
             realm.create('Forecast', { ...forecast })
           })
-
-          console.log('forecast[0]', forecast)
 
         }
         else {
@@ -189,13 +186,19 @@ export function saveHarbor(payload, key) {
 
 
       // Dispach harbor information
-      dispatch({
-        type: HARBOR_LOADED,
-        key: _key,
-        directions: payload.directions,
-        location: payload.location,
-        name: payload.name
-      })
+
+      setTimeout(() => {
+        console.log('running now...')
+        dispatch({
+          type: HARBOR_LOADED,
+          key: _key,
+          directions: payload.directions,
+          location: payload.location,
+          name: payload.name
+        })
+      }, 1000)
+
+
 
 
       // Save for offline

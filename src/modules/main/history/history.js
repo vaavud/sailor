@@ -43,7 +43,7 @@ export default class extends PureComponent {
 
   render = () => {
     if (this.props.sessions.length > 0) {
-      const { navigate } = this.props.navigation
+      const { navigate } = this.props.screenProps.navigation
       return (
         <HistoryView
           onNextPress={navigate}

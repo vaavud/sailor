@@ -189,38 +189,42 @@ class VaavudBle: RCTEventEmitter  {
   @objc
   func readRowData(_ fromSdk:Bool, offset:[String:Any]) {
     
-    print(offset)
-    
-    let _ = bleController.onVerifyBle()
-      .subscribe(onError: {
-        self.sendEvent(withName: "onBluetoothOff", body: [] )
-        print($0)
-      }, onCompleted: {
-        self.findUltrasonic()
-      })
-    
-    if fromSdk {
-      vaavudSDK.startWithBluetooth(offset:offset)
-      bluetoothListener = vaavudSDK
-      initSkdListeners()
+    DispatchQueue.main.async {
+      
+      print(offset)
+      
+      let _ = self.bleController.onVerifyBle()
+        .subscribe(onError: {
+          self.sendEvent(withName: "onBluetoothOff", body: [] )
+          print($0)
+        }, onCompleted: {
+          self.findUltrasonic()
+        })
+      
+      if fromSdk {
+        self.vaavudSDK.startWithBluetooth(offset:offset)
+        self.bluetoothListener = self.vaavudSDK
+        self.initSkdListeners()
+      }
+      
+      let _ = self.bleController.readRowData()
+        .subscribe(onNext: {
+          let val = $0.value?.hexEncodedString()
+          
+          if fromSdk {
+            self.respWithSdk(val: val!)
+          }
+          else {
+            self.respSimpleData(val: val!)
+          }
+        }, onError: {
+          print("6")
+          print($0)
+        }, onCompleted: {
+          print($0)
+        })
     }
     
-    let _ = self.bleController.readRowData()
-      .subscribe(onNext: {
-        let val = $0.value?.hexEncodedString()
-        
-        if fromSdk {
-          self.respWithSdk(val: val!)
-        }
-        else {
-          self.respSimpleData(val: val!)
-        }
-      }, onError: {
-        print("6")
-        print($0)
-      }, onCompleted: {
-        print($0)
-      })
   }
   
   
@@ -247,9 +251,19 @@ class VaavudBle: RCTEventEmitter  {
       self.lastVelocity = data.speed
     }
     
-    vaavudSDK.locationCallback =  { data in
-      self.lastLatLon = data.coordinate
-    }
+    _ = vaavudSDK.locationCallback.subscribe(onNext: {
+      self.lastLatLon = $0.coordinate
+
+    }, onError: {
+      print($0)
+    
+    }, onCompleted: {
+    
+    })
+    
+//    vaavudSDK.locationCallback =  { data in
+////      self.lastLatLon = data.coordinate
+//    }
   }
   
   

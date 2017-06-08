@@ -14,13 +14,14 @@ import {
   Dimensions
 } from 'react-native'
 
-import {textStyle} from '../../../components/text'
+import { textStyle } from '../../../components/text'
 
 import Colors from '../../../../assets/colorTheme'
 import Button from '../../../reactcommon/components/button'
 import I18n from '../../../components/i18n'
 
 const { width, height } = Dimensions.get('window')
+import Permissions from 'react-native-permissions'
 
 
 const imgHarbor = require('../../../../assets/icons/big-harbour-marker.png')
@@ -32,7 +33,15 @@ export default class IntroView extends Component {
     onNextPress: PropTypes.func.isRequired
   }
 
-  render() {
+  onGo = () => {
+    Permissions.requestPermission('location').then(location => {
+      if (location === 'authorized') {
+        this.props.onNextPress('MapHarbor', { isNew: true })
+      }
+    })
+  }
+
+  render = () => {
     return (
       <Image source={bgIntroFlow} style={style.container} >
         <Image source={imgHarbor} />
@@ -40,7 +49,7 @@ export default class IntroView extends Component {
         <View style={{ flexDirection: 'row' }} >
           <Button buttonStyle={style.button}
             textStyle={style.buttonText}
-            onPress={() => this.props.onNextPress('MapHarbor', { isNew: true })}
+            onPress={this.onGo}
             title={I18n.t('letsgoButton')} />
         </View>
       </Image>

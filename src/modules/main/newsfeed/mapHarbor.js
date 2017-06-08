@@ -38,8 +38,8 @@ class MapHarbor extends Component {
       this.state = {
         keyRoot: key,
         region: {
-          latitude: 52.51212,
-          longitude: 10.21515,
+          latitude: 55.6711876,
+          longitude: 12.420757,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         },
@@ -72,8 +72,8 @@ class MapHarbor extends Component {
         region.latitude = position.coords.latitude
         region.longitude = position.coords.longitude
         this.setState({ region })
-      }, (error) => alert(JSON.stringify(error)),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 })
+      }, (error) => { console.log(error) },
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 })
     }
 
   }

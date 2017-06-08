@@ -15,7 +15,7 @@ const MountingFlow = StackNavigator({
 }, {
     headerMode: 'screen',
     navigationOptions: {
-      headerVisible: false,
+      header: false,
     }
   })
 

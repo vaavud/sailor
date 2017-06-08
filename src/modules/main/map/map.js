@@ -46,7 +46,7 @@ class Map extends PureComponent {
   }
 
   state = {
-    markers: []
+    markers: {}
   }
 
   componentDidMount() {

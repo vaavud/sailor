@@ -66,7 +66,7 @@ firebase.auth().onAuthStateChanged(authData => {
 
     store.dispatch({ type: STATUS, status: 'User Authenticated...' })
 
-    authData.getToken().then(token => {
+    authData.getIdToken().then(token => {
       store.dispatch({ type: TOKEN, uid: authData.uid, token })
       store.dispatch({ type: VERIFY_EXISTING_USER, uid: authData.uid })
       store.dispatch({ type: CHECK_AUTH, isAuth: true, authData })

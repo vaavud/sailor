@@ -21,7 +21,7 @@ import Button from '../reactcommon/components/button'
 import Colors from '../../assets/colorTheme'
 
 
-const ic_noPoint = require('../../assets/icons/ic_pointLost.png')
+const ic_noPoint = require('../../assets/icons/icNoInformation.png')
 
 const { width } = Dimensions.get('window')
 

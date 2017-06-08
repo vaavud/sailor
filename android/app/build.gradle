@@ -154,6 +154,7 @@ repositories {
 }
 
 dependencies {
+
     compile(project(':react-native-vector-icons')) {
         exclude group: 'com.facebook.react', module: 'react-native'
     }
@@ -210,12 +211,12 @@ dependencies {
     compile 'com.facebook.fresco:animated-gif:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile "com.google.android.gms:play-services-base:10.2.0"
-    compile "com.google.android.gms:play-services-maps:10.2.0"
-    compile 'com.google.android.gms:play-services-location:10.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile "com.google.android.gms:play-services-base:10.2.4"
+    compile "com.google.android.gms:play-services-maps:10.2.4"
+    compile 'com.google.android.gms:play-services-location:10.2.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true
     }

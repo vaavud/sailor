@@ -1,5 +1,8 @@
 'use strict'
 
+import React from 'react'
+import { View, Dimensions, TouchableOpacity } from 'react-native'
+
 import { Newsfeed, MapHarbor, WindHarbor } from './newsfeed'
 import Map from './map'
 import History from './history'
@@ -10,6 +13,35 @@ import Alignment from '../mounting/calibrate'
 
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
+
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
+import icoMoonConfig from '../../reactcommon/components/selection.json'
+const VaavudIcon = createIconSetFromIcoMoon(icoMoonConfig)
+import { goToMeasurement } from '../../actions/measure'
+
+import Colors from '../../../assets/colorTheme'
+const { width } = Dimensions.get('window')
+
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    goToMeasurement: bindActionCreators(goToMeasurement, dispatch)
+  }
+}
+
+
+
+
+
 const MainFlow = TabNavigator({
   Newsfeed: { screen: Newsfeed },
   Map: { screen: Map },
@@ -17,15 +49,58 @@ const MainFlow = TabNavigator({
   History: { screen: History },
   Settings: { screen: Settings },
 }, {
-    lazyLoad: true,
+    tabBarPosition: 'bottom',
+    lazy: true,
+    swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: '#D12A2f'
+      activeTintColor: Colors.vaavudRed,
+      tinColor: '#fff',
+      inactiveTintColor: 'gray',
+      showIcon: true,
+      showLabel: false,
+      lazyLoad: true,
+      upperCaseLabel: false,
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      },
+      style: {
+        backgroundColor: '#fff',
+      }
     }
   })
 
+
+
+const test = props => {
+  return (
+    <View style={{ flex: 1 }} >
+      <MainFlow screenProps={props} />
+      <TouchableOpacity
+        onPress={() => {
+          props.goToMeasurement()
+        }}
+        style={
+          {
+            backgroundColor: Colors.vaavudBlue,
+            position: 'absolute',
+            left: (width / 2) - 40,
+            bottom: -20,
+            height: 80,
+            width: 80, alignItems: 'center',
+            borderRadius: 40,
+            paddingTop: 20
+          }}>
+        <VaavudIcon name="logo" size={30} color="white" />
+      </TouchableOpacity >
+    </View>
+  )
+}
+
+const SailorMain = connect(mapReduxStoreToProps, mapDispatchToProps)(test)
+
 const SecondFlow = StackNavigator({
   Home: {
-    screen: MainFlow
+    screen: SailorMain
   },
   MapHarbor: { screen: MapHarbor },
   WindHarbor: { screen: WindHarbor },
@@ -34,9 +109,10 @@ const SecondFlow = StackNavigator({
 }, {
     headerMode: 'screen',
     navigationOptions: {
-      headerVisible: false,
+      header: null,
     }
   })
+
 
 
 

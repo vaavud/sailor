@@ -48,7 +48,7 @@ export default class extends PureComponent {
   }
 
   render() {
-    const { navigate } = this.props.navigation
+    const { navigate } = this.props.screenProps.navigation
     return (
       <SettingsView
         updateSettings={this.props.updateSettings}
