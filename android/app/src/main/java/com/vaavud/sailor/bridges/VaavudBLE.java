@@ -185,7 +185,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         }else{
             map.putBoolean("available",false);
         }
-        emitData("onVaavudBLEFound",map);
+        emitData("onVaavudBleFound",map);
         callback.resolve(null);
     }
 
