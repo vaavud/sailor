@@ -96,6 +96,7 @@ export default class extends Component {
 
   onCharacteristicEnable = () => {
     const { goBack } = this.props.navigation
+    NativeModules.VaavudBle.onDisconnect()
 
     Alert.alert('Bluetooth', 'Information saved.', [{
       text: 'OK', onPress: () => {
