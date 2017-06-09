@@ -121,7 +121,6 @@ export default class extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
-    console.log("Functions available",VaavudBle)
     VaavudBle.readRowData(true, this.props.offset)
   }
 
@@ -274,6 +273,7 @@ export default class extends Component {
         // User authorized location
         this.setState({ locationReady: true })
         this.activateListeners()
+        this.popupDialog.dismiss()
       } else {
         this.props.goToMain()
       }
@@ -300,7 +300,7 @@ export default class extends Component {
           </View>
           <Button buttonStyle={style.popUpButton}
             textStyle={style.popUpButtonText}
-            onPress={this._onContinue}
+            onPress={this._onContinue.bind(this)}
             title="Accept" />
           <Button buttonStyle={style.buttonSkip}
             textStyle={style.buttonText}
