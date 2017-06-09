@@ -125,42 +125,44 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
         aegirSDK.onStopSDK();
         mdata = aegirSDK.stopSession();
 
+        WritableArray simplifiedLatLngDict = Arguments.createArray();
+        WritableArray simplifiedTrueSpeedDict = Arguments.createArray();
+        WritableArray simplifiedTrueDirectionDict = Arguments.createArray();
 
         LatLng[] cords = mdata.getLocationsArray(); // the array of your "original" points
         TrueSpeedEvent[] speeds = mdata.getTrueWindSpeedsArray();
         TrueDirectionEvent[] directions = mdata.getTrueWindDirectionsArray();
 
-
-        Simplify<LatLng> simplifyLatLng = new Simplify<LatLng>(new LatLng[0], latLngPointExtractor);
-        Simplify<TrueSpeedEvent> simplifyTrueSpeed = new Simplify<TrueSpeedEvent>(new TrueSpeedEvent[0], speedPointExtractor);
-        Simplify<TrueDirectionEvent> simplifyTrueDirection = new Simplify<TrueDirectionEvent>(new TrueDirectionEvent[0], directionPointExtractor);
-
-        LatLng[] simplifiedLatLng = simplifyLatLng.simplify(cords, 0.0001f, false);
-        TrueSpeedEvent[] simplifiedTrueSpeed = simplifyTrueSpeed.simplify(speeds, 0.5f, false);
-        TrueDirectionEvent[] simplifiedTrueDirection = simplifyTrueDirection.simplify(directions, 22.5f, false);
-
-        Log.d(TAG, "Sizes:" + simplifiedLatLng.length +" "+ simplifiedTrueDirection.length + " " + simplifiedTrueSpeed.length);
-
-        WritableArray simplifiedLatLngDict = Arguments.createArray();
-        for (int i=0;i<simplifiedLatLng.length;i++){
-            WritableMap map = Arguments.createMap();
-            map.putDouble("lat",simplifiedLatLng[i].getLatitude());
-            map.putDouble("lon",simplifiedLatLng[i].getLongitude());
-            simplifiedLatLngDict.pushMap(map);
+        if (cords.length > 0){
+            Simplify<LatLng> simplifyLatLng = new Simplify<LatLng>(new LatLng[0], latLngPointExtractor);
+            LatLng[] simplifiedLatLng = simplifyLatLng.simplify(cords, 0.0001f, false);
+            for (int i = 0; i < simplifiedLatLng.length; i++) {
+                WritableMap map = Arguments.createMap();
+                map.putDouble("lat", simplifiedLatLng[i].getLatitude());
+                map.putDouble("lon", simplifiedLatLng[i].getLongitude());
+                simplifiedLatLngDict.pushMap(map);
+            }
         }
-        WritableArray simplifiedTrueSpeedDict = Arguments.createArray();
-        for (int i=0;i<simplifiedTrueSpeed.length;i++){
-            WritableMap map = Arguments.createMap();
-            map.putDouble("timestamp",simplifiedTrueSpeed[i].getTime());
-            map.putDouble("windSpeed",simplifiedTrueSpeed[i].getTrueSpeed());
-            simplifiedTrueSpeedDict.pushMap(map);
+
+        if (speeds.length > 0 ) {
+            Simplify<TrueSpeedEvent> simplifyTrueSpeed = new Simplify<TrueSpeedEvent>(new TrueSpeedEvent[0], speedPointExtractor);
+            TrueSpeedEvent[] simplifiedTrueSpeed = simplifyTrueSpeed.simplify(speeds, 0.5f, false);
+            for (int i = 0; i < simplifiedTrueSpeed.length; i++) {
+                WritableMap map = Arguments.createMap();
+                map.putDouble("timestamp", simplifiedTrueSpeed[i].getTime());
+                map.putDouble("windSpeed", simplifiedTrueSpeed[i].getTrueSpeed());
+                simplifiedTrueSpeedDict.pushMap(map);
+            }
         }
-        WritableArray simplifiedTrueDirectionDict = Arguments.createArray();
-        for (int i=0;i<simplifiedTrueDirection.length;i++){
-            WritableMap map = Arguments.createMap();
-            map.putDouble("timestamp",simplifiedTrueDirection[i].getTime());
-            map.putDouble("windDirection",simplifiedTrueDirection[i].getTrueDirection());
-            simplifiedTrueDirectionDict.pushMap(map);
+        if (directions.length > 0) {
+            Simplify<TrueDirectionEvent> simplifyTrueDirection = new Simplify<TrueDirectionEvent>(new TrueDirectionEvent[0], directionPointExtractor);
+            TrueDirectionEvent[] simplifiedTrueDirection = simplifyTrueDirection.simplify(directions, 22.5f, false);
+            for (int i = 0; i < simplifiedTrueDirection.length; i++) {
+                WritableMap map = Arguments.createMap();
+                map.putDouble("timestamp", simplifiedTrueDirection[i].getTime());
+                map.putDouble("windDirection", simplifiedTrueDirection[i].getTrueDirection());
+                simplifiedTrueDirectionDict.pushMap(map);
+            }
         }
 
         //Log.d(TAG,"Arguments "+ Arguments.fromJavaArgs(simplifiedTrueDirectionDict));
@@ -242,7 +244,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
                         map.putString(next,(String)hash.get(next));
                         break;
                     case "java.lang.Object[]":
-                        Log.d(TAG,"Next_java.lang.Object[] " + next);
+//                        Log.d(TAG,"Next_java.lang.Object[] " + next);
                         map.putArray(next,Arguments.fromJavaArgs((Object[]) hash.get(next)));
                         break;
                     case "java.util.ArrayList":
@@ -258,7 +260,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
                         map.putArray(next,(WritableArray) hash.get(next));
                         break;
                     default:
-                        Log.d(TAG,"Default: " + next);
+//                        Log.d(TAG,"Default: " + next);
                         map.putArray(next,Arguments.fromJavaArgs((Object[]) hash.get(next)));
                 }
             }
