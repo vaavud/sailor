@@ -1,7 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { View, Dimensions, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Dimensions,
+  Platform,
+  TouchableOpacity
+ } from 'react-native'
 
 import { Newsfeed, MapHarbor, WindHarbor } from './newsfeed'
 import Map from './map'
@@ -48,17 +53,19 @@ const MainFlow = TabNavigator({
   Measure: { screen: Dommy },
   History: { screen: History },
   Settings: { screen: Settings },
-}, {
+},
+{
     tabBarPosition: 'bottom',
     lazy: true,
     swipeEnabled: false,
+    animationEnabled: Platform.OS === 'ios',
     tabBarOptions: {
       activeTintColor: Colors.vaavudRed,
       tinColor: '#fff',
       inactiveTintColor: 'gray',
       showIcon: true,
       showLabel: false,
-      lazyLoad: true,
+      lazyLoad: Platform.OS === 'ios',
       upperCaseLabel: false,
       indicatorStyle: {
         backgroundColor: 'transparent'
