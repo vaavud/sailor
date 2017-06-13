@@ -26,6 +26,8 @@ import {
   textStyle
 } from '../../components/text'
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import { DeviceEventEmitter } from 'react-native'
 import ReactNativeHeading from 'react-native-heading'
 import Colors from '../../../assets/colorTheme'
@@ -200,6 +202,9 @@ export default class extends Component {
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
+          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => console.log('cancel measure')}>
+            <Text style={{ ...textStyle.normal, color: color.vaavudBlue }} >Cancel</Text>
+          </Icon.Button>
         </View>
       )
     }

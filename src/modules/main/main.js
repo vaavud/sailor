@@ -65,7 +65,6 @@ const MainFlow = TabNavigator({
       inactiveTintColor: 'gray',
       showIcon: true,
       showLabel: false,
-      lazyLoad: Platform.OS === 'ios',
       upperCaseLabel: false,
       indicatorStyle: {
         backgroundColor: 'transparent'

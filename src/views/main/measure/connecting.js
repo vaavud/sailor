@@ -19,6 +19,7 @@ import {
   textStyle
 } from '../../../components/text'
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Colors from '../../../../assets/colorTheme'
 
 import Button from '../../../reactcommon/components/button'
@@ -68,8 +69,8 @@ export default class ConnectingView extends Component {
   _renderLocationStatusRow() {
     return (
       <View style={style.rowContainer} >
-        <Text style={style.statusText} >{'Location service'}</Text>
-        {this._renderStatusIcon(this.props.isLocationReady)}
+          <Text style={style.statusText} >{'Location service'}</Text>
+          {this._renderStatusIcon(this.props.isLocationReady)}
       </View>
     )
   }
@@ -103,14 +104,17 @@ export default class ConnectingView extends Component {
   render() {
     return (
       <View style={style.container}>
-        <Image style={style.logo}
-          source={logo} />
-        {this._renderHeader()}
-        {this._renderStatusSection()}
+        <View style={style.innerContainer}>
+          <Image style={style.logo}
+            source={logo} />
+          {this._renderHeader()}
+          {this._renderStatusSection()}
 
-        {this.props.timeout ? this._renderTimeOut() : null}
-
-
+          {this.props.timeout ? this._renderTimeOut() : null}
+        </View>
+        <Icon.Button name="close-circle-outline" color={Colors.vaavudBlue} backgroundColor={'white'} onPress={() => console.log('cancel connecting')}>
+          <Text style={{ ...textStyle.normal, color: Colors.vaavudBlue }} >Cancel</Text>
+        </Icon.Button>
       </View>
     )
   }
@@ -121,10 +125,16 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     padding: 40,
+    paddingBottom: 20,
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 50,
     backgroundColor: Colors.vaavudBlue,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerText: {
     ...textStyle.normal,
