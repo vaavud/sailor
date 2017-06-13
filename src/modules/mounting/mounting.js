@@ -13,11 +13,14 @@ import {
   NativeEventEmitter,
   NativeModules,
   Alert,
+  Text,
   View,
+  Platform,
   StyleSheet
 } from 'react-native'
 
 import PopupDialog from 'react-native-popup-dialog'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Button from '../../reactcommon/components/button'
 import color from '../../../assets/colorTheme'
@@ -54,7 +57,7 @@ class Mounting extends Component {
   }
 
 
-   activateListeners = () => {
+  activateListeners = () => {
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
@@ -80,11 +83,11 @@ class Mounting extends Component {
         this.activateListeners()
       } else {
         Permissions.requestPermission('location').then(location => {
-        if (location === 'authorized') {
-          // User authorized location
-          this.activateListeners()
-        }
-      })
+          if (location === 'authorized') {
+            // User authorized location
+            this.activateListeners()
+          }
+        })
       }
     })
   }
@@ -127,7 +130,7 @@ class Mounting extends Component {
   }
 
   onReading = data => {
-    console.log('Compass Data:',data)
+    console.log('Compass Data:', data)
     var x = this.state.compassOuput
     this.setState({ lastCompassOutput: x })
     this.setState({ compassOuput: data.compass })
@@ -137,7 +140,7 @@ class Mounting extends Component {
     return (
       <View style={style.popupContainer} >
         <View style={style.popupTopContainer} >
-          <Image source={arrow} style={{ tintColor: 'white', marginBottom: 20, transform:[{rotate: '90deg'}] }} />
+          <Image source={arrow} style={{ tintColor: 'white', marginBottom: 20, transform: [{ rotate: '90deg' }] }} />
           <HeadingText style={{ textAlign: 'center', color: 'white' }} textContent={'Please rotate the Ultrasonic device at least 3 times to calibrate the compass... \nThen press OK'} />
         </View>
         <View style={style.popupBottomContainer} >
@@ -164,7 +167,7 @@ class Mounting extends Component {
       ref={(popupDialog) => { this.popupDialog = popupDialog }}
       dialogStyle={style.popup}
       width={width - 40}
-      height={height - 40} >
+      height={Platform.OS === 'ios' ? height - 40 : height - 60} >
       {this._renderPopUpView()}
     </PopupDialog>)
   }
@@ -224,6 +227,9 @@ class Mounting extends Component {
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
+          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => console.log('cancel measure')}>
+            <Text style={{ ...textStyle.normal, color: color.vaavudBlue }} >Cancel</Text>
+          </Icon.Button>
         </View>
       )
     }
@@ -287,8 +293,7 @@ class Mounting extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 40,
-    paddingTop: 70,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.vaavudBlue,
