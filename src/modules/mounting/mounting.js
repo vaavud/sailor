@@ -2,9 +2,7 @@ import React, {
   Component
 } from 'react'
 
-// import {
-//   MountingView
-// } from '../../views/mounting'
+import Permissions from 'react-native-permissions'
 
 import {
   ActivityIndicator,
@@ -52,13 +50,17 @@ class Mounting extends Component {
   }
 
   componentDidMount = () => {
+    this._permissions()
+  }
+
+
+   activateListeners = () => {
     this.myModuleEvt.addListener('onBluetoothOff', this.onBluetoothOff)
     this.myModuleEvt.addListener('onNoDeviceFound', this.onNoDeviceFound)
     this.myModuleEvt.addListener('onDeviceFound', this.onDeviceFound)
     this.myModuleEvt.addListener('onReading', this.onReading)
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
-
     NativeModules.VaavudBle.readRowData(false, {})
   }
 
@@ -69,6 +71,22 @@ class Mounting extends Component {
 
   timeout = () => {
     console.log('timeOut')
+  }
+
+  _permissions() {
+    Permissions.getPermissionStatus('location').then(response => {
+      if (response === 'authorized') {
+        // User has already authorized location
+        this.activateListeners()
+      } else {
+        Permissions.requestPermission('location').then(location => {
+        if (location === 'authorized') {
+          // User authorized location
+          this.activateListeners()
+        }
+      })
+      }
+    })
   }
 
   _removeCallbacks = () => {
