@@ -43,8 +43,20 @@ const ds = new ListView.DataSource({
   sectionHeaderHasChanged: (a, b) => a !== b,
 })
 
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    settings: reduxStore.settings
+  }
+}
 
-class HistoryView extends Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+@connect(mapReduxStoreToProps, mapDispatchToProps)
+export default class HistoryView extends Component {
 
   static propType = {
     onNextPress: PropTypes.func.isRequired
@@ -60,19 +72,15 @@ class HistoryView extends Component {
       refreshing: false
     }
 
-    this._renderSectionHeader = this._renderSectionHeader.bind(this)
-    this._renderRow = this._renderRow.bind(this)
-    this._renderSubRow = this._renderSubRow.bind(this)
-
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = (nextProps) => {
     let sections = this._sessionsToSections(nextProps.sessions)
     this.setState({ dataSource: ds.cloneWithRowsAndSections(sections) })
   }
 
 
-  _sessionsToSections(sessions) {
+  _sessionsToSections = (sessions) => {
     sessions.sort((a, b) => b.timeStart - a.timeStart)
     var sections = [[sessions[0]]]
     for (var i = 1; i < sessions.length; i++) {
@@ -86,10 +94,10 @@ class HistoryView extends Component {
     return sections
   }
 
-  _renderSectionHeader(sectionData) {
+  _renderSectionHeader = (sectionData) => {
     var rowData = sectionData[0]
     return (
-      <View style={style.sectionHeader} >
+      <View style={[style.sectionHeader]} >
         <NormalLight style={{ flex: 1, fontSize: 12, color: 'white', fontWeight: 'bold' }}
           textContent={moment(rowData.timeStart).format('dddd, MMMM D, YYYY')} />
         <NormalLight style={{ width: 40, textAlign: 'center', fontSize: 12, color: 'white' }} textContent={SpeedUnits[this.props.settings.windSpeed]} />
@@ -97,17 +105,17 @@ class HistoryView extends Component {
     )
   }
 
-  _renderRow(data) {
+  _renderRow = (data) => {
     // TODO what if there is no location
-    const {
-      location
-    } = data
+    let { location, windMax = 0, windMean = 0 } = data
+    let { settings } = this.props
     var locationString = '-'
-    if (location !== undefined) {
+    if (location) {
       var lat = location.lat.toFixed(2) + '°'
       var lon = location.lon.toFixed(2) + '°'
       var locationString = 'Lat: ' + lat + ' Lon: ' + lon
     }
+
     return (
       <TouchableOpacity style={style.row}
         activeOpacity={1}
@@ -116,7 +124,8 @@ class HistoryView extends Component {
           timeStart: data.timeStart,
           timeEnd: data.timeEnd,
           locationName: locationString,
-          windMean: data.windMean,
+          windMean,
+          windMax,
           fromHistory: true
         })}>
         <View style={style.locationContainer}>
@@ -126,29 +135,29 @@ class HistoryView extends Component {
         <View style={style.speedContainer} >
           <SmallText textContent={'Max'} />
           <HeadingBold style={{ color: Colors.vaavudRed }}
-            textContent={convertWindSpeed(data.windMax, this.props.settings.windSpeed).toFixed(1)} />
+            textContent={convertWindSpeed(windMax ? windMax : 0, settings.windSpeed).toFixed(1)} />
         </View>
         <View style={style.speedContainer} >
           <SmallText textContent={'Average'} />
           <HeadingBold style={{ color: Colors.vaavudBlue }}
-            textContent={convertWindSpeed(data.windMean, this.props.settings.windSpeed).toFixed(1)} />
+            textContent={convertWindSpeed(windMean ? windMean : 0, settings.windSpeed).toFixed(1)} />
         </View>
       </TouchableOpacity>
     )
   }
 
-  _renderSeparator(sectionId, rowId) {
+  _renderSeparator = (sectionId, rowId) => {
     var key = `sep_${sectionId}_${rowId}`
     return (
       <View key={key} style={style.separator} />
     )
   }
 
-  _onRefresh() {
+  _onRefresh = () => {
     this.setState({ refreshing: false })
   }
 
-  _renderSubRow(data, secId, rowId, rowMap) {
+  _renderSubRow = (data, secId, rowId, rowMap) => {
     return (
       <View style={{ backgroundColor: Colors.vaavudRed, flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
         <TouchableOpacity onPress={() => {
@@ -163,7 +172,8 @@ class HistoryView extends Component {
     )
   }
 
-  render() {
+  render = () => {
+
     return (<SwipeListView
       dataSource={this.state.dataSource}
       renderRow={this._renderRow}
@@ -191,19 +201,7 @@ class HistoryView extends Component {
 }
 
 
-const mapReduxStoreToProps = (reduxStore) => {
-  return {
-    settings: reduxStore.settings
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
-
-export default connect(mapReduxStoreToProps, mapDispatchToProps)(HistoryView)
 
 
 

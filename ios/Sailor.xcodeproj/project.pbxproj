@@ -13,6 +13,8 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* sailingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* sailingTests.m */; };
+		07246D951EE9ED13007901FF /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07246D941EE9ED13007901FF /* RxCocoa.framework */; };
+		07246D961EE9ED13007901FF /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07246D941EE9ED13007901FF /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0724C09A1EA8B9B3006902B5 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0981EA8B9B3006902B5 /* Crashlytics.framework */; };
 		0724C09B1EA8B9B3006902B5 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0991EA8B9B3006902B5 /* Fabric.framework */; };
 		0724C0C71EA8BCF1006902B5 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0724C0C61EA8BCE6006902B5 /* libSMXCrashlytics.a */; };
@@ -401,6 +403,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				07246D961EE9ED13007901FF /* RxCocoa.framework in Embed Frameworks */,
 				073B17BB1EB7713C00F8F1E4 /* RxBluetoothKit.framework in Embed Frameworks */,
 				2B1EE5031E5AEEA400C9561C /* VaavudSDK.framework in Embed Frameworks */,
 				073B17BE1EB7714500F8F1E4 /* RxSwift.framework in Embed Frameworks */,
@@ -422,6 +425,7 @@
 		00E356F21AD99517003FC87E /* sailingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sailingTests.m; sourceTree = "<group>"; };
 		07067D791EB3AFA100D37C69 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sailor-fgkjrwzexfucbrdqjrwryawfnelk/Build/Products/Debug-iphoneos/RxSwift.framework"; sourceTree = "<group>"; };
 		07067DA11EB3AFAB00D37C69 /* RxBluetoothKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBluetoothKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sailor-fgkjrwzexfucbrdqjrwryawfnelk/Build/Products/Debug-iphoneos/RxBluetoothKit.framework"; sourceTree = "<group>"; };
+		07246D941EE9ED13007901FF /* RxCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0724C0981EA8B9B3006902B5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0724C0991EA8B9B3006902B5 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0724C0C11EA8BCE6006902B5 /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
@@ -533,6 +537,7 @@
 				2B436F871E28FE9A00C0E250 /* FBSDKCoreKit.framework in Frameworks */,
 				78C0B4F6080A467B8711BDD9 /* libRNI18n.a in Frameworks */,
 				46E059A8C586411E8C2CBC14 /* libRCTFBSDK.a in Frameworks */,
+				07246D951EE9ED13007901FF /* RxCocoa.framework in Frameworks */,
 				218FB478E52044E5B9684B29 /* libRealmReact.a in Frameworks */,
 				073B17BD1EB7714500F8F1E4 /* RxSwift.framework in Frameworks */,
 				426F568C6EE44A9BA8AE6259 /* libc++.tbd in Frameworks */,
@@ -821,7 +826,7 @@
 			isa = PBXGroup;
 			children = (
 				5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */,
-				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */,
+				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -889,6 +894,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				07246D941EE9ED13007901FF /* RxCocoa.framework */,
 				073B17BC1EB7714500F8F1E4 /* RxSwift.framework */,
 				073B17B91EB7713C00F8F1E4 /* RxBluetoothKit.framework */,
 				0724C0981EA8B9B3006902B5 /* Crashlytics.framework */,
@@ -1382,7 +1388,7 @@
 			remoteRef = 5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */ = {
+		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTAnimation.a;

@@ -65,7 +65,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
     private void emitData(final String event, final WritableMap data) {
         long time = new Date().getTime();
-//        Log.d(TAG, "Time: "+time+ " Emit: " + event + " " + this.toString());
+        Log.d(TAG, "Time: "+time+ " Emit: " + event + " " + this.toString());
         module.emit(event, data);
     }
 

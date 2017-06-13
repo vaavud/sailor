@@ -71,7 +71,12 @@ firebase.auth().onAuthStateChanged(authData => {
       store.dispatch({ type: VERIFY_EXISTING_USER, uid: authData.uid })
       store.dispatch({ type: CHECK_AUTH, isAuth: true, authData })
     })
-
+      .catch(err => {
+        console.log(err, authData)
+        store.dispatch({ type: TOKEN, uid: authData.uid, token: authData.refreshToken })
+        store.dispatch({ type: VERIFY_EXISTING_USER, uid: authData.uid })
+        store.dispatch({ type: CHECK_AUTH, isAuth: true, authData })
+      })
   }
   else {
     store.dispatch({ type: CHECK_AUTH, isAuth: false })

@@ -17,7 +17,6 @@ import { offlineOffset } from '../actions/measure'
 import { getCurrentUser } from '../actions/auth'
 
 
-
 // 
 // Verify if user has been auth
 // 
