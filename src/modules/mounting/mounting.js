@@ -227,7 +227,7 @@ class Mounting extends Component {
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
-          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => console.log('cancel measure')}>
+          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => this.props.navigation.goBack()}>
             <Text style={{ ...textStyle.normal, color: color.vaavudBlue }} >Cancel</Text>
           </Icon.Button>
         </View>

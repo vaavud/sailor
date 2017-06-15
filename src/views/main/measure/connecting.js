@@ -112,7 +112,7 @@ export default class ConnectingView extends Component {
 
           {this.props.timeout ? this._renderTimeOut() : null}
         </View>
-        <Icon.Button name="close-circle-outline" color={Colors.vaavudBlue} backgroundColor={'white'} onPress={() => console.log('cancel connecting')}>
+        <Icon.Button name="close-circle-outline" color={Colors.vaavudBlue} backgroundColor={'white'} onPress={() => this.props.cancel()}>
           <Text style={{ ...textStyle.normal, color: Colors.vaavudBlue }} >Cancel</Text>
         </Icon.Button>
       </View>

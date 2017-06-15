@@ -120,7 +120,7 @@ export default class extends Component {
     this.myModuleEvt.addListener('onReading', this.onReading)
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
-    this.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    // this.myModuleEvt.addListener('onFinalData', this.onFinalData)
     VaavudBle.readRowData(true, this.props.offset)
   }
 
@@ -322,7 +322,7 @@ export default class extends Component {
   }
 
   render = () => {
-    let windUnit = SpeedUnits[this.props.windUnit]
+      let windUnit = SpeedUnits[this.props.windUnit]
     let windSpeed = convertWindSpeed(this.state.windSpeed, this.props.windUnit).toFixed(1)
     let trueWindSpeed = convertWindSpeed(this.state.trueWindSpeed, this.props.windUnit).toFixed(1)
     let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
@@ -363,7 +363,8 @@ export default class extends Component {
             isLocationReady={this.state.locationReady}
             jump={this._jump}
             timeout={this.state.timeout}
-            tryAgain={this._tryAgain} />
+            tryAgain={this._tryAgain}
+            cancel={this.props.goToMain} />
           {this._renderPopup()}
         </View>
       )
