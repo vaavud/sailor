@@ -121,7 +121,7 @@ public class VaavudBLE extends ReactContextBaseJavaModule implements VaavudDataL
 
     @ReactMethod
     public void onStopSdk(){
-        //Log.d(TAG, "Stoping from React");
+        Log.d(TAG, "Stoping from React");
         aegirSDK.onStopSDK();
         mdata = aegirSDK.stopSession();
 

@@ -91,8 +91,8 @@ android {
         applicationId "com.vaavud.sailor"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 20170610
-        versionName "1.1"
+        versionCode 201706161
+        versionName "1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -208,7 +208,7 @@ dependencies {
         exclude module: 'play-services-location'
     }
     compile 'com.goebl:simplify:1.0.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.facebook.android:facebook-android-sdk:4.23.0'
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'

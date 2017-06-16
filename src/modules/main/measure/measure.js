@@ -120,7 +120,7 @@ export default class extends Component {
     this.myModuleEvt.addListener('onReading', this.onReading)
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
-    // this.myModuleEvt.addListener('onFinalData', this.onFinalData)
+    this.myModuleEvt.addListener('onFinalData', this.onFinalData)
     VaavudBle.readRowData(true, this.props.offset)
   }
 
@@ -176,7 +176,6 @@ export default class extends Component {
   }
 
   onReading = point => {
-    console.log("onReading",point)
     let last = this.state.windDirection
     let lastTrue = this.state.trueWindDirection
     this.setState({
