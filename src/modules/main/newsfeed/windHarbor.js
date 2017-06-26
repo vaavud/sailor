@@ -11,7 +11,7 @@ import {
   Dimensions
 } from 'react-native'
 
-import { SegmentedControls } from 'react-native-radio-buttons'
+import { SegmentedControls } from '../../../components/segmentedControl/'
 
 import Button from '../../../reactcommon/components/button'
 import { convertWindSpeed, SpeedUnitsUI, SpeedUnits, mSpeeedUnits, } from '../../../reactcommon/utils'
@@ -262,7 +262,7 @@ class WindHarbor extends Component {
           <Button
             textStyle={style.buttonText}
             buttonStyle={style.bottonButtonNext}
-            title="Back"
+            title="Save"
             onPress={this._onFinish} />
         </View>
       )

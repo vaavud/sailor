@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 
 import PopupDialog from 'react-native-popup-dialog'
-import { SegmentedControls } from 'react-native-radio-buttons'
+import { SegmentedControls } from '../../../components/segmentedControl/'
 
 import Colors from '../../../../assets/colorTheme'
 
