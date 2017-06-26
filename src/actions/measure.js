@@ -146,6 +146,8 @@ const sendPoints = (_key, points) => {
       .then(response => response.json())
       .then(responseData => {
 
+        console.log('sendPoints', responseData)
+
         if ('inserted' in responseData) {
           resolve()
         }

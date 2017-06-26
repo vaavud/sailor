@@ -187,11 +187,12 @@ class VaavudBle: RCTEventEmitter  {
   }
   
   @objc
-  func readRowData(_ fromSdk:Bool, offset:[String:Any]) {
+  func readRowData(_ fromSdk:Bool, headingOffset: NSNumber, offset:[String:Any]) {
     
     DispatchQueue.main.async {
       
-      print(offset)
+//      print(offset)
+//      print(headingOffset)
       
       let _ = self.bleController.onVerifyBle()
         .subscribe(onError: {
@@ -202,7 +203,7 @@ class VaavudBle: RCTEventEmitter  {
         })
       
       if fromSdk {
-        self.vaavudSDK.startWithBluetooth(offset:offset)
+        self.vaavudSDK.startWithBluetooth(offset:offset, headingOffset:headingOffset.intValue)
         self.bluetoothListener = self.vaavudSDK
         self.initSkdListeners()
       }

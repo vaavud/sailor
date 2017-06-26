@@ -58,7 +58,7 @@ const MainFlow = TabNavigator({
     tabBarPosition: 'bottom',
     lazy: true,
     swipeEnabled: false,
-    animationEnabled: Platform.OS === 'ios',
+    animationEnabled: false,
     tabBarOptions: {
       activeTintColor: Colors.vaavudRed,
       tinColor: '#fff',

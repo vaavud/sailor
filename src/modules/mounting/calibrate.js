@@ -18,7 +18,8 @@ import {
   Animated,
   TouchableOpacity,
   StyleSheet,
-  Easing
+  Easing,
+  AsyncStorage
 } from 'react-native'
 
 import {
@@ -43,7 +44,7 @@ const logo = require('../../../assets/icons/logo.png')
 export default class extends Component {
 
   state = {
-    lastHeading:0,
+    lastHeading: 0,
     heading: 0,
     compassBle: 0,
     isLoading: true
@@ -67,7 +68,7 @@ export default class extends Component {
     DeviceEventEmitter.addListener('headingUpdated', this.headingUpdated)
 
     ReactNativeHeading.start(1).catch(err => console.log(err))
-    NativeModules.VaavudBle.readRowData(false, {})
+    NativeModules.VaavudBle.readRowData(false,0,{})
   }
 
   componentWillUnmount = () => {
@@ -141,27 +142,29 @@ export default class extends Component {
   }
 
   headingUpdated = data => {
-    console.log('Heading',data,this.state.lastHeading,this.state.heading)
+    console.log('Heading', data, this.state.lastHeading, this.state.heading)
     var lastHeading = this.state.heading
-    this.setState({ lastHeading, heading: Number(data)})
+    this.setState({ lastHeading, heading: Number(data.heading) })
   }
 
 
-  onNext = () => {
-    ReactNativeHeading.stop()
-    DeviceEventEmitter.removeAllListeners('headingUpdated')
+  // onNext = () => {
+  //   ReactNativeHeading.stop()
+  //   DeviceEventEmitter.removeAllListeners('headingUpdated')
 
-    const { navigate } = this.props.navigation
-    const { params } = this.props.navigation.state
+  //   const { navigate } = this.props.navigation
+  //   const { params } = this.props.navigation.state
 
-    navigate('Result', { headingFromBle: params.headingFromBle, headingFromPhone: this.state.heading })
-  }
+  //   navigate('Result', { headingFromBle: params.headingFromBle, headingFromPhone: this.state.heading })
+  // }
 
   _onResult = () => {
     let offset = this.distance(this.state.heading, this.state.compassBle)
     let off = parseInt(offset, 10)
+    AsyncStorage.setItem('headingOffset',off.toString())
     NativeModules.VaavudBle.addOffset(off)
   }
+
 
   _renderCompass = () => {
     this.animateNewHeading()
@@ -172,7 +175,7 @@ export default class extends Component {
     })
     return (
       <View style={{ height: 80, width: 80, justifyContent: 'center', alignItems: 'center', }} >
-        <Animated.Image source={compass} style={{ width: 50, height: 50, transform: [{ 'rotate' : animate }] }} />
+        <Animated.Image source={compass} style={{ width: 50, height: 50, transform: [{ 'rotate': animate }] }} />
       </View>
     )
   }
@@ -226,7 +229,7 @@ export default class extends Component {
 
         <View style={{ width, padding: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
           <Text style={{ ...textStyle.normal, color: 'white', textAlign: 'center' }}> Align your phone to the head of your boat  </Text>
-          <Text style={{ ...textStyle.normal, marginBottom: 20, color: 'white', textAlign: 'center'}}> Click done when you information displayed is correct. </Text>
+          <Text style={{ ...textStyle.normal, marginBottom: 20, color: 'white', textAlign: 'center' }}> Click done when you information displayed is correct. </Text>
 
           <Button buttonStyle={{ width: width - 80, height: 40, borderRadius: 5, marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
             textStyle={{ ...textStyle.normal, color: Colors.vaavudBlue, fontSize: 18 }}

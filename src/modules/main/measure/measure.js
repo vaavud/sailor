@@ -11,6 +11,7 @@ import {
   Image,
   StyleSheet,
   View,
+  AsyncStorage
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -45,7 +46,7 @@ import {
 
 import Button from '../../../reactcommon/components/button'
 
-import {VaavudBle} from 'NativeModules'
+import { VaavudBle } from 'NativeModules'
 
 
 const locactionLogo = require('../../../../assets/icons/ico-pin-map.png')
@@ -121,7 +122,18 @@ export default class extends Component {
     this.myModuleEvt.addListener('timeout', this.timeout)
     this.myModuleEvt.addListener('onCompleted', this.onCompleted)
     this.myModuleEvt.addListener('onFinalData', this.onFinalData)
-    VaavudBle.readRowData(true, this.props.offset)
+
+    AsyncStorage.getItem('headingOffset').then(val => {
+      if (val) {
+        VaavudBle.readRowData(true, parseInt(val, 10), this.props.offset, )
+        this.setState({ timeout: false })
+      }
+      else {
+        VaavudBle.readRowData(true, 0, {})
+      }
+    })
+
+
   }
 
   componentWillUnmount = () => {
@@ -156,7 +168,7 @@ export default class extends Component {
     Alert.alert('Bluetooth Error', 'Please go to settings and turn Bluetooth ON.', [{
       text: 'OK', onPress: () => {
         // TODO: with this event?
-       }
+      }
     }])
   }
 
@@ -227,10 +239,10 @@ export default class extends Component {
   }
 
   _onStopMeasurement = () => {
-    console.log('_onStopMeasurement: ',this,VaavudBle)
+    console.log('_onStopMeasurement: ', this, VaavudBle)
     VaavudBle.onStopSdk()
     this.setState({ isLoading: true })
-    
+
   }
 
   _renderDotIndicator = () => {
@@ -249,8 +261,19 @@ export default class extends Component {
   }
 
   _tryAgain = () => {
-    VaavudBle.readRowData(true, {})
-    this.setState({ timeout: false })
+    AsyncStorage.getItem('headingOffset').then(val => {
+      if (val) {
+        VaavudBle.readRowData(true, parseInt(val, 10), {})
+        this.setState({ timeout: false })
+      }
+      else {
+        if (val) {
+          VaavudBle.readRowData(true, 0, {})
+          this.setState({ timeout: false })
+        }
+      }
+    })
+
   }
 
   _permissions() {
@@ -321,7 +344,7 @@ export default class extends Component {
   }
 
   render = () => {
-      let windUnit = SpeedUnits[this.props.windUnit]
+    let windUnit = SpeedUnits[this.props.windUnit]
     let windSpeed = convertWindSpeed(this.state.windSpeed, this.props.windUnit).toFixed(1)
     let trueWindSpeed = convertWindSpeed(this.state.trueWindSpeed, this.props.windUnit).toFixed(1)
     let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
