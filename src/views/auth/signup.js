@@ -326,7 +326,9 @@ const style = StyleSheet.create({
   },
   logo: {
     alignSelf:'center',
-    marginBottom: 25
+    marginBottom: 25,
+    width: 110,
+    height: 80
   },
   inputLogo:{
     marginTop: 15,

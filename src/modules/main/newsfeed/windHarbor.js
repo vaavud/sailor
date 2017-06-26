@@ -35,9 +35,6 @@ import { NavigationActions } from 'react-navigation'
 
 const { width } = Dimensions.get('window')
 
-const logo = require('../../../../assets/icons/logo.png')
-
-
 class WindHarbor extends Component {
 
   constructor(props) {

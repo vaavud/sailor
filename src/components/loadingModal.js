@@ -33,7 +33,8 @@ export default class LoadingModal extends Component {
       return (
       <View style={style.container} >
         <View style={style.innerContainer} >
-          <Image source={logo} />
+          <Image source={logo}
+            style={{width: 110, height: 80}} />
           <ActivityIndicator
             size={'large'}
             color={'white'}

@@ -199,7 +199,9 @@ const style = StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    marginBottom: 5
+    marginBottom: 5,
+    width: 110,
+    height: 80
   },
   inputLogo: {
     marginTop: 15,

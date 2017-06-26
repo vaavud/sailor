@@ -201,7 +201,7 @@ export default class extends Component {
       return (
         <View style={style.container}>
           <View style={style.innerContainer}>
-            <Image source={logo} style={{ marginBottom: 20 }} />
+            <Image source={logo} style={{ marginBottom: 20, width: 110, height: 80 }} />
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
