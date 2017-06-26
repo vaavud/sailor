@@ -20,8 +20,6 @@ import {
 } from 'react-native'
 
 import PopupDialog from 'react-native-popup-dialog'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import Button from '../../reactcommon/components/button'
 import color from '../../../assets/colorTheme'
 import {
@@ -163,13 +161,15 @@ class Mounting extends Component {
   }
 
   renderPopup = () => {
-    return (<PopupDialog
-      ref={(popupDialog) => { this.popupDialog = popupDialog }}
-      dialogStyle={style.popup}
-      width={width - 40}
-      height={Platform.OS === 'ios' ? height - 40 : height - 60} >
-      {this._renderPopUpView()}
-    </PopupDialog>)
+    return (
+      <PopupDialog
+        ref={(popupDialog) => { this.popupDialog = popupDialog }}
+        dialogStyle={style.popup}
+        width={width - 40}
+        height={Platform.OS === 'ios' ? height - 40 : height - 60} >
+        {this._renderPopUpView()}
+      </PopupDialog>
+    )
   }
 
   animateNewHeading() {
@@ -227,9 +227,10 @@ class Mounting extends Component {
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
-          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => this.props.navigation.goBack()}>
-            <Text style={{ ...textStyle.normal, color: color.vaavudBlue }} >Cancel</Text>
-          </Icon.Button>
+          <Button title={'CANCEL'}
+            onPress={() => this.props.navigation.goBack()}
+            buttonStyle={{marginBottom: 30, height: 40, alignSelf: 'center', justifyContent: 'center' }}
+            textStyle={{...textStyle.normal, fontSize: 16, textAlign: 'center', backgroundColor: 'transparent', color: 'white'}} />
         </View>
       )
     }

@@ -235,8 +235,8 @@ export default class extends Component {
             textStyle={{ ...textStyle.normal, color: Colors.vaavudBlue, fontSize: 18 }}
             title={'Done'}
             onPress={this._onResult} />
-          <Button buttonStyle={{ height: 40, marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center' }}
-            textStyle={{ ...textStyle.normal, color: 'white', fontSize: 18 }}
+          <Button buttonStyle={{marginBottom: 30, height: 40, alignSelf: 'center', justifyContent: 'center' }}
+            textStyle={{...textStyle.normal, fontSize: 16, textAlign: 'center', backgroundColor: 'transparent', color: 'white'}}
             title={'Cancel'}
             onPress={() => { this.props.navigation.goBack() }} />
         </View>

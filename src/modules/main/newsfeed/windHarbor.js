@@ -218,6 +218,7 @@ class WindHarbor extends Component {
 
         <MultiSlider
           containerStyle={{ marginTop: 30, marginBottom: -20 }}
+          trackStyle={{backgroundColor: Colors.vaavudBlue}}
           values={[this.state.currentMinSpeed, this.state.currentMaxSpeed]}
           min={this.state.windMin}
           max={this.state.windMax}
@@ -314,9 +315,10 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingTop: 40,
+    padding: 40,
     paddingLeft: width * 0.1,
     paddingRight: width * 0.1,
+
   },
   logo: {
     alignSelf: 'center',

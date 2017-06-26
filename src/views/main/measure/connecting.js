@@ -19,7 +19,6 @@ import {
   textStyle
 } from '../../../components/text'
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Colors from '../../../../assets/colorTheme'
 
 import Button from '../../../reactcommon/components/button'
@@ -112,9 +111,10 @@ export default class ConnectingView extends Component {
 
           {this.props.timeout ? this._renderTimeOut() : null}
         </View>
-        <Icon.Button name="close-circle-outline" color={Colors.vaavudBlue} backgroundColor={'white'} onPress={() => this.props.cancel()}>
-          <Text style={{ ...textStyle.normal, color: Colors.vaavudBlue }} >Cancel</Text>
-        </Icon.Button>
+        <Button title={'CANCEL'}
+            onPress={() => this.props.navigation.goBack()}
+            buttonStyle={{marginBottom: 30, height: 40, alignSelf: 'center', justifyContent: 'center' }}
+            textStyle={{...textStyle.normal, fontSize: 16, textAlign: 'center', backgroundColor: 'transparent', color: 'white'}} />
       </View>
     )
   }
