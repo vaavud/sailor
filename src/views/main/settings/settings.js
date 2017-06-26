@@ -232,7 +232,7 @@ class SettingsView extends Component {
         ref={(popupDialog) => { this.popupDialog = popupDialog }}
         dialogStyle={style.popup}
         width={width - 40}
-        height={isIos ? height - 89 : height - 109} >
+        height={isIos ? height - 119 : height - 139} >
         {this._renderWarningPopup()}
       </PopupDialog>
     )

@@ -205,9 +205,10 @@ export default class extends Component {
             <HeadingText style={style.heading} textContent={'Connecting your Vaavud Ultrasonic...'} />
             <ActivityIndicator color={'white'} size={'large'} animating={true} />
           </View>
-          <Icon.Button name="close-circle-outline" color={color.vaavudBlue} backgroundColor={'white'} onPress={() => this.props.navigation.goBack()}>
-            <Text style={{ ...textStyle.normal, color: color.vaavudBlue }} >Cancel</Text>
-          </Icon.Button>
+          <Button title={'CANCEL'}
+            onPress={() => this.props.navigation.goBack()}
+            buttonStyle={{marginBottom: 30, height: 40, alignSelf: 'center', justifyContent: 'center' }}
+            textStyle={{...textStyle.normal, fontSize: 16, textAlign: 'center', backgroundColor: 'transparent', color: 'white'}} />
         </View>
       )
     }
