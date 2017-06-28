@@ -23,7 +23,7 @@ import {
 
 import Colors from '../../../../assets/colorTheme'
 
-import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
+import { IndicatorViewPager, PagerDotIndicator } from '../../../components/viewPager/'
 import Permissions from 'react-native-permissions'
 import PopupDialog from 'react-native-popup-dialog'
 import {
@@ -350,22 +350,10 @@ export default class extends Component {
     let velocity = convertWindSpeed(this.state.velocity, this.props.windUnit).toFixed(1)
 
     if (this.state.isBleConnected && this.state.locationReady && this.state.readyToWork) {
-      /*return (
-        <View style={{ flex: 1 }}>
-          <IndicatorViewPager
-            indicator={this._renderDotIndicator()}
-            style={{ flex: 1 }} >
-            <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement} />
-            <TrueWindView windHeading={this.state.trueWindDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.trueLastWindDirection} windSpeed={trueWindSpeed} testStop={this._onStopMeasurement} />
-          </IndicatorViewPager>
-          <LoadingModal isActive={this.state.isLoading} message={'Processing measurement data...\n Note that processing time may vary depending on duration of the measurement session'} />
-        </View>
-      )*/
       return (
-        <View style={{ position: 'absolute', top: 0, left: 0, width: width, height: height }}>
-          <IndicatorViewPager
-            indicator={this._renderDotIndicator()}
-            style={{ flex: 1 }} >
+        <View style={{ flex: 1}}>
+          <IndicatorViewPager style={{ flex: 1 }}
+            indicator={this._renderDotIndicator()} >
             <View>
               <ApparentWindView windHeading={this.state.windDirection} windUnit={windUnit} batteryLevel={this.state.battery} velocity={velocity} lastWindHeading={this.state.lastWindDirection} windSpeed={windSpeed} testStop={this._onStopMeasurement.bind(this)} />
             </View>
